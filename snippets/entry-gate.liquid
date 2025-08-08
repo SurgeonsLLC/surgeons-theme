@@ -1,13 +1,31 @@
 {%- comment -%}
-Site‑wide “Guest or Create Account” + 21+ gate
-- New Customer Accounts flow
-- Remembers decision for 30 days via cookie (ss_gate=1)
-- Skips if Shopify customer is logged in
-- Skips on /account pages
+Site‑wide “Guest or Create Account” + 21+ gate (New Customer Accounts)
+- Toggleable via Theme settings
+- Optional welcome discount deep-link
+- Remembers for N days (Theme setting)
 {%- endcomment -%}
 
+{%- assign gate_enabled = settings.ss_gate_enable | default: true -%}
 {%- assign on_account_page = request.path contains '/account' -%}
-{%- if customer or on_account_page -%}{% comment %}No gate{% endcomment %}{%- else -%}
+
+{%- if gate_enabled and customer == nil and on_account_page == false -%}
+  {%- assign cookie_days = settings.ss_gate_cookie_days | default: 30 -%}
+  {%- assign cookie_max_age = cookie_days | times: 86400 -%}
+
+  {%- assign title = settings.ss_gate_title | default: 'Welcome to Surgeons — Please Verify' -%}
+  {%- assign subtext = settings.ss_gate_subtext | default: 'You must be 21+ to purchase. Continue as a guest or create an account to unlock perks.' -%}
+  {%- assign guest_text = settings.ss_gate_guest_text | default: 'Continue as Guest' -%}
+  {%- assign cta_text = settings.ss_gate_cta_text | default: 'Create Account & Save 10%' -%}
+  {%- assign discount_code = settings.ss_gate_discount_code -%}
+
+  {%- assign ret = request.path -%}
+  {%- if discount_code and discount_code != blank -%}
+    {%- assign discount_path = '/discount/' | append: discount_code | append: '?return_url=' | append: ret | url_encode -%}
+    {%- assign account_href = '/account?return_url=' | append: discount_path | url_encode -%}
+  {%- else -%}
+    {%- assign account_href = '/account?return_url=' | append: ret | url_encode -%}
+  {%- endif -%}
+
   <style>
     .ss-gate__backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.6);z-index:9999}
     .ss-gate__card{background:#fff;max-width:560px;width:92%;border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,.25);padding:24px}
@@ -26,29 +44,32 @@ Site‑wide “Guest or Create Account” + 21+ gate
 
   <div id="ss-gate" class="ss-gate__backdrop" role="dialog" aria-modal="true" aria-labelledby="ss-gate-title">
     <div class="ss-gate__card">
-      <h2 id="ss-gate-title" class="ss-gate__title">Welcome to Surgeons — Please Verify</h2>
-      <p class="ss-gate__p">You must be <strong>21+</strong> to purchase. Continue as a guest or create an account to unlock perks.</p>
+      <h2 id="ss-gate-title" class="ss-gate__title">{{ title }}</h2>
+      <p class="ss-gate__p">{{ subtext }}</p>
       <label class="ss-gate__age">
         <input id="ss-age-ok" type="checkbox" />
-        <span>I confirm I am 21 years of age or older.</span>
+        <span>I confirm I am <strong>21 years of age</strong> or older.</span>
       </label>
       <div class="ss-gate__row">
-        <button id="ss-guest" class="ss-btn" aria-disabled="true">Continue as Guest</button>
-        <a id="ss-create" class="ss-btn ss-btn--primary" aria-disabled="true"
-           href="{{ '/account' | append: '?return_url=' | append: request.path | url_encode }}">
-          Create Account & Save 10%
-        </a>
+        <button id="ss-guest" class="ss-btn" aria-disabled="true">{{ guest_text }}</button>
+        <a id="ss-create" class="ss-btn ss-btn--primary" aria-disabled="true" href="{{ account_href }}">{{ cta_text }}</a>
       </div>
-      <p class="ss-gate__p" style="font-size:.9rem;opacity:.8;margin-top:10px">
-        Account members get <strong>exclusive promos</strong>, faster checkout, rewards, and order history.
-      </p>
+      {%- if discount_code and discount_code != blank -%}
+        <p class="ss-gate__p" style="font-size:.9rem;opacity:.8;margin-top:10px">
+          Members get a welcome discount with code <strong>{{ discount_code }}</strong>, faster checkout, rewards, and order history.
+        </p>
+      {%- else -%}
+        <p class="ss-gate__p" style="font-size:.9rem;opacity:.8;margin-top:10px">
+          Account members get <strong>exclusive promos</strong>, faster checkout, rewards, and order history.
+        </p>
+      {%- endif -%}
     </div>
   </div>
 
   <script>
     (function(){
       var COOKIE_NAME = "ss_gate";
-      var MAX_AGE = 60*60*24*30; // 30 days
+      var MAX_AGE = {{ cookie_max_age | json }};
 
       function setCookie(name, value, maxAge) {
         document.cookie = name + "=" + encodeURIComponent(value) + "; path=/; max-age=" + maxAge + "; SameSite=Lax";
@@ -59,11 +80,7 @@ Site‑wide “Guest or Create Account” + 21+ gate
         }, {})[name];
       }
 
-      // Don’t show on checkout domain (just in case theme renders there)
-      var isCheckout = location.hostname.indexOf("checkout.shopify.com") > -1;
-
-      // Show only if not previously acknowledged, not on checkout
-      if (!getCookie(COOKIE_NAME) && !isCheckout) {
+      if (!getCookie(COOKIE_NAME)) {
         var backdrop = document.getElementById("ss-gate");
         var age = document.getElementById("ss-age-ok");
         var guest = document.getElementById("ss-guest");
@@ -82,6 +99,7 @@ Site‑wide “Guest or Create Account” + 21+ gate
           if (age.checked) {
             setCookie(COOKIE_NAME, "1", MAX_AGE);
             backdrop.style.display = "none";
+            document.documentElement.style.overflow = "";
           } else {
             e.preventDefault();
           }
@@ -93,11 +111,7 @@ Site‑wide “Guest or Create Account” + 21+ gate
         });
 
         backdrop.style.display = "flex";
-        // Prevent background scroll
         document.documentElement.style.overflow = "hidden";
-        backdrop.addEventListener("click", function(ev){
-          if (ev.target === backdrop) { /* don’t close on outside click */ }
-        });
       }
     })();
   </script>
