@@ -1,0 +1,87 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "featured_image": {
+          "type": "featured_image",
+          "settings": {
+            "card_media_size": "adapt"
+          }
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {
+            "show_tags": true
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h2",
+            "heading_weight": "--fw-extra-bold"
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "featured_image",
+        "tags",
+        "title",
+        "content"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Background-CBD-Surgeons-Gummies.jpg",
+        "parallax_effect": false,
+        "background": "linear-gradient(180deg, rgba(24, 24, 24, 1), rgba(0, 0, 0, 0.95) 5%, rgba(2, 2, 2, 0) 100%)",
+        "section_caption": "",
+        "section_caption_size": "text-size--medium",
+        "section_caption_weight": "--fw-bold",
+        "heading": "Surgeons Online Cannabinoid Academy",
+        "section_heading_size": "h4",
+        "section_heading_weight": "--fw-extra-bold",
+        "section_description": "",
+        "description_text_size": "text-size--large",
+        "section_description_weight": "--fw-normal",
+        "show_date": true,
+        "show_author": false,
+        "show_comments_count": false,
+        "section_container_layout": "page-width",
+        "section_corner_radius": "bottom_corners_radius",
+        "max_content_size": 50,
+        "section_height": "small",
+        "section_text_alignment": "center",
+        "banner_color_scheme": "scheme2",
+        "show_breadcrumb": true,
+        "show_top_bdr": false,
+        "show_bottom_bdr": false,
+        "breadcrumb_corner_radius": "no_corners_radius",
+        "breadcrumb_container_layout": "page-width",
+        "breadcrumb_color_scheme": "",
+        "bottom_container_layout": "page-width",
+        "bottom_corner_radius": "no_corners_radius",
+        "article_text_alignment": "left",
+        "enable_pagination": true,
+        "enable_share": true,
+        "section_color_scheme": "",
+        "section_top_padding": 0,
+        "section_bottom_padding": 0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
