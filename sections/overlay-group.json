@@ -39,8 +39,8 @@
       ],
       "settings": {
         "hide_image_on_mobile": false,
-        "button_label_1": "",
-        "button_label_2": "NO, I'M UNDER 21",
+        "button_label_1": "YES I AM OVER 21",
+        "button_label_2": "NO I'M UNDER 21",
         "age_position": "centered",
         "age_text_alignment": "center",
         "age_color_scheme": "scheme2"
