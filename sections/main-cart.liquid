@@ -1,0 +1,828 @@
+{%- liquid
+  assign section_prefix_class = 'main-cart'
+  assign section_scheme_class = section.settings.section_color_scheme | prepend: 'scheme scheme--'
+
+  capture cart_heading
+    if section.settings.heading != blank
+      echo section.settings.heading
+      else
+        echo 'cart.main.heading' | t
+    endif
+  endcapture
+  
+  capture loading_attr
+    if section.index > 1
+      echo 'lazy'
+      else
+        echo 'eager'
+    endif
+  endcapture
+
+  capture section_container_layout
+    case section.settings.section_container_layout
+      when 'page-width'
+        echo 'container'
+      when 'contained-content'
+        echo 'contained-container'
+      when 'container-fluid'
+        echo 'container-fluid'
+    endcase
+  endcapture
+
+  capture section_corner_radius
+    case section.settings.section_corner_radius
+      when 'top_corners_radius'
+        echo 'top_corners_radius'
+      when 'bottom_corners_radius'
+        echo 'bottom_corners_radius'
+      when 'both_corners_radius'
+        echo 'both_corners_radius'
+      when 'no_corners_radius'
+        echo 'no_corner_radius'
+    endcase
+  endcapture
+
+  assign cart_render_attr = 'data-line-items-container'
+-%}
+{%- style -%}
+  .breadcrumb-nav,
+  .breadcrumb-list{
+    background: var(--section-background-color);
+  }
+
+  .breadcrumb-nav,
+  .breadcrumb-list,
+  .breadcrumb-list_item + .breadcrumb-list_item::before {
+    color: var(--section-heading-color);
+  }
+
+  .breadcrumb-nav {
+    --bdbottom-width: 1px;
+    --bdbottom-clr: var(--section-border-color);
+  }
+
+  .breadcrumb_wrapper{
+    width: 100%;
+  }
+
+  .breadcrumb-nav{
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .breadcrumb-list,
+  .breadcrumb-list_item,
+  .breadcrumb-nav{
+    display: flex;
+  }
+
+  .breadcrumb-list,
+  .breadcrumb-list_link{
+    font-size: 1.2rem;
+  }
+
+  .breadcrumb-list{
+    flex-wrap: wrap;
+    line-height: 2rem;
+    font-family: var(--font-headings-family);
+    padding: 12px 0;
+  }
+
+  .internal--spacing.breadcrumb-list{
+    padding: 12px 22px;
+  }
+
+  .breadcrumb-list_item + .breadcrumb-list_item::before {
+    content: '>';
+    flex-shrink: 0;
+    display: inline-block;
+    margin-left: 11px;
+    margin-right: 11px;
+  }
+
+  .breadcrumb-list [aria-current="page"],
+  .breadcrumb-list_link{
+    font-weight: 600;
+  }
+
+
+  .breadcrumb-list [aria-current="page"]{
+    color: var(--heading-color);
+  }
+
+  .breadcrumb-list_link{
+    text-decoration: none;
+    transition: color 0.3s ease;
+    --link-color: 
+    color-mix(in srgb, var(--section-heading-color) 80%, var(--section-links-color) 20%);
+  }
+
+  .main-cart_wrapper.internal--spacing{
+    padding: 10px 15px;
+  }
+
+  .main-cart_widget--collapse{
+    margin-top: 13px;
+  }
+
+  .main-cart .main-cart_widget--collapse,
+  .main-cart .cart-drawer_totals-wrap,
+  .main-cart .cart-drawer_others-wrap{
+    margin-bottom: 10px;
+  }
+
+  .main-cart .cart-drawer_foot-wrap form,
+  .main-cart .main-cart_widget--totals form{
+    flex-direction: column;
+  }
+
+  @media(min-width: 768px){
+    .main-cart_wrapper.internal--spacing{
+      padding: 10px 30px;
+    }
+  }
+
+{%- endstyle -%}
+{{- 'main-cart.css' | asset_url | stylesheet_tag -}}
+{%- liquid
+  if section.settings.show_breadcrumb
+    render 'breadcrumb', border_top: section.settings.show_top_bdr, border_bottom: section.settings.show_bottom_bdr, color_scheme: section.settings.breadcrumb_color_scheme, breadcrumb_corner_radius: section.settings.breadcrumb_corner_radius, breadcrumb_container_layout: section.settings.breadcrumb_container_layout, content_alignment: '--justify-left'
+  endif
+-%}
+<div id="{{ section.id }}" class="global-block {{ section_prefix_class }} {{ section_prefix_class }}-{{ section.id }} {% if section_container_layout == 'container-fluid' or section_container_layout == 'contained-container' %}{{ section_scheme_class }} {{ section_corner_radius }}{% endif %} --align-{{ section.settings.section_text_alignment }}" style="--section-padding-top: {{ section.settings.section_top_padding }}px; --section-padding-bottom: {{ section.settings.section_bottom_padding }}px;">
+  <div class="{{ section_container_layout }}">
+    <div class="{{ section_prefix_class }}_wrapper {% if section_container_layout == 'container' %}{{ section_scheme_class }} {{ section_corner_radius }} internal--spacing{% endif %}">
+      <div {{ cart_render_attr }}>
+        {%- if cart != empty -%}
+          <header class="heading-head --align-center">
+            <h1
+              class="mty {{ section.settings.section_heading_size }} {{ section.settings.section_heading_weight }} --h-anchor-none {{ section_prefix_class }}_heading {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+              data-margin="0px 0px -20px 0px"
+              data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+              data-options='{"duration":1000,"easing":"ease","delay":0,"fill":"both","iterations":1}'
+            >
+              {{- cart_heading -}}
+            </h1>
+            {%- if section.settings.section_description != blank -%}
+              <div
+                class="mty h {{ section.settings.section_text_size }} {{ section.settings.section_description_weight }} --word-break {{ section_prefix_class }}_description {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":150,"fill":"both","iterations":1}'
+              >
+                <p>{{- section.settings.section_description -}}</p>
+              </div>
+            {%- endif -%}
+            {%- unless settings.enable_free_shipping_message -%}
+              <a
+                href="{{- routes.all_products_collection_url -}}"
+                class="button button--link cart-drawer_btn-cart {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":250,"fill":"both","iterations":1}'
+              >
+                {{- 'cart.continue_shopping' | t -}}
+              </a>
+            {%- endunless -%}
+            {%- if settings.enable_free_shipping_message -%}
+              <div
+                data-render-shipping-bar=""
+                class="shipping-bar-wrapper {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":350,"fill":"both","iterations":1}'
+              >
+                <shipping-bar class="shipping-bar" data-amount="{{- settings.free_shipping_amount -}}" data-cart-totals="{{- cart.total_price -}}">
+                  <progress class="shipping-bar_progress" value="0" max="100">0</progress>
+                  <div class="shipping-bar_description">
+                    <strong class="shipping-bar_text --word-break --align-left">
+                      {{- settings.free_shipping_text -}}
+                    </strong>
+                    <div class="shipping-bar_link-wrap">
+                      <a href="{{- routes.all_products_collection_url -}}" class="button button--link cart-drawer_btn-cart">
+                        {{- 'cart.continue_shopping' | t -}}
+                      </a>
+                    </div>
+                  </div>
+                </shipping-bar>
+              </div>
+            {%- endif -%}
+          </header>
+          <div
+            class="{{ section_prefix_class }}_main-wrapper {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+            data-margin="0px 0px -20px 0px"
+            data-frames='[{"opacity":"0"},{"opacity":"1"}]'
+            data-options='{"duration":1000,"easing":"ease","delay":0,"fill":"both","iterations":1}'
+          >
+            <div class="{{ section_prefix_class }}_main-col {{ section_prefix_class }}_main-col--content">
+              <div class="{{ section_prefix_class }}_scroll-wrap">
+                <div class="{{ section_prefix_class }}_data">
+                  <div class="{{ section_prefix_class }}_tbody">
+                    {%- for item in cart.items -%}
+                      {% render 'line-item-compact', item: item, index: forloop.index, loading_attr: 'eager', section_id: section.id %}
+                    {%- endfor -%}
+                  </div>
+                </div>
+              </div>
+              {%- if section.blocks.size > 0 -%}
+                <aside class="{{ section_prefix_class }}_widget {{ section_prefix_class }}_widget--blocks widget--styles --hidden-down-tablet">
+                  {%- for block in section.blocks -%}
+                    {%- case block.type -%}
+                      {%- when 'icon_description' -%}
+                        <div class="{{ section_prefix_class }}_widget-row" {{ block.shopify_attributes }}>
+                          {%- render 'image-icon', item: block, prefix_class: section_scheme_class, heading_size: section.settings.icon_heading_size, heading_weight: section.settings.icon_heading_weight, description_size: section.settings.icon_text_size, description_weight: section.settings.icon_description_weight -%}
+                        </div>
+                    {%- endcase -%}
+                  {%- endfor -%}
+                </aside>
+              {%- endif -%}
+            </div>
+            <aside class="{{ section_prefix_class }}_main-col {{ section_prefix_class }}_main-col--stats">
+              <div class="{{ section_prefix_class }}_widget {{ section_prefix_class }}_widget--totals widget--styles">
+                <form action="{{- routes.cart_url -}}" method="post">
+                  <div class="cart_total-wrap --align-center" data-render-cart-totals="">
+                    {%- if settings.enable_order_notes -%}
+                      <details class="{{ section_prefix_class }}_widget--collapse cart-drawer_widget--collapse">
+                        <summary class="{{ section_prefix_class }}_widget-opener text-size--medium h --fw-medium">
+                          <span class="{{ section_prefix_class }}_widget-opener-icon">
+                            {%- render 'icons-data', width: 20, height: 20, use_icon: true, icon_reference: 'note' -%}
+                          </span>
+                          <span class="{{ section_prefix_class }}_widget-opener-text">
+                            {%- liquid 
+                              echo 'cart.add_note' | t 
+                            -%}
+                          </span>
+                        </summary>
+                        <div class="{{ section_prefix_class }}_widget-slide-content cart-drawer_widget-slide-content">
+                          <label class="visually-hidden" for="Cart-note">
+                            {{- 'cart.note_textarea_placeholder' | t -}}
+                          </label>
+                          <textarea
+                            name="note"
+                            id="Cart-note"
+                            class="main-cart_textarea"
+                            placeholder="{{- 'cart.note_textarea_placeholder' | t -}}"
+                          >
+                            {{- cart.note -}}
+                          </textarea>
+                        </div>
+                      </details>
+                    {%- endif -%}
+                    <div class="cart-drawer_totals-wrap --v-align-start --justify-center">
+                      <strong class="cart-drawer_total-title">
+                        {{- 'cart.subtotal' | t -}}
+                      </strong>
+                      <strong class="cart-drawer_total-price --word-break">
+                        {{- cart.total_price | money_with_currency -}}
+                      </strong>
+                    </div>
+                    {%- if cart.cart_level_discount_applications.size > 0 -%}
+                      <div class="cart-drawer_discounts-wrap">
+                        <ul class="cart-drawer_discounts-list list-unstyled">
+                          {%- for discount in cart.cart_level_discount_applications -%}
+                            <li class="cart-drawer_discounts-item --word-break">
+                              {%- render 'icons-data', width: 14, height: 14, use_icon: true, icon_reference: 'discount' -%}
+                              {{- discount.title }} (-{{ discount.total_allocated_amount | money -}})
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                    <div class="cart-drawer_others-wrap text-size--small">
+                      <small class="cart-drawer_tax-note">
+                        {%- liquid
+                          if cart.taxes_included and shop.shipping_policy.body != blank
+                            echo 'cart.taxes_included_and_shipping_policy_html' | t: link: shop.shipping_policy.url
+                            elsif cart.taxes_included
+                              echo 'cart.taxes_included_but_shipping_at_checkout' | t
+                            elsif shop.shipping_policy.body != blank
+                              echo 'cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url
+                            else
+                              echo 'cart.taxes_and_shipping_at_checkout' | t
+                          endif
+                        -%}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="cart-drawer_btn-wrap --align-center">
+                    <button
+                      type="submit"
+                      id="{{ section_prefix_class }}-checkout"
+                      class="button button--secondary cart-drawer_btn-submit"
+                      name="checkout"
+                      {% if cart == empty %}
+                        disabled
+                      {% endif %}
+                    >
+                      {{- 'cart.checkout' | t -}}
+                    </button>
+                    <div class="{{ section_prefix_class }}_dynamic-btns cart__dynamic-checkout-buttons additional-checkout-buttons">
+                      {{ content_for_additional_checkout_buttons }}
+                    </div>
+                    {%- if section.settings.show_pay_icons -%}
+                      <div class="{{ section_prefix_class }}_pay-methods-wrap">
+                        {%- render 'payment-icons' | prefix_class: section_prefix_class -%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </form>
+              </div>
+            </aside>
+            {%- if section.blocks.size > 0 -%}
+              <aside class="{{ section_prefix_class }}_widget {{ section_prefix_class }}_widget--blocks --hidden-tablet widget--styles">
+                {%- for block in section.blocks -%}
+                  {%- case block.type -%}
+                    {%- when 'icon_description' -%}
+                      <div class="{{ section_prefix_class }}_widget-row" {{ block.shopify_attributes }}>
+                        {%- render 'image-icon', item: block, prefix_class: section_scheme_class, heading_size: section.settings.icon_heading_size, heading_weight: section.settings.icon_heading_weight, description_size: section.settings.icon_text_size, description_weight: section.settings.icon_description_weight -%}
+                      </div>
+                  {%- endcase -%}
+                {%- endfor -%}
+              </aside>
+            {%- endif -%}
+          </div>
+          {%- else -%}
+            <div class="{{ section_prefix_class }}_empty-wrapper">
+              <div class="{{ section_prefix_class }}_empty-col {{ section_prefix_class }}_empty-col--content">
+                <div class="{{ section_prefix_class }}_widget {{ section_prefix_class }}_widget--main widget--styles">
+                  <div class="{{ section_prefix_class }}_widget-head --v-align-middle">
+                    <i class="{{ section_prefix_class }}_head-icn">
+                      {%- render 'icons-data', width: 38, height: 38, use_icon: true, icon_reference: 'empty-box' -%} 
+                    </i>
+                    <h1 class="mty h4 {{ section_prefix_class }}_head-heading">
+                      {{- 'cart.empty.heading' | t -}}
+                    </h1>
+                  </div>
+                  <div class="{{ section_prefix_class }}_widget-foot">
+                    <div class="{{ section_prefix_class }}_widget-btn-wrap">
+                      <a href="{{- routes.all_products_collection_url -}}" class="button button--secondary cart-drawer_btn-submit">
+                        {{- 'cart.empty.continue_shopping' | t -}}
+                      </a>
+                    </div>
+                    {%- if shop.customer_accounts_enabled -%}
+                      {%- unless customer -%}
+                        <div class="{{ section_prefix_class }}_widget-text-wrap mty text-size--medium">
+                          <strong class="{{ section_prefix_class }}_widget-title">
+                            {{- 'cart.empty.already_account' | t -}}
+                          </strong>
+                          <strong class="{{ section_prefix_class }}_widget-subtitle">
+                            <a href="{{- routes.account_login_url -}}">
+                              {{- 'cart.empty.login_link_text' | t -}}
+                            </a>
+                          </strong>
+                        </div>
+                      {%- endunless -%}
+                    {%- endif -%}
+                  </div>
+                </div>
+              </div>
+              {%- if section.blocks.size > 0 -%}
+                <div class="{{ section_prefix_class }}_empty-col {{ section_prefix_class }}_empty-col--blocks">
+                  <aside class="{{ section_prefix_class }}_widget {{ section_prefix_class }}_widget--blocks widget--styles">
+                    {%- for block in section.blocks -%}
+                      {%- case block.type -%}
+                        {%- when 'icon_description' -%}
+                          <div class="{{ section_prefix_class }}_widget-row" {{ block.shopify_attributes }}>
+                            {%- render 'image-icon', item: block, prefix_class: 'section_scheme_class', heading_size: section.settings.icon_heading_size, heading_weight: section.settings.icon_heading_weight, description_size: section.settings.icon_text_size, description_weight: section.settings.icon_description_weight -%}
+                          </div>
+                      {%- endcase -%}
+                    {%- endfor -%}
+                  </aside>
+                </div>
+              {%- endif -%}
+            </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.main_cart.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:heading.label",
+      "default": "Your Shopping Cart"
+    },
+    {
+      "type": "select",
+      "id": "section_heading_size",
+      "label": "t:sizes.heading.label",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sizes.heading.options.opt_2.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sizes.heading.options.opt_3.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sizes.heading.options.opt_4.label"
+        },
+        {
+          "value": "h5",
+          "label": "t:sizes.heading.options.opt_5.label"
+        }
+      ],
+      "default": "h5"
+    },
+    {
+      "type": "select",
+      "id": "section_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-bold"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "section_description",
+      "label": "t:description_text.label",
+      "default": "Almost there! Secure your finds with a quick checkout to bring your desired items home."
+    },
+    {
+      "type": "select",
+      "id": "section_text_size",
+      "label": "t:sizes.text.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--medium"
+    },
+    {
+      "type": "select",
+      "id": "section_description_weight",
+      "label": "t:weight.description_text.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-semi-bold"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pay_icons",
+      "label": "t:sections.main_cart.settings.pay_icons.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:breadcrumb.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "t:breadcrumb.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_top_bdr",
+      "label": "t:top_bdr.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_bottom_bdr",
+      "label": "t:bottom_bdr.label",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "breadcrumb_corner_radius",
+      "label": "t:round_crnr.label",
+      "options": [
+        {
+          "value": "no_corners_radius",
+          "label": "t:round_crnr.options.opt_1.label"
+        },
+        {
+          "value": "top_corners_radius",
+          "label": "t:round_crnr.options.opt_2.label"
+        },
+        {
+          "value": "bottom_corners_radius",
+          "label": "t:round_crnr.options.opt_3.label"
+        },
+        {
+          "value": "both_corners_radius",
+          "label": "t:round_crnr.options.opt_4.label"
+        }
+      ],
+      "default": "bottom_corners_radius"
+    },
+    {
+      "type": "select",
+      "id": "breadcrumb_container_layout",
+      "label": "t:settings_schema.container_layout.label",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:settings_schema.container_layout.settings.container.label"
+        },
+        {
+          "value": "contained-content",
+          "label": "t:settings_schema.container_layout.settings.contained_content.label"
+        },
+        {
+          "value": "container-fluid",
+          "label": "t:settings_schema.container_layout.settings.container_fluid.label"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "breadcrumb_color_scheme",
+      "default": "scheme2",
+      "label": "t:color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main_cart.blocks.icon_description.name"
+    },
+    {
+      "type": "select",
+      "id": "icon_heading_size",
+      "label": "t:sizes.heading.label",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sizes.heading.options.opt_3.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sizes.heading.options.opt_4.label"
+        },
+        {
+          "value": "h5",
+          "label": "t:sizes.heading.options.opt_5.label"
+        },
+        {
+          "value": "h6",
+          "label": "t:sizes.heading.options.opt_6.label"
+        }
+      ],
+      "default": "h6"
+    },
+    {
+      "type": "select",
+      "id": "icon_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-semi-bold"
+    },
+    {
+      "type": "select",
+      "id": "icon_text_size",
+      "label": "t:sizes.text.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--medium"
+    },
+    {
+      "type": "select",
+      "id": "icon_description_weight",
+      "label": "t:weight.description_text.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-normal"
+    },
+    {
+      "type": "header",
+      "content": "t:settings_schema.layout.name"
+    },
+    {
+      "type": "select",
+      "id": "section_container_layout",
+      "label": "t:settings_schema.container_layout.label",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:settings_schema.container_layout.settings.container.label"
+        },
+        {
+          "value": "contained-content",
+          "label": "t:settings_schema.container_layout.settings.contained_content.label"
+        },
+        {
+          "value": "container-fluid",
+          "label": "t:settings_schema.container_layout.settings.container_fluid.label"
+        }
+      ],
+      "default": "contained-content"
+    },
+    {
+      "type": "select",
+      "id": "section_corner_radius",
+      "label": "t:round_crnr.label",
+      "options": [
+        {
+          "value": "no_corners_radius",
+          "label": "t:round_crnr.options.opt_1.label"
+        },
+        {
+          "value": "top_corners_radius",
+          "label": "t:round_crnr.options.opt_2.label"
+        },
+        {
+          "value": "bottom_corners_radius",
+          "label": "t:round_crnr.options.opt_3.label"
+        },
+        {
+          "value": "both_corners_radius",
+          "label": "t:round_crnr.options.opt_4.label"
+        }
+      ],
+      "default": "no_corners_radius"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "default": "scheme1",
+      "label": "t:settings_schema.color_schemes.name"
+    },
+    {
+      "type": "header",
+      "content": "t:spacing.content"
+    },
+    {
+      "type": "range",
+      "id": "section_top_padding",
+      "label": "t:spacing.settings.top.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 73,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_bottom_padding",
+      "label": "t:spacing.settings.bottom.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 57,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:sections.main_cart.blocks.icon_description.name",
+      "type": "icon_description",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:image.label",
+          "info": "t:sections.main_cart.blocks.icon_description.settings.icon.info"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "t:heading.label",
+          "default": "Welcome to our store"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:description_text.label",
+          "default": "<p>Pair text with an icon to focus on your unique selling feature.</p>"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

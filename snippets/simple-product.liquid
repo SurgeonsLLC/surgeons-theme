@@ -1,0 +1,69 @@
+{%- comment -%}
+  renders simple product with featured image, title and price
+  usage
+    {%- render 'simple-product', product: product, prefix_class: section_prefix_class -%}
+{%- endcomment -%}
+{%- liquid
+
+  if product.selected_or_first_available_variant.featured_media != null
+    assign media = product.selected_or_first_available_variant.featured_media
+    
+    else
+      for media in product.media
+        assign media = media
+        break
+      endfor
+  endif
+
+  capture product_clean_url
+    if product.url contains '?'
+      assign parts = product.url | split: '?'
+      echo parts[0]
+      else
+        echo product.url
+    endif
+  endcapture
+  
+  capture first_image
+    if product.selected_or_first_available_variant.featured_media != null
+      echo 'true'
+      else
+        for media in product.media
+          echo 'true'
+          break
+        endfor
+    endif
+  endcapture
+
+  capture product_title
+    if product.title != blank
+      echo product.title
+      else
+        echo 'product.title' | t
+    endif
+  endcapture
+-%}
+<a class="simple-product mty {{ prefix_class }}_simple-product" {% if product.title != blank %}href="{{- product_clean_url -}}"{% else %}aria-disabled="false"{% endif %}>
+  <div class="simple-product_image --media-size-{{ media_size }}" style="--media-ratio: 1;">
+    {%- if first_image != blank -%}
+      <img
+        srcset="{%- if media.preview_image.width >= 152 -%}{{ media.preview_image | image_url: width: 152 }} 152w,{%- endif -%}
+                {%- if media.preview_image.width >= 200 -%}{{ media.preview_image | image_url: width: 200 }} 200w,{%- endif -%}
+                {%- if media.preview_image.width >= 260 -%}{{ media.preview_image | image_url: width: 260 }} 260w,{%- endif -%}
+                 {{ media.preview_image | image_url: width: media.preview_image.width }} {{ media.preview_image.width }}w"
+        sizes="calc((var(--cp-width-px) / 5) - 10px)"
+        src="{{- media.preview_image | image_url: width: 152 -}}"
+        alt="{{- product.title | escape -}}"
+        loading="lazy"
+        width= "152"
+        height="{{- 152 | divided_by: media.preview_image.aspect_ratio | round -}}"
+        class="object-fit object-fit--absolute"
+      >
+      {%- else -%}
+        {{- 'product-apparel-1' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+    {%- endif -%}
+  </div>
+  <strong class="simple-product_title text-size--medium --fw-semi-bold mty --word-break">
+    {{- product_title -}}
+  </strong>
+</a>

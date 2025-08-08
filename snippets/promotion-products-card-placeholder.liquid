@@ -1,0 +1,44 @@
+{%- comment -%}
+  renders promotion product card placeholder
+  usage
+    {% render 'promotion-products-card-placeholder', product: product, index: forloop.index %}
+{%- endcomment -%}
+
+{%- liquid
+  capture product_title
+    if product.title != blank
+      echo product.title
+      else
+        echo 'product.title' | t
+    endif
+  endcapture
+-%}
+<div class="promo-product-card mty">
+  <div class="promo-product-card_image">
+    <a aria-disabled="true" class="promo-product-card_image-link">
+      {%- render 'placeholder-svgs', type: 'hero', index: index, class: 'object-fit object-fit--absolute' -%}
+    </a>
+  </div>
+  <div class="promo-product-card_wrapper">
+    <strong class="promo-product-card_title {{ section.settings.product_title_heading_size }} {{ section.settings.product_title_heading_weight }} mty --word-break">
+      <a aria-disabled="true" class="promo-product-card_title-link">
+        {{- product_title -}}
+      </a>
+    </strong>
+    {%- if section.settings.show_price -%}
+      <div class="promo-product-card_price">
+        {%- render 'product-price', product: null, use_variant: false, show_unit_price: false -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.show_cart_btn -%}
+      <a aria-disabled="false" class="promo-product-card_btn button button--primary">
+        <span class="btn_icn">
+          {%- liquid
+            render 'icons-data', width: 18, height: 18, use_icon: true, icon_reference: 'new-cart', section_id: section.id
+          -%}
+        </span>
+          {{- 'cart.drawer.products.btn_label' | t -}}
+      </a>
+    {%- endif -%}
+  </div>
+</div>

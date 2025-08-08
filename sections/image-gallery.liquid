@@ -1,0 +1,1407 @@
+{%- liquid
+  assign section_prefix_class = 'image-gallery'
+  assign section_scheme_class = section.settings.section_color_scheme | prepend: 'scheme scheme--'
+  assign caption_scheme_class = section.settings.caption_color_scheme | prepend: 'scheme scheme--'
+
+  capture max_header_size
+    echo settings.page_width | times: section.settings.max_header_size | divided_by: 100
+  endcapture
+
+  assign multiply_factor = 20
+  if section.blocks.size > 3
+    assign multiply_factor = 16
+  elsif section.blocks.size > 6
+    assign multiply_factor = 12
+  endif
+
+  capture section_container_layout
+    case section.settings.section_container_layout
+      when 'page-width'
+        echo 'container'
+      when 'contained-content'
+        echo 'contained-container'
+      when 'container-fluid'
+        echo 'container-fluid'
+    endcase
+  endcapture
+
+  capture section_corner_radius
+    case section.settings.section_corner_radius
+      when 'top_corners_radius'
+        echo 'top_corners_radius'
+      when 'bottom_corners_radius'
+        echo 'bottom_corners_radius'
+      when 'both_corners_radius'
+        echo 'both_corners_radius'
+      when 'no_corners_radius'
+        echo 'no_corner_radius'
+    endcase
+  endcapture
+
+  capture has_first_col
+    assign marquee_position = '1'
+    for block in section.blocks
+      if block.settings.item_index == marquee_position
+        echo 'true'
+        break
+      endif 
+    endfor
+  endcapture
+
+  capture has_second_col
+    assign marquee_position = '2'
+    for block in section.blocks
+      if block.settings.item_index == marquee_position
+        echo 'true'
+        break
+      endif 
+    endfor
+  endcapture
+
+  capture has_third_col
+    assign marquee_position = '3'
+    for block in section.blocks
+      if block.settings.item_index == marquee_position
+        echo 'true'
+        break
+      endif 
+    endfor
+  endcapture
+
+  capture has_fourth_col
+    assign marquee_position = '4'
+    for block in section.blocks
+      if block.settings.item_index == marquee_position
+        echo 'true'
+        break
+      endif 
+    endfor
+  endcapture
+
+  assign widths_attr = '170, 254, 381'
+  assign sizes_attr = '(max-width: 412px) 170px, (max-width: 991px) 254px, 381px'
+-%}
+{%- style -%}
+  .image-gallery{
+    --cs-max-height: 246px;
+  }
+  .image-gallery_wrapper.internal--spacing {
+    padding: 30px;
+  }
+
+  .image-gallery .heading-head {
+    margin-bottom: calc(48px / 1.6);
+  }
+
+  .image-gallery .heading-head,
+  .image-gallery_bg-wrapper,
+  .image-gallery_content-wrapper,
+  .image-gallery_content-center,
+  .image-gallery_content-center.--no-marquee {
+    width: 100%;
+  }
+
+  .image-gallery_wrapper .marquee-component,
+  .image-gallery_marquee-container,
+  .image-gallery_marquee-container,
+  .image-gallery_content-center{
+    display: flex;
+  }
+
+  .image-gallery_button--flex {
+    display: inline-flex;
+  }
+
+  .image-gallery_wrapper .marquee-component {
+    flex-direction: column;
+  }
+
+  .image-gallery .marquee-component_col{
+    padding: 10px 0;
+  }
+
+  .image-gallery_marquee-container{
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .image-gallery_marquee-component,
+  .image-gallery_content-center{
+    height: var(--cs-max-height);
+  }
+
+  .image-gallery_first-col,
+  .image-gallery_second-col,
+  .image-gallery_third-col,
+  .image-gallery_fourth-col {
+    width: calc(50% - 10px);
+  }
+
+  .image-gallery_bg-wrapper,
+  .image-gallery_col-image {
+    position: relative;
+  }
+
+  .image-gallery_col-image {
+    border-radius: var(--section-radius);
+  }
+
+  .image-gallery_col-image img,
+  .image-gallery_col-image svg,
+  .image-gallery_bg-wrapper img,
+  .image-gallery_bg-wrapper svg {
+    border-radius: inherit;
+  }
+
+  .image-gallery_bg-wrapper {
+    height: 100%;
+  }
+
+  .image-gallery_bg-wrapper,
+  .image-gallery_image {
+    border-radius: var(--section-radius);
+  }
+
+  .image-gallery_badge-image,
+  .image-gallery_content-wrapper {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .image-gallery_badge-image {
+    width: 84px;
+    height: 84px;
+    border-radius: var(--section-radius);
+    top: 25px;
+  }
+
+  .image-gallery_content-wrapper {
+    bottom: 48px;
+    max-height: 40%;
+    max-width: 80%;
+    overflow-y: auto;
+    text-align: center;
+  }
+
+  .image-gallery_caption {
+    margin-bottom: 22px;
+  }
+
+  .image-gallery_text-caption {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .image-gallery_button--flex {
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn_icons {
+    line-height: 0;
+  }
+
+  .image-gallery_button {
+    --button-font-weight: 600;
+    --button-font-family: var(--font-family-heading);
+    --button-padding-y: 1.2rem;
+    font-family: syne, sans-serif;
+  }
+
+  .image-gallery_button.--btn-icn-space {
+    --button-padding-y: 0.4rem;
+    --button-padding-x: 0.4rem;
+  }
+
+  .image-gallery_button--flex.--btn-icn-space{
+    padding-right: 12px;
+  }
+
+  .image-gallery_button img {
+    border-radius: 100%;
+  }
+
+  .image-gallery_content-center {
+    flex-grow: 1;
+  }
+
+  .image-gallery_button .btn_icons{
+    flex-shrink: 0;
+  }
+
+  .image-gallery_button .btn_icons img{
+    width: 36px;
+    height: 36px;
+  }
+
+  .image-gallery_content-center {
+    height: 290px;
+  }
+
+  @media (min-width: 768px) {
+    .image-gallery{
+      --cs-max-height: 500px;
+    }
+
+    .image-gallery_first-col,
+    .image-gallery_second-col,
+    .image-gallery_third-col,
+    .image-gallery_fourth-col {
+      width: 16.5%;
+    }
+
+    .image-gallery_wrapper.internal--spacing {
+      padding: 30px;
+    }
+
+    .image-gallery_marquee-container{
+      flex-wrap: nowrap;
+    }
+
+    .image-gallery_first-col,
+    .image-gallery_second-col,
+    .image-gallery_third-col,
+    .image-gallery_fourth-col {
+      flex-shrink: 0;
+    }
+
+    .image-gallery_content-center {
+      height: 500px;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .image-gallery .heading-head {
+      margin-bottom: 48px;
+    }
+
+    .image-gallery_badge-image {
+      width: 184px;
+      height: 184px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .image-gallery_content-wrapper {
+      max-width: 50%;
+    }
+  }
+{%- endstyle -%}
+<div
+  class="global-block {{ section_prefix_class }} {{ section_prefix_class }}-{{ section.id }} {% if section_container_layout == 'container-fluid' or section_container_layout == 'contained-container' %}{{ section_scheme_class }} {{ section_corner_radius }}{% endif %}"
+  style="--section-slider-radius: 10px; --section-padding-top: {{ section.settings.section_top_padding }}px; --section-padding-bottom: {{ section.settings.section_bottom_padding }}px;"
+>
+  <div class="{{ section_container_layout }}">
+    <div class="{{ section_prefix_class }}_wrapper {% if section_container_layout == 'container' %}{{ section_scheme_class }} {{ section_corner_radius }} internal--spacing{% endif %}">
+      {%- if section.settings.section_heading != blank or section.settings.section_description != blank -%}
+        <div class="container" style="--cp-width: {{ max_header_size }}">
+          <header class="heading-head --word-break --align-{{ section.settings.section_text_alignment }}">
+            {%- if section.settings.section_heading != blank -%}
+              <h2
+                class="{{ section_prefix_class }}_heading {{ section.settings.section_heading_weight }} --h-anchor-none {{ section.settings.section_heading_size }} mty {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":0,"fill":"both","iterations":1}'
+              >
+                {{- section.settings.section_heading -}}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.section_description != blank -%}
+              <div
+                class="{{ section_prefix_class }}_description --word-break {{ section.settings.section_description_weight }} {{ section.settings.description_text_size }} mty {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":150,"fill":"both","iterations":1}'
+              >
+                <p>{{- section.settings.section_description -}}</p>
+              </div>
+            {%- endif -%}
+          </header>
+        </div>
+      {%- endif -%}
+      <div class="{{ section_prefix_class }}_marquee-container">
+        {%- if section.blocks.size > 0 -%}
+          {%- if has_first_col == 'true' -%}
+            <div
+              class="{{ section_prefix_class }}_first-col {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+              data-margin="0px 0px -20px 0px"
+              data-frames='[{"opacity":"0","transform":"translateX(-15px)"},{"opacity":"1","transform":"translateX(0px)"}]'
+              data-options='{"duration":1000,"easing":"ease","delay":250,"fill":"both","iterations":1}'
+            >
+              <marquee-component
+                data-rotation="up"
+                data-direction="forward"
+                data-pause-on-hover="{{ section.settings.marquee_on_hover }}"
+                data-speed="{{ section.settings.marquee_speed }}"
+                class="{{ section_prefix_class }}_marquee-component"
+              >
+                <div class="marquee-component marquee-component--v-scroll">
+                  {%- assign marquee_position = '1' -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedBefore">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                  {%- for block in section.blocks -%}
+                    {%- if block.settings.item_index == marquee_position -%}
+                      {%- liquid
+                        capture marquee_img_alt
+                          unless block.settings.image.alt == blank
+                            echo block.settings.image.alt
+                            else
+                              echo 'image_gallery.image_alt' | t: index: forloop.index
+                          endunless
+                        endcapture
+                      -%}
+                      <div class="marquee-component_col {{ section_prefix_class }}_marquee-col">
+                        <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                          {%- if block.settings.image != blank -%}
+                            {{-
+                              block.settings.image
+                              | image_url: width: 381
+                              | image_tag:
+                                alt: marquee_img_alt,
+                                width: 381,
+                                height: block.settings.image.height,
+                                widths: widths_attr,
+                                sizes: sizes_attr,
+                                class: 'object-fit object-fit--absolute'
+                            -}}
+                          {%- else -%}
+                            {%- render 'placeholder-svgs',
+                              type: 'hero',
+                              index: 1,
+                              class: 'object-fit object-fit--absolute'
+                            -%}
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedAfter">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </div>
+              </marquee-component>
+            </div>
+          {%- endif -%}
+          {%- if has_second_col == 'true' -%}
+            <div
+              class="{{ section_prefix_class }}_second-col {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+              data-margin="0px 0px -20px 0px"
+              data-frames='[{"opacity":"0","transform":"translateX(-15px)"},{"opacity":"1","transform":"translateX(0px)"}]'
+              data-options='{"duration":1000,"easing":"ease","delay":350,"fill":"both","iterations":1}'
+            >
+              <marquee-component
+                data-rotation="down"
+                data-direction="backward"
+                data-pause-on-hover="{{ section.settings.marquee_on_hover }}"
+                data-speed="{{ section.settings.marquee_speed }}"
+                class="{{ section_prefix_class }}_marquee-component"
+              >
+                <div class="marquee-component marquee-component--v-scroll">
+                  {%- assign marquee_position = '2' -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedBefore">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                  {%- for block in section.blocks -%}
+                    {%- if block.settings.item_index == marquee_position -%}
+                      {%- liquid
+                        capture marquee_img_alt
+                          unless block.settings.image.alt == blank
+                            echo block.settings.image.alt
+                            else
+                              echo 'image_gallery.image_alt' | t: index: forloop.index
+                          endunless
+                        endcapture
+                      -%}
+                      <div class="marquee-component_col {{ section_prefix_class }}_marquee-col">
+                        <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                          {%- if block.settings.image != blank -%}
+                            {{-
+                              block.settings.image
+                              | image_url: width: 381
+                              | image_tag:
+                                alt: marquee_img_alt,
+                                width: 381,
+                                height: block.settings.image.height,
+                                widths: widths_attr,
+                                sizes: sizes_attr,
+                                class: 'object-fit object-fit--absolute'
+                            -}}
+                          {%- else -%}
+                            {%- render 'placeholder-svgs',
+                              type: 'hero',
+                              index: 1,
+                              class: 'object-fit object-fit--absolute'
+                            -%}
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedAfter">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </div>
+              </marquee-component>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+        <div
+          class="{{ section_prefix_class }}_content-center {% if section.blocks.size == 0 %}--no-marquee{% endif %} {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+          data-margin="0px 0px -20px 0px"
+          data-frames='[{"opacity":"0","transform":"scale(1.2)","transform-origin":"50% 50% 0"},{"opacity":"1","transform":"scale(1)","transform-origin":"50% 50% 0"}]'
+          data-options='{"duration":1000,"easing":"ease","delay":0,"fill":"both","iterations":1}'
+        >
+          <div class="{{ section_prefix_class }}_bg-wrapper {{ caption_scheme_class }}">
+            {%- if section.settings.banner_image -%}
+              {%- liquid
+                capture image_alt
+                  unless section.settings.banner_image.alt == blank
+                    echo section.settings.banner_image.alt
+                    else
+                      echo section.settings.caption | escape
+                  endunless
+                endcapture
+                assign image_height = 320 | divided_by: section.settings.banner_image.aspect_ratio | round
+              -%}
+              <div class="{{ section_prefix_class }}_image">
+                {{-
+                  section.settings.banner_image
+                  | image_url: width: 1920
+                  | image_tag:
+                    class: 'object-fit object-fit--absolute',
+                    loading: 'lazy',
+                    width: 320,
+                    height: image_height,
+                    widths: '320, 412, 768, 992, 1260, 1350, 1440, 1640, 1920',
+                    sizes: '100vw',
+                    alt: image_alt
+                -}}
+              </div>
+            {% else %}
+              {%- render 'placeholder-svgs', type: 'hero', index: 1, class: 'object-fit object-fit--absolute' -%}
+            {%- endif -%}
+            {%- if section.settings.badge_image != blank -%}
+              {%- liquid
+                capture image_alt
+                  unless section.settings.badge_image.alt == blank
+                    echo section.settings.badge_image.alt
+                    else
+                      echo section.settings.caption | escape
+                  endunless
+                endcapture
+                assign image_height = 300 | divided_by: section.settings.badge_image.aspect_ratio | round
+              -%}
+              <div class="{{ section_prefix_class }}_badge-image">
+                {{-
+                  section.settings.badge_image
+                  | image_url: width: 300
+                  | image_tag:
+                    class: 'object-fit object-fit--absolute',
+                    loading: 'lazy',
+                    alt: image_alt,
+                    widths: '300, 400',
+                    sizes: '(max-width: 767px) 100vw, 200vw'
+                -}}
+              </div>
+            {%- endif -%}
+            <div class="{{ section_prefix_class }}_content-wrapper">
+              {%- if section.settings.text_caption != blank or section.settings.caption != blank -%}
+                <div class="{{ section_prefix_class }}_caption h6 {{ section.settings.text_heading_weight }} --word-break mty">
+                  {%- if section.settings.text_caption != blank -%}
+                    <span class="{{ section_prefix_class }}_text-caption {{ section.settings.text_caption_weight }}">
+                      {{- section.settings.text_caption -}}
+                    </span>
+                  {%- endif -%}
+                  {%- if section.settings.caption != blank -%}
+                    {{- section.settings.caption -}}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+              <a
+                {% if section.settings.url != blank %}
+                  href="{{ section.settings.url -}}"
+                  {% if section.settings.open_new_window %}target="_blank"{% endif %}
+                {% else %}
+                  aria-disabled="true"
+                {% endif %}
+                class="button {{ section_prefix_class }}_button button--{{ section.settings.type }} {% if section.settings.icon_image != blank %}--btn-icn-space {{ section_prefix_class }}_button--flex{% endif %}"
+              >
+                {% if section.settings.icon_image != blank %}
+                  <span class="btn_icons">
+                    {%- liquid
+                      capture btn_icn_alt
+                        if section.settings.icon_image.alt != blank
+                          echo section.settings.icon_image.alt
+                          else
+                            echo section.settings.button_label | escape
+                        endif
+                      endcapture
+                      assign image_height = 38 | divided_by: section.settings.icon_image.aspect_ratio | round
+                    -%}
+                    {{-
+                      section.settings.icon_image
+                      | image_url: width: 49
+                      | image_tag:
+                        alt: btn_icn_alt,
+                        width: 38,
+                        height: image_height,
+                        widths: '38, 49',
+                        sizes: '(max-width: 767px) 38px, 49px',
+                        loading: 'lazy'
+                    -}}
+                  </span>
+                {%- endif -%}
+                {{- section.settings.button_label -}}
+              </a>
+            </div>
+          </div>
+        </div>
+        {%- if section.blocks.size > 0 -%}
+          {%- if has_third_col == 'true' -%}
+            <div
+              class="{{ section_prefix_class }}_third-col {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+              data-margin="0px 0px -20px 0px"
+              data-frames='[{"opacity":"0","transform":"translateX(15px)"},{"opacity":"1","transform":"translateX(0px)"}]'
+              data-options='{"duration":1000,"easing":"ease","delay":250,"fill":"both","iterations":1}'
+            >
+              <marquee-component
+                data-rotation="up"
+                data-direction="forward"
+                data-pause-on-hover="{{ section.settings.marquee_on_hover }}"
+                data-speed="{{ section.settings.marquee_speed }}"
+                class="{{ section_prefix_class }}_marquee-component"
+              >
+                <div class="marquee-component marquee-component--v-scroll">
+                  {%- assign marquee_position = '3' -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedBefore">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                  {%- for block in section.blocks -%}
+                    {%- if block.settings.item_index == marquee_position -%}
+                      {%- liquid
+                        capture marquee_img_alt
+                          unless block.settings.image.alt == blank
+                            echo block.settings.image.alt
+                            else
+                              echo 'image_gallery.image_alt' | t: index: forloop.index
+                          endunless
+                        endcapture
+                      -%}
+                      <div class="marquee-component_col {{ section_prefix_class }}_marquee-col">
+                        <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                          {%- if block.settings.image != blank -%}
+                            {{-
+                              block.settings.image
+                              | image_url: width: 381
+                              | image_tag:
+                                alt: marquee_img_alt,
+                                width: 381,
+                                height: block.settings.image.height,
+                                widths: widths_attr,
+                                sizes: sizes_attr,
+                                class: 'object-fit object-fit--absolute'
+                            -}}
+                          {%- else -%}
+                            {%- render 'placeholder-svgs',
+                              type: 'hero',
+                              index: 1,
+                              class: 'object-fit object-fit--absolute'
+                            -%}
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedAfter">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </div>
+              </marquee-component>
+            </div>
+          {%- endif -%}
+          {%- if has_fourth_col == 'true' -%}
+            <div
+              class="{{ section_prefix_class }}_fourth-col {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+              data-margin="0px 0px -20px 0px"
+              data-frames='[{"opacity":"0","transform":"translateX(15px)"},{"opacity":"1","transform":"translateX(0px)"}]'
+              data-options='{"duration":1000,"easing":"ease","delay":350,"fill":"both","iterations":1}'
+            >
+              <marquee-component
+                data-rotation="down"
+                data-direction="backward"
+                data-pause-on-hover="{{ section.settings.marquee_on_hover }}"
+                data-speed="{{ section.settings.marquee_speed }}"
+                class="{{ section_prefix_class }}_marquee-component"
+              >
+                <div class="marquee-component marquee-component--v-scroll">
+                  {%- assign marquee_position = '4' -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedBefore">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                  {%- for block in section.blocks -%}
+                    {%- if block.settings.item_index == marquee_position -%}
+                      {%- liquid
+                        capture marquee_img_alt
+                          unless block.settings.image.alt == blank
+                            echo block.settings.image.alt
+                            else
+                              echo 'image_gallery.image_alt' | t: index: forloop.index
+                          endunless
+                        endcapture
+                      -%}
+                      <div class="marquee-component_col {{ section_prefix_class }}_marquee-col">
+                        <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                          {%- if block.settings.image != blank -%}
+                            {{-
+                              block.settings.image
+                              | image_url: width: 381
+                              | image_tag:
+                                alt: marquee_img_alt,
+                                width: 381,
+                                height: block.settings.image.height,
+                                widths: widths_attr,
+                                sizes: sizes_attr,
+                                class: 'object-fit object-fit--absolute'
+                            -}}
+                          {%- else -%}
+                            {%- render 'placeholder-svgs',
+                              type: 'hero',
+                              index: 1,
+                              class: 'object-fit object-fit--absolute'
+                            -%}
+                          {%- endif -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- for i in (1..multiply_factor) -%}
+                    {%- for block in section.blocks -%}
+                      {%- if block.settings.item_index == marquee_position -%}
+                        {%- liquid
+                          capture marquee_img_alt
+                            unless block.settings.image.alt == blank
+                              echo block.settings.image.alt
+                              else
+                                echo 'image_gallery.image_alt' | t: index: forloop.index
+                            endunless
+                          endcapture
+                        -%}
+                        <div class="marquee-component_col {{ section_prefix_class }}_marquee-col clonedAfter">
+                          <div class="{{ section_prefix_class }}_col-image --media-size-adapt" style="--media-ratio: {{ block.settings.image.aspect_ratio | default: 1 }}">
+                            {%- if block.settings.image != blank -%}
+                              {{-
+                                block.settings.image
+                                | image_url: width: 381
+                                | image_tag:
+                                  alt: marquee_img_alt,
+                                  width: 381,
+                                  height: block.settings.image.height,
+                                  widths: widths_attr,
+                                  sizes: sizes_attr,
+                                  class: 'object-fit object-fit--absolute'
+                              -}}
+                            {%- else -%}
+                              {%- render 'placeholder-svgs',
+                                type: 'hero',
+                                index: 1,
+                                class: 'object-fit object-fit--absolute'
+                              -%}
+                            {%- endif -%}
+                          </div>
+                        </div>
+                      {%- endif -%}
+                    {%- endfor -%}
+                  {%- endfor -%}
+                </div>
+              </marquee-component>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.image_gallery.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer", "custom.overlay"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.head.content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "section_heading",
+      "label": "t:heading.label"
+    },
+    {
+      "type": "select",
+      "id": "section_heading_size",
+      "label": "t:sizes.heading.label",
+      "options": [
+        {
+          "value": "h1",
+          "label": "t:sizes.heading.options.opt_1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sizes.heading.options.opt_2.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sizes.heading.options.opt_3.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sizes.heading.options.opt_4.label"
+        }
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "select",
+      "id": "section_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-bold"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "section_description",
+      "label": "t:description_text.label"
+    },
+    {
+      "type": "select",
+      "id": "description_text_size",
+      "label": "t:sizes.description_text.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--medium"
+    },
+    {
+      "type": "select",
+      "id": "section_description_weight",
+      "label": "t:weight.description_text.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-normal"
+    },
+    {
+      "type": "range",
+      "id": "max_header_size",
+      "label": "t:sections.head.size.label",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 100,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image_gallery.settings.content_head.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:sections.image_gallery.settings.banner_image.label"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_image",
+      "label": "t:sections.image_gallery.settings.badge_image.label"
+    },
+    {
+      "type": "text",
+      "id": "text_caption",
+      "label": "t:caption.label",
+      "default": "Caption"
+    },
+    {
+      "type": "select",
+      "id": "text_caption_weight",
+      "label": "t:weight.caption.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-bold"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "caption",
+      "label": "t:heading.label",
+      "default": "Follow on Instagram"
+    },
+    {
+      "type": "select",
+      "id": "text_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-bold"
+    },
+    {
+      "type": "image_picker",
+      "id": "icon_image",
+      "label": "t:sections.image_gallery.settings.icon_image.label",
+      "info": "t:sections.image_gallery.settings.icon_image.info"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:settings_schema.buttons.settings.button.label",
+      "default": "Button label"
+    },
+    {
+      "type": "select",
+      "id": "type",
+      "label": "t:settings_schema.buttons.settings.button.type.label",
+      "options": [
+        {
+          "value": "primary",
+          "label": "t:settings_schema.buttons.settings.button.type.opt_1.label"
+        },
+        {
+          "value": "secondary",
+          "label": "t:settings_schema.buttons.settings.button.type.opt_2.label"
+        }
+      ],
+      "default": "primary"
+    },
+    {
+      "type": "url",
+      "id": "url",
+      "label": "t:settings_schema.buttons.settings.button.link.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_new_window",
+      "label": "t:target_blank.label",
+      "default": true
+    },
+    {
+      "type": "color_scheme",
+      "id": "caption_color_scheme",
+      "default": "scheme2",
+      "label": "t:color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:scroll.content"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "label": "t:scroll.settings.speed.label",
+      "min": 1,
+      "max": 30,
+      "step": 1,
+      "default": 15,
+      "unit": "sec"
+    },
+    {
+      "type": "checkbox",
+      "label": "t:scroll.settings.on_hover.label",
+      "id": "marquee_on_hover",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "t:layout.content"
+    },
+    {
+      "type": "select",
+      "id": "section_container_layout",
+      "label": "t:settings_schema.container_layout.label",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:settings_schema.container_layout.settings.container.label"
+        },
+        {
+          "value": "contained-content",
+          "label": "t:settings_schema.container_layout.settings.contained_content.label"
+        },
+        {
+          "value": "container-fluid",
+          "label": "t:settings_schema.container_layout.settings.container_fluid.label"
+        }
+      ],
+      "default": "contained-content"
+    },
+    {
+      "type": "select",
+      "id": "section_corner_radius",
+      "label": "t:round_crnr.label",
+      "options": [
+        {
+          "value": "no_corners_radius",
+          "label": "t:round_crnr.options.opt_1.label"
+        },
+        {
+          "value": "top_corners_radius",
+          "label": "t:round_crnr.options.opt_2.label"
+        },
+        {
+          "value": "bottom_corners_radius",
+          "label": "t:round_crnr.options.opt_3.label"
+        },
+        {
+          "value": "both_corners_radius",
+          "label": "t:round_crnr.options.opt_4.label"
+        }
+      ],
+      "default": "no_corners_radius"
+    },
+    {
+      "type": "text_alignment",
+      "id": "section_text_alignment",
+      "label": "t:alignments.text.label",
+      "default": "center"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "default": "scheme1",
+      "label": "t:color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:spacing.content"
+    },
+    {
+      "type": "range",
+      "id": "section_top_padding",
+      "label": "t:spacing.settings.top.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_bottom_padding",
+      "label": "t:spacing.settings.bottom.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 60,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:image.label",
+      "type": "image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:image.label",
+          "info": "t:sections.image_gallery.blocks.image.info"
+        },
+        {
+          "type": "text",
+          "id": "item_index",
+          "label": "t:sections.image_gallery.blocks.item_index.label",
+          "info": "t:sections.image_gallery.blocks.item_index.info"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image_gallery.name",
+      "blocks": [
+        {
+          "type": "image",
+          "settings": {
+            "item_index": "1"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "item_index": "2"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "item_index": "3"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "item_index": "4"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,8 @@
+{%- comment -%}
+  renders product sku
+  usage
+    {%- render 'product-sku', product: product -%}
+{%- endcomment -%}
+<span class="product-sku --word-break {% if product.selected_or_first_available_variant.sku.size == 0 or product.selected_or_first_available_variant.sku == blank %}hidden{% endif %}">
+  {{- product.selected_or_first_available_variant.sku -}}
+</span>

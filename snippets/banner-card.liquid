@@ -1,0 +1,151 @@
+{%- comment -%}
+  renders promotion banner on section templates
+  usage
+    {%- render 'promotion-banner', figure: block, index: forloop.index -%}
+{%- endcomment -%}
+{% liquid
+  capture image_alt
+    if figure.settings.heading != blank
+      echo figure.settings.heading | escape
+      else
+        echo 'promotion_banners.alt_label' | t: index: index
+    endif
+  endcapture
+
+  capture block_corner_radius
+    case figure.settings.block_corner_radius
+      when 'tr_br_radius'
+        echo 'tr_tr_radius'
+      when 'tl_bl_radius'
+        echo 'bl_bl_radius'
+      when 'both_card_radius'
+        echo 'both_card_radius'
+      when 'no_card_radius'
+        echo 'no_card_radius'
+    endcase
+  endcapture
+
+  capture block_corner_radius_mob
+    case figure.settings.block_corner_radius_mob
+      when 'top_corners_radius'
+        echo 'top_corners_radius'
+      when 'bottom_corners_radius'
+        echo 'bottom_corners_radius'
+      when 'both_mob_card_radius'
+        echo 'both_mob_card_radius'
+      when 'no_mob_card_radius'
+        echo 'no_mob_card_radius'
+    endcase
+  endcapture
+
+  assign content_position_var = figure.settings.content_position
+  capture content_position
+    case content_position_var
+      when 'top_left'
+        echo '--top-left'
+      when 'top_right'
+        echo '--top-right'
+      when 'bottom_left'
+        echo '--bottom-left'
+      when 'bottom_right'
+        echo '--bottom-right'
+      when 'top_center'
+        echo '--top-center'
+      when 'center'
+        echo '--center'
+      when 'center_left'
+        echo '--center-left'
+      when 'center_right'
+        echo '--center-right'
+      else
+        echo '--bottom-center'
+    endcase
+  endcapture
+
+  assign image_height = 290 | divided_by: figure.settings.image.aspect_ratio | round
+%}
+{%- if figure.settings.link != blank -%}
+  <a
+    class="banner-card scheme scheme--{{ figure.settings.block_color_scheme }} {{ block_corner_radius }} {{ block_corner_radius_mob }} {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+    href="{{- figure.settings.link -}}"
+    {% if figure.settings.open_new_window %}target="_blank"{% endif %}
+    data-margin="0px 0px -20px 0px"
+    data-frames='[{"opacity":"0","transform":"scale(1.05)"},{"opacity":"1","transform":"scale(1)"}]'
+    data-options='{"duration":1000,"easing":"ease","delay":{{ index | times: 100 | minus: 100 }},"fill":"both","iterations":1}'
+  >
+    {%- if figure.settings.image != blank -%}
+      {{- figure.settings.image | image_url: width: 1560 | image_tag:
+        alt: image_alt,
+        width: 290,
+        height: image_height,
+        class: 'object-fit object-fit--absolute',
+        loading: loading_attr,
+        widths: '290, 354, 384, 466, 585, 738, 768, 962, 1200, 1560',
+        sizes: '(max-width: 767px) calc(100vw - 30px), (max-width: 1259px) calc((100vw / 2) - 30px), calc((var(--cp-width-px) / 2) - 30px)'
+      -}}
+      {% else %}
+        {{- 'hero-apparel-1' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+    {%- endif -%}
+    <span class="visually-hidden">{{- image_alt -}}</span>
+    {%- if figure.settings.block_heading != blank or figure.settings.block_caption != blank -%}
+      <header class="heading-head banner-card_content-position {{ content_position }}">
+        {%- if figure.settings.block_discount != blank -%}
+          <div class="banner-card_discount h --word-break {{ figure.settings.block_discount_size }} {{ figure.settings.block_discount_weight }} mty">
+            <p>{{- figure.settings.block_discount -}}</p>
+          </div>
+        {%- endif -%}
+        {%- if figure.settings.block_heading != blank or figure.settings.block_caption != blank -%}
+          <div class="banner-card_header">
+            {%- if figure.settings.block_heading != blank -%}
+              <h2 class="banner-card_heading {{ figure.settings.block_heading_size }} {{ figure.settings.block_heading_weight }} --word-break mty">
+                {{- figure.settings.block_heading -}}
+              </h2>
+            {%- endif -%}
+            {%- if figure.settings.block_caption != blank -%}
+              <div class="banner-card_description h --word-break {{ figure.settings.block_caption_size }} {{ figure.settings.block_caption_weight }} mty">
+                <p>{{- figure.settings.block_caption -}}</p>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+  </a>
+  {%- else -%}
+    <figure
+      class="banner-card scheme scheme--{{ figure.settings.block_color_scheme }} {{ block_corner_radius }} {{ block_corner_radius_mob }} {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+      data-margin="0px 0px -20px 0px"
+      data-frames='[{"opacity":"0","transform":"scale(1.05)"},{"opacity":"1","transform":"scale(1)"}]'
+      data-options='{"duration":1000,"easing":"ease","delay":{{ index | times: 100 | minus: 100 }},"fill":"both","iterations":1}'
+    >
+      {%- if figure.settings.image != blank -%}
+        {{- figure.settings.image | image_url: width: 620 | image_tag: alt: image_alt,
+        class: 'object-fit object-fit--absolute',  loading: loading_attr, widths: '1024, 1920', sizes: '(max-width: 767px) 1024vw, 1920vw' -}}
+        {% else %}
+          {{- 'hero-apparel-1' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+      {%- endif -%}
+      {%- if figure.settings.block_heading != blank or figure.settings.block_caption != blank -%}
+        <header class="heading-head banner-card_content-position {{ content_position }}">
+          {%- if figure.settings.block_discount != blank -%}
+            <div class="banner-card_discount h --word-break {{ figure.settings.block_discount_size }} {{ figure.settings.block_discount_weight }} mty">
+              <p>{{- figure.settings.block_discount -}}</p>
+            </div>
+          {%- endif -%}
+          {%- if figure.settings.block_heading != blank or figure.settings.block_caption != blank -%}
+            <div class="banner-card_header">
+              {%- if figure.settings.block_heading != blank -%}
+                <h2 class="banner-card_heading {{ figure.settings.block_heading_size }} {{ figure.settings.block_heading_weight }} --word-break mty">
+                  {{- figure.settings.block_heading -}}
+                </h2>
+              {%- endif -%}
+              {%- if figure.settings.block_caption != blank -%}
+                <div class="banner-card_description h --word-break {{ figure.settings.block_caption_size }} {{ figure.settings.block_caption_weight }} mty">
+                  <p>{{- figure.settings.block_caption -}}</p>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </header>
+      {%- endif -%}
+    </figure>
+{%- endif -%}

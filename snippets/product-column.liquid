@@ -1,0 +1,384 @@
+{%- comment -%}
+  renders product column on section templates
+  usage
+    {%- render 'featured-column-card', product: product -%}
+{%- endcomment -%}
+{%- liquid
+  assign first_3d_model = product.media | where: 'media_type', 'model' | first
+  assign error_render_attr = 'data-render-main-error' | append: product.id | append: '-' | append: section.id | append: '-' | append: tabid
+  assign form_id= 'data-product-card-atc-form' | append: product.id | append: '-' | append: section.id | append: '-' | append: tabid
+
+  unless product.media.size == 0
+    assign featured_media = product.selected_or_first_available_variant.featured_media
+    unless featured_media != blank
+      for media in product.media
+        assign featured_media = media
+        break
+      endfor
+    endunless
+  endunless
+
+  capture featured_media_ratio
+    if media_size == 'adapt'
+      echo featured_media.preview_image.aspect_ratio | default: '1'
+      else 
+        echo '1'
+    endif
+  endcapture
+
+  capture product_clean_url
+    if product.url contains '?'
+      assign parts = product.url | split: '?'
+      echo parts[0]
+      else
+        echo product.url
+    endif
+  endcapture
+
+  capture show_separator
+    if enable_atc and show_quick_view
+      echo 'true'
+    endif
+  endcapture
+
+  assign sizes_attr = '(max-width: 379px) calc(100vw - 30px), (max-width: 767px) calc((100vw / var(--mobile-columns-count)) - 30px), (max-width: 991px) calc((var(--cp-width-px) / 3) - 30px), calc((var(--cp-width-px) / var(--columns-count)) - 30px)'
+
+  assign counter = index | modulo: columns_division
+  if counter == 0
+    assign counter = columns_division
+  endif
+-%}
+<div
+  class="product-column {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+  data-margin="0px 0px -20px 0px"
+  data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+  data-options='{"duration":1000,"easing":"ease","delay":{{ counter | times: 100 }},"fill":"both","iterations":1}'
+>
+  <div class="product-column_top-wrap">
+    <div class="product-column_media-wrap">
+      <div class="product-column_image-wrap">
+        <a href="{{- product_clean_url -}}" class="product-column_image --media-size-{{ media_size }}" style="--media-ratio: {{ featured_media_ratio }};" data-media-id="{{- featured_media.id -}}">
+          {%- unless featured_media == blank -%}
+            <img
+              srcset="{%- if featured_media.preview_image.width >= 190 -%}{{ featured_media.preview_image | image_url: width: 190 }} 190w,{%- endif -%}
+                      {%- if featured_media.preview_image.width >= 240 -%}{{ featured_media.preview_image | image_url: width: 240 }} 240w,{%- endif -%}
+                      {%- if featured_media.preview_image.width >= 299 -%}{{ featured_media.preview_image | image_url: width: 299 }} 299w,{%- endif -%}
+                      {%- if featured_media.preview_image.width >= 368 -%}{{ featured_media.preview_image | image_url: width: 368 }} 368w,{%- endif -%}
+                      {%- if featured_media.preview_image.width >= 400 -%}{{ featured_media.preview_image | image_url: width: 400 }} 400w,{%- endif -%}
+                       {{ featured_media.preview_image | image_url: width: featured_media.preview_image.width }} {{ featured_media.preview_image.width }}w"
+              sizes="{{- sizes_attr -}}"
+              src="{{- featured_media.preview_image | image_url: width: 190 -}}"
+              alt="{{- product.title | escape -}}"
+              {% unless fetchpriority == blank %}
+                fetchpriority="{{- fetchpriority -}}"
+                {% else %}
+                  loading="{{- loading_attr -}}"
+              {% endunless %}
+              width= "190"
+              height="{{- 190 | divided_by: featured_media.preview_image.aspect_ratio | round -}}"
+              class="object-fit object-fit--absolute"
+            >
+            {%- else -%}
+              {{- 'product-apparel-1' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+          {%- endunless -%}
+          <span class="visually-hidden">{{- product.title -}}</span>
+        </a>
+      </div>
+      {%- if show_stock_tag or show_sale_tag or show_custom_tag -%}
+        <ul class="product-column_tag-wrap list-unstyled">
+          {%- if show_custom_tag -%}
+            {%- if product.tags.size > 0 and settings.product_custom_badges != blank -%}
+              {%- liquid
+                assign custom_tags_string = settings.product_custom_badges
+                assign custom_tags = custom_tags_string | split: '||'
+              -%}
+              {%- for tag in product.tags -%}
+                {%- for custom_tag in custom_tags -%}
+                  {%- liquid
+                    assign tag_data = custom_tag | remove: '{' | remove: '}' | split: ','
+                    assign tag_text = tag_data[0]
+                    assign background_color = tag_data[1]
+                    assign text_color = tag_data[2]
+                  -%}
+                  {%- if tag_text == tag -%}
+                    <li class="product-column_tag-item">
+                      <strong class="product-column_tag --fw-semi-bold text-size--small" style="--badge-bg: {{ background_color }}; --badge-clr: {{ text_color }};">
+                        {{- tag -}}
+                      </strong>
+                    </li>
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endif -%}
+          {%- if show_stock_tag -%}
+            <li class="tags-list_item parent-node">
+              <strong class="tags-list_tag --fw-medium">
+                {%- if product.title == blank -%}
+                  <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: var(--section-error-color);">
+                    <span class="product-column_tag-dot"></span>
+                    {{- 'product.stock.soldout' | t -}}
+                  </span>
+                  {%- else -%}
+                    {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+                      {%- liquid
+                        assign inventory_count = product.selected_or_first_available_variant.inventory_quantity | times: 1
+                        if product.selected_or_first_available_variant.inventory_policy == 'continue'
+                          if inventory_count < 1
+                            assign inventory_text = 'product.stock.pre_order' | t
+                            assign stock_bar_color = 'var(--section-foreground-color)'
+                            else
+                              assign inventory_text = 'product.stock.in_stock' | t
+                              assign stock_bar_color = 'var(--section-success-color)'
+                          endif
+                          else
+                            capture inventory_text
+                              if inventory_count < 1
+                                assign stock_bar_color = 'var(--section-error-color)'
+                                echo 'product.stock.soldout' | t
+                                elsif inventory_count < 50
+                                  assign stock_bar_color = 'var(--section-warning-color)'
+                                  echo 'product.stock.low_stock' | t
+                                else
+                                  assign stock_bar_color = 'var(--section-success-color)'
+                                  echo 'product.stock.in_stock' | t
+                              endif
+                            endcapture
+                        endif
+                      -%}
+                      <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: {{ stock_bar_color }};">
+                        <span class="product-column_tag-dot"></span>
+                        {{- inventory_text -}}
+                      </span>
+                      {%- else -%}
+                        <span class="product-tag hidden">&nbsp;</span>
+                    {%- endif -%}
+                {%- endif -%}
+              </strong>
+            </li>
+          {%- endif -%}
+          {%- if show_sale_tag -%}
+            <li class="tags-list_item parent-node">
+              <strong class="tags-list_tag --fw-medium">
+                {%- if product.title == blank -%}
+                  <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: var(--section-success-color);">
+                    <span class="product-column_tag-dot"></span>
+                    {{ 'product.sale' | t }}
+                  </span>
+                  {%- else -%}
+                    {%- liquid
+                      assign target = product.selected_or_first_available_variant
+                      assign compare_at_price = target.compare_at_price
+                      assign price = target.price | default: 1999
+                    
+                      assign onsale = false
+                      if compare_at_price > price
+                        assign onsale = true
+                      endif
+                    -%}
+                    {%- if onsale -%}
+                      <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: var(--section-success-color);">
+                        <span class="product-column_tag-dot"></span>
+                        {{- 'product.sale' | t -}}
+                      </span>
+                      {%- else -%}
+                        <span class="hidden"></span>
+                    {%- endif -%}
+                {%- endif -%}
+              </strong>
+            </li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+    </div>
+    <div class="product-column_content">
+      {%- if show_vendor -%}
+        <em class="product-column_vendor --fw-medium text-size--small --text-alternative --word-break">
+          {{ 'product.by' | t }} {{- product.vendor -}}
+        </em>
+      {%- endif -%}
+      <{{- heading_tag }} class="product-column_title mty {{ heading_size }} {{ heading_weight }}">
+        <a href="{{- product_clean_url -}}">
+          {{- product.title -}}
+        </a>
+      </{{- heading_tag -}}>
+      {%- if show_price -%}
+        <div class="product-column_price-wrap">
+          <strong class="product-column_price text-size--medium --fw-medium">
+          {%- render 'product-price', product: product, use_variant: false, show_unit_price: true, unit_label: true -%}
+          </strong>
+        </div>
+      {%- endif -%}
+      <div class="product-column_error hidden" {{ error_render_attr }}>
+        {%- render 'icons-data', width: 22, height: 22, use_icon: true, icon_reference: 'error' -%}
+        <span data-error=""></span>
+      </div>
+      {%- if show_quick_view or enable_atc -%}
+        <div class="product-column_btn-wrap">
+          {%- if show_quick_view -%}
+            <div class="product-column_quick-wrap {% if show_separator == 'true' %}product-column_quick-wrap--sep{% endif %}">
+              <modal-component-toggler>
+                <button
+                  type="button"
+                  data-expanded="false"
+                  data-modal-ref="modal-quickview-column-{{ section.id }}-{{ product.id }}-{{ tabid }}"
+                  aria-haspopup="dialog"
+                  aria-controls="modal-quickview-column-{{ section.id }}-{{ product.id }}-{{ tabid }}"
+                  class="button button--primary --v-align-middle product-column_btn product-column_btn--quick"
+                >
+                  <i class="button_icn-wrapper">
+                    {%- render 'icons-data', width: 21, height: 21, use_icon: true, icon_reference: 'quick-eye' -%}
+                    <span class="visually-hidden --uppercase">
+                      {{ 'product.quick_view' | t }}
+                    </span>
+                  </i>
+                  <span class="product-column_btn-txt">{{ 'product.quick_view' | t }}</span>
+                </button>
+              </modal-component-toggler>
+              <modal-render-component
+                data-modal="modal-quickview-column-{{ section.id }}-{{ product.id }}-{{ tabid }}"
+                data-container="body"
+                data-url="{{ request.origin }}{{ product.url }}?"
+                data-section="modal-quick-view"
+                data-render-selector="modal-quick-view"
+                data-selector="#modal-quickview-column-{{ section.id }}-{{ product.id }}-{{ tabid }}"
+                {% if first_3d_model %}
+                  data-has-xr="true"
+                {% endif %}
+              >
+                <div
+                  class="modal modal-component modal-component--quick-view modal-component--centered scheme--{{ section.settings.section_color_scheme }}"
+                  role="dialog"
+                  aria-modal="true"
+                  aria-labelledby="modal-quickview-column-{{ section.id }}-{{ product.id }}-heading-{{ tabid }}"
+                  aria-describedby="modal-quickview-column-{{ section.id }}-{{ product.id }}-{{ tabid }}"
+                  tabindex="-1"
+                >
+                  <div class="modal-component_spacer">
+                    <div class="modal-component_wrapper">
+                      <div class="modal-component_body">
+                        {{- 'quick-view.css' | asset_url | stylesheet_tag -}}
+                        <div class="modal-component_head --align-left product-common_size-heading">
+                          <modal-component-toggler>
+                            <button
+                              type="button"
+                              data-expanded="true"
+                              data-toggle-attribute="false"
+                              data-modal-ref="modal-quickview-column-{{ section.id }}-{{ product.id }}-{{ tabid }}"
+                              class="modal-component_btn-close button button--icn">
+                              <span class="button_icn-wrapper">
+                                {%- render 'icons-data', width: 14, height: 14, use_icon: true, icon_reference: 'cross' -%}
+                                <span class="visually-hidden">{{- 'accessibility.close' | t -}}</span>
+                              </span>
+                            </button>
+                          </modal-component-toggler>
+                          <strong id="modal-quickview-column-{{ section.id }}-{{ product.id }}-heading-{{ tabid }}" class="modal-component_heading text-size--medium --fw-bold h mty visually-hidden">
+                            {{- 'product.quick_view' | t -}}
+                          </strong>
+                        </div>
+                        <div class="modal-component_content" id="modal-quickview-column-{{ section.id }}-{{ product.id }}-{{ tabid }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </modal-render-component>
+            </div>
+          {%- endif -%}
+          {%- if enable_atc -%}
+            <div class="product-column_atc-wrap">
+              {%- form 'product',
+                product,
+                id: form_id,
+                class: 'main-product_submit-from',
+                novalidate: 'novalidate',
+                data-type: 'add-to-cart-form'
+              -%}
+                {%- liquid
+                  assign check_against_inventory = true
+                  if product.selected_or_first_available_variant.inventory_management != 'shopify' or product.selected_or_first_available_variant.inventory_policy == 'continue'
+                    assign check_against_inventory = false
+                  endif
+                  if product.selected_or_first_available_variant.quantity_rule.min > product.selected_or_first_available_variant.inventory_quantity and check_against_inventory
+                    assign quantity_rule_soldout = true
+                  endif
+      
+                  capture atc_button_label
+                    if product.selected_or_first_available_variant.available == false or quantity_rule_soldout
+                      echo 'product.atc_buttons.soldout' | t
+                      else
+                        echo 'product.atc_buttons.add_to_cart' | t
+                    endif
+                  endcapture
+                -%}
+                <input
+                  type="hidden"
+                  name="id"
+                  value="{{- product.selected_or_first_available_variant.id -}}"
+                >
+                <input
+                  type="hidden"
+                  name="quantity"
+                  value="{{- product.selected_or_first_available_variant.quantity_rule.min -}}"
+                >
+                <div class="product-common_btns-wrap">
+                  <div class="product-common_form-btns --v-align-start">
+                    <atc-submit
+                      class="product-common_atc-form"
+                      data-error-selector="[{{ error_render_attr }}]"
+                      data-form="#{{ form_id }}"
+                      {% unless template.name == 'cart' %}
+                        {% unless settings.cart_view == 'drawer' %}
+                          data-redirect="{{- routes.cart_url -}}"
+                        {% endunless %}
+                      {% endunless %}
+                      {% unless template.name == 'cart' %}
+                        data-modal="true"
+                        data-modal-ref='[data-modal-ref="modal-cart-drawer"][data-expanded="false"]'
+                      {% endunless %}
+                      data-sections='[
+                        {
+                          "id": "cart-head",
+                          "selectors": ["[data-render-cart-bubble]", "[data-render-cart-text]"]
+                        },
+                        {
+                          "id": "cart-showcase",
+                          "selectors": ["[data-line-items-drawer-container]"]
+                        }
+                        {% if template.name == 'cart' %}
+                          ,
+                          {
+                            "id": "main-cart",
+                            "selectors": ["[data-line-items-container]"]
+                          }
+                        {% endif %}
+                      ]'
+                    >
+                      <button
+                        type="submit"
+                        name="add"
+                        class="product-column_btn product-column_btn--atc button button--primary --v-align-middle"
+                        {% if product.selected_or_first_available_variant.available == false or quantity_rule_soldout %}
+                          disabled
+                        {% endif %}
+                      >
+                        <i class="button_icn-wrapper">
+                          {%- render 'icons-data', width: 21, height: 21, use_icon: true, icon_reference: 'new-cart' -%}
+                          <span class="visually-hidden" data-atc-text="" data-text-avail="{{- 'product.atc_buttons.add_to_cart' | t -}}" data-text-sold="{{- 'product.atc_buttons.soldout' | t -}}" data-text-unavail="{{- 'product.atc_buttons.unavailable' | t -}}">
+                            {{- atc_button_label -}}
+                          </span>
+                        </i>
+                        <span class="product-column_btn-txt">{{- atc_button_label -}}</span>
+                      </button>
+                    </atc-submit>
+                  </div>
+                </div>
+              {%- endform -%}
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

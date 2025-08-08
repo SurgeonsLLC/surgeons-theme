@@ -1,0 +1,149 @@
+{%- comment -%}
+  renders carousel card on section templates
+  usage
+    {%- render 'carousel-card', card: block, index: forloop.index, height: section_height_class, prefix_class -%}
+{%- endcomment -%}
+{% liquid
+  assign product = card.settings.product_card
+
+  if product.selected_or_first_available_variant.featured_media != null
+    assign media = product.selected_or_first_available_variant.featured_media
+    else
+      for media in product.media
+        assign media = media
+        break
+      endfor
+  endif
+
+  capture content_alignment
+    case card.settings.block_content_position
+      when 'top_left'
+        echo 'tleft'
+      when 'top_right'
+        echo 'tright'
+      when 'centered'
+        echo 'mcenter'
+      when 'bottom_left'
+        echo 'bleft'
+      when 'bottom_right'
+        echo 'bright'
+    endcase
+  endcapture
+%}
+{%- capture loading_attr -%}
+  {%- unless index != 1 -%}
+    loading="eager"
+    {%- else -%}
+      loading="lazy"
+  {%- endunless -%}
+{%- endcapture -%}
+<article class="carousel-card {{ prefix_class }}-{{ card.id }}-{{section.id}}">
+  <div class="carousel-height">
+    <div class="carousel-card_bg-wrapper" style="--overlay-bg: {{ card.settings.background }}">
+      {%- if card.settings.upload_video != blank -%}
+        <div class="carousel-card_image {{ height }} {{ section_mobile_height_class }}">
+          {{ card.settings.upload_video | video_tag: image_size: 1555, autoplay: true, loop: true, controls: false, muted: true, class: 'object-fit object-fit--absolute' }}
+        </div>
+      {%- elsif card.settings.image -%}
+        <div class="carousel-card_image {{ height }} {{ section_mobile_height_class }}">
+          {%- liquid
+            capture image_alt
+              if card.settings.image.alt != blank
+                echo card.settings.image.alt
+                else
+                  echo card.settings.heading | escape
+              endif
+            endcapture
+  
+            assign image_height = 558 | divided_by: card.settings.image.aspect_ratio | round
+          -%}
+          {%- unless index != 1 -%}
+            {{- card.settings.image | image_url: width: 1920 | image_tag:
+              class: 'object-fit object-fit--absolute',
+              fetchpriority: 'high',
+              width: 660,
+              height: image_height,
+              widths: '320, 412, 768, 992, 1260, 1350, 1440, 1640, 1920',
+              sizes: '100vw',
+              alt: image_alt
+            -}}
+            {%- else -%}
+              {{- card.settings.image | image_url: width: 1920 | image_tag:
+                class: 'object-fit object-fit--absolute',
+                loading: 'lazy',
+                width: 660,
+                height: image_height,
+                widths: '320, 412, 768, 992, 1260, 1350, 1440, 1640, 1920',
+                sizes: '100vw',
+                alt: image_alt
+              -}}
+          {%- endunless -%}
+        </div>
+      {% else %}
+        <div class="carousel-card_image {{ height }} {{ section_mobile_height_class }}">
+          {%- render 'placeholder-svgs', type: 'hero', index: index, class: 'object-fit object-fit--absolute' -%}
+        </div>
+      {%- endif -%}
+      {%- if card.settings.enable_product_card -%}
+        <a {% if product.url != blank %}href="{{- product.url -}}"{% else %}aria-disabled="true"{% endif %} class="carousel-card_product {{ content_alignment }} {% if card.settings.upload_video != blank %}carousel-card_product--none{% endif %}">
+          <div class="product-card_img --media-size-square" style="--media-ratio: 1;">
+            {%- if media != blank -%}
+              {%- liquid
+                capture image_alt
+                  unless media.preview_image.alt == blank
+                    echo media.preview_image.alt
+                    else
+                      echo 'index_image.alt' | t: index: index
+                  endunless
+                endcapture
+              -%}
+              <img
+                srcset="{%- if media.preview_image.width >= 191 -%}{{ media.preview_image | image_url: width: 191 }} 191w,{%- endif -%}
+                        {%- if media.preview_image.width >= 348 -%}{{ media.preview_image | image_url: width: 348 }} 348w,{%- endif -%}
+                        {%- if media.preview_image.width >= 384 -%}{{ media.preview_image | image_url: width: 384 }} 384w,{%- endif -%}
+                        {%- if media.preview_image.width >= 522 -%}{{ media.preview_image | image_url: width: 522 }} 522w,{%- endif -%}
+                          {{ media.preview_image | image_url: width: media.preview_image.width }} {{ media.preview_image.width }}w"
+                sizes="(max-width: 1259px) calc((100vw * 40 / 100) - 24px), calc((var(--cp-width-px) * 40 / 100) - 24px)"
+                src="{{- media.preview_image | image_url: width: 191 -}}"
+                alt="{{- image_alt -}}"
+                {{ loading_attr }}
+                width= "191"
+                height="{{- 191 | divided_by: media.preview_image.aspect_ratio | round -}}"
+                class="object-fit object-fit--absolute"
+              >
+            {%- else -%}
+              {%- render 'placeholder-svgs', type: 'hero', index: 1, class: 'object-fit object-fit--absolute' -%}
+            {%- endif -%}
+            <span class="visually-hidden">
+              {{ 'index_image.alt' | t: index: index }}
+            </span>
+          </div>
+          <div class="product-card_content-wrapper widget--styles --align-left">
+            {%- if product.title != blank -%}
+              <h2 class="product-card_title h6 --fw-bold --word-break mty">
+                {{- product.title -}}
+              </h2>
+              {%- else -%}
+                <h2 class="product-card_title h6 --fw-bold --word-break mty">
+                  {{- 'product.title' | t -}}
+                </h2>
+            {%- endif -%}
+            {%- if card.settings.product_description != blank -%}
+              <div class="product-card_description text-size--small --fw-normal --word-break mty">
+                <p>{{- card.settings.product_description -}}</p>
+              </div>
+            {%- endif -%}
+            <strong class="product-card_price text-size--xlarge --fw-semi-bold mty">
+              {%- render 'product-price', product: product, use_variant: false, show_unit_price: true -%}
+            </strong>
+          </div>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+  {% if card.settings.heading != blank %}
+    <h3 class="carousel-card_title --word-break mty {{ card.settings.heading_size }} {{ card.settings.heading_weight }}">
+      {{- card.settings.heading -}}
+    </h3>
+  {% endif %}
+</article>

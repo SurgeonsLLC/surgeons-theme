@@ -1,0 +1,182 @@
+<modal-component
+  data-modal="modal-store-locator"
+  data-container="body"
+>
+  <div
+    class="modal modal-component modal-component--store-locator modal-component--centered scheme--{{ section.settings.store_locator_color_scheme }}"
+    role="dialog"
+    aria-modal="true"
+    tabindex="-1"
+    aria-labelledby="modal-store-locator-heading"
+    aria-describedby="modal-store-locator"
+  >
+    <div class="modal-component_spacer">
+      <div class="modal-component_wrapper" id="modal-store-locator">
+        <div class="modal-component_body">
+          <div class="modal-component_head">
+            <modal-component-toggler>
+              <button
+                type="button"
+                data-expanded="true"
+                data-toggle-attribute="false"
+                data-modal-ref="modal-store-locator"
+                class="modal-component_btn-close button--icn button">
+                <span class="button_icn-wrapper">
+                  {%- render 'icons-data', width: 14, height: 14, use_icon: true, icon_reference: 'cross' -%}
+                  <span class="visually-hidden">{{- 'accessibility.close' | t -}}</span>
+                </span>
+              </button>
+            </modal-component-toggler>
+          </div>
+          <div class="modal-component_content">
+            <div class="store-locator_map-slider">
+              <splide-slider
+                data-slider-type="sync"
+                {% if request.design_mode %}
+                  data-go-to="true"
+                {% endif %}
+              >
+                <div
+                  data-main-thumbs=""
+                  class="splide store-map_slider main-thumb-slider"
+                  data-splide='{
+                    "drag": true,
+                    "autoplay": {{- section.settings.auto_play -}},
+                    "rewind": true,
+                    "padding": "0px",
+                    "focus": "center",
+                    "gap": "10px",
+                    "perMove": 1,
+                    "perPage": 1,
+                    "arrows": {{ section.settings.show_navigation }},
+                    "pagination": false,
+                    "interval": {{- section.settings.change_slides_every | times: 1000 -}},
+                    "mediaQuery": "min",
+                    "type": "fade"
+                  }'
+                >
+                  <div class="splide__track">
+                    <div class="splide__list splide-slider--h-scroll" style="--init-divider: {{ section.settings.number_of_columns_on_desktop }}; --init-mob-divider: {{ section.settings.number_of_columns_on_mobile }};">
+                      {%- for block in section.blocks -%}
+                        <div class="splide__slide">
+                          <div class="store-locator_iframe">
+                            {% if block.settings.map_iframe != blank %}
+                              {{ block.settings.map_iframe }}
+                            {% endif %}
+                            {%- render 'placeholder-svgs', type: 'hero', index: 1, class: 'object-fit object-fit--absolute' -%}
+                          </div>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                  <div class="logo store-collapsible_logo {% if section.settings.show_navigation %}store-logo_padding{% endif %}">
+                    <a href="{{ routes.root_url }}" class="logo_link h --word-break --text-decoration-none mty">
+                      {%- liquid
+                        assign logo_alt = section.settings.logo.alt | default: shop.name | escape
+                        capture logo_height
+                          assign height = section.settings.logo_desktop_width | divided_by: section.settings.logo.aspect_ratio
+                          echo height | round
+                        endcapture
+                      -%}
+                      {%- if section.settings.logo != blank -%}
+                        {%- capture d_sizes -%}
+                          (max-width: {{ section.settings.logo_desktop_width | times: 2 }}px) 50vw, {{ section.settings.logo_desktop_width }}px
+                        {%- endcapture -%}
+                        {%- capture d_widths -%}
+                          {{ section.settings.logo_desktop_width }}, {{ section.settings.logo_desktop_width | times: 1.5 | round }}, {{ section.settings.logo_desktop_width | times: 2 }}
+                        {%- endcapture -%}
+                        {{- section.settings.logo | image_url: width: 260 | image_tag: class: '--desktop-store-img', widths: d_widths, height: logo_height, width: section.settings.logo_desktop_width, alt: logo_alt, sizes: d_sizes, loading: 'lazy' -}}
+                        {{- section.settings.logo | image_url: width: 195 | image_tag: class: '--mobile-store-img', width: 150, height: 40, alt: logo_alt, sizes: "150px", loading: 'lazy' -}}
+                        {%- else -%}
+                          {{- shop.name -}}
+                      {%- endif -%}
+                      <strong id="modal-store-locator-heading" class="visually-hidden store-collapsible_title h6 mty --fw-medium --word-break">
+                        {{- 'store_locator.name' | t -}}
+                      </strong>
+                    </a>
+                    {%- if section.settings.show_navigation -%}
+                      <div class="splide__arrows store-locator_splide-arrows --justify-center">
+                        <button class="splide__arrow splide__arrow--prev button button--primary button--icn">
+                          <span class="visually-hidden">{{- 'accessibility.slider.previous' | t -}}</span>
+                          {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'left-arrow' -%}
+                        </button>
+                        <button class="splide__arrow splide__arrow--next button button--primary button--icn">
+                          <span class="visually-hidden">{{- 'accessibility.slider.next' | t -}}</span>
+                          {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'right-arrow' -%}
+                        </button>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
+                <div
+                  data-switcher-thumbs=""
+                  class="splide store-location_content-slider switcher-thumb-slider"
+                  data-splide='{
+                    "live": true,
+                    "drag": true,
+                    "autoplay": {{- section.settings.auto_play -}},
+                    "rewind": true,
+                    "padding": "30px",
+                    "focus": "center",
+                    "gap": "10px",
+                    "perMove": 1,
+                    "perPage": 1,
+                    "arrows": false,
+                    "pagination": false,
+                    "isNavigation": true,
+                    "interval": {{- section.settings.change_slides_every | times: 1000 -}},
+                    "mediaQuery": "min",
+                    "breakpoints": {
+                      "414": {
+                        "padding": "70px"
+                      },
+                      "768": {
+                        "padding": "125px"
+                      },
+                      "992": {
+                        "padding": "160px"
+                      },
+                      "1200": {
+                        "padding": "192px"
+                      }
+                    },
+                    "type": "slide"
+                  }'
+                >
+                  <div class="splide__track">
+                    <div class="splide__list splide-slider--h-scroll" style="--init-divider: {{ section.settings.number_of_columns_on_desktop }}; --init-mob-divider: {{ section.settings.number_of_columns_on_mobile }};">
+                      {%- for block in section.blocks -%}
+                        <div class="splide__slide" {{ block.shopify_attributes }}>
+                          <div class="store-locator_description-wrap widget--styles">
+                            {%- unless block.settings.heading == blank -%}
+                              <div class="--word-break store-locator_heading {{ block.settings.heading_weight }} {{ block.settings.heading_size }} mty">
+                                {{- block.settings.heading -}}
+                              </div>
+                            {%- endunless -%}
+                            {%- unless block.settings.description_text == blank -%}
+                              <div class="--word-break store-locator_description h {{ block.settings.description_weight }} {{ block.settings.description_text_size }}">
+                                {{- block.settings.description_text -}}
+                              </div>
+                            {%- endunless -%}
+                            {%- unless block.settings.button_label == blank -%}
+                              <a
+                                class="button button--secondary store-locator_btn button--animate"
+                                {% if block.settings.button_url != blank %}href="{{- block.settings.button_url -}}" {% if block.settings.open_new_window %}target="_blank"{% endif %}{% else %}aria-disabled="true"{% endif %}
+                              >
+                                {{- block.settings.button_label -}}
+                              </a>
+                            {%- endunless -%}
+                          </div>
+                        </div>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                </div>
+              </splide-slider>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal-component>

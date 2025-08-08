@@ -1,0 +1,36 @@
+{%- liquid
+  assign price_render_attr = 'data-product-card-render-price'
+  assign discount_render_attr = 'data-product-card-render-discount'
+  assign price_bundle_render_attr = 'data-render-bundle-price'
+  assign variant_price_bundle_render_attr = 'data-render-bundle-variant-price'
+  assign variant_compare_price_bundle_render_attr = 'data-render-bundle-variant-compare-price'
+  assign price_edit_render_attr = 'data-render-edit-price'
+-%}
+<product-organizer id="product-column">
+  <div {{ price_render_attr }}>
+    {%- render 'product-price', product: product, use_variant: true, show_unit_price: true -%}
+  </div>
+  <div {{ discount_render_attr }}>
+    {%- render 'product-discount-tag', product: product -%}
+  </div>
+  <div {{ price_edit_render_attr }}>
+    {%- render 'product-price', product: product, use_variant: true, show_unit_price: true -%}
+  </div>
+  <span {{ variant_price_bundle_render_attr }}>
+    <input
+      type="hidden"
+      name="variant_price"
+      value="{{ product.selected_or_first_available_variant.price }}"
+    >
+  </span>
+  <span {{ variant_compare_price_bundle_render_attr }}>
+    <input
+      type="hidden"
+      name="variant_compare_price"
+      value="{% if product.selected_or_first_available_variant.compare_at_price %}{{ product.selected_or_first_available_variant.compare_at_price }}{% else %}0{% endif %}"
+    >
+  </span>
+  <div {{ price_bundle_render_attr }}>
+    {%- render 'product-price', product: product, use_variant: true, show_unit_price: true -%}
+  </div>
+</product-organizer>

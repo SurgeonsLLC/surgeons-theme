@@ -1,0 +1,205 @@
+{%- comment -%}
+  renders search bar on page templates
+  usage
+    {%- render 'search-bar', predictive: true -%}
+{%- endcomment -%}
+<div class="search-bar {{ search_opened_logo_hide }} search-container-{{- section.id -}}">
+  <form action="{{- routes.search_url -}}" method="get" role="search">
+    <div class="search-bar_form-group">
+      <div class="search-bar_search-box search-bar_container-box">
+        <div class="search_label h text-size--medium --fw-medium">
+          {{- 'search.label' | t -}}
+        </div>
+        <label for="search-bar-input-{{ section.id }}" class="visually-hidden">
+          {{- 'search.label' | t -}}
+        </label>
+        <input
+          type="search"
+          class="input--xlarge"
+          name="q"
+          title="{{- 'search.label' | t -}}"
+          autocomplete="off"
+          id="search-bar-input-{{ section.id }}"
+          value="{%- if search_value != blank -%}{{- search_value -}}{%- endif -%}"
+          placeholder="{{- 'search.placeholder' | t -}}"
+        >
+        <button type="submit" class="button button--icn search-bar_label">
+          <i class="button_icn-wrapper">
+            {%- render 'icons-data', width: 20, height: 20, use_icon: true, icon_reference: 'search', section_id: section_id -%}
+            <span class="visually-hidden">
+              {{- 'search.label' | t -}}
+            </span>
+          </i>
+        </button>
+        {%- if predictive -%}
+          <button type="button" class="button button--icn search-bar_reset-btn" data-dropdown-close-btn="">
+            <i class="button_icn-wrapper">
+              {%- render 'icons-data', width: 20, height: 20, use_icon: true, icon_reference: 'cross' -%}
+              <span class="visually-hidden">
+                {{- 'search.reset' | t -}}
+              </span>
+            </i>
+          </button>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if predictive -%}
+      <div class="predictive-container predictive-container--{{ section.id }}">
+        <div class="predictive-container_wrapper search-bar_container-box">
+          <div class="predictive-container_col predictive-container_col--results">
+            <div data-render-predict-results="" class="hidden"></div>
+            {%- if predictive_collection != blank or predictive_collection.all_products_count > 0 or predictive_product != blank or predictive_article != blank or predictive_menu != blank -%}
+              <div class="predictive-collection">
+                <tabset-component class="predictive-collection_tabset-component">
+                  <div class="predictive-collection_content">
+                    <div class="predictive-collection_tabs" role="tablist" aria-label="Search Results">
+                      {%- if predictive_collection != blank -%}
+                        <button type="button" class="button predictive-collection_tabs-btn" data-tabset-content="" role="tab" aria-controls="panel-collection">
+                          {{- 'predictive.collections' | t -}}
+                        </button>
+                      {%- endif -%}
+                      {%- if predictive_product != blank -%}
+                        <button type="button" class="button predictive-collection_tabs-btn" data-tabset-content="" role="tab" aria-controls="panel-product">
+                          {{- 'predictive.products' | t -}}
+                        </button>
+                      {%- endif -%}
+                      {%- if predictive_article != blank -%}
+                        <button type="button" class="button predictive-collection_tabs-btn" data-tabset-content="" role="tab" aria-controls="panel-article">
+                          {{- 'predictive.articles' | t -}}
+                        </button>
+                      {%- endif -%}
+                      {%- if predictive_menu != blank -%}
+                        <button type="button" class="button predictive-collection_tabs-btn" data-tabset-content="" role="tab" aria-controls="panel-page">
+                          {{- 'predictive.menu' | t -}}
+                        </button>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <div class="predictive-collection_tab-bars">
+                    {%- if predictive_collection != blank -%}
+                      <div id="panel-collection" role="tabpanel" class="">
+                        <div class="custom-scroll custom-scroll--horizontal predictive-collection_grid">
+                          {%- capture image_sizes -%}
+                            (max-width: 410px) width: calc((100vw / 2) - 38px), (max-width: 575px) width: calc((100vw / 2) - 38px), (max-width: 767px) width: calc((100vw / 3) - 54px), (max-width: 991px) width: calc((100vw / 4) - 54px), width: calc({{ settings.page_width | divided_by: 5 | round }}px - 54px);
+                          {%- endcapture -%}
+                          {%- for collection in predictive_collection -%}
+                            <div class="cs-col">
+                              <a class="simple-product --text-decoration-none mty" {% if collection.title != blank %}href="{{- collection.url -}}"{% else %}aria-disabled="false"{% endif %}>
+                                <div class="simple-product_image --media-size-square" style="--media-ratio: 1;">
+                                  {%- if collection.featured_image != blank -%}
+                                    <img
+                                      srcset="{%- if collection.featured_image.width >= 152 -%}{{ collection.featured_image | image_url: width: 152 }} 152w,{%- endif -%}
+                                              {%- if collection.featured_image.width >= 200 -%}{{ collection.featured_image | image_url: width: 200 }} 200w,{%- endif -%}
+                                              {%- if collection.featured_image.width >= 260 -%}{{ collection.featured_image | image_url: width: 260 }} 260w,{%- endif -%}
+                                              {{ collection.featured_image | image_url: width: collection.featured_image.width }} {{ collection.featured_image.width }}w"
+                                      sizes="calc((var(--cp-width-px) / 5) - 10px)"
+                                      src="{{- collection.featured_image | image_url: width: 152 -}}"
+                                      alt="{{- article.title | escape -}}"
+                                      loading="lazy"
+                                      width= "152"
+                                      height="{{- 152 | divided_by: collection.featured_image.aspect_ratio | round -}}"
+                                      class="object-fit object-fit--absolute"
+                                    >
+                                    {%- else -%}
+                                      {{- 'product-apparel-1' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+                                  {%- endif -%}
+                                </div>
+                                <strong class="simple-product_title text-size--medium --fw-semi-bold mty --word-break">
+                                  {{- collection.title -}}
+                                </strong>
+                              </a>
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                    {%- if predictive_product != blank -%}
+                      <div id="panel-product" role="tabpanel" class="">
+                        <div class="custom-scroll custom-scroll--horizontal predictive-collection_grid">
+                          {%- capture image_sizes -%}
+                            (max-width: 410px) width: calc((100vw / 2) - 38px), (max-width: 575px) width: calc((100vw / 2) - 38px), (max-width: 767px) width: calc((100vw / 3) - 54px), (max-width: 991px) width: calc((100vw / 4) - 54px), width: calc({{ settings.page_width | divided_by: 5 | round }}px - 54px);
+                          {%- endcapture -%}
+                          {%- for product in predictive_product limit: 5 -%}
+                            <div class="cs-col">
+                              {%- render 'simple-product', product: product, prefix_class: 'predictive-collection', media_size: 'square'  -%}
+                            </div>
+                          {%- endfor -%}
+                        </div>
+                      </div>
+                    {%- endif -%}
+                    {%- if predictive_article != blank -%}
+                      <div id="panel-article" role="tabpanel" class="">
+                        {%- if predictive_article.articles.size > 0 -%}
+                          <div class="custom-scroll custom-scroll--horizontal predictive-collection_grid">
+                            {%- capture image_sizes -%}
+                              (max-width: 410px) width: calc((100vw / 2) - 38px), (max-width: 575px) width: calc((100vw / 2) - 38px), (max-width: 767px) width: calc((100vw / 3) - 54px), (max-width: 991px) width: calc((100vw / 4) - 54px), width: calc({{ settings.page_width | divided_by: 5 | round }}px - 54px);
+                            {%- endcapture -%}
+                            {%- for article in predictive_article.articles limit: 5 -%}
+                              <div class="cs-col">
+                                <a class="simple-product mty --text-decoration-none" {% if article.title != blank %}href="{{- article.url -}}"{% else %}aria-disabled="false"{% endif %}>
+                                  <div class="simple-product_image --media-size-square" style="--media-ratio: 1;">
+                                    {%- if article.image != blank -%}
+                                      <img
+                                        srcset="{%- if article.image.width >= 152 -%}{{ article.image | image_url: width: 152 }} 152w,{%- endif -%}
+                                                {%- if article.image.width >= 200 -%}{{ article.image | image_url: width: 200 }} 200w,{%- endif -%}
+                                                {%- if article.image.width >= 260 -%}{{ article.image | image_url: width: 260 }} 260w,{%- endif -%}
+                                                {{ article.image | image_url: width: article.image.width }} {{ article.image.width }}w"
+                                        sizes="calc((var(--cp-width-px) / 5) - 10px)"
+                                        src="{{- article.image | image_url: width: 152 -}}"
+                                        alt="{{- article.title | escape -}}"
+                                        loading="lazy"
+                                        width= "152"
+                                        height="{{- 152 | divided_by: article.image.aspect_ratio | round -}}"
+                                        class="object-fit object-fit--absolute"
+                                      >
+                                      {%- else -%}
+                                        {{- 'product-apparel-1' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+                                    {%- endif -%}
+                                  </div>
+                                  <strong class="simple-product_title text-size--medium --fw-semi-bold mty --word-break">
+                                    {{- article.title -}}
+                                  </strong>
+                                </a>
+                              </div>
+                            {%- endfor -%}
+                          </div>
+                        {%- else -%}
+                          <div id="panel-article" role="tabpanel" class="">
+                            <div class="predictive-container_empty-content --align-left">
+                              <i class="predictive-container_icn">
+                                {%- render 'icons-data', width: 38, height: 38, use_icon: true, icon_reference: 'empty-box' -%}
+                              </i>
+                              <div class="predictive-container_empty-descr text-size--large mty">
+                                <p>{{ 'search.no_articles' | t }}</p>
+                              </div>
+                            </div>
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    {%- if predictive_menu != blank -%}
+                      <div id="panel-page" role="tabpanel" class="">
+                        <ul class="custom-scroll custom-scroll--horizontal predictive-collection_grid list-unstyled">
+                          {%- for link in predictive_menu.links -%}
+                            <li class="cs-col">
+                              <a class="simple-product --text-decoration-none mty simple-product--page widget--styles {% if link.current %}--active{% endif %}" href="{{ link.url }}">
+                                <strong class="simple-product_title text-size--medium --fw-semi-bold mty --word-break">
+                                  {{- link.title | escape -}}
+                                </strong>
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </tabset-component>
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+    <input type="hidden" name="options[prefix]" value="last">
+  </form>
+</div>

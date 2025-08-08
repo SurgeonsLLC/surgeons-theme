@@ -1,0 +1,86 @@
+{
+  "sections": {
+    "main_page": {
+      "type": "main-page",
+      "settings": {
+        "section_bottom_padding": 5
+      }
+    },
+    "store_locations": {
+      "type": "store-locations",
+      "blocks": {
+        "row_1": {
+          "type": "location",
+          "settings": {
+          }
+        },
+        "row_2": {
+          "type": "location",
+          "settings": {
+          }
+        },
+        "row_3": {
+          "type": "location",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3"
+      ],
+      "settings": {
+        "section_caption": "",
+        "section_main_heading": "",
+        "section_main_description": "",
+        "section_top_padding": 5,
+        "section_bottom_padding": 0
+      }
+    },
+    "image_gallery": {
+      "type": "image-gallery",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "item_index": "1"
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "item_index": "2"
+          }
+        },
+        "image_3": {
+          "type": "image",
+          "settings": {
+            "item_index": "3"
+          }
+        },
+        "image_4": {
+          "type": "image",
+          "settings": {
+            "item_index": "4"
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2",
+        "image_3",
+        "image_4"
+      ],
+      "settings": {
+        "section_top_padding": 35,
+        "section_bottom_padding": 30
+      }
+    }
+  },
+  "order": [
+    "main_page",
+    "store_locations",
+    "image_gallery"
+  ]
+}

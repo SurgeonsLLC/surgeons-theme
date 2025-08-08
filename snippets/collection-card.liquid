@@ -1,0 +1,222 @@
+{%- comment -%}
+  renders collection card
+  usage
+    {%- render 'collection-card', card: collection, block: block, prefix_class: section_prefix_class, heading_size: section.settings.card_heading_size, heading_weight: section.settings.card_heading_weight, media_size: section.settings.card_media_size, show_title: section.settings.show_title -%}
+{%- endcomment -%}
+{%- liquid
+  capture card_media_ratio
+    if media_size == 'adapt'
+      if custom_image == blank
+        echo card.featured_image.aspect_ratio | default: '1'
+      else
+        echo custom_image.aspect_ratio | default: '1'
+      endif
+    else
+      echo '1'
+    endif
+  endcapture
+
+  capture heading_tag
+    echo heading_tag | default: 'h3'
+  endcapture
+
+  capture collection_title
+    if card.title != blank
+      echo card.title
+    else
+      echo 'collection.title' | t
+    endif
+  endcapture
+
+  capture image_alt
+    if card.title != blank
+      if card.featured_image.alt != blank
+        echo card.featured_image.alt
+      endif
+    else
+      echo 'collection.title' | t
+    endif
+  endcapture
+
+  assign counter = index | modulo: columns_division
+  if counter == 0
+    assign counter = columns_division
+  endif
+-%}
+<a
+  {% if card.title != blank %}
+    href="{{- card.url -}}"
+  {% else %}
+    aria-disabled="true"
+  {% endif %}
+  class="collection-card {% if card.title != blank %}hover-collection-card{% endif %} --text-decoration-none {{ prefix_class }}_collection-card {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+  data-margin="0px 0px -20px 0px"
+  data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+  data-options='{"duration":1000,"easing":"ease","delay":{{ counter | times: 100 }},"fill":"both","iterations":1}'
+>
+  <div class="collection-card_image --media-size-{{ media_size }}" style="--media-ratio: {{ card_media_ratio }}">
+    {%- if card.title == blank -%}
+      {% liquid
+        if custom_image.alt != blank
+          assign image_alt = custom_image.alt
+        endif
+      %}
+      {%- if custom_image != blank -%}
+        {%- assign image_height = 117 | divided_by: custom_image.aspect_ratio | round -%}
+        {{-
+          custom_image
+          | image_url: width: 390
+          | image_tag:
+            width: 117,
+            height: image_height,
+            alt: image_alt,
+            class: 'object-fit object-fit--cover object-fit--absolute',
+            loading: loading_attr,
+            widths: widths_attr,
+            sizes: size_attr
+        -}}
+      {%- else -%}
+        {{- 'collection-apparel-4' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+      {%- endif -%}
+    {%- else -%}
+      {%- if custom_image == blank -%}
+        {%- if card.featured_image != blank -%}
+          <img
+            srcset="
+              {%- if card.featured_image.width >= 117 -%}{{ card.featured_image | image_url: width: 117 }} 117w,{%- endif -%}
+              {%- if card.featured_image.width >= 157 -%}{{ card.featured_image | image_url: width: 157 }} 157w,{%- endif -%}
+              {%- if card.featured_image.width >= 164 -%}{{ card.featured_image | image_url: width: 164 }} 164w,{%- endif -%}
+              {%- if card.featured_image.width >= 201 -%}{{ card.featured_image | image_url: width: 201 }} 201w,{%- endif -%}
+              {%- if card.featured_image.width >= 257 -%}{{ card.featured_image | image_url: width: 257 }} 257w,{%- endif -%}
+              {%- if card.featured_image.width >= 260 -%}{{ card.featured_image | image_url: width: 260 }} 260w,{%- endif -%}
+              {%- if card.featured_image.width >= 370 -%}{{ card.featured_image | image_url: width: 370 }} 370w,{%- endif -%}
+              {%- if card.featured_image.width >= 390 -%}{{ card.featured_image | image_url: width: 390 }} 390w,{%- endif -%}
+              {{ card.featured_image | image_url }} {{ card.featured_image.width }}w
+            "
+            sizes="{{- size_attr -}}"
+            src="{{- card.featured_image | image_url: width: 117 -}}"
+            alt="{{- image_alt -}}"
+            loading="{{- loading_attr -}}"
+            width="117"
+            height="{{- 117 | divided_by: card.featured_image.aspect_ratio | round -}}"
+            class="object-fit object-fit--absolute"
+          >
+        {%- else -%}
+          {{- 'collection-apparel-4' | placeholder_svg_tag: 'object-fit object-fit--absolute' -}}
+        {%- endif -%}
+      {%- else -%}
+        {%- assign image_height = 117 | divided_by: custom_image.aspect_ratio | round -%}
+        {{-
+          custom_image
+          | image_url: width: 390
+          | image_tag:
+            width: 117,
+            height: image_height,
+            alt: image_alt,
+            class: 'object-fit object-fit--cover object-fit--absolute',
+            loading: loading_attr,
+            widths: widths_attr,
+            sizes: size_attr
+        -}}
+      {%- endif -%}
+    {%- endif -%}
+    {%- if show_tags -%}
+      {%- if custom_tags != blank -%}
+        <ul class="list-unstyled collection-tags-list">
+          {%- for custom_tag in custom_tags -%}
+            {%- liquid
+              assign tag_data = custom_tag | remove: '{' | remove: '}' | split: ','
+              assign tag_text = tag_data[0]
+              assign background_color = tag_data[1]
+              assign text_color = tag_data[2]
+            -%}
+            <li
+              class="collection-tags-list_item"
+            >
+              <strong
+                class="collection-tags-list_text --word-break"
+                style="--tag-fg: {{ background_color }}; --tag-bg: {{ text_color }};"
+              >
+                {{- tag_text -}}
+              </strong>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endif -%}
+    {%- if show_animation_on_hover -%}
+      {%- if card.title != blank -%}
+        {%- liquid
+          capture images_exist
+            assign images_count = 0
+            for product in card.products
+              unless product.featured_media.preview_image == blank
+                assign images_count = images_count | plus: 1
+              endunless
+              if images_count > 2
+                echo 'true'
+                break
+              endif
+            endfor
+          endcapture
+          assign images_count = 0
+        -%}
+        {%- if images_exist == 'true' -%}
+          {%- if show_animation_bar -%}
+            <div class="collection-card_bar">
+              <span class="collection-card_animation-bar"></span>
+            </div>
+          {%- endif -%}
+          <span class="hover-list_over-image">
+            {%- for product in card.products -%}
+              <img
+                srcset="
+                  {%- if product.featured_media.preview_image.width >= 190 -%}{{ product.featured_media.preview_image | image_url: width: 190 }} 190w,{%- endif -%}
+                  {%- if product.featured_media.preview_image.width >= 240 -%}{{ product.featured_media.preview_image | image_url: width: 240 }} 240w,{%- endif -%}
+                  {%- if product.featured_media.preview_image.width >= 299 -%}{{ product.featured_media.preview_image | image_url: width: 299 }} 299w,{%- endif -%}
+                  {%- if product.featured_media.preview_image.width >= 368 -%}{{ product.featured_media.preview_image | image_url: width: 368 }} 368w,{%- endif -%}
+                  {%- if product.featured_media.preview_image.width >= 400 -%}{{ product.featured_media.preview_image | image_url: width: 400 }} 400w,{%- endif -%}
+                  {{ product.featured_media.preview_image | image_url: width: product.featured_media.preview_image.width }} {{ product.featured_media.preview_image.width }}w
+                "
+                sizes="(max-width: 767px) 50vw, 100vw"
+                src="{{- product.featured_media.preview_image | image_url: width: 190 -}}"
+                alt="{{- collection_title | escape -}}"
+                loading="{{- loading_attr -}}"
+                width="190"
+                height="{{- 190 | divided_by: product.featured_media.preview_image.aspect_ratio | round -}}"
+                class="object-fit object-fit--absolute fade-image"
+                style="animation-delay: {{ forloop.index0 | times: 2 }}s;"
+              >
+              {%- liquid
+                assign images_count = images_count | plus: 1
+                if images_count > 5
+                  break
+                endif
+              -%}
+            {%- endfor -%}
+          </span>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+  {%- if show_title or show_counts -%}
+    <div class="collection-card_caption-wrap --align-center">
+      {%- if show_title -%}
+        <{{ heading_tag }} class="collection-card_heading mty {{ heading_weight }} {{ heading_size }}">
+          {{- collection_title -}}
+        </{{ heading_tag }}>
+      {%- endif -%}
+      {%- if show_counts -%}
+        {%- if card.all_products_count > 0 -%}
+          <div class="collection-card_products-counts text-size--small --fw-normal --word-break">
+            {{- 'collections_list.product' | t: count: card.all_products_count -}}
+          </div>
+        {%- else -%}
+          <div class="collection-card_products-counts text-size--small --fw-normal --word-break">
+            {{ 'filters.collection_list.products_count' | t }}
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</a>

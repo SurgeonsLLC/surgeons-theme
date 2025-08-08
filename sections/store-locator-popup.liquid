@@ -1,0 +1,435 @@
+{%- style -%}
+  .modal-component--store-locator .modal-component_body{
+    padding: 12px 11px;
+  }
+
+  .store-locator_description-wrap{
+    background: var(--section-widget-background-color);
+    padding: 19px 24px 22px 24px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: var(--section-radius);
+    text-align: center;
+    border: 1px solid transparent;
+    transition: border-color 0.3s ease;
+  }
+
+  .store-locator_map-slider .splide__slide.is-active .store-locator_description-wrap{
+    border-color: var(--section-border-color);
+  }
+
+  .store-locator_btn{
+    margin-top: auto;
+  }
+
+  .store-locator_splider{
+    margin-top: 8px;
+  }
+
+  .store-locator_iframe iframe,
+  .store-locator_map-slider .splide__arrows{
+    margin-top: 0;
+  }
+
+  .store-locator_map-slider .splide__arrows,
+  .store-collapsible_logo,
+  .store-locator_iframe iframe{
+    position: absolute;
+  }
+
+  .store-collapsible_logo,
+  .store-locator_map-slider .splide__arrows{
+    bottom: 0;
+    left: 50%;
+  }
+
+  .store-locator_map-slider .splide__arrows{
+    padding: 4px 10px;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  .store-locator_splide-arrows .splide__arrow--prev{
+    margin-right: auto;
+  }
+
+  .store-locator_splide-arrows .splide__arrow--next{
+    margin-left: auto
+  }
+
+  .store-locator_map-slider .splide__slide,
+  .store-locator_iframe iframe{
+    height: 100%;
+  }
+
+  .store-collapsible_logo.store-logo_padding{
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .store-map_slider{
+    line-height: 0;
+    margin-bottom: 8px;
+  }
+
+  .store-locator_iframe{
+    border-radius: var(--section-radius);
+    position: relative;
+    height: 60vh;
+  }
+
+  .store-locator_iframe svg,
+  .store-locator_iframe iframe{
+    border-radius: inherit;
+  }
+
+  .store-locator_iframe iframe + svg,
+  .--desktop-store-img{
+    display: none;
+  }
+
+  .store-locator_iframe iframe{
+    margin-bottom: 0;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+
+  .store-locator_iframe iframe,
+  .store-locator_map-slider .splide__arrows{
+    width: 100%;
+  }
+
+  .store-collapsible_logo{
+    transform: translateX(-50%);
+    background: var(--section-background-color);
+    padding: 8px 10px 6px 10px;
+    text-align: center;
+    border-radius: var(--section-radius) var(--section-radius) 0 0;
+  }
+
+  .store-collapsible_logo .logo_link{
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+  }
+
+  .store-location_content-slider .splide__slide{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .splide__arrow.button.button--icn {
+    --button-padding-y: 0.6rem;
+    --button-padding-x: 0.6rem;
+  }
+
+  .modal-component--store-locator .modal-component_btn-close{
+    z-index: 1;
+    right: 19px;
+    top: 20px;
+    color: var(--section-foreground-color);
+  }
+
+  .--mobile-store-img{
+    display: block;
+  }
+
+  @media(min-width: 576px){
+    .modal-component--store-locator .modal-component_body{
+      position: relative;
+      overflow: hidden;
+      max-width: 836px;
+      overflow: auto;
+    }
+
+    .store-locator_description-wrap{
+      padding: 19px 65px 22px 65px;
+    }
+
+    .store-collapsible_logo .logo_link{
+      font-size: 1.4rem;
+      line-height: 1.8rem;
+    }
+  }
+
+  @media (min-width: 768px){
+    .store-collapsible_logo .logo_link{
+      font-size: 2.4rem;
+      line-height: 3.6rem;
+    }
+
+    .store-collapsible_logo{
+      padding: 15px 29px 10px 29px;
+    }
+
+    .store-collapsible_logo.store-logo_padding{
+      padding-left: 50px;
+      padding-right: 50px;
+    }
+
+    .splide__arrow.button.button--icn {
+      --button-padding-y: 1rem;
+      --button-padding-x: 1rem;
+    }
+
+    .--mobile-store-img{
+      display: none;
+    }
+
+    .--desktop-store-img{
+      display: block;
+    }
+  }
+
+  @media (max-width: 575px){
+    .store-locator_iframe,
+    .store-locator_iframe svg,
+    .store-locator_iframe iframe{
+      width: 100%;
+      height: 400px;
+    }
+  }
+{%- endstyle -%}
+{%- render 'store-locator-modal', section_id: section.id -%}
+{% schema %}
+{
+  "name": "t:sections.store_locator.name",
+  "limit": 1,
+  "enabled_on": {
+    "groups": [
+      "custom.overlay"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:site_logo.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:image.label",
+      "info": "t:site_logo.info"
+    },
+    {
+      "type": "range",
+      "id": "logo_desktop_width",
+      "label": "t:image.width.desktop.label",
+      "min": 100,
+      "max": 200,
+      "step": 1,
+      "default": 133,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "t:slideshow.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_play",
+      "label": "t:slideshow.auto_play.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_navigation",
+      "label": "t:slideshow.show_arrows.label",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "change_slides_every",
+      "label": "t:slideshow.interval.label",
+      "min": 2,
+      "max": 9,
+      "step": 1,
+      "default": 5,
+      "unit": "s",
+      "info": "t:slideshow.interval.info"
+    },
+    {
+      "type": "color_scheme",
+      "id": "store_locator_color_scheme",
+      "default": "scheme1",
+      "label": "t:color_scheme.label"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:sections.store_locator.blocks.store.name",
+      "type": "store",
+      "limit": 10,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:heading.label",
+          "default": "Store heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "t:sizes.heading.label",
+          "options": [
+            {
+              "value": "h4",
+              "label": "t:sizes.heading.options.opt_4.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sizes.heading.options.opt_5.label"
+            },        
+            {
+              "value": "h6",
+              "label": "t:sizes.heading.options.opt_6.label"
+            }
+          ],
+          "default": "h5"
+        },
+        {
+          "type": "select",
+          "id": "heading_weight",
+          "label": "t:weight.heading.label",
+          "options": [
+            {
+              "value": "--fw-extra-bold",
+              "label": "t:weight.heading.options.opt_6.label"
+            },
+            {
+              "value": "--fw-bold",
+              "label": "t:weight.heading.options.opt_1.label"
+            },
+            {
+              "value": "--fw-semi-bold",
+              "label": "t:weight.heading.options.opt_5.label"
+            },
+            {
+              "value": "--fw-medium",
+              "label": "t:weight.heading.options.opt_2.label"
+            },
+            {
+              "value": "--fw-normal",
+              "label": "t:weight.heading.options.opt_3.label"
+            },
+            {
+              "value": "--fw-light",
+              "label": "t:weight.heading.options.opt_4.label"
+            }
+          ],
+          "default": "--fw-bold"
+        },
+        {
+          "type": "richtext",
+          "id": "description_text",
+          "label": "t:description_text.label",
+          "default": "<p>Store description</p>"
+        },
+        {
+          "type": "select",
+          "id": "description_text_size",
+          "label": "t:sizes.description_text.label",
+          "options": [
+            {
+              "value": "text-size--small",
+              "label": "t:sizes.text.options.opt_1.label"
+            },
+            {
+              "value": "text-size--medium",
+              "label": "t:sizes.text.options.opt_2.label"
+            },
+            {
+              "value": "text-size--large",
+              "label": "t:sizes.text.options.opt_3.label"
+            },
+            {
+              "value": "text-size--xlarge",
+              "label": "t:sizes.text.options.opt_4.label"
+            }
+          ],
+          "default": "text-size--large"
+        },
+        {
+          "type": "select",
+          "id": "description_weight",
+          "label": "t:weight.description_text.label",
+          "options": [
+            {
+              "value": "--fw-extra-bold",
+              "label": "t:weight.heading.options.opt_6.label"
+            },
+            {
+              "value": "--fw-bold",
+              "label": "t:weight.heading.options.opt_1.label"
+            },
+            {
+              "value": "--fw-semi-bold",
+              "label": "t:weight.heading.options.opt_5.label"
+            },
+            {
+              "value": "--fw-medium",
+              "label": "t:weight.heading.options.opt_2.label"
+            },
+            {
+              "value": "--fw-normal",
+              "label": "t:weight.heading.options.opt_3.label"
+            },
+            {
+              "value": "--fw-light",
+              "label": "t:weight.heading.options.opt_4.label"
+            }
+          ],
+          "default": "--fw-medium"
+        },
+        {
+          "type": "textarea",
+          "id": "map_iframe",
+          "label": "t:sections.store_locator.blocks.store.settings.map.label",
+          "info": "t:sections.store_locator.blocks.store.settings.map.info"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:settings_schema.buttons.settings.button.label",
+          "default": "Get Directions"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "t:settings_schema.buttons.settings.button.link.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_window",
+          "label": "t:target_blank.label",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.store_locator.name",
+      "blocks": [
+        {
+          "type": "store",
+          "settings": {
+          }
+        },
+        {
+          "type": "store",
+          "settings": {
+          }
+        },
+        {
+          "type": "store",
+          "settings": {
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

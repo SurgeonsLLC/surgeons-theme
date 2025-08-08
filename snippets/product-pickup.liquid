@@ -1,0 +1,99 @@
+{%- comment -%}
+  renders product pickup drawer for product
+  usage
+    {%- render 'product-pickup', product: product, scheme: section.settings.section_color_scheme, text_weight: block_text_weight, text_size: block.settings.block_text_size -%}
+{%- endcomment -%}
+{%- liquid
+  assign pick_up_availabilities = product.selected_or_first_available_variant.store_availabilities | where: 'pick_up_enabled', true
+  assign selected_media = product.selected_or_first_available_variant.featured_media
+-%}
+<div class="modal-pickup-drawer">
+  {%- if selected_media != blank -%}
+    <div class="modal-pickup-drawer_top-wrap">
+      <div class="modal-pickup-drawer_image">
+        <img
+          srcset="{%- if selected_media.preview_image.width >= 401 -%}{{ selected_media.preview_image | image_url: width: 401 }} 401w,{%- endif -%}
+                  {%- if selected_media.preview_image.width >= 602 -%}{{ selected_media.preview_image | image_url: width: 602 }} 602w,{%- endif -%}
+                  {%- if selected_media.preview_image.width >= 803 -%}{{ selected_media.preview_image | image_url: width: 803 }} 803w,{%- endif -%}
+                  {%- if selected_media.preview_image.width >= 1004 -%}{{ selected_media.preview_image | image_url: width: 1004 }} 1004w,{%- endif -%}
+                  {%- if selected_media.preview_image.width >= 1205 -%}{{ selected_media.preview_image | image_url: width: 1205 }} 1205w,{%- endif -%}
+                  {{ selected_media.preview_image | image_url: width: selected_media.preview_image.width }} {{ selected_media.preview_image.width }}w"
+          sizes="(max-width: 379px) calc(100vw - 30px), calc((var(--cp-width-px) / 2) - 30px)"
+          src="{{- selected_media.preview_image | image_url: width: 1205 -}}"
+          alt="{{- product.title | escape -}}"
+          loading="{{ loading_attr }}"
+          width="401"
+          height="{{- 401 | divided_by: selected_media.preview_image.aspect_ratio | round -}}"
+          class="object-fit object-fit--absolute"
+        />
+        <span class="visually-hidden">{{- product.title -}}</span>
+      </div>
+    </div>
+  {%- endif -%}
+  <div class="modal-pickup-drawer_info-wrap">
+    <strong class="product-pickup_heading mty h3 --fw-bold --word-break">
+      {{- product.title -}}
+    </strong>
+    {%- unless product.has_only_default_variant -%}
+      <ul class="list-unstyled modal-pickup-drawer_options-list mty">
+        {%- for option in product.options_with_values -%}
+          <li class="modal-pickup-drawer_list-item">
+            <strong class="product-pickup_options-title --fw-bold h6 --word-break mty">
+              {{- option.name -}}:
+            </strong>
+            <strong class="product-pickup_options-value --fw-bold h6 --word-break mty">
+              {{- option.selected_value -}}
+            </strong>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endunless -%}
+  </div>
+  <div class="modal-pickup-drawer_store-wrap">
+    <strong class="modal-pickup-drawer_store-title mty --word-break h5 --fw-bold">
+      {{ 'product.pickup.store' | t }}
+    </strong>
+    <ul class="list-unstyled modal-pickup-drawer_showcase-list">
+      {%- for availability in pick_up_availabilities -%}
+        <li class="modal-pickup-drawer_showcase-item">
+          <strong class="modal-pickup-drawer_text-wrap --word-break h --v-align-start --fw-semi-bold text-size--medium">
+            <i class="modal-pickup-drawer_icn {% unless availability.available %}product-pickup_cross-icn{% endunless %}">
+              {%- if availability.available -%}
+              <span class="check">
+                {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'check' -%}
+              </span>
+              {%- else -%}
+                <span class="cross">
+                  {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'cross' -%}
+                </span>
+              {%- endif -%}
+            </i>
+            <span>
+              {%- liquid
+                if availability.available
+                  echo 'product.pickup.available_at' | t: location: availability.location.name
+                  else
+                    echo 'product.pickup.unavailable_at' | t: location: availability.location.name
+                endif
+              -%}
+            </span>
+          </strong>
+          <strong class="modal-pickup-drawer_text-wrap h --v-align-start --word-break --fw-semi-bold text-size--medium">
+            <span>
+              {{- availability.pick_up_time -}}
+            </span>
+          </strong>
+          {%- assign address = availability.location.address -%}
+          <strong class="modal-pickup-drawer_text-wrap modal-pickup-drawer_block mty --v-align-start --word-break --fw-normal text-size--medium">
+            <div class="mty">
+              {{- address | format_address -}}
+              {%- if address.phone.size > 0 -%}
+                <span class="modal-pickup-drawer_text-wrap">{{- address.phone -}}</span>
+              {%- endif -%}
+            </div>
+          </strong>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+.modal-component--pickup-drawer.modal-component--centered .modal-component_body{
+  max-width: 427px;
+  padding: 0;
+}
+
+.modal-component--pickup-drawer .modal-component_btn-close{
+  top: 34px;
+  right: 24px;
+  z-index: 2;
+}
+
+.product-pickup_heading,
+.modal-pickup-drawer_store-title,
+.modal-pickup-drawer_block,
+.product-pickup_variant-image{
+  display: block;
+}
+
+.product-pickup_variant-image{
+  width: 25px;
+  height: 23px;
+  border-radius: var(--section-radius);
+}
+
+.product-pickup_variant-image svg,
+.product-pickup_variant-image img,
+.modal-pickup-drawer_image img,
+.modal-pickup-drawer_image svg{
+  border-radius: inherit;
+}
+
+.modal-pickup-drawer_image,
+.product-pickup_variant-image,
+.modal-pickup-drawer_text-wrap{
+  position: relative;
+}
+
+.modal-pickup-drawer_top-wrap{
+  padding: 15px 12px 0 12px;
+}
+
+.modal-pickup-drawer_image{
+  width: 100%;
+  padding-top: 305px;
+  border-radius: var(--section-radius);
+}
+
+.modal-pickup-drawer_info-wrap{
+  padding: 17px 22px 26px 22px;
+  border-bottom: 1px solid var(--section-border-color);
+}
+
+.modal-pickup-drawer_list-item,
+.modal-pickup-drawer_options-list{
+  display: flex;
+}
+
+.modal-pickup-drawer_options-list{
+  column-gap: 23px;
+  row-gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.modal-pickup-drawer_list-item{
+  gap: 8px;
+}
+
+.modal-pickup-drawer_store-wrap{
+  padding: 20px 22px 29px 22px;
+}
+
+.modal-pickup-drawer_store-title{
+  margin-bottom: 19px;
+}
+
+.modal-pickup-drawer_showcase-item + .modal-pickup-drawer_showcase-item{
+  border-top: 1px solid var(--section-border-color);
+  padding-top: 18px;
+  margin-top: 18px;
+}
+
+.modal-pickup-drawer_text-wrap  + .modal-pickup-drawer_text-wrap {
+  margin-top: 9px;
+}
+
+.modal-pickup-drawer_showcase-item{
+  padding-left: 29px;
+}
+
+.modal-pickup-drawer_icn .check,
+.modal-pickup-drawer_icn .cross{
+  display: flex;
+  width: 15px;
+  height: 15px;
+  color: var(--section-background-color);
+  border-radius: calc(var(--section-radius) * 99);
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.modal-pickup-drawer_icn .check{
+  background: var(--section-success-color);
+}
+
+.modal-pickup-drawer_icn .cross{
+  background: var(--section-error-color);
+}
+
+.modal-pickup-drawer_icn {
+  position: absolute;
+  left: -28px;
+  top: 4px;
+}

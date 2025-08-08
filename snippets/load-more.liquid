@@ -1,0 +1,34 @@
+{%- comment -%}
+  renders load more button on section templates
+  usage
+    {%- render 'load-more', paginate: paginate, infinite: false -%}
+{%- endcomment -%}
+{%- if paginate.parts.size > 0 -%}
+  {%- if paginate.next -%}
+    <div
+      class="pagination-wrapper {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+      data-paging-loader-parent=""
+      data-margin="0px 0px -5px 0px"
+      data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+      data-options='{"duration":1000,"delay":0,"easing":"ease","fill":"both","iterations":1}'
+    >
+      <grid-load-more
+        data-url="{{- paginate.next.url -}}"
+        data-render-grid-load-more=""
+        {% if infinite %}
+          data-infinite="true"
+        {% endif %}
+      >
+        <button class="button button--primary load-more_button" type="button">
+          {{- 'pagination.load_more' | t -}}
+          <span class="load-more_loader hidden --v-align-middle --justify-center" data-loader="">
+            {%- render 'icons-data', width: 20, height: 20, use_icon: true, icon_reference: 'loader', section_id: section_id -%}
+            <span class="visually-hidden">
+              {{- 'accessibility.loader' | t -}}
+            </span>
+          </span>
+        </button>
+      </grid-load-more>
+    </div>
+  {%- endif -%}
+{%- endif -%}

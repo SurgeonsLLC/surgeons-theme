@@ -1,0 +1,118 @@
+{%- liquid
+  capture button_1_text
+    if section.settings.button_label_1 != blank
+      echo section.settings.button_label_1
+    else
+      echo 'age_verifier.button_1' | t
+    endif
+  endcapture
+  capture button_2_text
+    if section.settings.button_label_2 != blank
+      echo section.settings.button_label_2
+    else
+      echo 'age_verifier.button_2' | t
+    endif
+  endcapture
+  assign section_prefix_class = 'age-verifier'
+
+  capture modal_heading
+    echo 'age_verifier.heading' | t
+  endcapture
+
+  capture image_alt
+    if section.settings.image.alt != blank
+      echo section.settings.image.alt
+    else
+      echo modal_heading | escape
+    endif
+  endcapture
+-%}
+<modal-component-popup
+  data-modal="modal-age-verifier"
+  data-trigger="self"
+  data-storage="true"
+  data-storage-key="age_verfication"
+  data-storage-value="true"
+  data-hide-outside="false"
+>
+  <div
+    class="modal modal-component modal-component--age-verifier modal-component--{{ section.settings.age_position }} scheme--{{ section.settings.age_color_scheme }}"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-age-verifier-heading"
+    aria-describedby="modal-age-verifier"
+    tabindex="-1"
+  >
+    <div class="modal-component_spacer">
+      <div class="modal-component_wrapper" id="modal-age-verifier">
+        <div class="modal-component_body">
+          <div class="modal-component_content">
+            <div class="age-verifier --align-{{ section.settings.age_text_alignment }}">
+              <strong id="modal-age-verifier-heading" class="visually-hidden">
+                {{- modal_heading -}}
+              </strong>
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'heading' -%}
+                    <strong
+                      class="{{ section_prefix_class }}_heading {{ block.settings.heading_weight }} {{ block.settings.heading_size }} {{ block.type }} mty"
+                      style="--block-spacing: {{ block.settings.block_spacing }}px;"
+                      {{ block.shopify_attributes }}
+                    >
+                      {{- block.settings.heading -}}
+                    </strong>
+                  {%- when 'description' -%}
+                    <div
+                      class="age-verifier_description mty {{ block.settings.description_weight }} {{ block.settings.block_text_size_heading }}"
+                      {{ block.shopify_attributes }}
+                      style="--block-spacing: {{ block.settings.block_spacing }}px"
+                    >
+                      {{- block.settings.heading -}}
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+              <div class="age-verifier_btns-wrap --justify-center">
+                <modal-component-toggler
+                  data-storage="true"
+                  data-storage-key="age_verfication"
+                  data-storage-value="true"
+                >
+                  <button
+                    type="button"
+                    data-expanded="true"
+                    data-toggle-attribute="false"
+                    data-modal-ref="modal-age-verifier"
+                    class="button age-verifier_btn button--primary"
+                  >
+                    {{- button_1_text -}}
+                  </button>
+                </modal-component-toggler>
+                <button id="age-validator-fail" type="button" class="button age-verifier_btn button--secondary">
+                  {{- button_2_text -}}
+                </button>
+              </div>
+              {%- if section.settings.image != blank -%}
+                <div class="age-verifier_image {% if section.settings.hide_image_on_mobile %}--mobile-hidden{% endif %}">
+                  {{-
+                    section.settings.image
+                    | image_url: width: section.settings.image.width
+                    | image_tag:
+                      class: 'object-fit',
+                      loading: 'lazy',
+                      widths: '320, 412, 768, 992, 1260, 1350, 1440, 1640, 1920',
+                      sizes: '100vw',
+                      alt: image_alt
+                  -}}
+                </div>
+              {%- endif -%}
+              <div id="age-error-container" class="hidden age-error-container text-size--small mty">
+                <p>{{- 'age_verifier.error_text' | t -}}</p>
+              </div>
+            </div>
+            <a href="{{- routes.root_url -}}" class="visually-hidden">home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</modal-component-popup>

@@ -1,0 +1,103 @@
+{%- comment -%}
+  renders product gallery with new view on product templates
+  usage
+    {%- render 'product-gallery-new', product: product, show_navigation: section.settings.section_show_navigation, variant_media_attr: media_slider_attr, media_size: section.settings.product_media_size, fetchpriority: true -%}
+{%- endcomment -%}
+<splide-slider
+  data-slider-type="sync"
+  class="{{ section_prefix_class }}_slider"
+  {{ variant_media_attr }}
+>
+  <div
+    data-main-thumbs=""
+    class="splide {{ section_prefix_class }}_main-thumbs-slider"
+    data-splide='{
+      "type": "slide",
+      "drag": false,
+      "autoplay": {{ gallery_auto_play }},
+      "interval": {{- gallery_change_slides_every | times: 1000 -}},
+      "rewind": true,
+      "perPage": 1,
+      "arrows": false,
+      "pagination": false
+    }'
+  >
+    <div class="splide__track">
+      <div class="splide__list splide-slider--h-scroll">
+        {%- for placeholder in (1..4) -%}
+          <div class="splide__slide {{ section_prefix_class }}_main-slide">
+            <a
+              class="{{ section_prefix_class }}_main-image {{ section_prefix_class }}_main-image--link --media-size-{{ media_size }}"
+              style="--media-ratio: 1;"
+            >
+              {%- render 'placeholder-svgs', type: 'product', index: forloop.index, class: 'object-fit object-fit--absolute' -%}
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  <div
+    data-switcher-thumbs=""
+    class="splide {{ section_prefix_class }}_switcher-thumbs-slider"
+    data-splide='{
+      "type": "slide",
+      "drag": true,
+      "autoplay": {{ gallery_auto_play }},
+      "interval": {{- gallery_change_slides_every | times: 1000 -}},
+      "arrows": {{ gallery_show_navigation }},
+      "rewind": true,
+      "pagination": false,
+      "isNavigation": true,
+      "fixedHeight": "40px",
+      "fixedWidth": "40px",
+      "padding": "0px",
+      "gap": "0px",
+      "direction": "ttb",
+      "wheel": true,
+      "releaseWheel": true,
+      "height": "{{- 40 | times: 2 -}}px",
+      "mediaQuery": "min",
+      "breakpoints": {
+        "768": {
+          "fixedHeight": "50px",
+          "fixedWidth": "50px",
+          "height": "{{- 50 | times: 3 -}}px"
+        },
+        "992": {
+          "fixedHeight": "57px",
+          "fixedWidth": "57px",
+          "height": "{{- 57 | times: 3 -}}px"
+        }
+      }
+    }'
+  >
+    <div class="splide__track">
+      <div class="splide__list splide-slider--v-scroll">
+        {%- for placeholder in (1..4) -%}
+          <div class="splide__slide {{ section_prefix_class }}_switch-slide">
+            <div class="{{ section_prefix_class }}_switch-image">
+              {%- render 'placeholder-svgs', type: 'product', index: forloop.index, class: 'object-fit object-fit--absolute' -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    {%- if gallery_show_navigation -%}
+      <div class="splide-controls splide__arrows --justify-center">
+        {%- if gallery_show_navigation -%}
+          <button class="splide__arrow splide__arrow--prev button button--primary button--icn">
+            <span class="visually-hidden">{{- 'accessibility.slider.previous' | t -}}</span>
+            {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'left-arrow' -%}
+          </button>
+        {%- endif -%}
+        {%- if gallery_show_navigation -%}
+          <button class="splide__arrow splide__arrow--next button button--primary button--icn">
+            <span class="visually-hidden">{{- 'accessibility.slider.next' | t -}}</span>
+            {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'right-arrow' -%}
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</splide-slider>

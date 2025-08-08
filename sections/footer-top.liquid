@@ -1,0 +1,1031 @@
+{%- liquid
+  assign section_prefix_class = 'footer-top'
+  assign section_footer_prefix_class = 'footer'
+  assign section_scheme_class = section.settings.section_color_scheme | prepend: 'scheme scheme--'
+
+  capture q_justify_mobile
+    case section.settings.section_mobile_text_alignment
+      when 'left'
+        echo 'flex-start'
+      when 'center'
+        echo 'center'
+      when 'right'
+        echo 'flex-end'
+    endcase
+  endcapture
+
+  capture q_justify_desktop
+    case section.settings.section_text_alignment
+      when 'left'
+        echo 'flex-start'
+      when 'center'
+        echo 'center'
+      when 'right'
+        echo 'flex-end'
+    endcase
+  endcapture
+
+  capture section_container_layout
+    case section.settings.section_container_layout
+      when 'page-width'
+        echo 'container'
+      when 'contained-content'
+        echo 'contained-container'
+      when 'container-fluid'
+        echo 'container-fluid'
+    endcase
+  endcapture
+
+  capture section_corner_radius
+    case section.settings.section_corner_radius
+      when 'top_corners_radius'
+        echo 'top_corners_radius'
+      when 'bottom_corners_radius'
+        echo 'bottom_corners_radius'
+      when 'both_corners_radius'
+        echo 'both_corners_radius'
+      when 'no_corners_radius'
+        echo 'no_corner_radius'
+    endcase
+  endcapture
+
+  capture follow_exists
+    if shop.features.follow_on_shop? and section.settings.follow_on_shops
+      echo 'true'
+    endif
+  endcapture
+-%}
+{%- style -%}
+  .footer-top_top-wrap {
+    --q-align-value: var(--mobile-q-align);
+    --q-justify-value: var(--mobile-justify-align);
+  }
+
+  .footer-top_logo{
+    display: inline-block;
+  }
+
+  .footer-top_logo,
+  .footer-form,
+  .footer_col--uptoDate,
+  .form_content-wrap{
+    position: relative;
+  }
+
+  .footer-top_wrapper{
+    padding-bottom: 22px;
+    padding-top: 15px;
+  }
+
+  .footer-top--bdr-bottom {
+    border-bottom: 1px solid var(--section-border-color);
+  }
+
+  .footer-top .--desktop-img,
+  .socials-list:empty{
+    display: none;
+  }
+
+  .footer-top .logo_heading{
+    font-size: 3rem;
+    line-height: 3.4rem;
+  }
+
+  .footer-top .logo_heading,
+  .footer_text{
+    font-weight: 400;
+  }
+
+  .footer-top_description{
+    margin-top: 12px;
+  }
+
+  .footer_form-description,
+  .footer-top_description{
+    color: 
+    color-mix(in srgb, var(--section-heading-color) 80%, var(--section-foreground-color) 20%);
+  }
+
+  .footer-top_description strong{
+    font-size: 1.6rem;
+    line-height: 2.3rem;
+  }
+
+  .footer-top_description strong,
+  .footer_navlist-link-text,
+  .list-social_text-link{
+    font-family: var(--font-headings-family);
+  }
+
+
+  .footer-top_description p + p{
+    margin-top: 4px;
+  }
+
+  .footer{
+    padding-top: 26px;
+    padding-bottom: 20px;
+  }
+
+  .footer_navlist-link-text.--active{
+    text-decoration: underline;
+  }
+
+  .footer-bottom{
+    --section-padding-top: 18px;
+    --section-padding-bottom: 12px;
+  }
+
+  .footer .menu-strip_col{
+    min-width: 100%;
+  }
+
+  .footer_text,
+  .footer .success-message{
+    text-align: center;
+  }
+
+  .footer_text{
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 1px;
+    padding-bottom: 1px;
+  }
+
+  .footer_navlist-link-text,
+  .list-social_text-link{
+    text-decoration: none;
+  }
+
+  .footer_menu-strip{
+    --cp-spacer-left: 0;
+    --cp-spacer-right: 0;
+  }
+
+  .footer-form_submit-btn,
+  .footer_img-wrapper{
+    width: 100%;
+  }
+  
+  .footer_error-wrapper,
+  .socials-list,
+  .list-social_link{
+    display: flex;
+  }
+
+  .footer_error-wrapper,
+  .socials-list--icns,
+  .list-social_link{
+    align-items: center;
+  }
+
+  .footer_error-wrapper,
+  .socials-list--icns{
+    line-height: 0;
+  }
+
+  .footer_error-wrapper,
+  .footer .socials-list--icns{
+    gap: 10px;
+  }
+
+  .footer_error-wrapper,
+  .list-social_text-link,
+  .footer_navlist-link-text{
+    font-size: 1.4rem;
+  }
+
+  .footer_error-wrapper{
+    justify-content: flex-end;
+    margin-top: 10px;
+    line-height: 1.8rem;
+    color: var(--section-error-color)
+  }
+
+  .footer .success-message {
+    margin-top: 39px;
+    font-size: 2rem;
+    line-height: 3.3rem;
+    color: var(--section-success-color);
+  }
+
+  .footer .success-message p {
+    margin: 0;
+  }
+
+  .footer .success-message .image{
+    margin-bottom: 10px;
+  }
+
+  .footer .success-message_icn,
+  .footer_text,
+  .footer_navlist-link-text,
+  .footer .socials-list.social-list-text{
+    display: block;
+  }
+
+  .footer .success-message_icn {
+    margin-bottom: 14px;
+  }
+
+  .footer .socials-list--icns,
+  .footer .socials-list--icns{
+    justify-content: flex-start;
+  }
+
+  .footer-form{
+    margin-top: 26px;
+  }
+
+  .footer_img-wrapper,
+  .footer-form_btn{
+    position: absolute;
+  }
+
+  .footer-form_btn{
+    background: transparent;
+    border: 0;
+    top: 50%;
+    right: 0;
+    --button-padding-x: 1rem;
+    transform: translateY(-50%);
+    --button-text: var(--section-foreground-color);
+    --button-hover-text: var(--section-active-hover-color);
+    --button-hover-background: transparent;
+  }
+
+  .footer_socials{
+    margin-top: 27px;
+  }
+
+  .socials-list{
+    flex-wrap: wrap;
+  }
+
+  .socials-list--icns{
+    gap: 14px;
+  }
+
+  .socials-list--icns,
+  .list-social_link{
+    justify-content: center;
+  }
+
+  .list-social_link{
+    word-break: break-word;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    padding: 4px;
+    border: 1px solid transparent;
+  }
+
+  .list-social_link:hover{
+    border-color: var(--section-border-color);
+  }
+
+  .list-social_text-link,
+  .footer_navlist-link-text{
+    line-height: 3.6rem;
+  }
+
+  .list-social_text-link{
+    font-weight: 600;
+  }
+
+  .footer_img-wrapper{
+    height: 100%;
+  }
+
+  .form_content-wrap,
+  .footer_img-wrapper{
+    z-index: 1;
+  }
+
+  .form_content-wrap{
+    padding: 34px 30px;
+  }
+
+  .footer_img-wrapper{
+    top: 0;
+    left: 0;
+    overflow: hidden;
+  }
+
+  .footer_col--uptoDate,
+  .footer_img-wrapper{
+    border-radius: var(--section-radius);
+  }
+
+  .footer-form_group-wrap input{
+    --input-background: transparent;
+    --input-border-color: color-mix(in srgb, var(--section-input-bdr-color) 30%, transparent);
+    --input-padding-x: 6rem;
+  }
+
+  .footer-form_results-wrap {
+    text-align: right;
+    margin-top: 5px;
+  }
+
+  .footer-top_whole-wrapper.internal--spacing{
+    padding: 0 15px;
+  }
+
+  .footer_form{
+    margin-top: 16px;
+  }
+
+  .footer_navlist-link-text,
+  .footer-top_socials .list-social_text-link,
+  .footer-top_socials .list-social_link{
+    color: color-mix(in srgb, var(--section-heading-color) 80%, var(--section-links-color) 20%);
+  }
+
+  .footer-top_socials .list-social_text-link:hover,
+  .footer-top_socials .list-social_link:hover,
+  .--active{
+    color: var(--section-active-hover-color);
+  }
+
+  .footer_col--flex + .footer_col--flex,
+  .footer-top_right {
+    margin-top: 16px;
+  }
+
+  @media (min-width: 576px){
+    .footer_col--flex{
+      flex-grow: 1;
+      flex-basis: 0;
+      min-width: calc(50% - 8px);
+    }
+
+    .footer-top_whole-wrapper.internal--spacing{
+      padding: 0 30px;
+    }
+
+    .footer_wapper{
+      flex-grow: 1;
+      flex-wrap: wrap;
+    }
+
+    .footer_wapper,
+    .follow-flex{
+      display: flex;
+      gap: 10px;
+    }
+
+    .footer_col--flex + .footer_col--flex {
+      margin-top: 0;
+    }
+
+    .footer-top_right{
+      margin-top: 0;
+    }
+
+    .follow-flex{
+      align-items: end;
+      justify-content: space-between;
+    }
+  }
+
+  @media (min-width: 768px){
+    .footer_col--flex{
+      min-width: calc(33.33% - 8px);
+    }
+
+    .footer-top_top-wrap {
+      --q-align-value: var(--desktop-q-align);
+      --q-justify-value: var(--desktop-justify-align);
+    }
+    .footer-top .--mobile-img{
+      display: none;
+    }
+    .footer-top .--desktop-img{
+      display: inline;
+    }
+
+    .footer-top .logo_heading{
+      font-size: 5rem;
+      line-height: 6rem;
+    }
+
+    .socials-list--icns{
+      gap: 21px;
+    }
+  }
+
+  @media (min-width: 992px){
+    .footer,
+    .footer_wapper{
+      display: flex;
+    }
+
+    .footer,
+    .footer_wapper{
+      gap: 10px;
+    }
+
+    .footer_wapper,
+    .footer_col--flex{
+      flex-grow: 1;
+    }
+
+    .footer_wapper{
+      flex-wrap: wrap;
+    }
+
+    .footer_col--flex{
+      flex-basis: 0;
+      min-width: calc(33.33% - 8px);
+    }
+
+    .footer_form{
+      flex-shrink: 0;
+      width: 50%;
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1400px){
+    .footer_form{
+      width: 719px;
+    }
+  }
+
+  @media (max-width: 575px){
+    .footer_wapper,
+    .footer-top_socials-list{
+      text-align: center;
+    }
+  }
+{%- endstyle -%}
+<div class="global-block {{ section_prefix_class }} {{ section_prefix_class }}-{{ section.id }} {% if section_container_layout == 'container-fluid' or section_container_layout == 'contained-container' %}{{ section_scheme_class }} {{ section_corner_radius }}{% endif %} --q-align" style="--section-padding-top: 0px; --section-padding-bottom: 0px; --logo-desktop-width: {{ section.settings.logo_desktop_width }}px; --logo-mobile-width: {{ section.settings.logo_mobile_width }}px;">
+  <div class="{{ section_container_layout }}">
+    <div
+      class="{{ section_prefix_class }}_whole-wrapper {% if section_container_layout == 'container' %}{{ section_scheme_class }} {{ section_corner_radius }} internal--spacing{% endif %} {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+      data-margin="0px 0px -20px 0px"
+      data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+      data-options='{"duration":1000,"easing":"ease","delay":0,"fill":"both","iterations":1}'
+    >
+      <div class="{{ section_prefix_class }}_top-wrap"  style="--mobile-q-align: {{ section.settings.section_mobile_text_alignment }}; --mobile-justify-align: {{ q_justify_mobile }}; --desktop-q-align: {{ section.settings.section_text_alignment }}; --desktop-justify-align: {{ q_justify_desktop }};">
+        <div class="{{ section_prefix_class }}_wrapper --q-align {{ section_prefix_class }}--bdr-bottom  {% if follow_exists == 'true' %}follow-flex{% endif %}">
+          <div class="{{ section_prefix_class }}_left">
+            <div class="logo {{ section_prefix_class }}_logo logo_heading h2">
+              {%- if request.page_type == 'index' -%}
+                <h1 class="logo_heading h2 mty">
+              {%- endif -%}
+                  <a href="{{ routes.root_url }}" class="logo_link --word-break --text-decoration-none">
+                    {%- liquid
+                      assign logo_alt = section.settings.logo.alt | default: shop.name | escape
+                      capture logo_height
+                        assign height = section.settings.logo_desktop_width | divided_by: section.settings.logo.aspect_ratio
+                        echo height | round
+                      endcapture
+                      capture logo_mob_height
+                        assign height = section.settings.logo_mobile_width | divided_by: section.settings.logo.aspect_ratio
+                        echo height | round
+                      endcapture
+                    -%}
+                    {%- if section.settings.logo != blank -%}
+                      {%- capture d_sizes -%}
+                        (max-width: {{ section.settings.logo_desktop_width | times: 2 }}px) 50vw, {{ section.settings.logo_desktop_width }}px
+                      {%- endcapture -%}
+                      {%- capture m_sizes -%}
+                        (max-width: {{ section.settings.logo_mobile_width | times: 2 }}px) 50vw, {{ section.settings.logo_mobile_width }}px
+                      {%- endcapture -%}
+                      {%- capture d_widths -%}
+                        {{ section.settings.logo_desktop_width }}, {{ section.settings.logo_desktop_width | times: 1.5 | round }}, {{ section.settings.logo_desktop_width | times: 2 }}
+                      {%- endcapture -%}
+                      {%- capture m_widths -%}
+                        {{ section.settings.logo_mobile_width }}, {{ section.settings.logo_mobile_width | times: 1.5 | round }}, {{ section.settings.logo_mobile_width | times: 2 }}
+                      {%- endcapture -%}
+                      {{- section.settings.logo | image_url: width: 532 | image_tag: class: '--desktop-img', widths: d_widths, height: logo_height, width: section.settings.logo_desktop_width, alt: logo_alt, sizes: d_sizes, loading: 'lazy' -}}
+                      {{- section.settings.logo | image_url: width: 532 | image_tag: class: '--mobile-img', widths: m_widths, height: logo_mob_height, width: section.settings.logo_mobile_width, alt: logo_alt, sizes: m_sizes, loading: 'lazy' -}}
+                      {%- else -%}
+                        {{- shop.name -}}
+                    {%- endif -%}
+                    <span class="visually-hidden">{{- shop.name -}}</span>
+                  </a>
+              {%- if request.page_type == 'index' -%}
+                </h1>
+              {%- endif -%}
+            </div>
+            {%- if section.settings.section_description != blank -%}
+              <div class="{{ section_prefix_class }}_description {{ section.settings.section_description_size }} {{ section.settings.section_description_weight }} --word-break mty">
+                {{- section.settings.section_description -}}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="{{ section_prefix_class }}_right">
+            {%- if follow_exists == 'true' -%}
+              <div class="{{ section_prefix_class }}_follow-link">
+                {% # theme-check-disable %}
+                  {{- shop | login_button: action: 'follow' -}}
+                {% # theme-check-enable %}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+      <div class="{{ section_footer_prefix_class }}">
+        <div class="{{ section_footer_prefix_class }}_wapper">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'menu' -%}
+                <div class="{{ section_footer_prefix_class }}_col {{ section_footer_prefix_class }}_col--flex {{ section_footer_prefix_class }}_col--menus" {{ block.shopify_attributes }}>
+                  <div class="menu-strip_col {{ section_footer_prefix_class }}_menu-strip grid_col" {{ block.shopify_attributes }}>
+                    {%- if block.settings.menu.links != blank -%}
+                      <ul class="list-unstyled {{ section_footer_prefix_class }}_navlist">
+                        {%- for link in block.settings.menu.links -%}
+                          <li class="{{ section_footer_prefix_class }}_navlist-link">
+                            <a class="{{ section_footer_prefix_class }}_navlist-link-text --align-left --fw-semi-bold --word-break {% if link.current %}--active{% endif %}" href="{{ link.url }}">{{- link.title | escape -}}</a>
+                          </li>
+                        {%- endfor -%}
+                      </ul> 
+                    {%- endif -%}
+                  </div>
+                </div>
+              {%- when 'method' -%}
+                {%- liquid
+                  capture enable_social_list
+                    if settings.social_instagram_link != blank
+                      echo 'true'
+                      elsif settings.social_linkedin_link != blank
+                        echo 'true'
+                      elsif settings.social_facebook_link != blank
+                        echo 'true'
+                      elsif settings.social_youtube_link != blank
+                        echo 'true'
+                      elsif settings.social_twitter_link != blank
+                        echo 'true'
+                      elsif settings.social_snapchat_link != blank
+                        echo 'true'
+                      elsif settings.social_pinterest_link != blank
+                        echo 'true'
+                      elsif  settings.social_tiktok_link != blank
+                        echo 'true'
+                      elsif settings.social_tumblr_link != blank
+                        echo 'true'
+                      elsif settings.social_vimeo_link != blank
+                        echo 'true'
+                      else
+                        echo 'false'
+                    endif
+                  endcapture
+              
+                  capture social_exists
+                    if enable_social_list == 'true'
+                      echo 'true'
+                    endif
+                  endcapture
+                -%}
+                {%- if social_exists == 'true' -%}
+                  <div class="{{ section_prefix_class }}_col {{ section_footer_prefix_class }}_col--flex {{ section_prefix_class }}_col--methods" {{ block.shopify_attributes }}>
+                    {%- if block.settings.social_view == "icons" -%}
+                      <div class="{{ section_prefix_class }}_socials">
+                        {%- render 'social-icons' | prefix_class:  section_prefix_class | social_icons_enable: true | social_extra_class: '--align-left'-%}
+                      </div>
+                    {%- else -%}
+                      <div class="{{ section_prefix_class }}_socials">
+                        {%- render 'social-icons' | prefix_class:  section_prefix_class | social_icons_enable: false | social_extra_class: '--align-left'-%}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                {%- endif -%}
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+        <div class="{{ section_footer_prefix_class }}_form">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'form' -%}
+                {%- liquid
+                  assign form_color_scheme = block.settings.form_color_scheme | prepend: 'scheme scheme--'
+                -%}
+                <div class="{{ section_footer_prefix_class }}_col {{ section_footer_prefix_class }}_col--uptoDate {{ form_color_scheme }}" {{ block.shopify_attributes }}>
+                  <div class="{{ section_footer_prefix_class }}_img-wrapper">
+                    <div class=_form-image>
+                      {%- liquid
+                        capture image_alt
+                          if block.settings.form_image.alt != blank
+                            echo block.settings.form_image.alt
+                            else
+                              echo block.settings.form_heading | escape
+                          endif
+                        endcapture
+                        
+                        assign image_height = 320 | divided_by: card.settings.image.aspect_ratio | round
+                      -%}
+                      {%- if block.settings.form_image != blank -%}
+                        {{- block.settings.form_image | image_url: width: 1920 | image_tag:
+                          class: 'object-fit object-fit--absolute',
+                          loading: 'lazy',
+                          width: 320,
+                          height: image_height,
+                          widths: '320, 412, 768, 992, 1260, 1350, 1440, 1640, 1920',
+                          sizes: '100vw',
+                          alt: image_alt
+                        -}}
+                      {%- endif -%}
+                    </div>
+                  </div>
+                  <div class="form_content-wrap">
+                    {%- if block.settings.form_heading != blank -%}
+                      <div class="{{ section_footer_prefix_class }}_form-heading h --word-break {{ block.settings.form_heading_size }} {{ block.settings.form_heading_weight }}">
+                        {{- block.settings.form_heading -}}
+                      </div>
+                    {%- endif -%}
+                    {%- if block.settings.form_description != blank -%}
+                      <div class="{{ section_footer_prefix_class }}_form-description --word-break {{ block.settings.form_description_size }} {{ block.settings.form_description_weight }}">
+                        {{- block.settings.form_description -}}
+                      </div>
+                    {%- endif -%}
+                    {%- liquid
+                      capture button_1_text
+                        if block.settings.button_label_1 != blank
+                          echo block.settings.button_label_1
+                          else
+                            echo 'footer.button_label' | t
+                        endif
+                      endcapture
+                      assign id = 'footer-sub-' | append: section.id
+                      render 'footer-email-form', section_footer_prefix_class: section_footer_prefix_class, form_id: id, button_label: button_1_text 
+                    -%}
+                  </div>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.footer_top.name",
+  "tag": "section",
+  "limit": 1,
+  "enabled_on": {
+    "groups": [
+      "footer"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:site_logo.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "t:image.label",
+      "info": "t:site_logo.info"
+    },
+    {
+      "type": "range",
+      "id": "logo_desktop_width",
+      "label": "t:image.width.desktop.label",
+      "min": 100,
+      "max": 500,
+      "step": 5,
+      "default": 200,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "logo_mobile_width",
+      "label": "t:image.width.mobile.label",
+      "min": 90,
+      "max": 150,
+      "step": 1,
+      "default": 133,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "follow_on_shops",
+      "label": "t:sections.password.footer.settings.follow_on_shop.label",
+      "info": "t:sections.password.footer.settings.follow_on_shop.info",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:description_text.label"
+    },
+    {
+      "type": "richtext",
+      "id": "section_description",
+      "label": "t:description_text.label",
+      "default": "<p><strong>Email:</strong> example@email.com</p><p><strong>Hours:</strong> Mon-Fri: 9:00 AM - 6:00 PM</p><p><strong>Address:</strong> 123 Main Street, City Name, State, Country, ZIP/Postal Code</p>"
+    },
+    {
+      "type": "select",
+      "id": "section_description_size",
+      "label": "t:sizes.description_text.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--medium"
+    },
+    {
+      "type": "select",
+      "id": "section_description_weight",
+      "label": "t:weight.description_text.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-normal"
+    },
+    {
+      "type": "header",
+      "content": "t:layout.content"
+    },
+    {
+      "type": "select",
+      "id": "section_container_layout",
+      "label": "t:settings_schema.container_layout.label",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:settings_schema.container_layout.settings.container.label"
+        },
+        {
+          "value": "contained-content",
+          "label": "t:settings_schema.container_layout.settings.contained_content.label"
+        },
+        {
+          "value": "container-fluid",
+          "label": "t:settings_schema.container_layout.settings.container_fluid.label"
+        }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "select",
+      "id": "section_corner_radius",
+      "label": "t:round_crnr.label",
+      "options": [
+        {
+          "value": "no_corners_radius",
+          "label": "t:round_crnr.options.opt_1.label"
+        },
+        {
+          "value": "top_corners_radius",
+          "label": "t:round_crnr.options.opt_2.label"
+        },
+        {
+          "value": "bottom_corners_radius",
+          "label": "t:round_crnr.options.opt_3.label"
+        },
+        {
+          "value": "both_corners_radius",
+          "label": "t:round_crnr.options.opt_4.label"
+        }
+      ],
+      "default": "both_corners_radius"
+    },
+    {
+      "type": "text_alignment",
+      "id": "section_text_alignment",
+      "label": "t:alignments.text.desktop.label",
+      "default": "left"
+    },
+    {
+      "type": "text_alignment",
+      "id": "section_mobile_text_alignment",
+      "label": "t:alignments.text.mobile.label",
+      "default": "left"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "default": "scheme2",
+      "label": "t:color_scheme.label"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:sections.footer.blocks.stay_up_to_date.name",
+      "type": "form",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "form_image",
+          "label": "t:image.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "form_heading",
+          "label": "t:heading.label",
+          "default": "Subscribe to our emails"
+        },
+        {
+          "type": "select",
+          "id": "form_heading_size",
+          "label": "t:sizes.heading.label",
+          "options": [
+            {
+              "value": "h2",
+              "label": "t:sizes.heading.options.opt_2.label"
+            },
+            {
+              "value": "h3",
+              "label": "t:sizes.heading.options.opt_3.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sizes.heading.options.opt_4.label"
+            },
+            {
+              "value": "text-size--medium",
+              "label": "t:sizes.heading.options.opt_5.label"
+            }
+          ],
+          "default": "text-size--medium"
+        },
+        {
+          "type": "select",
+          "id": "form_heading_weight",
+          "label": "t:weight.heading.label",
+          "options": [
+            {
+              "value": "--fw-extra-bold",
+              "label": "t:weight.heading.options.opt_6.label"
+            },
+            {
+              "value": "--fw-bold",
+              "label": "t:weight.heading.options.opt_1.label"
+            },
+            {
+              "value": "--fw-semi-bold",
+              "label": "t:weight.heading.options.opt_5.label"
+            },
+            {
+              "value": "--fw-medium",
+              "label": "t:weight.heading.options.opt_2.label"
+            },
+            {
+              "value": "--fw-normal",
+              "label": "t:weight.heading.options.opt_3.label"
+            },
+            {
+              "value": "--fw-light",
+              "label": "t:weight.heading.options.opt_4.label"
+            }
+          ],
+          "default": "--fw-medium"
+        },
+        {
+          "type": "richtext",
+          "id": "form_description",
+          "label": "t:description_text.label",
+          "default": "<p>Subscribe to get newsletters with exclusive updates, expert insights, market trends, and event details.</p>"
+        },
+        {
+          "type": "select",
+          "id": "form_description_size",
+          "label": "t:sizes.description_text.label",
+          "options": [
+            {
+              "value": "text-size--small",
+              "label": "t:sizes.text.options.opt_1.label"
+            },
+            {
+              "value": "text-size--medium",
+              "label": "t:sizes.text.options.opt_2.label"
+            },
+            {
+              "value": "text-size--large",
+              "label": "t:sizes.text.options.opt_3.label"
+            },
+            {
+              "value": "text-size--xlarge",
+              "label": "t:sizes.text.options.opt_4.label"
+            }
+          ],
+          "default": "text-size--small"
+        },
+        {
+          "type": "select",
+          "id": "form_description_weight",
+          "label": "t:weight.description_text.label",
+          "options": [
+            {
+              "value": "--fw-extra-bold",
+              "label": "t:weight.heading.options.opt_6.label"
+            },
+            {
+              "value": "--fw-bold",
+              "label": "t:weight.heading.options.opt_1.label"
+            },
+            {
+              "value": "--fw-semi-bold",
+              "label": "t:weight.heading.options.opt_5.label"
+            },
+            {
+              "value": "--fw-medium",
+              "label": "t:weight.heading.options.opt_2.label"
+            },
+            {
+              "value": "--fw-normal",
+              "label": "t:weight.heading.options.opt_3.label"
+            },
+            {
+              "value": "--fw-light",
+              "label": "t:weight.heading.options.opt_4.label"
+            }
+          ],
+          "default": "--fw-normal"
+        },
+        {
+          "type": "color_scheme",
+          "id": "form_color_scheme",
+          "default": "scheme1",
+          "label": "t:color_scheme.label"
+        }
+      ]
+    },
+    {
+      "name": "t:sections.footer_top.blocks.menu.name",
+      "type": "menu",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "t:sections.footer_top.blocks.menu.label",
+          "info": "t:sections.footer_top.blocks.menu.info",
+          "default": "footer"
+        }
+      ]
+    },
+    {
+      "name": "t:sections.footer.blocks.social_icons.name",
+      "type": "method",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "social_view",
+          "label": "t:sections.footer.blocks.social_icons.settings.name",
+          "options": [
+            {
+              "value": "icons",
+              "label": "t:sections.footer.blocks.social_icons.settings.Icons.label"
+            },
+            {
+              "value": "text",
+              "label": "t:sections.footer.blocks.social_icons.settings.Text.label"
+            }
+          ],
+          "default": "text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.footer_top.name",
+      "blocks": [
+      ]
+    }
+  ]
+}
+{% endschema %}

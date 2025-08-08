@@ -1,0 +1,204 @@
+{%- comment -%}
+  renders product column on section templates
+  usage
+    {%- render 'featured-column-card', product: product -%}
+{%- endcomment -%}
+{%- liquid
+  unless product.media.size == 0
+    assign featured_media = product.selected_or_first_available_variant.featured_media
+    unless featured_media != blank
+      for media in product.media
+        assign featured_media = media
+        break
+      endfor
+    endunless
+  endunless
+
+  capture featured_media_ratio
+    if media_size == 'adapt'
+      echo featured_media.preview_image.aspect_ratio | default: '1'
+      else 
+        echo '1'
+    endif
+  endcapture
+
+  capture show_separator
+    if enable_atc and show_quick_view
+      echo 'true'
+    endif
+  endcapture
+
+  assign counter = index | modulo: columns_division
+  if counter == 0
+    assign counter = columns_division
+  endif
+-%}
+<div
+  class="product-column {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+  data-margin="0px 0px -20px 0px"
+  data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+  data-options='{"duration":1000,"easing":"ease","delay":{{ counter | times: 100 }},"fill":"both","iterations":1}'
+>
+  <div class="product-column_top-wrap">
+    <div class="product-column_media-wrap">
+      <div class="product-column_image-wrap">
+        <a aria-disabled="true" class="product-column_image --media-size-{{ media_size }}" style="--media-ratio: {{ featured_media_ratio }};" data-media-id="{{- featured_media.id -}}">
+          {%- render 'placeholder-svgs', type: 'hero', index: index, class: 'object-fit object-fit--absolute' -%}
+          <span class="visually-hidden">
+            {{- 'product.title' | t -}}
+          </span>
+        </a>
+      </div>
+      {%- if show_custom_tag or show_stock_tag or show_sale_tag -%}
+        <ul class="product-column_tag-wrap list-unstyled">
+          {%- if show_custom_tag -%}
+            {%- if product.tags.size > 0 and settings.product_custom_badges != blank -%}
+              {%- liquid
+                assign custom_tags_string = settings.product_custom_badges
+                assign custom_tags = custom_tags_string | split: '||'
+              -%}
+              {%- for tag in product.tags -%}
+                {%- for custom_tag in custom_tags -%}
+                  {%- liquid
+                    assign tag_data = custom_tag | remove: '{' | remove: '}' | split: ','
+                    assign tag_text = tag_data[0]
+                    assign background_color = tag_data[1]
+                    assign text_color = tag_data[2]
+                  -%}
+                  {%- if tag_text == tag -%}
+                    <li class="product-column_tag-item">
+                      <strong class="product-column_tag --fw-semi-bold text-size--small" style="--badge-bg: {{ background_color }}; --badge-clr: {{ text_color }};">
+                        {{- tag -}}
+                      </strong>
+                    </li>
+                    {%- break -%}
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endfor -%}
+            {%- endif -%}
+          {%- endif -%}
+          {%- if show_stock_tag -%}
+            <li class="tags-list_item parent-node">
+              <strong class="tags-list_tag --fw-medium">
+                {%- if product.title == blank -%}
+                  <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: var(--section-error-color);">
+                    <span class="product-column_tag-dot"></span>
+                    {{- 'product.stock.soldout' | t -}}
+                  </span>
+                  {%- else -%}
+                    {%- if product.selected_or_first_available_variant.inventory_management == 'shopify' -%}
+                      {%- liquid
+                        assign inventory_count = product.selected_or_first_available_variant.inventory_quantity | times: 1
+                        if product.selected_or_first_available_variant.inventory_policy == 'continue'
+                          if inventory_count < 1
+                            assign inventory_text = 'product.stock.pre_order' | t
+                            assign stock_bar_color = 'var(--section-foreground-color)'
+                            else
+                              assign inventory_text = 'product.stock.in_stock' | t
+                              assign stock_bar_color = 'var(--section-success-color)'
+                          endif
+                          else
+                            capture inventory_text
+                              if inventory_count < 1
+                                assign stock_bar_color = 'var(--section-error-color)'
+                                echo 'product.stock.soldout' | t
+                                elsif inventory_count < 50
+                                  assign stock_bar_color = 'var(--section-warning-color)'
+                                  echo 'product.stock.low_stock' | t
+                                else
+                                  assign stock_bar_color = 'var(--section-success-color)'
+                                  echo 'product.stock.in_stock' | t
+                              endif
+                            endcapture
+                        endif
+                      -%}
+                      <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: {{ stock_bar_color }};">
+                        <span class="product-column_tag-dot"></span>
+                        {{- inventory_text -}}
+                      </span>
+                      {%- else -%}
+                        <span class="product-tag hidden">&nbsp;</span>
+                    {%- endif -%}
+                {%- endif -%}
+              </strong>
+            </li>
+          {%- endif -%}
+          {%- if show_sale_tag -%}
+            <li class="tags-list_item parent-node">
+              <strong class="tags-list_tag --fw-medium">
+                {%- if product.title == blank -%}
+                  <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: var(--section-success-color);">
+                    <span class="product-column_tag-dot"></span>
+                    {{ 'product.sale' | t }}
+                  </span>
+                  {%- else -%}
+                    {%- liquid
+                      assign target = product.selected_or_first_available_variant
+                      assign compare_at_price = target.compare_at_price
+                      assign price = target.price | default: 1999
+                    
+                      assign onsale = false
+                      if compare_at_price > price
+                        assign onsale = true
+                      endif
+                    -%}
+                    {%- if onsale -%}
+                      <span class="product-column_tag-in --v-align-middle --word-break --fw-semi-bold text-size--small" style="--bg-clr: var(--section-success-color);">
+                        <span class="product-column_tag-dot"></span>
+                        {{- 'product.sale' | t -}}
+                      </span>
+                      {%- else -%}
+                        <span class="hidden"></span>
+                    {%- endif -%}
+                {%- endif -%}
+              </strong>
+            </li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+    </div>
+    <div class="product-column_content">
+      {%- if show_vendor -%}
+        <em class="product-column_vendor --fw-medium text-size--small --text-alternative --word-break">
+          {{ 'product.by' | t }} {{ 'product.vendor' | t }}
+        </em>
+      {%- endif -%}
+      <{{- heading_tag }} class="product-column_title mty {{ heading_size }} {{ heading_weight }}">
+        <a aria-disabled="true">
+          {{- 'product.title' | t -}}
+        </a>
+      </{{- heading_tag -}}>
+      {%- if show_price -%}
+        <div class="product-column_price-wrap">
+          <strong class="product-column_price text-size--medium --fw-medium">
+            {%- render 'product-price-placeholder', show_sale_tag: show_sale_tag -%}
+          </strong>
+        </div>
+      {%- endif -%}
+      {%- if show_quick_view or enable_atc -%}
+        <div class="product-column_btn-wrap">
+          {%- if show_quick_view -%}
+            <div class="product-column_quick-wrap {% if show_separator == 'true' %}product-column_quick-wrap--sep{% endif %}">
+              <a aria-disabled="true" class="button button--primary --v-align-middle product-column_btn product-column_btn--quick">
+                <span class="button_icn-wrapper">
+                  {%- render 'icons-data', width: 21, height: 21, use_icon: true, icon_reference: 'quick-eye' -%}
+                </span>
+                <span class="product-column_btn-txt">{{- 'product.quick_view' | t -}}</span>
+              </a>
+            </div>
+          {%- endif -%}
+          {%- if enable_atc -%}
+            <div class="product-column_atc-wrap">
+              <a aria-disabled="true" class="product-column_btn product-column_btn--atc button button--primary --v-align-middle">
+                <span class="button_icn-wrapper">
+                  {%- render 'icons-data', width: 21, height: 21, use_icon: true, icon_reference: 'new-cart' -%}
+                </span>
+                <span class="product-column_btn-txt">{{ 'product.atc_buttons.add_to_cart' | t }}</span>
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>

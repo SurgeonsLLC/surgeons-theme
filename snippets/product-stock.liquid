@@ -1,0 +1,38 @@
+{%- comment -%}
+  renders product stock
+  usage
+    {%- render 'product-stock', product: product -%}
+{%- endcomment -%}
+{%- unless product.title == blank -%}
+  {%- liquid
+    assign inventory_count = product.selected_or_first_available_variant.inventory_quantity | times: 1
+    assign stock_bg_var = 'var(--section-success-color)'
+    if product.selected_or_first_available_variant.inventory_policy == 'continue'
+      if inventory_count < 1
+        assign inventory_text = 'product.stock.pre_order' | t
+        assign stock_bg_var = 'currentColor'
+        else
+          assign inventory_text = 'product.stock.in_stock' | t
+      endif
+      else
+        capture inventory_text
+          if inventory_count < 1
+            echo 'product.stock.soldout' | t
+            assign stock_bg_var = 'var(--section-error-color)'
+            elsif inventory_count < 50
+              echo 'product.stock.low_stock' | t
+              assign stock_bg_var = 'var(--section-warning-color)'
+            else
+              echo 'product.stock.in_stock' | t
+          endif
+        endcapture
+    endif
+  -%}
+  <span class="product-stock --word-break {% if product.selected_or_first_available_variant.inventory_management != 'shopify' %}hidden{% endif %}" style="--stock-bg-color: {{ stock_bg_var }};">
+    {{- inventory_text -}}
+  </span>
+  {%- else -%}
+    <span class="product-stock --word-break" style="--stock-bg-color: var(--section-error-color);">
+      {{- 'product.stock.soldout' | t -}}
+    </span>
+{%- endunless -%}

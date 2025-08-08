@@ -1,0 +1,62 @@
+{%- comment -%}
+  renders figure box with product featured image
+  usage
+    {%- render 'figure-box', figure: media, product: product, prefix_class: section_prefix_class -%}
+{%- endcomment -%}
+
+{%- liquid
+  capture loading_attr
+    if section.index > 1
+      echo 'lazy'
+      else
+        echo 'eager'
+    endif
+  endcapture
+
+  capture product_title
+    if product.title != blank
+      echo product.title
+      else
+        echo 'product.title' | t
+    endif
+  endcapture
+-%}
+<div class="fig-box-wrapper mty {{ prefix_class }}_fig-box">
+  <a {% if product_url != blank %}href="{{- product_url -}}"{% else %}aria-disabled="true"{% endif %} class="figure-box">
+    {%- if figure != blank -%}
+      {%- liquid
+        capture image_alt
+          if figure.preview_image.alt != blank
+            echo figure.preview_image.alt
+            else
+              echo index_image.alt | escape
+          endif
+        endcapture
+      -%}
+      {{ figure.preview_image | image_url: width: 430 | image_tag: class: 'object-fit object-fit--cover object-fit--absolute', alt: image_alt, loading: loading_attr, widths: '430, 860', sizes: '(max-width: 767px) 430px, 860px' }}
+      {%- else -%}
+        {%- render 'placeholder-svgs', type: 'hero', index: figure_index, class: 'object-fit object-fit--absolute' -%}
+    {%- endif -%}
+    <span class="visually-hidden">
+      {{ product_title }}
+    </span>
+  </a>
+  <div class="fig-box-content --align-left">
+    <a class="fig-box_product-title h6 --fw-bold --word-break mty" {% if product_url != blank %}href="{{- product_url -}}"{% else %}aria-disabled="true"{% endif %} >
+      {{ product_title }}
+    </a>
+    <strong class="fig-box_items-text text-size--medium --fw-medium fig-box_text--price">
+      {%- render 'product-price', product: product, use_variant: false, show_unit_price: true -%}
+    </strong>
+    {%- if section.settings.show_cart_btn -%}
+      <a {% if product_url != blank %}href="{{- product_url -}}" target="_blank"{% else %}aria-disabled="false"{% endif %} class="fig-box_btn button button--primary">
+        <span class="btn_icn">
+          {%- liquid
+            render 'icons-data', width: 18, height: 18, use_icon: true, icon_reference: 'new-cart', section_id: section.id
+          -%}
+        </span>
+          {{- 'cart.drawer.products.btn_label' | t -}}
+      </a>
+    {%- endif -%}
+  </div>
+</div>

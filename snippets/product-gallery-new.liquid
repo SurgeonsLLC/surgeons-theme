@@ -1,0 +1,367 @@
+{%- comment -%}
+  renders product gallery with new view on product templates
+  usage
+    {%- render 'product-gallery-new', product: product, show_navigation: section.settings.section_show_navigation, variant_media_attr: media_slider_attr, media_size: section.settings.product_media_size, fetchpriority: true -%}
+{%- endcomment -%}
+{%- liquid
+  capture loading_attr
+    unless loading == blank
+      echo loading
+      else
+        if section.index > 1
+          echo 'lazy'
+          else
+            echo 'eager'
+        endif
+    endunless
+  endcapture
+
+  assign featured_media = product.selected_or_first_available_variant.featured_media
+
+  assign media_counts = 3
+  if product.media.size < 3
+    assign media_counts = product.media.size
+  endif
+-%}
+<splide-slider
+  data-slider-type="sync"
+  class="{{ section_prefix_class }}_slider {% unless product.media.size > 1 %}--no-space{% endunless %}"
+  {{ variant_media_attr }}
+>
+  <div
+    data-main-thumbs=""
+    id="gallery-zoom-in-{{- section.id -}}{{- product.id -}}"
+    class="splide {{ section_prefix_class }}_main-thumbs-slider"
+    data-splide='{
+      "type": "slide",
+      "drag": false,
+      "autoplay": {{ gallery_auto_play }},
+      "interval": {{- gallery_change_slides_every | times: 1000 -}},
+      "rewind": true,
+      "perPage": 1,
+      "arrows": false,
+      "pagination": false
+    }'
+  >
+    <div class="splide__track">
+      <div class="splide__list splide-slider--h-scroll">
+        {%- unless featured_media.preview_image == blank -%}
+          {%- liquid
+            capture media_ratio
+              if media_size == 'adapt'
+                echo featured_media.preview_image.aspect_ratio | default: '1'
+                else 
+                  echo '1'
+              endif
+            endcapture
+
+            capture zoom_image_attributes
+              render 'product-zoom-largest-attributes', media: featured_media
+            endcapture
+          -%}
+          <div class="splide__slide {{ section_prefix_class }}_main-slide" data-media-id="{{- featured_media.id -}}">
+            <a
+              class="{{ section_prefix_class }}_main-image {{ section_prefix_class }}_main-image--link {% unless zoom == false %}--media-zoom-in{% endunless %} --media-size-{{ media_size }}"
+              style="--media-ratio: {{ media_ratio }};"
+              {% unless zoom == false %}{{ zoom_image_attributes }}{% endunless %}
+            >
+              <img
+                srcset="{%- if featured_media.preview_image.width >= 222 -%}{{ featured_media.preview_image | image_url: width: 222 }} 222w,{%- endif -%}
+                        {%- if featured_media.preview_image.width >= 316 -%}{{ featured_media.preview_image | image_url: width: 316 }} 316w,{%- endif -%}
+                        {%- if featured_media.preview_image.width >= 478 -%}{{ featured_media.preview_image | image_url: width: 478 }} 478w,{%- endif -%}
+                        {%- if featured_media.preview_image.width >= 542 -%}{{ featured_media.preview_image | image_url: width: 542 }} 542w,{%- endif -%}
+                        {%- if featured_media.preview_image.width >= 620 -%}{{ featured_media.preview_image | image_url: width: 620 }} 620w,{%- endif -%}
+                        {%- if featured_media.preview_image.width >= 669 -%}{{ featured_media.preview_image | image_url: width: 669 }} 669w,{%- endif -%}
+                        {{ featured_media.preview_image | image_url }} {{ featured_media.preview_image.width }}w"
+                sizes="(max-width: 767px) calc(100vw - 98px), calc((var(--cp-width-px) / 2) - 20px)"
+                src="{{- featured_media.preview_image | image_url: width: featured_media.preview_image.width -}}"
+                alt="{{- product.title | escape -}}"
+                {% unless fetchpriority %}
+                  loading="{{- loading_attr -}}"
+                  {% else %}
+                    fetchpriority="high"
+                {% endunless %}
+                width="222"
+                height="{{- 222 | divided_by: featured_media.preview_image.aspect_ratio | round -}}"
+                class="object-fit object-fit--absolute"
+              >
+            </a>
+          </div>
+        {%- endunless -%}
+        {%- for media in product.media -%}
+          {%- unless media.id == featured_media.id -%}
+            {%- liquid
+              capture media_ratio
+                if media_size == 'adapt'
+                  echo media.preview_image.aspect_ratio | default: '1'
+                  else 
+                    echo '1'
+                endif
+              endcapture
+            -%}
+            {%- if media.media_type == 'model' -%}
+              <div class="splide__slide {{ section_prefix_class }}_main-slide">
+                <div
+                  class="{{ section_prefix_class }}_main-image {{ section_prefix_class }}_main-image--media --media-size-{{ media_size }}"
+                  style="--media-ratio: {{ media_ratio }};"
+                >
+                  <product-model class="deferred-media {{ section_prefix_class }}_main-deferred {{ section_prefix_class }}_main-deferred--model" data-media-id="{{ media.id }}">
+                    <button data-id="Deferred-Poster-Modal-{{ media.id }}-{{ section.id }}" class="deferred-media__poster" type="button">
+                      <img
+                        srcset="{%- if media.preview_image.width >= 222 -%}{{ media.preview_image | image_url: width: 222 }} 222w,{%- endif -%}
+                                {%- if media.preview_image.width >= 316 -%}{{ media.preview_image | image_url: width: 316 }} 316w,{%- endif -%}
+                                {%- if media.preview_image.width >= 478 -%}{{ media.preview_image | image_url: width: 478 }} 478w,{%- endif -%}
+                                {%- if media.preview_image.width >= 542 -%}{{ media.preview_image | image_url: width: 542 }} 542w,{%- endif -%}
+                                {%- if media.preview_image.width >= 620 -%}{{ media.preview_image | image_url: width: 620 }} 620w,{%- endif -%}
+                                {%- if media.preview_image.width >= 669 -%}{{ media.preview_image | image_url: width: 669 }} 669w,{%- endif -%}
+                                {{ media.preview_image | image_url }} {{ media.preview_image.width }}w"
+                        sizes="(max-width: 767px) calc(100vw - 98px), calc((var(--cp-width-px) / 2) - 20px)"
+                        src="{{- media.preview_image | image_url: width: media.preview_image.width -}}"
+                        alt="{{- product.title | escape -}}"
+                        loading="lazy"
+                        width="222"
+                        height="{{- 222 | divided_by: media.preview_image.aspect_ratio | round -}}"
+                        class="object-fit object-fit--absolute"
+                      >
+                      <span class="deferred-media__poster-icn --v-align-middle --justify-center">
+                        {%- render 'icons-data', width: 30, height: 30, use_icon: true, icon_reference: '3d' -%}
+                      </span>
+                      <span class="visually-hidden">
+                        {{- 'product.model_toggler_label' | t: product: product.title, index: index -}}
+                      </span>
+                    </button>
+                    <template>
+                      {{- media | media_tag: image_size: "2048x", toggleable: true -}}
+                    </template>
+                  </product-model>
+                  <button
+                    class="button --v-align-middle --justify-center button--primary product__xr-button"
+                    type="button"
+                    aria-label="{{- 'product.xr_button_label' | t -}}"
+                    data-shopify-xr
+                    data-shopify-model3d-id="{{- media.id -}}"
+                    data-shopify-title="{{- product.title | escape -}}"
+                    data-shopify-xr-hidden
+                  >
+                    {%- liquid
+                      render 'icons-data', width: 30, height: 30, use_icon: true, icon_reference: '3d'
+                      echo 'product.xr_button' | t
+                    -%}
+                  </button>
+                </div>
+              </div>
+              {%- elsif media.media_type == 'external_video' or media.media_type == 'video' -%}
+                <div class="splide__slide {{ section_prefix_class }}_main-slide">
+                  <div
+                    class="{{ section_prefix_class }}_main-image {{ section_prefix_class }}_main-image--media --media-size-{{ media_size }}"
+                    style="--media-ratio: {{ media_ratio }};"
+                  >
+                    <deferred-media class="deferred-media {{ section_prefix_class }}_main-deferred {{ section_prefix_class }}_main-deferred--video">
+                      <button data-id="Deferred-Poster-Modal-{{ media.id }}-{{ section.id }}" class="deferred-media__poster" type="button">
+                        <img
+                          srcset="{%- if media.preview_image.width >= 222 -%}{{ media.preview_image | image_url: width: 222 }} 222w,{%- endif -%}
+                                  {%- if media.preview_image.width >= 316 -%}{{ media.preview_image | image_url: width: 316 }} 316w,{%- endif -%}
+                                  {%- if media.preview_image.width >= 478 -%}{{ media.preview_image | image_url: width: 478 }} 478w,{%- endif -%}
+                                  {%- if media.preview_image.width >= 542 -%}{{ media.preview_image | image_url: width: 542 }} 542w,{%- endif -%}
+                                  {%- if media.preview_image.width >= 620 -%}{{ media.preview_image | image_url: width: 620 }} 620w,{%- endif -%}
+                                  {%- if media.preview_image.width >= 669 -%}{{ media.preview_image | image_url: width: 669 }} 669w,{%- endif -%}
+                                  {{ media.preview_image | image_url }} {{ media.preview_image.width }}w"
+                          sizes="(max-width: 767px) calc(100vw - 98px), calc((var(--cp-width-px) / 2) - 20px)"
+                          src="{{- media.preview_image | image_url: width: media.preview_image.width -}}"
+                          alt="{{- product.title | escape -}}"
+                          loading="lazy"
+                          width="222"
+                          height="{{- 222 | divided_by: media.preview_image.aspect_ratio | round -}}"
+                          class="object-fit object-fit--absolute"
+                        >
+                        <span class="deferred-media__poster-icn --v-align-middle --justify-center">
+                          {%- render 'icons-data', width: 30, height: 30, use_icon: true, icon_reference: 'play' -%}
+                        </span>
+                        <span class="visually-hidden">
+                          {{- 'product.video_toggler_label' | t: product: product.title, index: index -}}
+                        </span>
+                      </button>
+                      <template>
+                        {%- case media.media_type -%}
+                          {%- when 'external_video' -%}
+                            {%- assign video_class = 'js-' | append: media.host -%}
+                            {%- if media.host == 'youtube' -%}
+                              {{- media | external_video_url: autoplay: false, loop: false, playlist: media.external_id | external_video_tag: class: video_class, loading: "lazy" -}}
+                            {%- else -%}
+                              {{- media | external_video_url: autoplay: false, loop: false | external_video_tag: class: video_class, loading: "lazy" -}}
+                            {%- endif -%}
+                          {%- when 'video' -%}
+                            {{- media | media_tag: image_size: "2048x", autoplay: true, loop: false, controls: true, preload: "none" -}}
+                        {%- endcase -%}
+                      </template>
+                    </deferred-media>
+                  </div>
+                </div>
+              {%- else -%}
+                <div class="splide__slide {{ section_prefix_class }}_main-slide" data-media-id="{{- media.id -}}">
+                  <a
+                    class="{{ section_prefix_class }}_main-image {{ section_prefix_class }}_main-image--link {% unless zoom == false %}--media-zoom-in{% endunless %} --media-size-{{ media_size }}"
+                    style="--media-ratio: {{ media_ratio }};"
+                    {% unless zoom == false %}{{ zoom_image_attributes }}{% endunless %}
+                  >
+                    <img
+                      srcset="{%- if media.preview_image.width >= 222 -%}{{ media.preview_image | image_url: width: 222 }} 222w,{%- endif -%}
+                              {%- if media.preview_image.width >= 316 -%}{{ media.preview_image | image_url: width: 316 }} 316w,{%- endif -%}
+                              {%- if media.preview_image.width >= 478 -%}{{ media.preview_image | image_url: width: 478 }} 478w,{%- endif -%}
+                              {%- if media.preview_image.width >= 542 -%}{{ media.preview_image | image_url: width: 542 }} 542w,{%- endif -%}
+                              {%- if media.preview_image.width >= 620 -%}{{ media.preview_image | image_url: width: 620 }} 620w,{%- endif -%}
+                              {%- if media.preview_image.width >= 669 -%}{{ media.preview_image | image_url: width: 669 }} 669w,{%- endif -%}
+                              {{ media.preview_image | image_url }} {{ media.preview_image.width }}w"
+                      sizes="(max-width: 767px) calc(100vw - 98px), calc((var(--cp-width-px) / 2) - 20px)"
+                      src="{{- media.preview_image | image_url: width: media.preview_image.width -}}"
+                      alt="{{- product.title | escape -}}"
+                      loading="{{- loading_attr -}}"
+                      width="222"
+                      height="{{- 222 | divided_by: media.preview_image.aspect_ratio | round -}}"
+                      class="object-fit object-fit--absolute"
+                    >
+                  </a>
+                </div>
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+  <div
+    data-switcher-thumbs=""
+    class="splide {{ section_prefix_class }}_switcher-thumbs-slider {% unless product.media.size > 1 %}visually-hidden{% endunless %}"
+    data-splide='{
+      "type": "slide",
+      "drag": true,
+      "autoplay": {{ gallery_auto_play }},
+      "interval": {{- gallery_change_slides_every | times: 1000 -}},
+      "arrows": {{ gallery_show_navigation }},
+      "rewind": true,
+      "pagination": false,
+      "isNavigation": true,
+      "fixedHeight": "40px",
+      "fixedWidth": "40px",
+      "padding": "0px",
+      "gap": "0px",
+      "direction": "ttb",
+      "wheel": true,
+      "releaseWheel": true,
+      "height": "{{- 40 | times: media_counts -}}px",
+      "mediaQuery": "min",
+      "breakpoints": {
+        "768": {
+          "fixedHeight": "50px",
+          "fixedWidth": "50px",
+          "height": "{{- 50 | times: media_counts -}}px"
+        },
+        "992": {
+          "fixedHeight": "57px",
+          "fixedWidth": "57px",
+          "height": "{{- 57 | times: media_counts -}}px"
+        }
+      }
+    }'
+  >
+    <div class="splide__track">
+      <div class="splide__list splide-slider--v-scroll">
+        {%- unless featured_media.preview_image == blank -%}
+          <div class="splide__slide {{ section_prefix_class }}_switch-slide">
+            <div class="{{ section_prefix_class }}_switch-image">
+              <img
+                srcset="{%- if featured_media.preview_image.width >= 57 -%}{{ featured_media.preview_image | image_url: width: 57 }} 57w,{%- endif -%}
+                        {%- if featured_media.preview_image.width >= 119 -%}{{ featured_media.preview_image | image_url: width: 119 }} 119w,{%- endif -%}
+                        {{ featured_media.preview_image | image_url }} {{ featured_media.preview_image.width }}w"
+                sizes="(max-width: 414px) 57px, calc(var(--cp-width-px) / 12)"
+                src="{{- featured_media.preview_image | image_url: width: featured_media.preview_image.width -}}"
+                alt="{{- product.title | escape -}}"
+                loading="{{- loading_attr -}}"
+                width="57"
+                height="{{- 57 | divided_by: featured_media.preview_image.aspect_ratio | round -}}"
+                class="object-fit object-fit--absolute"
+              >
+            </div>
+          </div>
+        {%- endunless -%}
+        {%- for media in product.media -%}
+          {%- unless media.id == featured_media.id -%}
+            {%- if media.media_type == 'model' -%}
+              <div class="splide__slide {{ section_prefix_class }}_switch-slide">
+                <div class="{{ section_prefix_class }}_switch-image {{ section_prefix_class }}_switch-image--media">
+                  <img
+                    srcset="{%- if media.preview_image.width >= 57 -%}{{ media.preview_image | image_url: width: 57 }} 57w,{%- endif -%}
+                            {%- if media.preview_image.width >= 119 -%}{{ media.preview_image | image_url: width: 119 }} 119w,{%- endif -%}
+                            {{ media.preview_image | image_url }} {{ media.preview_image.width }}w"
+                    sizes="(max-width: 414px) 57px, calc(var(--cp-width-px) / 12)"
+                    src="{{- media.preview_image | image_url: width: media.preview_image.width -}}"
+                    alt="{{- product.title | escape -}}"
+                    loading="{{- loading_attr -}}"
+                    width="57"
+                    height="{{- 57 | divided_by: media.preview_image.aspect_ratio | round -}}"
+                    class="object-fit object-fit--absolute"
+                  >
+                  <i class="{{ section_prefix_class }}_switch-media-icn {{ section_prefix_class }}_switch-media-icn--model">
+                    {%- render 'icons-data', width: 14, height: 14, use_icon: true, icon_reference: '3d' -%}
+                  </i>
+                </div>
+              </div>
+              {%- elsif media.media_type == 'external_video' or media.media_type == 'video' -%}
+                <div class="splide__slide {{ section_prefix_class }}_switch-slide">
+                  <div class="{{ section_prefix_class }}_switch-image {{ section_prefix_class }}_switch-image--media">
+                    <img
+                      srcset="{%- if media.preview_image.width >= 57 -%}{{ media.preview_image | image_url: width: 57 }} 57w,{%- endif -%}
+                              {%- if media.preview_image.width >= 119 -%}{{ media.preview_image | image_url: width: 119 }} 119w,{%- endif -%}
+                              {{ media.preview_image | image_url }} {{ media.preview_image.width }}w"
+                      sizes="(max-width: 414px) 57px, calc(var(--cp-width-px) / 12)"
+                      src="{{- media.preview_image | image_url: width: media.preview_image.width -}}"
+                      alt="{{- product.title | escape -}}"
+                      loading="lazy"
+                      width="57"
+                      height="{{- 57 | divided_by: media.preview_image.aspect_ratio | round -}}"
+                      class="object-fit object-fit--absolute"
+                    >
+                    <i class="{{ section_prefix_class }}_switch-media-icn {{ section_prefix_class }}_switch-media-icn--model">
+                      {%- render 'icons-data', width: 14, height: 14, use_icon: true, icon_reference: 'play' -%}
+                    </i>
+                  </div>
+                </div>
+              {%- else -%}
+                <div class="splide__slide {{ section_prefix_class }}_switch-slide">
+                  <div class="{{ section_prefix_class }}_switch-image">
+                    <img
+                      srcset="{%- if media.preview_image.width >= 57 -%}{{ media.preview_image | image_url: width: 57 }} 57w,{%- endif -%}
+                              {%- if media.preview_image.width >= 119 -%}{{ media.preview_image | image_url: width: 119 }} 119w,{%- endif -%}
+                              {{ media.preview_image | image_url }} {{ media.preview_image.width }}w"
+                      sizes="(max-width: 414px) 57px, calc(var(--cp-width-px) / 12)"
+                      src="{{- media.preview_image | image_url: width: media.preview_image.width -}}"
+                      alt="{{- product.title | escape -}}"
+                      loading="lazy"
+                      width="57"
+                      height="{{- 57 | divided_by: media.preview_image.aspect_ratio | round -}}"
+                      class="object-fit object-fit--absolute"
+                    >
+                  </div>
+                </div>
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
+    </div>
+    {%- if gallery_show_navigation -%}
+      <div class="splide-controls splide__arrows --justify-center">
+        {%- if gallery_show_navigation -%}
+          <button class="splide__arrow splide__arrow--prev button button--primary button--icn">
+            <span class="visually-hidden">{{- 'accessibility.slider.previous' | t -}}</span>
+            {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'left-arrow' -%}
+          </button>
+        {%- endif -%}
+        {%- if gallery_show_navigation -%}
+          <button class="splide__arrow splide__arrow--next button button--primary button--icn">
+            <span class="visually-hidden">{{- 'accessibility.slider.next' | t -}}</span>
+            {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'right-arrow' -%}
+          </button>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</splide-slider>

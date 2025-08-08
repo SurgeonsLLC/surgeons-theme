@@ -1,0 +1,90 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-search",
+      "settings": {
+      }
+    },
+    "multicolumn": {
+			"type": "multicolumn",
+			"blocks": {
+				"column_1": {
+					"type": "column",
+					"settings": {
+          }
+				},
+				"column_2": {
+					"type": "column",
+					"settings": {
+					}
+				},
+				"column_3": {
+					"type": "column",
+					"settings": {
+					}
+				},
+        "column_4": {
+          "type": "column",
+          "settings": {
+          }
+        }
+			},
+      "block_order": [
+				"column_1",
+				"column_2",
+				"column_3",
+        "column_4"
+      ],
+			"settings": {
+        "section_heading": "",
+        "section_bottom_bdr": false,
+				"section_top_padding": 0,
+				"section_bottom_padding": 0
+			}
+		},
+    "image_gallery": {
+      "type": "image-gallery",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "item_index": "1"
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "item_index": "2"
+          }
+        },
+        "image_3": {
+          "type": "image",
+          "settings": {
+            "item_index": "3"
+          }
+        },
+        "image_4": {
+          "type": "image",
+          "settings": {
+            "item_index": "4"
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2",
+        "image_3",
+        "image_4"
+      ],
+      "settings": {
+        "section_top_padding": 50,
+        "section_bottom_padding": 30
+      }
+    }
+  },
+  "order": [
+    "main",
+    "multicolumn",
+    "image_gallery"
+  ]
+}

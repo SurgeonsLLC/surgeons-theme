@@ -1,0 +1,516 @@
+{%- liquid
+  assign section_prefix_class = 'main-register'
+  assign section_scheme_class = settings.register_color_scheme | prepend: 'scheme scheme--'
+
+  capture main_heading
+    if settings.register_heading != blank
+      echo settings.register_heading
+      else
+        echo 'main_register.main_heading' | t
+    endif
+  endcapture
+
+  capture loading_attr
+    if section.index > 1
+      echo 'lazy'
+      else
+        echo 'eager'
+    endif
+  endcapture
+-%}
+{%- style -%}
+   .breadcrumb-nav {
+    background: var(--section-background-color);
+    color: var(--section-heading-color);
+    padding-top: 0;
+    padding-bottom: 0;
+    --bdbottom-width: 1px;
+    --bdbottom-clr: var(--section-border-color);
+  }
+
+  .breadcrumb_wrapper{
+    width: 100%;
+  }
+
+  .breadcrumb-list,
+  .breadcrumb-list_item,
+  .breadcrumb-nav{
+    display: flex;
+  }
+
+  .breadcrumb-list{
+    flex-wrap: wrap;
+    font-size: 1.2rem;
+    line-height: 2rem;
+    font-family: var(--font-headings-family);
+    padding: 12px 0;
+    background: var(--section-background-color);
+    color: var(--section-heading-color);
+  }
+
+  .internal--spacing.breadcrumb-list{
+    padding: 12px 22px;
+  }
+
+  .breadcrumb-list_item + .breadcrumb-list_item::before {
+    content: '>';
+    flex-shrink: 0;
+    display: inline-block;
+    margin-left: 11px;
+    margin-right: 11px;
+    color: var(--section-heading-color);
+  }
+
+  .breadcrumb-list [aria-current="page"],
+  .breadcrumb-list_link{
+    font-weight: 600;
+  }
+
+
+  .breadcrumb-list [aria-current="page"]{
+    color: var(--heading-color);
+  }
+
+  .breadcrumb-list_link{
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: 1.2rem;
+  }
+
+  .main-register{
+    --section-padding-top: 0;
+    --section-padding-bottom: 0;
+  }
+  .main-register,
+  .main-register_img,
+  .main-register_form-align{
+    position: relative;
+  }
+
+
+  .main-register_wrapper,
+  .main-register_column--form,
+  .main-register .form__message{
+    display: flex;
+  }
+
+  .main-register_wrapper{
+    justify-content: center;
+  }
+
+  .main-register_column{
+    flex-grow: 1;
+    flex-basis: 0;
+    min-width: 50%;
+  }
+
+  .main-register_img,
+  .main-register_form-btn,
+  .main-register_wrapper .align-holder--mcenter .align-holder_wrapper{
+    width: 100%;
+  }
+
+  .main-register_img{
+    height: 100%;
+  }
+
+  .main-register_column--form{
+    min-height: calc(100vh - 93px);
+  }
+
+  .main-register_btn-wrapper{
+    --mt-top: 32px;
+  }
+
+  .main-register_heading-head{
+    margin-bottom: 29px;
+  }
+
+  .main-register_form-align{
+    padding-top: 44px;
+    padding-bottom: 44px;
+    max-width: 595px;
+  }
+
+  .main-register_form-btn,
+  .main-register_pass-icn{
+    display: block;
+  }
+
+  .main-register_form-btn.button--link,
+  .main-register_pass-btn.button--link{
+    --button-padding-x: 0;
+  }
+
+  .main-register_pass-btn .button_icn,
+  .main-register_form-btn .button_icn,
+  .main-register_role-icn{
+    vertical-align: -0.4em;
+    margin-right: 8px;
+  }
+
+  .main-register_form-btn .button_icn,
+  .main-register_pass-btn--back .button_icn,
+  .main-register_btn--back .button_icn{
+    vertical-align: -0.15em;
+  }
+
+  .transit{
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .transit--in{
+    opacity: 1;
+    transform: scaleX(1);
+    max-height: 9999px;
+  }
+
+  .transit--in:focus{
+    outline: 2px solid currentColor !important;
+  }
+
+  .transit--out{
+    opacity: 0;
+    max-height: 0;
+    transform: scaleX(0);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -999;
+  }
+
+  .main-register_error-wrapper,
+  .main-register_success-wrapper,
+  .main-register_results-wrap{
+    font-size: 14px;
+    margin-top: 12px;
+    outline: none;
+  }
+
+  .main-register_error-wrapper{
+    text-align: right;
+  }
+
+  .main-register_success-wrapper{
+    color: var(--section-success-color);
+  }
+
+  .main-register_results-wrap:empty,
+  .main-register_column--image{
+    display: none;
+  }
+
+  .main-register_logo-heading{
+    --mt-bottom: 24px;
+    --logo-width: var(--logo-mobile-width);
+    max-width: var(--logo-width);
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .main-register_shop-msg{
+    margin-top: 24px;
+  }
+
+  .main-register_pass-icn{
+    color: var(--section-foreground-color);
+    margin-top: 40px;
+    margin-bottom: 23px;
+    line-height: 1;
+  }
+
+  .form__message svg,
+  .main-register_description,
+  .main-register_error-wrapper,
+  .main-register_success-wrapper,
+  .main-register_results-wrap{
+    color: var(--section-error-color);
+  }
+
+  .main-register_description{
+    font-size: 1.8rem;
+    line-height: 2.8rem;
+  }
+
+  .main-register_form-group + .main-register_form-group{
+    margin-top: 27px;
+  }
+
+  .main-register_foot-wrapper{
+    font-weight: 500;
+    --mt-top: 47px;
+  }
+
+  .main-register_cancel-btn.button--link{
+    margin-top: 27px;
+  }
+
+  .main-register_forget-btn.button--link,
+  .main-register_register-link.button--link,
+  .main-register_cancel-btn.button--link{
+    --button-font-size: inherit;
+    --button-font-family: inherit;
+    --button-padding-y: 0;
+    --button-padding-x: 0;
+    --button-font-weight: inherit;
+    --button-background: transparent;
+    --button-text: var(--section-links-color);
+    --button-border-color: transparent;
+    --button-hover-background: transparent;
+    --button-hover-text: var(--section-active-hover-color);
+    --button-hover-border-color: transparent;
+    text-decoration: underline;
+  }
+
+  .main-register .form__message{
+    align-items: center;
+    gap: 8px;
+    font-size: 1.8rem;
+    font-weight: 400;
+    padding: 3px 0;
+  }
+
+  .main-register .errors-list{
+    margin-top: 9px;
+    padding-left: 30px;
+    margin-bottom: 25px;
+  }
+
+  .errors-list .errors-list_link{
+    text-decoration: none;
+  }
+
+  .main-register .error-message_wrapper{
+    margin-bottom: 60px;
+  }
+
+  .main-register .errors ul{
+    padding-left: 30px;
+    list-style: none;
+  }
+
+  .error-message-wrapper{
+    margin-bottom: 7px;
+  }
+
+  .main-register_heading-head{
+    margin-bottom: 48px;
+  }
+
+  @media(min-width: 768px){
+    .main-register_column--image{
+      display: block;
+    }
+
+    .main-register_heading{
+      --heading-size-factor: 0.7;
+    }
+
+    .main-register .container-fluid{
+      --cp-spacer-left: 0;
+      --cp-spacer-right: 0;
+    }
+
+    .main-register_form-align{
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+
+    .main-register_logo-heading{
+      --logo-width: var(--logo-desktop-width);
+    }
+  }
+
+  @media(min-width: 992px){
+    .main-register_heading{
+      --heading-size-factor: 1;
+    }
+  }
+{%- endstyle -%}
+{%- liquid
+  if settings.show_breadcrumb
+    render 'breadcrumb', border_top: settings.show_top_bdr, border_bottom: settings.show_bottom_bdr, color_scheme: settings.breadcrumb_color_scheme, breadcrumb_corner_radius: settings.breadcrumb_corner_radius, breadcrumb_container_layout: settings.breadcrumb_container_layout, content_alignment: '--justify-center'
+  endif
+-%}
+<div class="global-block {{ section_prefix_class }} {{ section_prefix_class }}-{{ section.id }} {{ section_scheme_class }}">
+  <div class="container-fluid">
+    <div class="{{ section_prefix_class }}_wrapper">
+      {%- if settings.register_image != blank -%}
+        <div class="{{ section_prefix_class }}_column {{ section_prefix_class }}_column--image">
+          <div class="{{ section_prefix_class }}_img">
+            {%- liquid
+              capture image_alt
+                if settings.register_image.alt != blank
+                  echo settings.register_image.alt
+                  else
+                    echo main_heading | escape
+                endif
+              endcapture
+            -%}
+            {{- settings.register_image | image_url: width: 1944 | image_tag: class: 'object-fit object-fit--absolute', loading: loading_attr, alt: image_alt, widths: '972, 1944', sizes: '(max-width: 767px) 972vw, 1944vw' -}}
+          </div>
+        </div>
+      {%- endif -%}
+      <div class="{{ section_prefix_class }}_column {{ section_prefix_class }}_column--form align-holder align-holder--mcenter">
+        <div class="{{ section_prefix_class }}_form-align align-holder_wrapper">
+          {%- if settings.register_heading != blank -%}
+            <header class="{{ section_prefix_class }}_heading-head --align-center">
+              <h1 class="{{ section_prefix_class }}_heading --h-anchor-none {{ settings.register_heading_size }} {{ settings.register_heading_weight }} mty">
+                {{- main_heading -}}
+              </h1>
+              <div class="{{ section_prefix_class }}_description text-size--medium mty">
+                <p>{{- 'account.req_fields_text' | t -}}</p>
+              </div>
+            </header>
+            {%- else -%}
+              <header class="visually-hidden --align-center">
+                <h1>
+                  {{- main_heading -}}
+                </h1>
+              </header>
+              <div class="{{ section_prefix_class }}_description text-size--medium mty">
+                <p>{{- 'account.req_fields_text' | t -}}</p>
+              </div>
+          {%- endif -%}
+          {%- form 'create_customer', novalidate: 'novalidate' -%}
+            {%- if form.errors != blank -%}
+              <strong class="form__message mty" role="alert" tabindex="-1" autofocus>
+                {%- render 'icons-data', width: 22, height: 22, use_icon: true, icon_reference: 'error' -%}
+                {{- 'erorr.common_heading' | t -}}
+              </strong>
+              <ul class="errors-list list-unstyled">
+                {%- for field in form.errors -%}
+                  <li class="errors-list_item">
+                    {%- if field == 'form' -%}
+                      {{- form.errors.messages[field] -}}
+                      {%- else -%}
+                        <a class="errors-list_link" href="#RegisterForm-{{ field }}">
+                          {{- form.errors.translated_fields[field] | capitalize }}
+                          {{ form.errors.messages[field] -}}
+                        </a>
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            {%- endif -%}
+            <div class="{{ section_prefix_class }}_form-group">
+              <label for="RegisterForm-firstname" class="{{ section_prefix_class }}_form-input-lable text-size--medium visually-hidden">
+                {{- 'account.first_name' | t -}}
+              </label>
+              <input
+                type="text"
+                name="customer[first_name]"
+                id="RegisterForm-firstname"
+                {% if form.first_name %}
+                  value="{{ form.first_name }}"
+                {% endif %}
+                autocomplete="given-name"
+                placeholder="{{- 'account.first_name' | t -}}"
+              >
+            </div>
+            <div class="{{ section_prefix_class }}_form-group">
+              <label for="RegisterForm-lastname" class="{{ section_prefix_class }}_form-input-lable text-size--medium visually-hidden">
+                {{- 'account.last_name' | t -}}
+              </label>
+              <input
+                type="text"
+                name="customer[last_name]"
+                id="RegisterForm-lastname"
+                {% if form.last_name %}
+                  value="{{ form.last_name }}"
+                {% endif %}
+                autocomplete="family-name"
+                placeholder="{{- 'account.last_name' | t -}}"
+              >
+            </div>
+            <div class="{{ section_prefix_class }}_form-group">
+              <label for="RegisterForm-email" class="{{ section_prefix_class }}_form-input-lable text-size--medium visually-hidden">
+                {{- 'account.email_label' | t -}}
+              </label>
+              <input
+                type="email"
+                name="customer[email]"
+                id="RegisterForm-email"
+                {% if form.email %}
+                  value="{{ form.email }}"
+                {% endif %}
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="email"
+                aria-required="true"
+                {% if form.errors contains 'email' %}
+                  aria-invalid="true"
+                  aria-describedby="RegisterForm-email-error"
+                {% endif %}
+                placeholder="{{ 'account.email_label' | t }}"
+              >
+              {%- if form.errors contains 'email'-%}
+                <div id="RegisterForm-email-error" class="{{ section_prefix_class }}_error-wrapper" role="status">
+                  <i class="{{ section_prefix_class }}_role-icn">
+                    {%- render 'icons-data', width: 22, height: 22, use_icon: true, icon_reference: 'error' -%}
+                  </i>
+                  {{- form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email -}}.
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="{{ section_prefix_class }}_form-group">
+              <label for="RegisterForm-password" class="{{ section_prefix_class }}_form-input-lable text-size--medium visually-hidden">
+                {{- 'account.pass_label' | t -}}
+              </label>
+              <input
+                type="password"
+                name="customer[password]"
+                id="RegisterForm-password"
+                aria-required="true"
+                {% if form.errors contains 'password' %}
+                  aria-invalid="true"
+                  aria-describedby="RegisterForm-password-error"
+                {% endif %}
+                placeholder="{{- 'account.pass_label' | t -}}"
+              >
+              {%- if form.errors contains 'password'-%}
+                <div id="RegisterForm-password-error" class="{{ section_prefix_class }}_error-wrapper" role="status">
+                  <i class="{{ section_prefix_class }}_role-icn">
+                    {%- render 'icons-data', width: 22, height: 22, use_icon: true, icon_reference: 'error' -%}
+                  </i>
+                  {{- form.errors.translated_fields.password | capitalize }}
+                  {{ form.errors.messages.password -}}.
+                </div>
+              {%- endif -%}
+            </div>
+            <div class="{{ section_prefix_class }}_btn-wrapper mty --align-center">
+              <button type="submit" class="button button--secondary {{ section_prefix_class }}_form-btn button--animate">
+                {{- 'account.sign_up' | t -}}
+              </button>
+            </div>
+          {%- endform -%}
+          <div class="{{ section_prefix_class }}_foot-wrapper text-size--small mty --align-center">
+            <p>
+              {{- 'main_register.already_account' | t }}
+              <a href="{{- routes.account_login_url -}}" class="button button--link {{ section_prefix_class }}_register-link">
+                {{- 'account.btn_label' | t -}}
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.main_register.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.overlay"
+    ]
+  },
+  "settings": [
+  ]
+}
+{% endschema %}

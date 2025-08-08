@@ -1,0 +1,43 @@
+{%- comment -%}
+  renders product price
+  usage
+    {%- render 'product-price-placeholder', show_sale_tag: true -%}
+{%- endcomment -%}
+{%- liquid
+  assign price = 1999
+  assign compare_at_price = 2999
+
+  assign money_price = price | money
+  if settings.show_currency_code
+    assign money_price = price | money_with_currency
+  endif
+-%}
+<span class="product-price --word-break">
+  <span class="product-price_pricing">
+    {%- if show_sale_tag -%}
+      <span class="visually-hidden">
+        {{- 'product.regular_price' | t -}}
+      </span>
+      <s class="regular-price --text-alternative">
+        {%- if settings.show_currency_code -%}
+          {{- compare_at_price | money_with_currency -}}
+          {%- else -%}
+            {{- compare_at_price | money -}}
+        {%- endif -%}
+      </s>
+      <span class="visually-hidden">
+        {{- 'product.sale_price' | t -}}
+      </span>
+      <span class="sale-price main-price">
+        {{- money_price -}}
+      </span>
+      {%- else -%}
+        <span class="visually-hidden">
+          {{- 'product.regular_price' | t -}}
+        </span>
+        <span class="regular-price main-price">
+          {{- money_price -}}
+        </span>
+    {%- endif -%}
+  </span>
+</span>

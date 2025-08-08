@@ -1,0 +1,25 @@
+{%- comment -%}
+  renders page card for search page template
+  usage
+    {%- render 'page-card', page: page -%}
+{%- endcomment -%}
+{%- liquid
+  assign counter = index | modulo: columns_division
+  if counter == 0
+    assign counter = columns_division
+  endif
+-%}
+<a
+  class="page-card product-column page-card_link--absolute widget--styles --v-align-middle --justify-center {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+  href="{{- page.url -}}"
+  data-margin="0px 0px -20px 0px"
+  data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+  data-options='{"duration":1000,"easing":"ease","delay":{{ counter | times: 100 }},"fill":"both","iterations":1}'
+>
+  <h2 class="mt {% if heading_size %}{{ heading_size }}{% else %}h4{% endif %} {{ prefix_class }}_page-heading page-card_heading {{ heading_weight }}">
+    {{- page.title -}}
+  </h2>
+  <span class="search-page_tag">
+    {{- 'page.current_label_uppercase' | t -}}
+  </span>
+</a>

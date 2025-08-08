@@ -1,0 +1,69 @@
+{%- comment -%}
+  renders cart drawer slideshow as related product
+  usage
+    {%- render 'cart-drawer-slideshow', product: product -%}
+{%- endcomment -%}
+{%- liquid
+  capture product_clean_url
+    if product.url contains '?'
+      assign parts = product.url | split: '?'
+      echo parts[0]
+      else
+        echo product.url
+    endif
+  endcapture
+
+  unless product.media.size == 0
+    assign featured_media = product.selected_or_first_available_variant.featured_media
+    unless featured_media != blank
+      for media in product.media
+        assign featured_media = media
+        break
+      endfor
+    endunless
+  endunless
+
+  assign sizes_attr = '(max-width: 379px) calc(100vw - 30px), (max-width: 767px) calc((100vw / var(--mobile-columns-count)) - 30px), (max-width: 991px) calc((var(--cp-width-px) / 3) - 30px), calc((var(--cp-width-px) / var(--columns-count)) - 30px)'
+-%}
+<a class="cart-related-row" {% if product_clean_url != blank %}href="{{- product_clean_url -}}"{% else %}aria-disabled="true"{% endif %}>
+  <div class="cart-related-row_top_wrap">
+    <div class="cart-related-row_image">
+      {%- unless featured_media == blank -%}
+        <img
+          srcset="{%- if featured_media.preview_image.width >= 190 -%}{{ featured_media.preview_image | image_url: width: 190 }} 190w,{%- endif -%}
+                  {%- if featured_media.preview_image.width >= 240 -%}{{ featured_media.preview_image | image_url: width: 240 }} 240w,{%- endif -%}
+                  {%- if featured_media.preview_image.width >= 299 -%}{{ featured_media.preview_image | image_url: width: 299 }} 299w,{%- endif -%}
+                  {%- if featured_media.preview_image.width >= 368 -%}{{ featured_media.preview_image | image_url: width: 368 }} 368w,{%- endif -%}
+                  {%- if featured_media.preview_image.width >= 400 -%}{{ featured_media.preview_image | image_url: width: 400 }} 400w,{%- endif -%}
+                   {{ featured_media.preview_image | image_url: width: featured_media.preview_image.width }} {{ featured_media.preview_image.width }}w"
+          sizes="{{- sizes_attr -}}"
+          src="{{- featured_media.preview_image | image_url: width: 190 -}}"
+          alt="{{- product.title | escape -}}"
+          {% unless fetchpriority == blank %}
+            fetchpriority="{{- fetchpriority -}}"
+            {% else %}
+              loading="{{- loading_attr -}}"
+          {% endunless %}
+          width= "190"
+          height="{{- 190 | divided_by: featured_media.preview_image.aspect_ratio | round -}}"
+          class="object-fit object-fit--absolute"
+        >
+        {%- else -%}
+          {%- render 'placeholder-svgs', type: 'product', class: 'object-fit object-fit--absolute', index: 1  -%}
+      {%- endunless -%}
+      <span class="visually-hidden">{{- product.title -}}</span>
+    </div>
+  </div>
+  <div class="cart-related-row_descr-wrap">
+    <div class="cart-related-row_info">
+      <strong class="cart-related-row_heading --word-break text-size--small h --fw-bold">
+        {{- product.title -}}
+      </strong>
+      {%- if enable_price -%}
+        <strong class="cart-related-row_price text-size--small --fw-nromal">
+          {%- render 'product-price', product: product, use_variant: false, show_unit_price: true -%}
+        </strong>
+      {%- endif -%}
+    </div>
+  </div>
+</a>

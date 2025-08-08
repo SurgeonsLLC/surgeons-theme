@@ -1,0 +1,80 @@
+{%- comment -%}
+  renders article/blog card placeholder on section templates
+  usage
+    {%- render 'blog-card-placeholder', index: forloop.index, show_image: section.settings.show_featured_image, show_date: section.settings.show_date, show_author: section.settings.show_author, show_excerpt: true, prefix_class: 'section_scheme_class' -%}
+{%- endcomment -%}
+
+{%- liquid
+  assign media_size = section.settings.section_media_size | default: section.settings.card_media_size
+  assign heading_size = blog_heading_size | default: 'h5'
+
+  assign counter = index | modulo: columns_division
+  if counter == 0
+    assign counter = columns_division
+  endif
+-%}
+<article
+  class="blog-card {{ prefix_class }}_blog-card --align-left {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+  data-margin="0px 0px -20px 0px"
+  data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+  data-options='{"duration":1000,"easing":"ease","delay":{{ counter | times: 100 }},"fill":"both","iterations":1}'
+>
+  <div class="blog-card_top-wrap">
+    <div class="blog-card_image-date">
+      {%- if show_image -%}
+        <a aria-disabled="true" class="blog-card_image --media-size-{{ media_size }}" style="--media-ratio: 1;">
+          {%- render 'placeholder-svgs', type: 'hero', index: 1, class: 'object-fit object-fit--absolute' -%}
+        </a>
+        {%- if show_date -%}
+          <div class="blog-card_stats-wrap blog-card_stats-wrap--top blog-card_stats-wrap--float --margin-date mty">
+            <strong class="blog-card_subtitle blog-card_subtitle--date --word-break">December 12, 2024</strong>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+  <div class="blog-card_content-wrap">
+    {%- if show_author or show_date or show_comments_count -%}
+      <div class="blog-card_stats-wrap blog-card_stats-wrap--top --margin-date mty">
+        {%- if show_author -%}
+          <strong class="blog-card_subtitle blog-card_subtitle--author --word-break">
+            {{- 'blogs.placeholder.author' | t -}}
+          </strong>
+        {%- endif -%}
+        {%- unless show_image -%}
+          {%- if show_date -%}
+            <strong class="blog-card_subtitle blog-card_subtitle--date --word-break">December 12, 2024</strong>
+          {%- endif -%}
+        {%- endunless -%}
+        {%- if show_comments_count -%}
+          <strong class="blog-card_subtitle blog-card_subtitle--comments-count --word-break">
+            {{- 'blogs.comments.count.one' | t: count: 1 -}}
+          </strong>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+    <h2 class="{{ heading_size }} blog-card_heading --fw-bold mty --h-anchor-none">
+      <a aria-disabled="true">
+        {{- 'blogs.placeholder.title' | t -}}
+      </a>
+    </h2>
+    {%- if show_excerpt -%}
+      <truncate-text truncate-length="20"
+        class="text-size--large mty blog-card_excerpt  --word-break --fw-normal --normal-gap">     
+        {{- 'blogs.placeholder.excerpt' | t -}}
+        <a href="#" class="toggle-text blog-card_read-more --fw-semi-bold">Read more</a>
+      </truncate-text>
+    {%- endif -%}
+    {% if show_tags %}
+      <ul class="list-unstyled blog-card_tags-list blog-card_tags-list--scroll --normal-tag">
+        {%- for tag in (1..3) -%}
+          <li class="blog-card_tag-item">
+            <strong class="blog-card_tag-link --word-break">
+              {{- 'blogs.placeholder.tags' | t: index: forloop.index -}}
+            </strong>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {% endif %}
+  </div>
+</article>

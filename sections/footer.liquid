@@ -1,0 +1,425 @@
+{%- liquid
+  assign section_prefix_class = 'footer-bottom'
+  assign section_bottom_scheme_class = section.settings.footer_bottom_color_scheme | prepend: 'scheme scheme--'
+
+  capture check_localization
+    render 'check-localization-drops'
+  endcapture
+
+  capture local_exists
+    if section.settings.enable_country_selector or section.settings.enable_language_selector
+      if check_localization == 'true'
+        echo 'true'
+      endif
+    endif
+  endcapture
+
+  capture section_container_layout
+    case section.settings.section_container_layout
+      when 'page-width'
+        echo 'container'
+      when 'contained-content'
+        echo 'contained-container'
+      when 'container-fluid'
+        echo 'container-fluid'
+    endcase
+  endcapture
+
+  capture section_corner_radius
+    case section.settings.section_corner_radius
+      when 'top_corners_radius'
+        echo 'top_corners_radius'
+      when 'bottom_corners_radius'
+        echo 'bottom_corners_radius'
+      when 'both_corners_radius'
+        echo 'both_corners_radius'
+      when 'no_corners_radius'
+        echo 'no_corner_radius'
+    endcase
+  endcapture
+-%}
+{% style %}
+  .footer-bottom{
+    --section-padding-top: 8px;
+    --section-padding-bottom: 8px;
+    overflow: visible;
+    z-index: 1;
+  }
+
+  .footer-bottom .--flex-center,
+  .footer-bottom_wrapper,
+  .footer-bottom .localization-wrapper,
+  .footer-bottom .localization-wrapper_drop{
+    align-items: center;
+  }
+
+  .footer-bottom_wrapper{
+    gap: 14px;
+    flex-direction: column-reverse;
+  }
+  
+  .footer-bottom .localization-wrapper{
+    gap: 10px;
+  }
+
+  .footer-bottom .localization-wrapper,
+  .footer-bottom .localization-wrapper_drop,
+  .footer-bottom_wrapper,
+  .footer-bottom .dropdown-localization_btn-submit {
+    display: flex;
+  }
+
+  .footer-bottom .localization-wrapper,
+  .footer-bottom .localization-wrapper_drop{
+    gap: 6px;
+  }
+
+  .footer-bottom .localization-wrapper_drop + .localization-wrapper_drop::before {
+    font-size: 1.6rem;
+    content: "|";
+  }
+
+  .footer-bottom .localization-wrapper_drop{
+    flex-shrink: 0;
+  }
+
+  .footer-bottom .dropdown-localization_wrapper {
+    background-color: var(--section-background-color);
+    min-width: 172px;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: 100%;
+    right: 0;
+    margin-top: calc(var(--section-padding-top, 0) + 3px);
+    width: 100%;
+    border-radius: 0;
+    top: auto;
+    overflow-y: auto;
+    border-top-left-radius: var(--section-radius);
+    border-top-right-radius: var(--section-radius);
+  }
+
+  .footer-bottom .dropdown-localization_btn-submit {
+    text-decoration: none;
+    gap: 7px;
+    padding: 10px;
+    color: var(--section-foreground-color);
+    transition: color .3s ease, background-color .3s ease;
+  }
+
+  .footer-bottom .dropdown-localization_btn-submit:hover, 
+  .footer-bottom .dropdown-localization_btn-submit.active {
+    background-color: var(--section-foreground-color);
+    color: var(--section-background-color);
+  }
+
+  .footer-bottom .dropdown-component--localization{
+    max-height: 282px;
+  }
+
+  .footer-bottom .dropdown-localization_opener, 
+  .footer-bottom .dropdown-localization_wrapper{
+    color: color-mix(in srgb, var(--section-heading-color) 60%, var(--section-links-color) 40%);
+    border: 0;
+    padding: 4px 0;
+  }
+
+  .footer-bottom .dropdown-localization_opener:hover{
+    color: var(--section-active-hover-color);
+  }
+
+  .footer-bottom .dropdown-localization_opener, 
+  .footer-bottom .dropdown-localization_wrapper,
+  .footer-bottom .dropdown-localization_btn-submit{
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+    font-weight: 600;
+    font-family: var(--font-headings-family);
+  }
+
+  .footer-bottom .dropdown-localization_opener{
+    background-color: transparent;
+  }
+
+  .footer-bottom .dropdown-localization_icn img{
+    width: 18px;
+    height: 18px;
+    border-radius: calc(var(--section-radius) * 99);
+  }
+
+  .footer-bottom_text{
+    font-size: 1.2rem;
+    line-height: 3.6rem;
+    font-weight: 600;
+    font-family: var(--font-headings-family);
+  }
+
+  .footer-bottom_payments-list,
+  .footer-bottom .localization-wrapper{
+    justify-content: center;
+  }
+
+  .footer-bottom_wrapper.internal--spacing{
+    padding: 8px 4px
+  }
+
+  .pay-justify-left .footer-bottom_payments-list{
+    justify-content: end;
+  }
+
+  .footer-bottom_wrapper.internal--spacing{
+    padding: 0 15px;
+  }
+
+  .footer-form_group-wrap input[type="email"] {
+    padding-left: 0;
+  }
+
+  @media(min-width: 768px){
+    .footer-bottom_wrapper.internal--spacing{
+      padding: 0 30px;
+    }
+  }
+
+  @media (min-width: 992px){
+    .footer-bottom--col{
+      width: calc(40% - 22px);
+      flex-shrink: 0;
+    }
+
+    .footer-bottom_payments{
+      flex-basis: 0;
+      flex-grow: 1;
+    }
+
+    .footer-bottom_wrapper{
+      flex-direction: unset;
+    }
+
+    .footer-bottom .dropdown-localization_wrapper{
+      min-width: 250px;
+      left: auto;
+      transform: unset;
+    }
+
+    .footer-bottom .localization-wrapper_drop{
+      gap: 10px;
+    }
+
+    .footer-bottom .localization-wrapper{
+      justify-content: end;
+    }
+
+    .footer--center.--justify-between{
+      justify-content: center;
+    }
+
+    .footer--center .footer-bottom_text{
+      text-align: center;
+    }
+  }
+
+  @media (min-width: 1200px){
+    .footer-bottom--col{
+      width: calc(36% - 22px);
+      flex-shrink: 0;
+    }
+  }
+
+  @media (max-width: 414px){
+    .footer-bottom .localization-wrapper{
+      flex-wrap: wrap;
+    }
+
+    .footer-bottom .localization-wrapper_drop + .localization-wrapper_drop::before{
+      font-size: 1.6rem;
+      content: "";
+    }
+  }
+{%- endstyle -%}
+<div class="global-block footer-bottom {{ section_prefix_class }}-{{ section.id }} {% if section_container_layout == 'container-fluid' or section_container_layout == 'contained-container' %}{{ section_bottom_scheme_class }} {{ section_corner_radius }}{% endif %} {% if section.settings.show_top_bdr %}--bdr-top{% endif %}">
+  <div class="{{ section_container_layout }}">
+    <div
+      class="footer-bottom_wrapper {% if section_container_layout == 'container' %}{{ section_bottom_scheme_class }} {{ section_corner_radius }} internal--spacing{% endif %} {% unless local_exists == 'false' or section.settings.show_payment_icon %}--justify-between{% endunless %} {% unless section.settings.show_payment_icon %}justify-payment{% endunless %} {% unless section.settings.show_payment_icons or local_exists == 'true' %}footer--center{% endunless %} {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+      data-margin="0px 0px -20px 0px"
+      data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+      data-options='{"duration":1000,"easing":"ease","delay":0,"fill":"both","iterations":1}'
+    >
+      <span class="footer-bottom_text footer-bottom--col --word-break">
+        Copyright &copy; {{ 'now' | date: '%Y' }}, {{ shop.name | link_to: routes.root_url -}} &nbsp;
+      </span>
+      {%- if section.settings.show_payment_icons -%}
+        <div class="footer-bottom_payments">
+          <div class="{{ section_prefix_class }}_pay-methods-wrap {% unless local_exists == 'true' %}pay-justify-left{% endunless %}">
+            {%- render 'payment-icons' | prefix_class: section_prefix_class -%}
+          </div>
+        </div>
+      {%- endif -%}
+      {%- if local_exists == 'true' -%}
+        <div class="footer-bottom_localizations footer-bottom--col">
+            <div class="localization-wrapper --align-middle">
+              {%- liquid
+                assign lfid = section.id | prepend: 'language-form-'
+                assign if_id_no_script = section.id | prepend: 'language-form-' | append: '-noscript'
+          
+                assign resid = section.id | prepend: 'country-form-'
+                assign res_id_no_script = section.id | prepend: 'country-form-' | append: '-noscript'
+              -%}
+              {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+                <div class="localization-wrapper_drop --margin">
+                  <noscript>
+                    {%- form 'localization', id: if_id_no_script, class: 'localization-form' -%}
+                      <h2 class="visually-hidden" id="{{ if_id_no_script }}-lang-heading">{{- 'localization.country_label' | t -}}</h2>
+                      <div class="custom-select">
+                        <select
+                          name="locale_code"
+                          aria-labelledby="{{ if_id_no_script }}-lang-heading"
+                          class="dropdown-component_opener dropdown-localization_opener --align-left"
+                        >
+                          {%- for language in localization.available_languages -%}
+                            <option
+                              value="{{ language.iso_code }}"
+                              lang="{{ language.iso_code }}"
+                              {% if language.iso_code == localization.language.iso_code %}
+                                selected
+                              {% endif %}
+                              class="dropdown-component_btn-submit dropdown-localization_btn-submit {% if language.iso_code == localization.language.iso_code %}active{% endif %}"
+                            >
+                              {{ language.endonym_name | capitalize }}
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      </div>
+                      <button class="button button--primary visually-hidden">{{- 'localization.update_language' | t -}}</button>
+                    {%- endform -%}
+                  </noscript>
+                  {%- form 'localization', id: lfid, class: 'localization-form' -%}
+                    {%- render 'language-localization', localPosition: section.id, id: lfid, section_id: section.id -%}
+                  {%- endform -%}
+                </div>
+              {%- endif -%}
+              {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+                <div class="localization-wrapper_drop">
+                  <noscript>
+                    {%- form 'localization', id: res_id_no_script, class: 'localization-form' -%}
+                      <div class="custom-select">
+                        <h2 class="visually-hidden" id="{{ res_id_no_script }}-country-heading">{{- 'localization.country_label' | t -}}</h2>
+                        <select
+                          name="country_code"
+                          aria-labelledby="{{ res_id_no_script }}-country-heading"
+                          class="dropdown-component_opener dropdown-localization_opener --align-left"
+                        >
+                          {%- for country in localization.available_countries -%}
+                            <option
+                              value="{{ country.iso_code }}"
+                              {% if country.iso_code == localization.country.iso_code %}
+                                selected
+                              {% endif %}
+                              class="dropdown-component_btn-submit dropdown-localization_btn-submit{% if country.iso_code == localization.country.iso_code %} active{% endif %}"
+                            >
+                              {{- country.name }} ({{ country.currency.iso_code }}
+                              {{ country.currency.symbol -}})
+                            </option>
+                          {%- endfor -%}
+                        </select>
+                      </div>
+                      <button class="button button--tertiary visually-hidden">{{- 'localization.update_country' | t -}}</button>
+                    {%- endform -%}
+                  </noscript>
+                  {%- form 'localization', id: resid, class: 'localization-form' -%}
+                    {%- render 'country-localization', localPosition: section.id, id: resid, section_id: section.id -%}
+                  {%- endform -%}
+                </div>
+              {%- endif -%}
+            </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.footer.name",
+  "tag": "footer",
+  "limit": 1,
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "label": "t:localization_drops.language.label",
+      "info": "t:localization_drops.language.info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "label": "t:localization_drops.country.label",
+      "info": "t:localization_drops.country.info",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "t:sections.footer.blocks.pay_icons.label",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:layout.content"
+    },
+    {
+      "type": "select",
+      "id": "section_container_layout",
+      "label": "t:settings_schema.container_layout.label",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:settings_schema.container_layout.settings.container.label"
+        },
+        {
+          "value": "contained-content",
+          "label": "t:settings_schema.container_layout.settings.contained_content.label"
+        },
+        {
+          "value": "container-fluid",
+          "label": "t:settings_schema.container_layout.settings.container_fluid.label"
+        }
+      ],
+      "default": "contained-content"
+    },
+    {
+      "type": "select",
+      "id": "section_corner_radius",
+      "label": "t:round_crnr.label",
+      "options": [
+        {
+          "value": "no_corners_radius",
+          "label": "t:round_crnr.options.opt_1.label"
+        },
+        {
+          "value": "top_corners_radius",
+          "label": "t:round_crnr.options.opt_2.label"
+        },
+        {
+          "value": "bottom_corners_radius",
+          "label": "t:round_crnr.options.opt_3.label"
+        },
+        {
+          "value": "both_corners_radius",
+          "label": "t:round_crnr.options.opt_4.label"
+        }
+      ],
+      "default": "no_corners_radius"
+    },
+    {
+      "type": "color_scheme",
+      "id": "footer_bottom_color_scheme",
+      "default": "scheme1",
+      "label": "t:color_scheme.label"
+    }
+  ]
+}
+{% endschema %}

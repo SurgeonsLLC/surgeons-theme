@@ -1,0 +1,824 @@
+{%- liquid
+  assign section_prefix_class = 'main-product'
+  assign section_scheme_class = section.settings.section_color_scheme | prepend: 'scheme scheme--'
+
+  capture section_container_layout
+    case section.settings.section_container_layout
+      when 'page-width'
+        echo 'container'
+      when 'contained-content'
+        echo 'contained-container'
+      when 'container-fluid'
+        echo 'container-fluid'
+    endcase
+  endcapture
+
+  capture section_corner_radius
+    case section.settings.section_corner_radius
+      when 'top_corners_radius'
+        echo 'top_corners_radius'
+      when 'bottom_corners_radius'
+        echo 'bottom_corners_radius'
+      when 'both_corners_radius'
+        echo 'both_corners_radius'
+      when 'no_corners_radius'
+        echo 'no_corner_radius'
+    endcase
+  endcapture
+
+  capture review_exist
+    for block in section.blocks
+      case block.type
+        when 'review'
+          echo 'true'
+          break
+      endcase
+    endfor
+  endcapture
+
+  capture complementary_exist
+    echo 'true'
+  endcapture
+-%}
+{%- style -%}
+  .main-product_row {
+    --mb-space: var(--block-spacing);
+    margin-bottom: var(--mb-space);
+  }
+
+  .main-product_reviews-slider .rating-list,
+  .main-product_reviews-slider .review_quote{
+    display: flex;
+  }
+
+  .main-product_bottom-col--first:has(.product-recommendations_wrap.hidden){
+    display: none;
+  }
+
+  .main-product_reviews-slider .review_quote-text,
+  .main-product_reviews-slider .review_quote-cite-wrap,
+  .main-product-bundle{
+    display: block;
+  }
+
+  .main-product_reviews-slider {
+    position: relative;
+  }
+
+  .main-product_reviews-slider .review_quote{
+    flex-direction: column;
+  }
+
+  .main-product_reviews-slider .rating-list{
+    line-height: 0;
+  }
+
+  .main-product_reviews-slider blockquote cite{
+    font-style: normal;
+  }
+
+  .main-product_reviews-slider .rating-list,
+  .main-product_reviews-slider .review_quote {
+    align-items: center;
+  }
+
+  .main-product_reviews-slider .rating-list,
+  .main-product_reviews-slider .review_quote {
+    justify-content: center;
+  }
+
+  .main-product_reviews-slider blockquote p{
+    display: inline;
+  }
+
+  .main-product_reviews-slider .review_quote-text{
+    flex-grow: 1;
+  }
+
+  .main-product_reviews-slider .splide__arrows{
+    margin-top: 20px;
+  }
+
+  .main-product_reviews-slider .review_quote{
+    height: 100%;
+  }
+
+  .main-product_reviews-slider .review_quote{
+    --quote-bdr-width: 0;
+    --quote-pl: 0;
+    padding: 42px 20px;
+  }
+
+  .main-product_reviews-slider .rating-list{
+    margin-top: 16px;
+  }
+
+  .main-product_reviews-slider blockquote{
+    margin: 0;
+    --quote-font-size: 1.7rem;
+    --quote-line-height: 2.6rem;
+    --quote-font-weight: var(--font-general-weight);
+    --quote-font-family: var(--font-general-family);
+    --quote-font-style: italic;
+    --quote-text-color: var(--section-foreground-color);
+    margin-right: var(--quote-mr, 0);
+    margin-left: var(--quote-ml, 0);
+    padding-left: var(--quote-pl, 20px);
+    font-family: var(--quote-font-family, inherit);
+    font-weight: var(--quote-font-weight, inherit);
+    font-style: var(--quote-font-style, italic);
+    font-size: var(--quote-font-size, inherit);
+    line-height: var(--quote-line-height, inherit);
+    letter-spacing: var(--quote-font-spacing, 0);
+    color: var(--quote-text-color, inherit);
+    border-left: var(--quote-bdr-width, 2px) solid var(--quote-bdr-clr, currentColor);
+  }
+
+  .main-product_reviews-slider .review_quote-cite-wrap{
+    margin-top: auto;
+  }
+
+  .main-product_reviews-slider blockquote q::after,
+  .main-product_reviews-slider blockquote p::after,
+  .main-product_reviews-slider blockquote q::before,
+  .main-product_reviews-slider blockquote p::before{
+    content: '"';
+  }
+
+  .main-product_reviews-slider blockquote q{
+    quotes: none;
+  }
+
+  .main-product_reviews-slider blockquote cite{
+    letter-spacing: normal;
+    border-bottom: 0;
+    display: inline-block;
+  }
+
+  .main-product_reviews-slider blockquote p{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .main-product_bottom-col--first,
+  .main-product_bottom-col--second,
+  .main-product_bottom-col--first.bottom_first--full,
+  .main-product_bottom-col--second.bottom_second--full,
+  .main-product_bottom-col--first:has(.product-recommendations_wrap.hidden) + .main-product_bottom-col--second{
+    width: 100%;
+  }
+
+  .main-product_bottom-col--first{
+    flex-shrink: 0;
+  }
+
+  .main-product-bundle,
+  .main-product-bundle_totals-wrap,
+  .main-product_reviews-slider .review_quote {
+    border-radius: var(--section-radius);
+  }
+
+  .main-product-bundle {
+    padding: 21px;
+  }
+
+  .main-product-bundle {
+    border: 1px solid var(--section-widget-border-color);
+  }
+
+  .main-product-bundle_heading {
+    margin-bottom: 23px;
+  }
+
+  .main-product-bundle_list {
+    gap: 23px;
+  }
+
+  .main-product-bundle_list .cs-col {
+    width: 150px;
+  }
+
+  .main-product-bundle_totals-wrap {
+    background: var(--section-background-color);
+    color: var(--section-foreground-color);
+    padding: 11px 12px 15px 11px;
+    margin-top: 18px;
+  }
+
+  .main-product-bundle_totals-wrap {
+    border: 1px solid var(--section-border-color);
+  }
+
+  .bundle-total-text {
+    font-size: 1.4rem;
+    margin-right: 5px;
+    font-family: var(--font-headings-family);
+    line-height: 1.8rem;
+  }
+
+  
+  .ftb_price .bundle-price {
+    line-height: 2.8rem;
+  }
+
+  .ftb_price .bundle-price {
+    font-size: 2rem;
+  }
+
+  .ftb_price .bundle-price,
+  .bundle-total-text{
+    font-weight: 600;
+  }
+
+  .main-product_bottom-col--second {
+      margin-top: 12px;
+    }
+
+  @media(min-width: 768px) {
+    .main-product_reviews-slider .review_quote{
+      padding: 42px 45px;
+    }
+
+    .main-product-bundle_calculator{
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .main-product-bundle_calc-col--totals{
+      margin-left: auto;
+    }
+  }
+
+  @media(min-width: 992px){
+    .main-product_reviews-slider .splide__arrows{
+      position: absolute;
+      bottom: 6px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .main-product_reviews-slider .splide__arrows{
+      --focus-outline-color: var(--section-background-color);
+    }
+
+    .main-product_wrapper-bottom{
+      display: flex;
+    }
+
+    .main-product_bottom-col--second {
+      margin-top: 0;
+    }
+
+    .main-product_wrapper-bottom{
+      margin-top: 31px;
+      gap: 12px;
+    }
+
+    .main-product_bottom-col--first{
+      width: calc(60% - 6px);
+    }
+
+    .main-product_bottom-col--second{
+      width: calc(40% - 6px);
+    }
+  }
+  @media(min-width: 1200px){
+    .main-product_bottom-col--first{
+      width: calc(66% - 6px);
+    }
+    .main-product_bottom-col--second{
+      width: calc(34% - 6px);
+    }
+
+    .main-product-bundle_calc-col--totals{
+      display: flex;
+      align-items: center;
+      gap: 21px;
+    }
+  }
+
+{%- endstyle -%}
+<svg xmlns="http://www.w3.org/2000/svg" class="hidden">
+  <symbol id="icn-whatsapp-{{ section.id }}">
+    <path fill="currentColor" fill-rule="evenodd" d="M64,15.8c-25.5,0-46.2,20.7-46.2,46.2c0,9,2.5,17.6,7.4,25.1l-7,15.5
+      c-0.6,1.4-0.4,3.1,0.6,4.3c0.8,0.9,1.9,1.4,3.1,1.4c0.4,0,0.7,0,1.1-0.1l19.4-5.3c6.7,3.6,14.2,5.5,21.8,5.5
+      c25.5,0,46.2-20.7,46.2-46.2C110.2,36.5,89.5,15.8,64,15.8z M64,100.2c-6.8,0-13.4-1.8-19.2-5.2c-0.6-0.4-1.3-0.6-2-0.6
+      c-0.4,0-0.7,0-1.1,0.1L29,98l4.4-9.7c0.6-1.3,0.4-2.9-0.4-4c-4.7-6.5-7.2-14.2-7.2-22.3C25.8,41,43,23.8,64,23.8
+      c21,0,38.2,17.1,38.2,38.2C102.2,83,85.1,100.2,64,100.2z" clip-rule="evenodd" />
+    <path fill="currentColor" fill-rule="evenodd" d="M81.8,68.9c-1.9-1.2-4.5-2.5-6.7-1.5c-1.7,0.7-2.9,3.5-4,4.9c-0.6,0.7-1.3,0.8-2.2,0.5
+      c-6.6-2.6-11.6-7-15.2-13c-0.6-0.9-0.5-1.7,0.2-2.6c1.1-1.3,2.5-2.8,2.8-4.5c0.3-1.7-0.5-3.8-1.2-5.3c-0.9-2-1.9-4.8-3.9-5.9
+      c-1.8-1-4.2-0.5-5.8,0.9c-2.8,2.3-4.2,5.9-4.1,9.4c0,1,0.1,2,0.4,3c0.6,2.3,1.6,4.5,2.9,6.6c0.9,1.6,1.9,3.1,3,4.5
+      c3.5,4.8,7.9,8.9,12.9,12c2.5,1.5,5.3,2.9,8.1,3.8c3.2,1,6,2.1,9.4,1.5c3.6-0.7,7.1-2.9,8.5-6.3c0.4-1,0.6-2.2,0.4-3.2
+      C86.6,71.3,83.6,70,81.8,68.9z" clip-rule="evenodd" />
+  </symbol>
+  <symbol id="icn-star-filled-{{ section.id }}">
+    <path d="M7.5 0.212891L9.18386 5.04977H14.6329L10.2245 8.03913L11.9084 12.876L7.5 9.88665L3.09161 12.876L4.77547 8.03913L0.367076 5.04977H5.81614L7.5 0.212891Z" fill="#F3AC29"/>
+  </symbol>
+  <symbol id="icn-share-link-{{ section.id }}">
+    <path d="M13.2958 -7.23486e-05C13.6386 0.104327 13.9991 0.170876 14.3215 0.319364C15.4241 0.827634 16.1091 2.06046 15.985 3.25252C15.8531 4.52236 14.9726 5.57592 13.7673 5.87165C12.6267 6.15199 11.6381 5.8625 10.8124 5.02855C10.7815 4.99736 10.7593 4.95743 10.7309 4.91875C10.6603 4.95826 10.6127 4.98405 10.5659 5.01192C9.01895 5.93737 7.4732 6.86448 5.9237 7.78494C5.80383 7.85606 5.78086 7.91554 5.82764 8.04448C6.01976 8.57355 6.04106 9.11592 5.90741 9.6608C5.87358 9.7993 5.90323 9.86335 6.03187 9.92824C7.48699 10.6628 8.93918 11.4044 10.3922 12.1435C10.4511 12.1734 10.5112 12.2009 10.5818 12.235C11.1941 11.4639 11.9889 11.0429 12.9787 11.0288C13.6992 11.0184 14.3441 11.2534 14.9008 11.7084C16.0197 12.6239 16.3246 14.2311 15.6196 15.4622C14.8674 16.7762 13.3421 17.331 11.9162 16.7986C10.6186 16.3141 9.64209 14.84 10.1211 13.1239C8.56412 12.3315 7.00417 11.5379 5.43504 10.7389C4.79937 11.5587 3.97115 11.9933 2.93495 11.9829C2.13931 11.975 1.4531 11.6739 0.883002 11.1224C-0.228799 10.0468 -0.291865 8.23706 0.700486 7.06496C1.71581 5.86499 3.87092 5.49856 5.26046 7.02253C6.89934 6.04218 8.54031 5.06016 10.1754 4.08189C10.1228 3.83275 10.0572 3.59359 10.0242 3.35027C9.81041 1.76972 10.9514 0.268204 12.5356 0.0361138C12.5895 0.0282111 12.6425 0.0119897 12.6956 -0.000488281C12.8956 -7.23486e-05 13.0957 -7.23486e-05 13.2958 -7.23486e-05ZM14.996 2.99922C15.0015 1.90157 14.1035 0.99983 13.0021 0.996918C11.9066 0.993591 11.0053 1.88036 10.9957 2.9701C10.9861 4.06817 11.8799 4.97323 12.9813 4.98072C14.0835 4.98821 14.9906 4.09603 14.996 2.99922ZM2.99008 10.9918C4.09186 10.9926 4.99316 10.0942 4.99191 8.99697C4.99065 7.90639 4.09645 7.01255 3.00136 7.00756C1.89916 7.00257 0.994099 7.89724 0.991175 8.99406C0.988252 10.0917 1.8883 10.9909 2.99008 10.9918ZM14.996 14.0127C14.9952 12.9155 14.0918 12.0191 12.99 12.0225C11.8953 12.0254 10.9991 12.9175 10.9957 14.0077C10.9924 15.1049 11.892 16.005 12.9934 16.0063C14.0951 16.0079 14.9969 15.1099 14.996 14.0127Z" fill="currentColor" stroke="currentColor" stroke-width="0.2"/>
+  </symbol>
+</svg>
+<div
+  class="global-block {{ section_prefix_class }} {{ section_prefix_class }}-{{ section.id }} {% if section_container_layout == 'container-fluid' or section_container_layout == 'contained-container' %}{{ section_scheme_class }} {{ section_corner_radius }}{% endif %}"
+  id="{{- section.id -}}"
+  style="--section-padding-top: {{ section.settings.section_top_padding }}px; --section-padding-bottom: {{ section.settings.section_bottom_padding }}px;"
+>
+  <div class="{{ section_container_layout }}">
+    <div class="{{ section_prefix_class }}_wrapper {% if section_container_layout == 'container' %}{{ section_scheme_class }} {{ section_corner_radius }} internal--spacing{% endif %}" id="{{- section.id -}}-description">
+      {%- if complementary_exist == 'true' or review_exist == 'true' -%}
+        <div class="{{ section_prefix_class }}_wrapper-bottom">
+          {%- if complementary_exist == 'true' -%}
+            <div class="{{ section_prefix_class }}_bottom-col {{ section_prefix_class }}_bottom-col--first {% unless review_exist == 'true' %}bottom_first--full{% endunless %}">
+              <div
+                class="{{ section_prefix_class }}_row {{ section_prefix_class }}_row--complementary"
+              >
+                <bundle-product-wrapper class="main-product-bundle widget--styles">
+                  <div class="main-product-bundle_wrapper" data-bundle-product-wrapper="">
+                    <div class="main-product-bundle_head">
+                      {%- if section.settings.complementary_heading != blank -%}
+                      <h2 class="main-product-bundle_heading {{ section.settings.complementary_heading_size }} {{ section.settings.complementary_heading_weight }} mty">
+                        {{- section.settings.complementary_heading -}}
+                      </h2>
+                      {%- endif -%}
+                    </div>
+                    <div class="main-product-bundle_products-wrap">
+                      <div class="product-recommendations_wrap">
+                        <product-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=10&intent=complementary">
+                          <div class="product-recommendations">
+                            {%- if recommendations.performed and recommendations.products_count > 0 -%}
+                              <ul class="main-product-bundle_list custom-scroll custom-scroll--horizontal {{ section_prefix_class }}_cs-scroll list-unstyled">
+                                {%- liquid
+                                  for product in recommendations.products
+                                    render 'product-bundle-card', product: product, section_prefix_class: 'main-product-bundle', section: section
+                                  endfor
+                                -%}
+                              </ul>
+                            {%- endif -%}
+                          </div>
+                        </product-recommendations>
+                      </div>
+                    </div>
+                    <div class="main-product-bundle_totals-wrap">
+                      <bundle-calculator
+                        class="main-product-bundle_calculator"
+                        data-loader-selector="[data-bundle-calc-loader]"
+                        {% unless template.name == 'cart' %}
+                          data-modal="true"
+                          data-modal-ref='[data-modal-ref="modal-cart-drawer"][data-expanded="false"]'
+                          {% else %}
+                            data-redirect="{{- routes.cart_url -}}"
+                        {% endunless %}
+                        data-sections='[
+                          {
+                            "id": "cart-head",
+                            "selectors": ["[data-render-cart-bubble]", "[data-render-cart-text]", "[data-render-cart-totals]"]
+                          },
+                          {
+                            "id": "cart-showcase",
+                            "selectors": ["[data-line-items-drawer-container]"]
+                          }
+                        ]'
+                      >
+                        <div class="main-product-bundle_calc-col main-product-bundle_calc-col--thumbs">
+                          <ul class="list-unstyled main-product-bundle_thumbs-list" data-thumbnails-list="">
+                            {%- comment -%}thumbnails will be rendered here{%- endcomment -%}
+                          </ul>
+                        </div>
+                        <div class="main-product-bundle_calc-col main-product-bundle_calc-col--totals">
+                          <strong class="bundle-total-price-wrapper mty">
+                            <span class="bundle-total-text">{{- 'templates.bundle.total_price' | t -}}:</span>
+                            <span class="ftb_price">
+                              <span class="bundle-price" data-bundle-price="">
+                                {{ 0 | money }}
+                              </span>
+                              <s class="bundle-compare-price text-size--small --alternate-color --fw-normal hidden" data-bundle-compare-price="">
+                                {{ 0 | money }}
+                              </s>
+                            </span>
+                            {% if settings.show_currency_code %}
+                              <small class="bundle-curr-code">{{- localization.country.currency.iso_code -}}</small>
+                            {% endif %}
+                          </strong>
+                          <button type="button" class="bundle-cart-submit button button--secondary disabled mty" data-bundle-atc-btn="">
+                            {%- render 'icons-data', width: 21, height: 21, use_icon: true, icon_reference: 'new-cart' -%}
+                            <span class="parent-node bcs-counter-wrap visually-hidden"><span class="bcs-count" data-num-count="">0</span> item(s) </span>
+                            {{ 'templates.bundle.add_cart' | t }}
+                          </button>
+                          <span class="hidden bundle-loader" data-bundle-calc-loader="">
+                            <span class="visually-hidden">{{- 'accessibility.loading' | t -}}</span>
+                            {%- render 'icons-data', width: 40, height: 40, use_icon: true, icon_reference: 'loader' -%}
+                          </span>
+                        </div>
+                      </bundle-calculator>
+                    </div>
+                  </div>
+                </bundle-product-wrapper>
+              </div>
+            </div>
+          {%- endif -%}
+          {%- if review_exist == 'true' -%}
+            <div class="{{ section_prefix_class }}_bottom-col {{ section_prefix_class }}_bottom-col--second {% unless complementary_exist == 'true' %}bottom_second--full{% endunless %}">
+              <splide-slider
+                data-slider-type="default"
+                data-go-to="true"
+              >
+                <div
+                  class="splide {{ section_prefix_class }}_reviews-slider"
+                  data-splide='{
+                    "type": "slide",
+                    "live": true,
+                    "drag": true,
+                    "autoplay": {{ section.settings.reviews_auto_play }},
+                    "rewind": false,
+                    "gap": "30px",
+                    "perMove": 1,
+                    "perPage": 1,
+                    "arrows": {{ section.settings.reviews_show_navigation }},
+                    "pagination": false,
+                    "mediaQuery": "min",
+                    "interval": {{- section.settings.review_change_slides_every | times: 1000 -}},
+                    "breakpoints": {
+                      "576": {
+                        "perPage": 2
+                      },
+                      "992": {
+                        "perPage": 1
+                      }
+                    }
+                  }'
+                >
+                  <div class="splide__track">
+                    <div class="splide__list">
+                      {%- for block in section.blocks -%}
+                        {%- case block.type -%}
+                          {%- when 'review' -%}
+                            <div class="splide__slide" {{ block.shopify_attributes }}>
+                              {%- render 'review-row', block: block, index: forloop.index, section_id: section.id -%}
+                            </div>
+                        {%- endcase -%}
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                  {% if section.blocks.size > 1 %}
+                    {%- if section.settings.reviews_show_navigation -%}
+                      <div class="splide-controls splide__arrows --justify-center">
+                        {%- if section.settings.reviews_show_navigation -%}
+                          <button class="splide__arrow splide__arrow--prev button button--primary button--icn">
+                            <span class="visually-hidden">{{- 'accessibility.slider.previous' | t -}}</span>
+                            {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'left-arrow' -%}
+                          </button>
+                        {%- endif -%}
+                        {%- if section.settings.reviews_show_navigation -%}
+                          <button class="splide__arrow splide__arrow--next button button--primary button--icn">
+                            <span class="visually-hidden">{{- 'accessibility.slider.next' | t -}}</span>
+                            {%- render 'icons-data', width: 10, height: 10, use_icon: true, icon_reference: 'right-arrow' -%}
+                          </button>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  {%- endif -%}
+                </div>
+              </splide-slider>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.bundle_with_reviews.name",
+  "tag": "section",
+  "blocks": [
+    {
+      "name": "t:product.blocks.review.name",
+      "type": "review",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "t:heading.label",
+          "default": "Author Name"
+        },
+        {
+          "type": "select",
+          "id": "block_heading_size",
+          "label": "t:sizes.heading.label",
+          "options": [
+            {
+              "value": "h6",
+              "label": "t:sizes.text.options.opt_1.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sizes.text.options.opt_2.label"
+            }
+          ],
+          "default": "h6"
+        },
+        {
+          "type": "select",
+          "id": "block_heading_weight",
+          "label": "t:weight.heading.label",
+          "options": [
+            {
+              "value": "--fw-extra-bold",
+              "label": "t:weight.heading.options.opt_6.label"
+            },
+            {
+              "value": "--fw-bold",
+              "label": "t:weight.heading.options.opt_1.label"
+            },
+            {
+              "value": "--fw-semi-bold",
+              "label": "t:weight.heading.options.opt_5.label"
+            },
+            {
+              "value": "--fw-medium",
+              "label": "t:weight.heading.options.opt_2.label"
+            },
+            {
+              "value": "--fw-normal",
+              "label": "t:weight.heading.options.opt_3.label"
+            },
+            {
+              "value": "--fw-light",
+              "label": "t:weight.heading.options.opt_4.label"
+            }
+          ],
+          "default": "--fw-bold"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_description",
+          "label": "t:description_text.label",
+          "default": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence."
+        },
+        {
+          "type": "select",
+          "id": "block_description_size",
+          "label": "t:sizes.description_text.label",
+          "options": [
+            {
+              "value": "h6",
+              "label": "t:sizes.text.options.opt_1.label"
+            },
+            {
+              "value": "h5",
+              "label": "t:sizes.text.options.opt_2.label"
+            },
+            {
+              "value": "h4",
+              "label": "t:sizes.text.options.opt_3.label"
+            }
+          ],
+          "default": "h4"
+        },
+        {
+          "type": "select",
+          "id": "block_description_weight",
+          "label": "t:weight.description_text.label",
+          "options": [
+            {
+              "value": "--fw-extra-bold",
+              "label": "t:weight.heading.options.opt_6.label"
+            },
+            {
+              "value": "--fw-bold",
+              "label": "t:weight.heading.options.opt_1.label"
+            },
+            {
+              "value": "--fw-semi-bold",
+              "label": "t:weight.heading.options.opt_5.label"
+            },
+            {
+              "value": "--fw-medium",
+              "label": "t:weight.heading.options.opt_2.label"
+            },
+            {
+              "value": "--fw-normal",
+              "label": "t:weight.heading.options.opt_3.label"
+            },
+            {
+              "value": "--fw-light",
+              "label": "t:weight.heading.options.opt_4.label"
+            }
+          ],
+          "default": "--fw-normal"
+        },
+        {
+          "type": "select",
+          "id": "block_rating",
+          "label": "t:product.rating.stars.label",
+          "options": [
+            {
+              "value": "5",
+              "label": "t:product.rating.stars.options.opt_5.label"
+            },
+            {
+              "value": "4",
+              "label": "t:product.rating.stars.options.opt_4.label"
+            },
+            {
+              "value": "3",
+              "label": "t:product.rating.stars.options.opt_3.label"
+            },
+            {
+              "value": "2",
+              "label": "t:product.rating.stars.options.opt_2.label"
+            },
+            {
+              "value": "1",
+              "label": "t:product.rating.stars.options.opt_1.label"
+            },
+            {
+              "value": "none",
+              "label": "t:product.rating.stars.options.none.label"
+            }
+          ],
+          "default": "5"
+        },
+        {
+          "type": "color_scheme",
+          "id": "block_color_scheme",
+          "default": "scheme2",
+          "label": "t:color_scheme.label"
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "complementary_heading",
+      "label": "t:heading.label",
+      "default": "Complementary Product"
+    },
+    {
+      "type": "select",
+      "id": "complementary_heading_size",
+      "label": "t:sizes.heading.label",
+      "options": [
+        {
+          "value": "h4",
+          "label": "t:sizes.heading.options.opt_4.label"
+        },
+        {
+          "value": "h5",
+          "label": "t:sizes.heading.options.opt_5.label"
+        },
+        {
+          "value": "h6",
+          "label": "t:sizes.heading.options.opt_6.label"
+        }
+      ],
+      "default": "h4"
+    },
+    {
+      "type": "select",
+      "id": "complementary_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-extra-bold"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variation",
+      "default": true,
+      "label": "t:product.variation.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.bundle_with_reviews.settings.review_settings.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "reviews_auto_play",
+      "label": "t:slideshow.auto_play.label",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "reviews_show_navigation",
+      "label": "t:slideshow.show_arrows.label",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "review_change_slides_every",
+      "label": "t:slideshow.interval.label",
+      "min": 2,
+      "max": 9,
+      "step": 1,
+      "default": 5,
+      "unit": "s",
+      "info": "t:slideshow.interval.info"
+    },
+    {
+      "type": "header",
+      "content": "t:layout.content"
+    },
+    {
+      "type": "select",
+      "id": "section_container_layout",
+      "label": "t:settings_schema.container_layout.label",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:settings_schema.container_layout.settings.container.label"
+        },
+        {
+          "value": "contained-content",
+          "label": "t:settings_schema.container_layout.settings.contained_content.label"
+        },
+        {
+          "value": "container-fluid",
+          "label": "t:settings_schema.container_layout.settings.container_fluid.label"
+        }
+      ],
+      "default": "contained-content"
+    },
+    {
+      "type": "select",
+      "id": "section_corner_radius",
+      "label": "t:round_crnr.label",
+      "options": [
+        {
+          "value": "no_corners_radius",
+          "label": "t:round_crnr.options.opt_1.label"
+        },
+        {
+          "value": "top_corners_radius",
+          "label": "t:round_crnr.options.opt_2.label"
+        },
+        {
+          "value": "bottom_corners_radius",
+          "label": "t:round_crnr.options.opt_3.label"
+        },
+        {
+          "value": "both_corners_radius",
+          "label": "t:round_crnr.options.opt_4.label"
+        }
+      ],
+      "default": "no_corners_radius"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "default": "scheme1",
+      "label": "t:color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:spacing.content"
+    },
+    {
+      "type": "range",
+      "id": "section_top_padding",
+      "label": "t:spacing.settings.top.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_bottom_padding",
+      "label": "t:spacing.settings.bottom.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 0,
+      "unit": "px"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,71 @@
+{%- comment -%}
+  renders promotion product card
+  usage
+    {% render 'promotion-products-card', product: product, index: forloop.index %}
+{%- endcomment -%}
+
+{%- liquid
+  assign first_image = product.featured_media
+
+  capture product_clean_url
+    if product.url contains '?'
+      assign parts = product.url | split: '?'
+      echo parts[0]
+      else
+        echo product.url
+    endif
+  endcapture
+
+  capture product_title
+    if product.title != blank
+      echo product.title
+      else
+        echo 'product.title' | t
+    endif
+  endcapture
+-%}
+<div class="promo-product-card mty">
+  <div class="promo-product-card_image">
+    <a href="{{- product_clean_url -}}" class="promo-product-card_image-link">
+      {%- if first_image != blank -%}
+        <img
+          srcset="{%- if first_image.preview_image.width >= 152 -%}{{ first_image.preview_image | image_url: width: 152 }} 152w,{%- endif -%}
+                  {%- if first_image.preview_image.width >= 200 -%}{{ first_image.preview_image | image_url: width: 200 }} 200w,{%- endif -%}
+                  {%- if first_image.preview_image.width >= 260 -%}{{ first_image.preview_image | image_url: width: 260 }} 260w,{%- endif -%}
+                  {{ first_image.preview_image | image_url: width: first_image.preview_image.width }} {{ first_image.preview_image.width }}w"
+          sizes="calc((var(--cp-width-px) / 5) - 10px)"
+          src="{{- first_image.preview_image | image_url: width: 152 -}}"
+          alt="{{- product.title | escape -}}"
+          loading="lazy"
+          width= "152"
+          height="{{- 152 | divided_by: first_image.preview_image.aspect_ratio | round -}}"
+          class="object-fit object-fit--absolute"
+        >
+        {%- else -%}
+          {%- render 'placeholder-svgs', type: 'hero', index: 1, class: 'object-fit object-fit--absolute' -%}
+      {%- endif -%}
+    </a>
+  </div>
+  <div class="promo-product-card_wrapper">
+    <strong class="promo-product-card_title {{ section.settings.product_title_heading_size }} {{ section.settings.product_title_heading_weight }} mty --word-break">
+      <a href="{{- product_clean_url -}}" class="promo-product-card_title-link">
+        {{- product_title -}}
+      </a>
+    </strong>
+    {%- if section.settings.show_price -%}
+      <div class="promo-product-card_price">
+        {%- render 'product-price', product: product, use_variant: false, show_unit_price: false -%}
+      </div>
+    {%- endif -%}
+    {%- if section.settings.show_cart_btn -%}
+      <a {% if product.title != blank %}href="{{- product_clean_url -}}" target="_blank"{% else %}aria-disabled="false"{% endif %} class="promo-product-card_btn button button--primary">
+        <span class="btn_icn">
+          {%- liquid
+            render 'icons-data', width: 18, height: 18, use_icon: true, icon_reference: 'new-cart', section_id: section.id
+          -%}
+        </span>
+          {{- 'cart.drawer.products.btn_label' | t -}}
+      </a>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,194 @@
+{
+  "sections": {
+    "main_page": {
+      "type": "main-page",
+      "settings": {
+      }
+    },
+    "collapsible_media": {
+      "type": "collapsible-with-media",
+      "blocks": {
+        "collapse_row_1": {
+          "type": "collapse_row",
+          "settings": {}
+        },
+        "collapse_row_2": {
+          "type": "collapse_row",
+          "settings": {
+            "open_by_default": true
+          }
+        },
+        "collapse_row_3": {
+          "type": "collapse_row",
+          "settings": {}
+        },
+        "collapse_row_4": {
+          "type": "collapse_row",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "collapse_row_1",
+        "collapse_row_2",
+        "collapse_row_3",
+        "collapse_row_4"
+      ],
+      "settings": {
+        "section_description": "",
+        "section_caption": "",
+        "section_top_padding": 45
+      }
+    },
+    "collapsible_media_two": {
+      "type": "collapsible-with-media",
+      "blocks": {
+        "collapse_row_1": {
+          "type": "collapse_row",
+          "settings": {}
+        },
+        "collapse_row_2": {
+          "type": "collapse_row",
+          "settings": {
+            "open_by_default": true
+          }
+        },
+        "collapse_row_3": {
+          "type": "collapse_row",
+          "settings": {}
+        },
+        "collapse_row_4": {
+          "type": "collapse_row",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "collapse_row_1",
+        "collapse_row_2",
+        "collapse_row_3",
+        "collapse_row_4"
+      ],
+      "settings": {
+        "section_description": "",
+        "section_caption": "",
+        "section_top_padding": 0,
+        "section_bottom_padding": 40
+      }
+    },
+    "collapsible_media_three": {
+      "type": "collapsible-with-media",
+      "blocks": {
+        "collapse_row_1": {
+          "type": "collapse_row",
+          "settings": {}
+        },
+        "collapse_row_2": {
+          "type": "collapse_row",
+          "settings": {
+            "open_by_default": true
+          }
+        },
+        "collapse_row_3": {
+          "type": "collapse_row",
+          "settings": {}
+        },
+        "collapse_row_4": {
+          "type": "collapse_row",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "collapse_row_1",
+        "collapse_row_2",
+        "collapse_row_3",
+        "collapse_row_4"
+      ],
+      "settings": {
+        "section_description": "",
+        "section_caption": "",
+        "section_top_padding": 10
+      }
+    },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_1": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_2": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_3": {
+          "type": "column",
+          "settings": {}
+        },
+        "column_4": {
+          "type": "column",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "column_1",
+        "column_2",
+        "column_3",
+        "column_4"
+      ],
+      "settings": {
+        "section_heading": "",
+        "section_top_bdr": false,
+        "section_bottom_bdr": false,
+        "section_top_padding": 0,
+        "section_bottom_padding": 0
+      }
+    },
+    "image_gallery": {
+      "type": "image-gallery",
+      "blocks": {
+        "image_1": {
+          "type": "image",
+          "settings": {
+            "item_index": "1"
+          }
+        },
+        "image_2": {
+          "type": "image",
+          "settings": {
+            "item_index": "2"
+          }
+        },
+        "image_3": {
+          "type": "image",
+          "settings": {
+            "item_index": "3"
+          }
+        },
+        "image_4": {
+          "type": "image",
+          "settings": {
+            "item_index": "4"
+          }
+        }
+      },
+      "block_order": [
+        "image_1",
+        "image_2",
+        "image_3",
+        "image_4"
+      ],
+      "settings": {
+        "section_top_padding": 76,
+        "section_bottom_padding": 30
+      }
+    }
+  },
+  "order": [
+    "main_page",
+    "collapsible_media",
+    "collapsible_media_two",
+    "collapsible_media_three",
+    "multicolumn",
+    "image_gallery"
+  ]
+}

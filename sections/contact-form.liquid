@@ -1,0 +1,1170 @@
+{%- liquid
+  assign section_prefix_class = 'contact-form'
+  assign section_scheme_class = section.settings.section_color_scheme | prepend: 'scheme scheme--'
+
+  capture max_header_size
+    echo settings.page_width | times: section.settings.max_header_size | divided_by: 100
+  endcapture
+
+  capture loading_attr
+    if section.index > 1
+      echo 'lazy'
+      else
+        echo 'eager'
+    endif
+  endcapture
+
+  capture section_container_layout
+    case section.settings.section_container_layout
+      when 'page-width'
+        echo 'container'
+      when 'contained-content'
+        echo 'contained-container'
+      when 'container-fluid'
+        echo 'container-fluid'
+    endcase
+  endcapture
+
+  capture section_corner_radius
+    case section.settings.section_corner_radius
+      when 'top_corners_radius'
+        echo 'top_corners_radius'
+      when 'bottom_corners_radius'
+        echo 'bottom_corners_radius'
+      when 'both_corners_radius'
+        echo 'both_corners_radius'
+      when 'no_corners_radius'
+        echo 'no_corner_radius'
+    endcase
+  endcapture
+-%}
+{%- style -%}
+  .form__message, 
+  .error-email,
+  .contact-form_wrapper,
+  .form-wrapper_btn-wrap,
+  .contact-form_block .grid_col{
+    display: flex;
+  }
+
+  .form-group,
+  .contact-form_banner-image{
+    position: relative;
+  }
+
+  .form-wrapper_btn-wrap,
+  .form__message,
+  .error-email {
+    align-items: center;
+  }
+
+  .form__message,
+  .error-email {
+    gap: 10px;
+  }
+
+  .form__message {
+    font-weight: 400;
+    font-size: 1.8rem;
+    line-height: 2.8rem;
+  }
+
+  .newsletter-form_results-wrap,
+  .form__message svg,
+  .errors-list_link {
+    color: var(--section-error-color);
+  }
+
+  .success-message .image,
+  .errors-list {
+    margin-bottom: 10px;
+  }
+
+  .errors-list_link {
+    text-decoration: none;
+  }
+
+  .form-wrapper_btn-label,
+  .error-email,
+  .contact__field-error {
+    font-size: 1.4rem;
+  }
+
+  .error-email,
+  .contact__field-error {
+    line-height: 2.1rem;
+  }
+
+  .success-message {
+    text-align: center;
+    margin-top: 39px;
+    font-size: 2rem;
+    line-height: 3.3rem;
+    color: var(--section-success-color);
+  }
+
+  .success-message p {
+    margin: 0;
+  }
+
+  .success-message_icn {
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  .form-group textarea,
+  .error-email{
+    margin-top: 10px;
+  }
+
+  .form-wrapper_btn-wrap{
+    margin-top: 19px;
+  }
+
+  .form-wrapper_button {
+    --button-padding-y: 1.4rem;
+    --button-padding-x: 2.8rem;
+    --button-font-size: 1.4rem;
+    --button-font-weight: 600;
+    --button-line-height: 1.8rem;
+    --button-font-family: var(--font-headings-family);
+  }
+
+  .contact-form{
+    --q-align-value: var(--mobile-q-align);
+  }
+
+  .contact-form .form-group textarea {
+    resize: none;
+    --input-height: 208px;
+  }
+
+  .contact-form .form-group input{
+    --input-height: 5.6rem;
+  }
+
+  .contact-form_form-wrapper .form-group--email,
+  .contact-form_form-wrapper .form-group--name{
+    margin-bottom: 17px;
+  }
+
+  .contact-form_wrapper {
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-top: 25px;
+    flex-direction: column;
+  }
+
+  .contact-form .form-wrapper_description {
+    --mt-top: 10px;
+  }
+
+  .contact-form .heading-head{
+    margin-bottom: 43px;
+  }
+
+  .form-wrapper_main-heading{
+    --mt-bottom: 28px;
+  }
+
+  .contact-form{
+    --desktop-columns-count: 1;
+  }
+
+  .contact-form_block {
+    --cp-spacer-left: 8px;
+    --cp-spacer-right: 8px;
+  }
+
+  .contact-form_store-col{
+    padding: 13px 30px 14px 30px;
+    border-radius: var(--section-radius);
+    width: 100%;
+  }
+
+  .contact-form_banner-image{
+    border-radius: var(--section-radius);
+  }
+
+  .contact-form_banner-image img,
+  .contact-form_banner-image svg{
+    border-radius: inherit;
+  }
+
+  .contact-form_form-wrapper .form-group--email,
+  .contact-form_form-wrapper .form-group--name{
+    width: 100%;
+  }
+
+  .contact-form_border-btm{
+    border-bottom: 1px solid var(--section-border-color);
+    padding-bottom: 25px;
+  }
+
+  .form-wrapper_btn-wrap{
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .form-wrapper_btn-label,
+  .contact-form_banner-image{
+    flex-grow: 1;
+  }
+
+  .form-wrapper_btn-wrap-btn{
+    flex-shrink: 0;
+    text-align: end;
+  }
+
+  .form-wrapper_btn-label{
+    line-height: 2rem; 
+    color: var(--section-alternative-color);
+  }
+
+  .contact-form_internal-wrapper.internal--spacing{
+    padding: 10px 15px;
+  }
+
+  .btn--no-label{
+    margin-left: auto;
+  }
+
+  @media(min-width: 576px){
+    .contact-form {
+      --desktop-columns-count: 2;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .contact-form {
+      --desktop-columns-count: 3;
+    }
+
+    .contact-form{
+      --q-align-value: var(--desktop-q-align);
+    }
+
+    .contact-form{
+      overflow: visible;
+    }
+
+    .contact-form_wrapper {
+      gap: 20px;
+      flex-direction: row;
+    }
+
+    .contact-form--form-center .contact-form_col-form {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      max-width: 703px;
+    }
+
+    .contact-form_col-form{
+      width: 64.4%;
+    }
+
+    .contact-form_internal-wrapper.internal--spacing{
+      padding: 10px 30px;
+    }
+  }
+
+  @media (min-width:1200px) {
+    .contact-form_wrapper {
+      gap: 33px;
+    }
+
+    .contact-form_store-col{
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .contact-form_block-heading{
+      width: 35%;
+    }
+
+    .contact-form_block-description{
+      width: 65%;
+      text-align: right;
+    }
+
+    .contact-form{
+      --desktop-columns-count: var(--columns-count);
+    }
+  }
+
+  @media(max-width: 767px){
+    .contact-form_banner-image{
+      height: 400px;
+    }
+  }
+
+  {%- assign query = '414px' -%}
+  @media (min-width: {{ query }}) and (max-width: 575px){
+    #{{ section.id }}{
+      --desktop-columns-count: {{ section.settings.number_of_columns_on_mobile }};
+    }
+  }
+{%- endstyle -%}
+<div class="global-block {{ section_prefix_class }} {{ section_prefix_class }}-{{ section.id }} {% if section_container_layout == 'container-fluid' or section_container_layout == 'contained-container' %}{{ section_scheme_class }} {{ section_corner_radius }}{% endif %}" style="--section-padding-top: {{ section.settings.section_top_padding }}px; --section-padding-bottom: {{ section.settings.section_bottom_padding }}px; --mobile-q-align: {{ section.settings.section_mobile_text_alignment }}; --desktop-q-align: {{ section.settings.section_text_alignment }}; --columns-count: {{ section.settings.number_of_columns_on_desktop }}; --mobile-columns-count: {{ section.settings.number_of_columns_on_mobile }};" id="{{- section.id -}}">
+  <div class="{{ section_container_layout }}">
+    <div class="{{ section_prefix_class }}_internal-wrapper {% if section_container_layout == 'container' %}{{ section_scheme_class }} {{ section_corner_radius }} internal--spacing{% endif %}">
+      <div class="{{ section_prefix_class }}_header-wrapper">
+        {%- if section.settings.section_caption != blank or section.settings.section_main_heading != blank or section.settings.section_main_description != blank -%}
+          <header class="heading-head inner-container --word-break --q-align" style="--max-content: {{ max_header_size }}px;">
+            {%- if section.settings.section_caption != blank -%}
+              <div
+                class="{{ section_prefix_class }}_caption --word-break {{ section.settings.section_caption_size }} {{ section.settings.section_caption_weight }} mty {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":0,"fill":"both","iterations":1}'
+              >
+                {{- section.settings.section_caption -}}
+              </div>
+            {%- endif -%}
+            {%- if section.settings.section_main_heading != blank -%}
+              <h2
+                class="{{ section_prefix_class }}_heading --h-anchor-none {{ section.settings.section_main_heading_size }} {{ section.settings.section_main_heading_weight }} mty {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":150,"fill":"both","iterations":1}'
+              >
+                {{- section.settings.section_main_heading -}}
+              </h2>
+            {%- endif -%}
+            {%- if section.settings.section_main_description != blank -%}
+              <div
+                class="{{ section_prefix_class }}_description --word-break {{ section.settings.main_description_text_size }} {{ section.settings.section_main_description_weight }} mty {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                data-margin="0px 0px -20px 0px"
+                data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                data-options='{"duration":1000,"easing":"ease","delay":250,"fill":"both","iterations":1}'
+              >
+                {{- section.settings.section_main_description -}}
+              </div>
+            {%- endif -%}
+          </header>
+        {%- endif -%}
+      </div>
+      <div class="{{ section_prefix_class }}_block grid {% if section.settings.border_bottom %}{{ section_prefix_class }}_border-btm{% endif %}">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign counter = forloop.index | modulo: section.settings.number_of_columns_on_desktop
+            if counter == 0
+              assign counter = section.settings.number_of_columns_on_desktop
+            endif
+          -%}
+          <div
+            class="grid_col"
+            {{ block.shopify_attributes }}
+          >
+            <div
+              class="contact-form_store-col widget--styles {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+              data-margin="0px 0px -20px 0px"
+              data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+              data-options='{"duration":1000,"easing":"ease","delay":{{ counter | times: 100 }},"fill":"both","iterations":1}'
+            >
+              <h3 class="contact-form_block-heading --word-break {{ section.settings.card_heading_size }} {{ section.settings.card_heading_weight }}">
+                {{- block.settings.heading -}}
+              </h3>
+              <div class="contact-form_block-description {{ section.settings.card_description_size }} {{ section.settings.card_description_weight }} --word-break">
+                {{- block.settings.description -}}
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="{{ section_prefix_class }}_wrapper {% if section.blocks.size > 0 %}simple{% else %}--justify-center{% endif %}">
+        <div
+          class="{{ section_prefix_class }}_banner-image {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+          data-margin="0px 0px -20px 0px"
+          data-frames='[{"opacity":"0","transform":"translateX(-15px)"},{"opacity":"1","transform":"translateX(0px)"}]'
+          data-options='{"duration":1000,"easing":"ease","delay":150,"fill":"both","iterations":1}'
+        >
+          {%- if section.settings.banner_image != blank -%}
+            {%- liquid 
+              capture image_alt
+                unless section.settings.banner_image.alt == blank
+                  echo section.settings.banner_image.alt
+                  else
+                    echo 'contact_form.image_alt' | t
+                endunless
+              endcapture
+            -%}
+            {{- section.settings.banner_image | image_url: width: 1944 | image_tag: class: 'object-fit object-fit--absolute', loading: loading_attr, alt: image_alt, widths: '972, 1944', sizes: '(max-width: 767px) 972vw, 1944vw' -}}
+          {%- else -%}
+            {%- render 'placeholder-svgs', type: 'hero', index: 1, class: 'object-fit object-fit--absolute' -%}
+          {%- endif -%}
+        </div>
+        <div class="{{ section_prefix_class }}_col {{ section_prefix_class }}_col-form">
+          {%- if section.settings.form_heading != blank or section.settings.form_description != blank -%}
+            <header class="heading-head --align-{{ section.settings.form_text_alignment }}">
+              {%- if section.settings.form_heading != blank -%}
+                <h2
+                  class="form-wrapper_heading {{ section_prefix_class }}_heading {{ section.settings.form_heading_weight }} {{ section.settings.form_heading_size }} --word-break --h-anchor-none mty {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                  data-margin="0px 0px -20px 0px"
+                  data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                  data-options='{"duration":1000,"easing":"ease","delay":250,"fill":"both","iterations":1}'
+                >
+                  {{- section.settings.form_heading -}}
+                </h2>
+              {%- endif -%}
+              {%- if section.settings.form_description != blank -%}
+                <div
+                  class="form-wrapper_description {{ section_prefix_class }}_description {{ section.settings.form_text_size }} {{ section.settings.form_description_weight }} --word-break mty {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+                  data-margin="0px 0px -20px 0px"
+                  data-frames='[{"opacity":"0","transform":"translateY(15px)"},{"opacity":"1","transform":"translateY(0px)"}]'
+                  data-options='{"duration":1000,"easing":"ease","delay":350,"fill":"both","iterations":1}'
+                >
+                  <p>{{- section.settings.form_description -}}</p>
+                </div>
+              {%- endif -%}
+            </header>
+          {%- endif -%}
+          <div
+            class="form-wrapper {{ section_prefix_class }}_form-wrapper {% if settings.enable_viewport_anim %}viewport-block{% endif %}"
+            data-margin="0px 0px -20px 0px"
+            data-frames='[{"opacity":"0","transform":"translateX(15px)"},{"opacity":"1","transform":"translateX(0px)"}]'
+            data-options='{"duration":1000,"easing":"ease","delay":250,"fill":"both","iterations":1}'
+          >
+            {%- assign form_id = 'ContactForm' | append: section.id -%}
+              {%- form 'contact', id: form_id, class: 'isolate' -%}
+                {%- if form.errors != blank -%}
+                  <strong class="form__message --fw-normal mty" role="alert" tabindex="-1" autofocus>
+                    {%- render 'icons-data', width: 22, height: 22, use_icon: true, icon_reference: 'error' -%}
+                    {{- 'erorr.common_heading' | t -}}
+                  </strong>
+                  <ul class="errors-list list-unstyled">
+                    <li class="errors-list_item">
+                      <smooth-anchor data-offset=".sticky-header-wrapper">
+                        <a class="errors-list_link text-size--small" href="#ContactForm-email-{{ form_id }}">
+                          *{{- form.errors.translated_fields.email | capitalize }}
+                          {{ form.errors.messages.email -}}
+                        </a>
+                      </smooth-anchor>
+                    </li>
+                  </ul>
+                {%- endif -%}
+                <div class="two-form-group">
+                  <div class="form-group form-group--name">
+                    <label class="text-size--small --fw-medium visually-hidden" for="contact-name-{{ form_id }}">{{- 'contact_form.form_label.name.label' | t -}}</label>
+                    <input type="text" id="contact-name-{{ form_id }}" name="contact[Name]" placeholder="{{- 'contact_form.form_placeholder.name.label' | t -}}">
+                  </div>
+                  <div class="form-group form-group--email">
+                    <label class="text-size--small --fw-medium visually-hidden" for="ContactForm-email-{{ form_id }}">{{- 'contact_form.form_label.email.label' | t -}}</label>
+                    <input type="email" id="ContactForm-email-{{ form_id }}" name="contact[email]" placeholder="{{- 'contact_form.form_placeholder.email.label' | t -}}"
+                    onkeydown="validation()">
+                    <div class="newsletter-form_results-wrap results-wrap_message text-size--small">
+                      {%- if form.errors contains 'email' -%}
+                        <div class="error-email">
+                          {%- render 'icons-data', width: 22, height: 22, use_icon: true, icon_reference: 'error' -%}
+                          <small class="contact__field-error" id="ContactForm-email-{{ form_id }}-error">
+                            {{- form.errors.translated_fields.email | capitalize }}
+                            {{ form.errors.messages.email -}}
+                          </small>
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="text-size--small --fw-medium visually-hidden" for="contact-textarea-{{ form_id }}">{{- 'contact_form.form_label.your_request.label' | t -}}</label>
+                  <textarea name="contact[textarea]" id="contact-textarea-{{ form_id }}" placeholder="{{- 'contact_form.form_placeholder.your_request.label' | t -}}"></textarea>
+                </div>
+                <div class="form-wrapper_btn-wrap">
+                  <div class="form-wrapper_btn-wrap-btn {% unless section.settings.form_label != blank %}btn--no-label{% endunless %}">
+                    <button class="button button--secondary form-wrapper_button" type="submit">
+                      {{- 'contact_form.submit_label' | t -}}
+                    </button>
+                  </div>
+                </div>
+                {%- if form.posted_successfully? -%}
+                  <div class="success-message" role="alert" tabindex="-1" autofocus>
+                    <i class="success-message_icn">
+                      {%- render 'icons-data', width: 54, height: 54, use_icon: true, icon_reference: 'smile' -%}
+                    </i>
+                    <p>{{- 'contact_form.success.heading1' | t -}}</p>
+                    <p>{{- 'contact_form.success.heading2' | t -}}</p>
+                  </div>
+                {%- endif -%}
+              {%- endform -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%- javascript -%}
+  class SmoothAnchor extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback(){
+      this.anchor = this.querySelector('a');
+      this.anchor.addEventListener('click', this.onClickRef.bind(this));
+    }
+    
+    onClickRef(){
+      event.preventDefault();
+      const targetId = this.anchor.getAttribute('href');
+      const targetElement = document.querySelector(targetId);
+
+      if(targetElement){
+        if(this.dataset.offset){
+          let offset = 0;
+          const offsetElement = document.querySelector(this.dataset.offset);
+          if(!offsetElement){
+            doScroll();
+            if(targetElement.nodeName.toLowerCase() === 'input') targetElement.focus();
+            return
+          };
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          offset = elementPosition + window.scrollY - offsetElement.offsetHeight;
+          window.scrollTo({
+            top: offset,
+            behavior: "smooth"
+          });
+          if(targetElement.nodeName.toLowerCase() === 'input') targetElement.focus();
+          return;
+        }
+        doScroll();
+        if(targetElement.nodeName.toLowerCase() === 'input') targetElement.focus();
+      }
+        
+      function doScroll(){
+        targetElement.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
+    }
+  }
+  if(!customElements.get('smooth-anchor')) customElements.define('smooth-anchor', SmoothAnchor);
+{%- endjavascript -%}
+{% schema %}
+{
+  "name": "t:sections.contact_form.name",
+  "tag": "section",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer",
+      "custom.overlay"
+    ]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.head.content"
+    },
+    {
+      "type": "text",
+      "id": "section_caption",
+      "label": "t:caption.label"
+    },
+    {
+      "type": "select",
+      "id": "section_caption_size",
+      "label": "t:sizes.caption.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--small"
+    },
+    {
+      "type": "select",
+      "id": "section_caption_weight",
+      "label": "t:weight.caption.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-medium"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "section_main_heading",
+      "label": "t:heading.label"
+    },
+    {
+      "type": "select",
+      "id": "section_main_heading_size",
+      "label": "t:sizes.heading.label",
+      "options": [
+        {
+          "value": "h1",
+          "label": "t:sizes.heading.options.opt_1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sizes.heading.options.opt_2.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sizes.heading.options.opt_3.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sizes.heading.options.opt_4.label"
+        }
+      ],
+      "default": "h3"
+    },
+    {
+      "type": "select",
+      "id": "section_main_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-bold"
+    },
+    {
+      "type": "richtext",
+      "id": "section_main_description",
+      "label": "t:description_text.label"
+    },
+    {
+      "type": "select",
+      "id": "main_description_text_size",
+      "label": "t:sizes.description_text.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--medium"
+    },
+    {
+      "type": "select",
+      "id": "section_main_description_weight",
+      "label": "t:weight.description_text.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-normal"
+    },
+    {
+      "type": "range",
+      "id": "max_header_size",
+      "label": "t:sections.head.size.label",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "%"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.contact_form.settings.location_head.content"
+    },
+    {
+      "type": "select",
+      "id": "card_heading_size",
+      "label": "t:sizes.heading.label",
+      "options": [
+        {
+          "value": "h4",
+          "label": "t:sizes.heading.options.opt_4.label"
+        },
+        {
+          "value": "h5",
+          "label": "t:sizes.heading.options.opt_5.label"
+        },
+        {
+          "value": "h6",
+          "label": "t:sizes.heading.options.opt_6.label"
+        }
+      ],
+      "default": "h6"
+    },
+    {
+      "type": "select",
+      "id": "card_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-bold"
+    },
+    {
+      "type": "select",
+      "id": "card_description_size",
+      "label": "t:sizes.description_text.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--large"
+    },
+    {
+      "type": "select",
+      "id": "card_description_weight",
+      "label": "t:weight.description_text.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-normal"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.contact_form.settings.form_settings.title"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image",
+      "label": "t:sections.contact_form.settings.banner_image.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "form_heading",
+      "label": "t:sections.contact_form.settings.form_heading.label",
+      "default": "Get in Touch"
+    },
+    {
+      "type": "select",
+      "id": "form_heading_size",
+      "label": "t:sizes.heading.label",
+      "options": [
+        {
+          "value": "h2",
+          "label": "t:sizes.heading.options.opt_2.label"
+        },
+        {
+          "value": "h3",
+          "label": "t:sizes.heading.options.opt_3.label"
+        },
+        {
+          "value": "h4",
+          "label": "t:sizes.heading.options.opt_4.label"
+        }
+      ],
+      "default": "h4"
+    },
+    {
+      "type": "select",
+      "id": "form_heading_weight",
+      "label": "t:weight.heading.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-extra-bold"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "form_description",
+      "label": "t:sections.contact_form.settings.form_description.label"
+    },
+    {
+      "type": "select",
+      "id": "form_text_size",
+      "label": "t:sizes.description_text.label",
+      "options": [
+        {
+          "value": "text-size--small",
+          "label": "t:sizes.text.options.opt_1.label"
+        },
+        {
+          "value": "text-size--medium",
+          "label": "t:sizes.text.options.opt_2.label"
+        },
+        {
+          "value": "text-size--large",
+          "label": "t:sizes.text.options.opt_3.label"
+        },
+        {
+          "value": "text-size--xlarge",
+          "label": "t:sizes.text.options.opt_4.label"
+        }
+      ],
+      "default": "text-size--small"
+    },
+    {
+      "type": "select",
+      "id": "form_description_weight",
+      "label": "t:weight.description_text.label",
+      "options": [
+        {
+          "value": "--fw-extra-bold",
+          "label": "t:weight.heading.options.opt_6.label"
+        },
+        {
+          "value": "--fw-bold",
+          "label": "t:weight.heading.options.opt_1.label"
+        },
+        {
+          "value": "--fw-semi-bold",
+          "label": "t:weight.heading.options.opt_5.label"
+        },
+        {
+          "value": "--fw-medium",
+          "label": "t:weight.heading.options.opt_2.label"
+        },
+        {
+          "value": "--fw-normal",
+          "label": "t:weight.heading.options.opt_3.label"
+        },
+        {
+          "value": "--fw-light",
+          "label": "t:weight.heading.options.opt_4.label"
+        }
+      ],
+      "default": "--fw-light"
+    },
+    {
+      "type": "text_alignment",
+      "id": "form_text_alignment",
+      "label": "t:alignments.text.label",
+      "default": "left"
+    },
+    {
+      "type": "header",
+      "content": "t:grid.content"
+    },
+    {
+      "type": "range",
+      "id": "number_of_columns_on_desktop",
+      "label": "t:grid.desktop.columns.label",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "number_of_columns_on_mobile",
+      "label": "t:grid.mobile.columns.label",
+      "info": "t:grid.mobile.info_small",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:grid.mobile.columns.options.opt_1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:grid.mobile.columns.options.opt_2.label"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "header",
+      "content": "t:layout.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_bottom",
+      "label": "t:sections.contact_form.settings.border_bottom.label",
+      "default": true
+    },
+    {
+      "type": "text_alignment",
+      "id": "section_text_alignment",
+      "label": "t:alignments.text.desktop.label",
+      "default": "center"
+    },
+    {
+      "type": "text_alignment",
+      "id": "section_mobile_text_alignment",
+      "label": "t:alignments.text.mobile.label",
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "section_container_layout",
+      "label": "t:settings_schema.container_layout.label",
+      "options": [
+        {
+          "value": "page-width",
+          "label": "t:settings_schema.container_layout.settings.container.label"
+        },
+        {
+          "value": "contained-content",
+          "label": "t:settings_schema.container_layout.settings.contained_content.label"
+        },
+        {
+          "value": "container-fluid",
+          "label": "t:settings_schema.container_layout.settings.container_fluid.label"
+        }
+      ],
+      "default": "contained-content"
+    },
+    {
+      "type": "select",
+      "id": "section_corner_radius",
+      "label": "t:round_crnr.label",
+      "options": [
+        {
+          "value": "no_corners_radius",
+          "label": "t:round_crnr.options.opt_1.label"
+        },
+        {
+          "value": "top_corners_radius",
+          "label": "t:round_crnr.options.opt_2.label"
+        },
+        {
+          "value": "bottom_corners_radius",
+          "label": "t:round_crnr.options.opt_3.label"
+        },
+        {
+          "value": "both_corners_radius",
+          "label": "t:round_crnr.options.opt_4.label"
+        }
+      ],
+      "default": "no_corners_radius"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "default": "scheme1",
+      "label": "t:color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:spacing.content"
+    },
+    {
+      "type": "range",
+      "id": "section_top_padding",
+      "label": "t:spacing.settings.top.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 65,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_bottom_padding",
+      "label": "t:spacing.settings.bottom.label",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "default": 65,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "t:sections.contact_form.blocks.location.name",
+      "type": "location",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "t:heading.label",
+          "default": "Store locations"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "t:sections.contact_form.blocks.location.address_description.label",
+          "default": "<p>123 Main Street, City Name, State, Country, ZIP/Postal Code</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.contact_form.name",
+      "blocks": [
+        {
+          "type": "location",
+          "settings": {
+          }
+        },
+        {
+          "type": "location",
+          "settings": {
+          }
+        },
+        {
+          "type": "location",
+          "settings": {
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

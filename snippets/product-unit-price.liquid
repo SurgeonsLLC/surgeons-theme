@@ -1,0 +1,41 @@
+{%- comment -%}
+  renders product unit price
+  usage
+    {%- render 'product-unit-price', product: product -%}
+{%- endcomment -%}
+{%- unless product.title == blank -%}
+  <span class="product-unit-price --word-break {% if product.selected_or_first_available_variant.unit_price_measurement == nil %}hidden{% endif %}">
+    <span class="visually-hidden">
+      {{- 'product.unit_price' | t -}}
+    </span>
+    <span class="unit-price">
+      <span>
+        {{- product.selected_or_first_available_variant.unit_price | money -}}
+      </span>
+      <span aria-hidden="true">/</span>
+      <span class="visually-hidden">&nbsp;{{- 'product.unit_price_separator' | t -}}&nbsp;</span>
+      <span>
+        {%- liquid
+          if product.selected_or_first_available_variant.unit_price_measurement.reference_value != 1
+            echo product.selected_or_first_available_variant.unit_price_measurement.reference_value
+          endif
+          echo product.selected_or_first_available_variant.unit_price_measurement.reference_unit
+        -%}
+      </span>
+    </span>
+  </span>
+  {%- else -%}
+    <span class="product-unit-price --word-break">
+      <span class="visually-hidden">
+        {{- 'product.unit_price' | t -}}
+      </span>
+      <span class="unit-price">
+        <span>
+          {{- 1999 | money -}}
+        </span>
+        <span aria-hidden="true">/</span>
+        <span class="visually-hidden">&nbsp;{{- 'product.unit_price_separator' | t -}}&nbsp;</span>
+        <span>g</span>
+      </span>
+    </span>
+{%- endunless -%}
