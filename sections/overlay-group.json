@@ -19,7 +19,7 @@
           "settings": {
             "heading": "AGE VERIFICATION",
             "heading_size": "h4",
-            "heading_weight": "--fw-semi-bold",
+            "heading_weight": "--fw-medium",
             "block_spacing": 15
           }
         },
