@@ -1,1 +1,131 @@
-{"type":"custom.overlay","name":"Overlay group","sections":{"age-verification-popup":{"type":"age-verification-popup","blocks":{"heading":{"type":"heading","settings":{"heading":"AGE VERIFICATION","heading_size":"h4","heading_weight":"--fw-semi-bold","block_spacing":15}},"description":{"type":"description","settings":{"heading":"<p>HI! You are using a BETA-VERSION of this site. Some of the buttons do not work yet. We appreciate your understanding, and sincerely apologize for the inconvenience.<\/p><p>Your privacy and security is important to us here Surgeons. In order to provide a more secure, personalized experience, and to ensure you are a real person, you must create an account to access this content.<\/p><p>You must be at least 21 years old to purchase from this website. Use our authenticator <\/p>","block_text_size_heading":"text-size--medium","description_weight":"--fw-normal","block_spacing":20}}},"block_order":["heading","description"],"settings":{"hide_image_on_mobile":false,"button_label_1":"","button_label_2":"NO, I'M UNDER 21","age_position":"centered","age_text_alignment":"center","age_color_scheme":"scheme2"}},"newsletter-popup":{"type":"Newsletter-popup","blocks":{"heading":{"type":"heading","settings":{"heading":"Heading","heading_size":"h4","heading_weight":"--fw-extra-bold","block_spacing":6}},"text":{"type":"text","settings":{"description":"<p>Take Free Shipping For Your Order!<\/p>","block_text_size_heading":"text-size--medium","description_weight":"--fw-normal","block_spacing":23}},"countdown_timer":{"type":"countdown_timer","settings":{"end_date":"2025\/05\/06","end_type":"hide","end_message":"","block_spacing":34}},"form":{"type":"form","settings":{"block_spacing":0}}},"block_order":["heading","text","countdown_timer","form"],"disabled":true,"settings":{"button_label_1":"Subscribe","age_position":"centered","age_text_alignment":"center","age_color_scheme":""}},"promotion-products-popup":{"type":"promotion-products-popup","disabled":true,"settings":{"promotion_products":[],"product_card_heading":"Heading","product_card_heading_size":"h4","product_card_heading_weight":"--fw-extra-bold","heading":"Heading","heading_size":"h4","heading_weight":"--fw-bold","promotion_products_caption":"Caption","promotion_products_code":"CODE123","banner_color_scheme":"","product_title_heading_size":"h6","product_title_heading_weight":"--fw-bold","show_price":true,"show_cart_btn":true,"promotion_products_position":"centered","content_alignment":"bottom","promotion_products_text_alignment":"center","promotion_products_color_scheme":""}}},"order":["age-verification-popup","newsletter-popup","promotion-products-popup"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "custom.overlay",
+  "name": "Overlay group",
+  "sections": {
+    "age-verification-popup": {
+      "type": "age-verification-popup",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "AGE VERIFICATION",
+            "heading_size": "h4",
+            "heading_weight": "--fw-semi-bold",
+            "block_spacing": 15
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "heading": "<p>HI! You are using a BETA-VERSION of this site. Some of the buttons do not work yet. We appreciate your understanding, and sincerely apologize for the inconvenience.</p><p>Your privacy and security is important to us here Surgeons. In order to provide a more secure, personalized experience, and to ensure you are a real person, you must create an account to access this content.</p><p>You must be at least 21 years old to purchase from this website. Use our authenticator </p>",
+            "block_text_size_heading": "text-size--medium",
+            "description_weight": "--fw-normal",
+            "block_spacing": 20
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "description"
+      ],
+      "disabled": true,
+      "settings": {
+        "hide_image_on_mobile": false,
+        "button_label_1": "",
+        "button_label_2": "NO, I'M UNDER 21",
+        "age_position": "centered",
+        "age_text_alignment": "center",
+        "age_color_scheme": "scheme2"
+      }
+    },
+    "newsletter-popup": {
+      "type": "Newsletter-popup",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Heading",
+            "heading_size": "h4",
+            "heading_weight": "--fw-extra-bold",
+            "block_spacing": 6
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "description": "<p>Take Free Shipping For Your Order!</p>",
+            "block_text_size_heading": "text-size--medium",
+            "description_weight": "--fw-normal",
+            "block_spacing": 23
+          }
+        },
+        "countdown_timer": {
+          "type": "countdown_timer",
+          "settings": {
+            "end_date": "2025/05/06",
+            "end_type": "hide",
+            "end_message": "",
+            "block_spacing": 34
+          }
+        },
+        "form": {
+          "type": "form",
+          "settings": {
+            "block_spacing": 0
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "text",
+        "countdown_timer",
+        "form"
+      ],
+      "disabled": true,
+      "settings": {
+        "button_label_1": "Subscribe",
+        "age_position": "centered",
+        "age_text_alignment": "center",
+        "age_color_scheme": ""
+      }
+    },
+    "promotion-products-popup": {
+      "type": "promotion-products-popup",
+      "disabled": true,
+      "settings": {
+        "promotion_products": [],
+        "product_card_heading": "Heading",
+        "product_card_heading_size": "h4",
+        "product_card_heading_weight": "--fw-extra-bold",
+        "heading": "Heading",
+        "heading_size": "h4",
+        "heading_weight": "--fw-bold",
+        "promotion_products_caption": "Caption",
+        "promotion_products_code": "CODE123",
+        "banner_color_scheme": "",
+        "product_title_heading_size": "h6",
+        "product_title_heading_weight": "--fw-bold",
+        "show_price": true,
+        "show_cart_btn": true,
+        "promotion_products_position": "centered",
+        "content_alignment": "bottom",
+        "promotion_products_text_alignment": "center",
+        "promotion_products_color_scheme": ""
+      }
+    }
+  },
+  "order": [
+    "age-verification-popup",
+    "newsletter-popup",
+    "promotion-products-popup"
+  ]
+}
