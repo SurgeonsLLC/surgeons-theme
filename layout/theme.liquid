@@ -148,7 +148,6 @@
   {% unless template == 'index' or template == 'page.contact' %}
     <script src="{{ 'global.js' | asset_url }}" defer></script>
   {% endunless %}
-
 </head>
   <body>
     <div id="page-wrapper">
@@ -453,5 +452,6 @@
       {%- sections 'footer-group' -%}
     </div>
     {%- render 'window-strings-script' -%}
-  </body>
+  {% render 'entry-gate' %}
+</body>
 </html>
