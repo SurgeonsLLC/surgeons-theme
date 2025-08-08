@@ -52,16 +52,16 @@
         "heading": {
           "type": "heading",
           "settings": {
-            "heading": "Heading",
+            "heading": "Stay In The Know",
             "heading_size": "h4",
-            "heading_weight": "--fw-extra-bold",
+            "heading_weight": "--fw-bold",
             "block_spacing": 6
           }
         },
         "text": {
           "type": "text",
           "settings": {
-            "description": "<p>Take Free Shipping For Your Order!</p>",
+            "description": "<p>Get Free Shipping For Your First Order!</p>",
             "block_text_size_heading": "text-size--medium",
             "description_weight": "--fw-normal",
             "block_spacing": 23
@@ -70,16 +70,16 @@
         "countdown_timer": {
           "type": "countdown_timer",
           "settings": {
-            "end_date": "2025/05/06",
+            "end_date": "2025/08/31",
             "end_type": "hide",
-            "end_message": "",
+            "end_message": "Earn More",
             "block_spacing": 34
           }
         },
         "form": {
           "type": "form",
           "settings": {
-            "block_spacing": 0
+            "block_spacing": 5
           }
         }
       },
@@ -89,7 +89,6 @@
         "countdown_timer",
         "form"
       ],
-      "disabled": true,
       "settings": {
         "button_label_1": "Subscribe",
         "age_position": "centered",
