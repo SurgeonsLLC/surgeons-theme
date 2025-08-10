@@ -1,1 +1,40 @@
-{"sections":{"main":{"type":"main-404","settings":{"cover_image":"shopify:\/\/shop_images\/ChatGPT_Image_Aug_6_2025_07_44_42_PM.png","page_heading":"ERROR","page_heading_size":"h1","page_heading_weight":"--fw-extra-bold","section_description":"Page Not Found","section_description_size":"text-size--large","section_description_weight":"--fw-bold","subheading":"You must be visiting an old link, or do not have permission to be here. Let's get you back to our store.","section_subheading_size":"text-size--large","section_subheading_weight":"--fw-bold","section_link_label":"BACK TO HOME","section_link_type":"secondary","section_link":"","section_link_target":false,"section_media_size":"landscape","section_text_alignment":"center","section_color_scheme":"scheme1","section_top_padding":0,"section_bottom_padding":0}}},"order":["main"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "cover_image": "shopify://shop_images/404_Page_Not_Found_Image.png",
+        "page_heading": "ERROR",
+        "page_heading_size": "h1",
+        "page_heading_weight": "--fw-extra-bold",
+        "section_description": "Page Not Found",
+        "section_description_size": "text-size--large",
+        "section_description_weight": "--fw-bold",
+        "subheading": "You must be visiting an old link, or do not have permission to be here. Let's get you back to our store.",
+        "section_subheading_size": "text-size--large",
+        "section_subheading_weight": "--fw-bold",
+        "section_link_label": "Browse Our Products",
+        "section_link_type": "secondary",
+        "section_link": "shopify://collections/surgeons-favorites-full-spectrum-cbd-cannabinoid-infused-products",
+        "section_link_target": false,
+        "section_media_size": "landscape",
+        "section_text_alignment": "center",
+        "section_color_scheme": "scheme1",
+        "section_top_padding": 0,
+        "section_bottom_padding": 0
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
