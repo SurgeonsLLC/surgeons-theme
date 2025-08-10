@@ -80,6 +80,59 @@
         "section_bottom_padding": 0
       }
     },
+    "featured_collection_WN8hLH": {
+      "type": "featured-collection",
+      "name": "t:sections.featured_collection.name",
+      "settings": {
+        "section_collection": [
+          "surgeons-apparel"
+        ],
+        "section_caption": "Caption",
+        "section_caption_size": "text-size--medium",
+        "section_caption_weight": "--fw-medium",
+        "section_heading": "Featured collection",
+        "section_heading_size": "h4",
+        "section_heading_weight": "--fw-extra-bold",
+        "section_description": "",
+        "description_text_size": "text-size--medium",
+        "section_description_weight": "--fw-normal",
+        "max_header_size": 100,
+        "enable_view_more": true,
+        "view_more_label": "See Full Range",
+        "product_media_size": "adapt",
+        "product_heading_size": "text-size--medium",
+        "product_heading_weight": "--fw-semi-bold",
+        "enable_atc": true,
+        "enable_quick_view": true,
+        "show_price": true,
+        "show_vendor": true,
+        "show_stock_tag": true,
+        "show_sale_tag": false,
+        "show_custom_tag": true,
+        "video_index": "7",
+        "video_heading": "Video heading",
+        "video_heading_size": "h1",
+        "video_heading_weight": "--fw-extra-bold",
+        "description": "Include a description that introduces your video",
+        "video_text_size": "text-size--medium",
+        "video_description_weight": "--fw-semi-bold",
+        "content_alignment": "middle",
+        "video_color_scheme": "",
+        "section_container_layout": "contained-content",
+        "section_corner_radius": "no_corners_radius",
+        "thumbnail_layout": "thumbnail",
+        "section_text_alignment": "center",
+        "section_mobile_text_alignment": "center",
+        "section_color_scheme": "",
+        "products_to_show": 5,
+        "number_of_columns_on_mobile": "2",
+        "auto_play": false,
+        "show_pagination": true,
+        "change_slides_every": 5,
+        "section_top_padding": 50,
+        "section_bottom_padding": 50
+      }
+    },
     "custom_liquid_j7g8ce": {
       "type": "custom-liquid",
       "name": "t:custom_liquid.name",
@@ -95,6 +148,7 @@
   },
   "order": [
     "main",
+    "featured_collection_WN8hLH",
     "custom_liquid_j7g8ce"
   ]
 }
