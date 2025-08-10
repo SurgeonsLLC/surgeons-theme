@@ -79,9 +79,22 @@
         "section_top_padding": 0,
         "section_bottom_padding": 0
       }
+    },
+    "custom_liquid_j7g8ce": {
+      "type": "custom-liquid",
+      "name": "t:custom_liquid.name",
+      "settings": {
+        "custom_liquid": "<iframe allow=\"autoplay\" width=\"100%\" height=\"300\" src=\"https://www.iheart.com/podcast/269-only-the-best-herbs-123498403/episode/season-3-episode-6-245771337/?embed=true\" frameborder=\"0\"></iframe>",
+        "section_full_width": false,
+        "section_text_alignment": "center",
+        "section_color_scheme": "scheme1",
+        "section_top_padding": 60,
+        "section_bottom_padding": 60
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "custom_liquid_j7g8ce"
   ]
 }
