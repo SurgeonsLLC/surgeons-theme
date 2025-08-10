@@ -79,9 +79,145 @@
         "section_top_padding": 0,
         "section_bottom_padding": 0
       }
+    },
+    "featured_blog_ngJdEn": {
+      "type": "featured-blog",
+      "blocks": {
+        "review_edreKM": {
+          "type": "review",
+          "settings": {
+            "heading": "Latest News",
+            "block_heading_size": "h6",
+            "block_heading_weight": "--fw-bold",
+            "block_description": "Donald Trump Is considering to re-schedule cannabis from a schedule 1 to a lesser class. This will help give researchers, businesses and schools access to funding and other important financial tools to succeed. More importantly, this asserts that cannabis has medical value on a national scale. What do you think?",
+            "block_description_size": "h4",
+            "block_description_weight": "--fw-normal",
+            "block_rating": "none",
+            "block_color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_edreKM"
+      ],
+      "name": "t:sections.featured_blog.name",
+      "settings": {
+        "article": "surgeons-online-cbd-cannabinoid-academy/cannabis-rescheduling-debate-the-future-of-u-s-marijuana-policy",
+        "card_media_size": "adapt",
+        "show_featured_image": true,
+        "show_tags": true,
+        "show_date": true,
+        "show_author": false,
+        "show_excerpt": true,
+        "show_comments_count": false,
+        "reviews_auto_play": false,
+        "reviews_show_navigation": false,
+        "change_slides_every": 5,
+        "section_container_layout": "contained-content",
+        "section_corner_radius": "no_corners_radius",
+        "section_text_alignment": "center",
+        "section_mobile_text_alignment": "center",
+        "section_color_scheme": "",
+        "section_top_padding": 60,
+        "section_bottom_padding": 60
+      }
+    },
+    "multicolumn_wThTJG": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_hM3NFX": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Surgeons_Full_Spectrum_Relief_Stick_2000mg_For_Pain_Relief_and_Muscle_Recovery.png",
+            "heading": "The Relief Stick",
+            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
+            "button_label": "Learn More",
+            "type": "secondary",
+            "url": "",
+            "open_new_window": false
+          }
+        },
+        "column_phnmjj": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/simple-black-icon-with-no-background-an-icon-of-a-phone-very-simple-all-black-transparent-background.png",
+            "heading": "Contact Us",
+            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
+            "button_label": "Learn More",
+            "type": "secondary",
+            "url": "",
+            "open_new_window": false
+          }
+        },
+        "column_iAj7Gp": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/Surgeons_Delta_9_Infused_Seltzers_-_THC_White_Claw.png",
+            "heading": "Delta 9 THC Seltzerss",
+            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
+            "button_label": "See More",
+            "type": "secondary",
+            "url": "shopify://collections/hemp-extracted-d9-seltzers",
+            "open_new_window": false
+          }
+        },
+        "column_tn9w9Y": {
+          "type": "column",
+          "settings": {
+            "image": "shopify://shop_images/simple-all-black-icon-of-a-reviews-tab-page-simple-transparent-background.png",
+            "heading": "Reviews",
+            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
+            "button_label": "See Reviews",
+            "type": "secondary",
+            "url": "",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_hM3NFX",
+        "column_phnmjj",
+        "column_iAj7Gp",
+        "column_tn9w9Y"
+      ],
+      "name": "t:sections.multicolumn.name",
+      "settings": {
+        "section_heading": "",
+        "section_heading_size": "h3",
+        "section_heading_weight": "--fw-bold",
+        "section_description": "",
+        "description_text_size": "text-size--medium",
+        "section_description_weight": "--fw-normal",
+        "max_header_size": 100,
+        "number_of_columns_on_desktop": 4,
+        "number_of_columns_on_mobile": "2",
+        "card_alignment": "left",
+        "card_media_width": "icon_width",
+        "card_media_size": "adapt",
+        "card_heading_size": "h6",
+        "card_heading_weight": "--fw-bold",
+        "card_description_size": "text-size--medium",
+        "card_description_weight": "--fw-normal",
+        "section_container_layout": "page-width",
+        "section_corner_radius": "both_corners_radius",
+        "section_top_bdr": true,
+        "section_bottom_bdr": true,
+        "section_text_alignment": "center",
+        "section_mobile_text_alignment": "center",
+        "section_color_scheme": "scheme2",
+        "enable_slideshow": false,
+        "auto_play": false,
+        "show_navigation": true,
+        "show_pagination": true,
+        "change_slides_every": 5,
+        "section_top_padding": 10,
+        "section_bottom_padding": 10
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "featured_blog_ngJdEn",
+    "multicolumn_wThTJG"
   ]
 }
