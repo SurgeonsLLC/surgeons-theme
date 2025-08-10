@@ -86,7 +86,18 @@
         "scroll_text_VnD9dD": {
           "type": "scroll_text",
           "settings": {
-            "heading": "Your scrolling text here",
+            "heading": "Grown Locally",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-medium",
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 10
+          }
+        },
+        "scroll_text_QWyQJm": {
+          "type": "scroll_text",
+          "settings": {
+            "heading": "Pick Your Strain",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-medium",
             "block_top_bdr": false,
@@ -183,6 +194,7 @@
       },
       "block_order": [
         "scroll_text_VnD9dD",
+        "scroll_text_QWyQJm",
         "heading_AbRzNq",
         "tags_kL7NBx",
         "title_Wck3eE",
@@ -218,7 +230,7 @@
           "settings": {
             "heading": "Contact us",
             "description": "",
-            "button_label": "Call or SMS",
+            "button_label": "Learn More",
             "type": "secondary",
             "url": "",
             "open_new_window": false
