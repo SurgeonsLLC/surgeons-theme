@@ -117,7 +117,7 @@
         "video_text_size": "text-size--medium",
         "video_description_weight": "--fw-semi-bold",
         "content_alignment": "middle",
-        "video_color_scheme": "",
+        "video_color_scheme": "scheme2",
         "section_container_layout": "contained-content",
         "section_corner_radius": "no_corners_radius",
         "thumbnail_layout": "thumbnail",
@@ -132,10 +132,60 @@
         "section_top_padding": 10,
         "section_bottom_padding": 10
       }
+    },
+    "logo_list_kargX7": {
+      "type": "logo-list",
+      "blocks": {
+        "logo_VxcBqi": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_15.svg"
+          }
+        },
+        "logo_zPjrBj": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_14.svg"
+          }
+        },
+        "logo_RwiMnj": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Untitled_design_-_2025-08-04T112641.777.png"
+          }
+        },
+        "logo_jqXRPx": {
+          "type": "logo",
+          "settings": {
+            "image": "shopify://shop_images/Trustpilot_brandmark_wht-RGB.png"
+          }
+        }
+      },
+      "block_order": [
+        "logo_VxcBqi",
+        "logo_zPjrBj",
+        "logo_RwiMnj",
+        "logo_jqXRPx"
+      ],
+      "name": "t:sections.logo_list.name",
+      "settings": {
+        "section_container_layout": "page-width",
+        "section_corner_radius": "no_corners_radius",
+        "section_color_scheme": "scheme2",
+        "number_of_columns_on_desktop": 4,
+        "number_of_columns_on_mobile": "2",
+        "enable_marquee": true,
+        "marquee_speed": 15,
+        "marquee_direction": "marquee_backward",
+        "marquee_on_hover": false,
+        "section_top_padding": 10,
+        "section_bottom_padding": 9
+      }
     }
   },
   "order": [
     "main",
-    "featured_collection_dFdKDL"
+    "featured_collection_dFdKDL",
+    "logo_list_kargX7"
   ]
 }
