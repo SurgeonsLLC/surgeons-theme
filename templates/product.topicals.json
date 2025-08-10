@@ -355,7 +355,7 @@
         "description_2"
       ],
       "settings": {
-        "section_caption": "Banners with content",
+        "section_caption": "Contact Us",
         "section_caption_size": "h5",
         "section_caption_weight": "--fw-bold",
         "section_description": "<p>customer@surgeonsolutions.org</p><p>130 Dickinson St,</p><p>Mount Clemens, MI</p><p>48043</p>",
@@ -460,7 +460,7 @@
         "type": "primary",
         "url": "",
         "open_new_window": true,
-        "caption_color_scheme": "",
+        "caption_color_scheme": "scheme1",
         "marquee_speed": 15,
         "marquee_on_hover": false,
         "section_container_layout": "contained-content",
