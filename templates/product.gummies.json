@@ -334,7 +334,7 @@
         "description": {
           "type": "description",
           "settings": {
-            "heading": "<p>Share information about your brand with your customers.</p>",
+            "heading": "<p>Did you know that there are over 540 different cannabinoid compounds?</p>",
             "description_size": "text-size--large",
             "description_weight": "--fw-normal",
             "block_spacing": 28
@@ -343,7 +343,7 @@
         "description_2": {
           "type": "description",
           "settings": {
-            "heading": "<p>Describe a product, make announcements, or welcome customers to your store.</p>",
+            "heading": "<p>Learn more about the different cannabinoids and their different effects on the body at Surgeons Online Cannabinoid Academy</p>",
             "description_size": "text-size--large",
             "description_weight": "--fw-normal",
             "block_spacing": 0
@@ -356,12 +356,14 @@
         "description_2"
       ],
       "settings": {
-        "section_caption": "Banners with content",
+        "section_caption": "Made Fresh Daily",
         "section_caption_size": "h5",
         "section_caption_weight": "--fw-bold",
-        "section_description": "<p>example@email.com</p><p>123 Main Street, City Name, State, Country, ZIP/Postal Code</p>",
+        "section_description": "<p>CBD Surgeons Fufillment Center</p><p>130 Dickinson St,</p><p>Mount Clemens, MI,</p><p>48043</p>",
         "description_text_size": "text-size--large",
         "section_description_weight": "--fw-bold",
+        "first_image": "shopify://shop_images/Untitled_design_-_2025-08-04T143247.629.png",
+        "second_image": "shopify://shop_images/Background-CBD-Surgeons-Gummies.jpg",
         "section_container_layout": "contained-content",
         "section_corner_radius": "no_corners_radius",
         "section_content_order": "row",
@@ -378,9 +380,9 @@
         "column_1": {
           "type": "column",
           "settings": {
-            "heading": "Column",
-            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
-            "button_label": "",
+            "heading": "We have the perfect formula for you!",
+            "description": "",
+            "button_label": "See All Gummies",
             "type": "primary",
             "url": "",
             "open_new_window": false
@@ -389,9 +391,9 @@
         "column_2": {
           "type": "column",
           "settings": {
-            "heading": "Column",
-            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
-            "button_label": "",
+            "heading": "Have you heard of THCV?",
+            "description": "",
+            "button_label": "Learn More",
             "type": "primary",
             "url": "",
             "open_new_window": false
@@ -400,9 +402,9 @@
         "column_3": {
           "type": "column",
           "settings": {
-            "heading": "Column",
-            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
-            "button_label": "",
+            "heading": "Surgeons Newest Gummy",
+            "description": "",
+            "button_label": "PRIME (COMING SOON)",
             "type": "primary",
             "url": "",
             "open_new_window": false
@@ -411,12 +413,12 @@
         "column_4": {
           "type": "column",
           "settings": {
-            "heading": "Column",
-            "description": "Pair text with an image to focus on a product, collection or blog post. Add details on availability, style or even provide a review.",
-            "button_label": "",
-            "type": "primary",
-            "url": "",
-            "open_new_window": false
+            "heading": "Social Media",
+            "description": "",
+            "button_label": "Follow Us",
+            "type": "secondary",
+            "url": "shopify://metaobjects/social_media_platforms/social-media-platforms-k5pwus5u",
+            "open_new_window": true
           }
         }
       },
