@@ -89,7 +89,7 @@
             "heading": "Potency Grade",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "<p><strong>1000mg</strong> </p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -380,7 +380,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/Untitled_design_15.svg",
-            "heading": "Join Our Interactive Community",
+            "heading": "",
             "description": "",
             "button_label": "Join Our Interactive Community",
             "type": "secondary",
@@ -392,7 +392,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/Untitled_design_14.svg",
-            "heading": "Column",
+            "heading": "",
             "description": "",
             "button_label": "Follow and engage with us on Facebook & Instagram",
             "type": "secondary",
