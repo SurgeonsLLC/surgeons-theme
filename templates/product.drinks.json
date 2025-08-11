@@ -1,1 +1,443 @@
-{"sections":{"main":{"type":"main-product","blocks":{"title":{"type":"title","settings":{"show_vendor":true,"show_stock":true,"block_text_size":"text-size--small","block_text_weight":"--fw-medium","block_heading_size":"h3","block_heading_weight":"--fw-bold","block_top_bdr":false,"block_bottom_bdr":false,"block_spacing":7}},"text":{"type":"text","settings":{"heading":"<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions.<\/p>","block_text_size":"text-size--medium","block_text_weight":"--fw-normal","block_top_bdr":false,"block_bottom_bdr":false,"block_spacing":12}},"variants_price":{"type":"variants_price","settings":{"show_price":true,"show_sku":true,"show_unitprice":true,"show_variation":true,"show_size_chart":true,"block_spacing":15}},"quantity_input":{"type":"quantity_input","settings":{"show_subtotal":true,"block_top_bdr":false,"block_bottom_bdr":false,"block_spacing":15}},"buttons":{"type":"buttons","settings":{"show_dynamic_checkouts":true,"show_gift_card_recipient":false,"show_whatsapp":false,"whatsapp_number":"","custom_message":"Hi! I'm interested in learning more about the ||product_url||. Could you please provide more details or assist me with the purchase? Looking forward to your response! Thank you!","block_top_bdr":false,"block_bottom_bdr":false,"block_spacing":15}},"collapsible_1":{"type":"collapsible","settings":{"heading":"Ingredients","block_heading_size":"text-size--medium","block_heading_weight":"--fw-semi-bold","block_description":"","block_description_size":"text-size--medium","block_description_weight":"--fw-normal","open_by_default":false,"block_spacing":0}},"collapsible_2":{"type":"collapsible","settings":{"heading":"Create an Account","block_heading_size":"text-size--medium","block_heading_weight":"--fw-semi-bold","block_description":"<p>Collapsible description<\/p>","block_description_size":"text-size--medium","block_description_weight":"--fw-normal","open_by_default":false,"block_spacing":0}},"collapsible_3":{"type":"collapsible","settings":{"heading":"Learn More","block_heading_size":"text-size--medium","block_heading_weight":"--fw-semi-bold","block_description":"<p>Collapsible description<\/p>","block_description_size":"text-size--medium","block_description_weight":"--fw-normal","open_by_default":false,"block_spacing":0}},"collapsible_4":{"type":"collapsible","settings":{"heading":"Test Results","block_heading_size":"text-size--medium","block_heading_weight":"--fw-semi-bold","block_description":"<p>Collapsible description<\/p>","block_description_size":"text-size--medium","block_description_weight":"--fw-normal","open_by_default":false,"block_spacing":15}},"pickup_availability":{"type":"pickup_availability","settings":{"block_text_size":"text-size--medium","block_text_weight":"--fw-semi-bold","block_top_bdr":false,"block_bottom_bdr":false,"block_spacing":18}},"other_deals":{"type":"other_deals","settings":{"other_products":["4-pack-vibes-seltzers-5mg-delta-9-thc","full-spectrum-cbd-potent-hemp-extracts-dream-gummies","lifted-lollies"],"heading":"More Like This","other_heading_size":"h6","other_heading_weight":"--fw-bold","block_heading_size":"text-size--medium","block_heading_weight":"--fw-semi-bold","show_price":true,"show_quick_view":true,"block_top_bdr":true,"block_bottom_bdr":false,"block_spacing":18}},"share":{"type":"share","settings":{"block_top_bdr":true,"block_bottom_bdr":false,"block_spacing":9}},"content":{"type":"content","settings":{"heading":"Description","block_heading_size":"text-size--medium","block_heading_weight":"--fw-semi-bold","block_spacing":15}},"usp":{"type":"usp","settings":{"usp_icon_1":"shopify:\/\/shop_images\/Untitled_design_30.svg","usp_heading_1":"Light Flavors","usp_icon_2":"shopify:\/\/shop_images\/Untitled_design_31.svg","usp_heading_2":"Quick Effects","usp_icon_3":"shopify:\/\/shop_images\/Untitled_design_32.svg","usp_heading_3":"Alternative to Alcohol","block_top_bdr":false,"block_bottom_bdr":false,"block_spacing":15}}},"block_order":["title","text","variants_price","quantity_input","buttons","collapsible_1","collapsible_2","collapsible_3","collapsible_4","pickup_availability","other_deals","share","content","usp"],"settings":{"product_media_size":"adapt","gallery_auto_play":false,"gallery_show_navigation":true,"gallery_change_slides_every":5,"auto_play":false,"show_pagination":true,"change_slides_every":5,"section_container_layout":"page-width","section_corner_radius":"no_corners_radius","section_color_scheme":"scheme2","section_top_padding":20,"section_bottom_padding":20}},"bundle_with_reviews":{"type":"bundle-with-reviews","blocks":{"review_1":{"type":"review","settings":{"heading":"Author Name","block_heading_size":"h6","block_heading_weight":"--fw-bold","block_description":"An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.","block_description_size":"h4","block_description_weight":"--fw-normal","block_rating":"5","block_color_scheme":""}},"review_2":{"type":"review","settings":{"heading":"Author Name","block_heading_size":"h6","block_heading_weight":"--fw-bold","block_description":"An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.","block_description_size":"h4","block_description_weight":"--fw-normal","block_rating":"5","block_color_scheme":""}},"review_3":{"type":"review","settings":{"heading":"Author Name","block_heading_size":"h6","block_heading_weight":"--fw-bold","block_description":"An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.","block_description_size":"h4","block_description_weight":"--fw-normal","block_rating":"5","block_color_scheme":""}}},"block_order":["review_1","review_2","review_3"],"settings":{"complementary_heading":"Complementary Picks","complementary_heading_size":"h4","complementary_heading_weight":"--fw-extra-bold","show_variation":true,"reviews_auto_play":false,"reviews_show_navigation":false,"review_change_slides_every":5,"section_container_layout":"page-width","section_corner_radius":"no_corners_radius","section_color_scheme":"scheme2","section_top_padding":14,"section_bottom_padding":25}},"recommendations":{"type":"product-recommendation","disabled":true,"settings":{"section_caption":"Caption","section_caption_size":"text-size--medium","section_caption_weight":"--fw-medium","section_heading":"Heading","section_heading_size":"h4","section_heading_weight":"--fw-extra-bold","section_description":"","description_text_size":"text-size--medium","section_description_weight":"--fw-normal","max_header_size":100,"product_media_size":"adapt","product_heading_size":"text-size--medium","product_heading_weight":"--fw-semi-bold","enable_atc":true,"enable_quick_view":true,"show_price":true,"show_vendor":true,"show_stock_tag":true,"show_sale_tag":false,"show_custom_tag":true,"section_container_layout":"contained-content","section_corner_radius":"no_corners_radius","thumbnail_layout":"scroll","section_text_alignment":"center","section_mobile_text_alignment":"center","section_color_scheme":"","products_to_show":12,"number_of_columns_on_mobile":"2","auto_play":false,"show_navigation":true,"show_pagination":false,"change_slides_every":5,"section_top_padding":14,"section_bottom_padding":25}},"promotion_banner_phhQzk":{"type":"promotion-banner","blocks":{"banner_BNbHA6":{"type":"banner","settings":{"image":"shopify:\/\/shop_images\/Subscribe_1.png","block_discount":"","block_discount_size":"h1","block_discount_weight":"--fw-bold","block_heading":"Flavors","block_heading_size":"h2","block_heading_weight":"--fw-bold","block_caption":"5mg & 10mg","block_caption_size":"text-size--large","block_caption_weight":"--fw-medium","content_position":"bottom_left","link":"shopify:\/\/collections\/hemp-extracted-d9-seltzers","open_new_window":false,"block_corner_radius":"both_card_radius","block_corner_radius_mob":"both_mob_card_radius","columns":4,"rows":2,"block_color_scheme":""}},"banner_V38pff":{"type":"banner","settings":{"block_discount":"20%","block_discount_size":"h3","block_discount_weight":"--fw-bold","block_heading":"Mix n' Match","block_heading_size":"h6","block_heading_weight":"--fw-bold","block_caption":"Build Your Own 4 Pack","block_caption_size":"text-size--medium","block_caption_weight":"--fw-medium","content_position":"top_left","link":"","open_new_window":false,"block_corner_radius":"both_card_radius","block_corner_radius_mob":"both_mob_card_radius","columns":2,"rows":2,"block_color_scheme":""}},"banner_88UWxe":{"type":"banner","settings":{"block_discount":"","block_discount_size":"h1","block_discount_weight":"--fw-bold","block_heading":"Join Our Community","block_heading_size":"h3","block_heading_weight":"--fw-bold","block_caption":"","block_caption_size":"text-size--medium","block_caption_weight":"--fw-medium","content_position":"center_right","link":"","open_new_window":false,"block_corner_radius":"both_card_radius","block_corner_radius_mob":"both_mob_card_radius","columns":3,"rows":1,"block_color_scheme":""}},"banner_zUYRP6":{"type":"banner","settings":{"block_discount":"","block_discount_size":"h1","block_discount_weight":"--fw-bold","block_heading":"Reviews","block_heading_size":"h2","block_heading_weight":"--fw-bold","block_caption":"","block_caption_size":"text-size--medium","block_caption_weight":"--fw-medium","content_position":"bottom_left","link":"","open_new_window":false,"block_corner_radius":"both_card_radius","block_corner_radius_mob":"both_mob_card_radius","columns":3,"rows":1,"block_color_scheme":""}}},"block_order":["banner_BNbHA6","banner_V38pff","banner_88UWxe","banner_zUYRP6"],"name":"t:sections.promotion_banners.name","settings":{"desktop_row_height":205,"mobile_row_height":200,"columns":9,"no_spacing":false,"section_container_layout":"contained-content","section_corner_radius":"no_corners_radius","section_color_scheme":"","section_top_padding":36,"section_bottom_padding":36}}},"order":["main","bundle_with_reviews","recommendations","promotion_banner_phhQzk"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "show_vendor": true,
+            "show_stock": true,
+            "block_text_size": "text-size--small",
+            "block_text_weight": "--fw-medium",
+            "block_heading_size": "h3",
+            "block_heading_weight": "--fw-bold",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 7
+          }
+        },
+        "text": {
+          "type": "text",
+          "settings": {
+            "heading": "<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions.</p>",
+            "block_text_size": "text-size--medium",
+            "block_text_weight": "--fw-normal",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 12
+          }
+        },
+        "variants_price": {
+          "type": "variants_price",
+          "settings": {
+            "show_price": true,
+            "show_sku": true,
+            "show_unitprice": true,
+            "show_variation": true,
+            "show_size_chart": true,
+            "block_spacing": 15
+          }
+        },
+        "quantity_input": {
+          "type": "quantity_input",
+          "settings": {
+            "show_subtotal": true,
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 15
+          }
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {
+            "show_dynamic_checkouts": true,
+            "show_gift_card_recipient": false,
+            "show_whatsapp": false,
+            "whatsapp_number": "",
+            "custom_message": "Hi! I'm interested in learning more about the ||product_url||. Could you please provide more details or assist me with the purchase? Looking forward to your response! Thank you!",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 15
+          }
+        },
+        "collapsible_1": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Primary Benefit",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-semi-bold",
+            "block_description": "<p>{{ product.metafields.primary.benefit.value }}</p>",
+            "block_description_size": "text-size--medium",
+            "block_description_weight": "--fw-normal",
+            "open_by_default": false,
+            "block_spacing": 0
+          }
+        },
+        "collapsible_2": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "VIBE VIP Account",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-semi-bold",
+            "block_description": "<p>Collapsible description</p>",
+            "block_description_size": "text-size--medium",
+            "block_description_weight": "--fw-normal",
+            "open_by_default": false,
+            "block_spacing": 0
+          }
+        },
+        "collapsible_3": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Learn More",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-semi-bold",
+            "block_description": "<p><a href=\"/blogs/business-network-directory/sutherland-cbd\" target=\"_blank\" title=\"Sutherland CBD\">Learn more</a> about the manufacturer </p>",
+            "block_description_size": "text-size--medium",
+            "block_description_weight": "--fw-normal",
+            "open_by_default": false,
+            "block_spacing": 0
+          }
+        },
+        "collapsible_4": {
+          "type": "collapsible",
+          "settings": {
+            "heading": "Records",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-semi-bold",
+            "block_description": "<p><a href=\"https://records.surgeonsolution.io\" title=\"https://records.surgeonsolution.io\">Learn more about cannabinoids</a></p>",
+            "block_description_size": "text-size--medium",
+            "block_description_weight": "--fw-normal",
+            "open_by_default": false,
+            "block_spacing": 15
+          }
+        },
+        "pickup_availability": {
+          "type": "pickup_availability",
+          "settings": {
+            "block_text_size": "text-size--medium",
+            "block_text_weight": "--fw-semi-bold",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 18
+          }
+        },
+        "other_deals": {
+          "type": "other_deals",
+          "settings": {
+            "other_products": [
+              "4-pack-vibes-seltzers-5mg-delta-9-thc",
+              "full-spectrum-cbd-potent-hemp-extracts-dream-gummies",
+              "lifted-lollies"
+            ],
+            "heading": "More Like This",
+            "other_heading_size": "h6",
+            "other_heading_weight": "--fw-bold",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-semi-bold",
+            "show_price": true,
+            "show_quick_view": true,
+            "block_top_bdr": true,
+            "block_bottom_bdr": false,
+            "block_spacing": 18
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "block_top_bdr": true,
+            "block_bottom_bdr": false,
+            "block_spacing": 9
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {
+            "heading": "Description",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-semi-bold",
+            "block_spacing": 15
+          }
+        },
+        "usp": {
+          "type": "usp",
+          "settings": {
+            "usp_icon_1": "shopify://shop_images/Untitled_design_30.svg",
+            "usp_heading_1": "Light Flavors",
+            "usp_icon_2": "shopify://shop_images/Untitled_design_31.svg",
+            "usp_heading_2": "Quick Effects",
+            "usp_icon_3": "shopify://shop_images/Untitled_design_32.svg",
+            "usp_heading_3": "Alternative to Alcohol",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 15
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "text",
+        "variants_price",
+        "quantity_input",
+        "buttons",
+        "collapsible_1",
+        "collapsible_2",
+        "collapsible_3",
+        "collapsible_4",
+        "pickup_availability",
+        "other_deals",
+        "share",
+        "content",
+        "usp"
+      ],
+      "settings": {
+        "product_media_size": "adapt",
+        "gallery_auto_play": false,
+        "gallery_show_navigation": true,
+        "gallery_change_slides_every": 5,
+        "auto_play": false,
+        "show_pagination": true,
+        "change_slides_every": 5,
+        "section_container_layout": "page-width",
+        "section_corner_radius": "no_corners_radius",
+        "section_color_scheme": "scheme2",
+        "section_top_padding": 20,
+        "section_bottom_padding": 20
+      }
+    },
+    "bundle_with_reviews": {
+      "type": "bundle-with-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "heading": "Trustpilot",
+            "block_heading_size": "h6",
+            "block_heading_weight": "--fw-bold",
+            "block_description": "Fantastic company and superior products! Very knowledgeable about everything to do with the benefits of their products. Highly recommend...",
+            "block_description_size": "h4",
+            "block_description_weight": "--fw-normal",
+            "block_rating": "5",
+            "block_color_scheme": ""
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "heading": "Author Name",
+            "block_heading_size": "h6",
+            "block_heading_weight": "--fw-bold",
+            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description_size": "h4",
+            "block_description_weight": "--fw-normal",
+            "block_rating": "5",
+            "block_color_scheme": ""
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "heading": "Author Name",
+            "block_heading_size": "h6",
+            "block_heading_weight": "--fw-bold",
+            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description_size": "h4",
+            "block_description_weight": "--fw-normal",
+            "block_rating": "5",
+            "block_color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "complementary_heading": "Complementary Picks",
+        "complementary_heading_size": "h4",
+        "complementary_heading_weight": "--fw-extra-bold",
+        "show_variation": true,
+        "reviews_auto_play": false,
+        "reviews_show_navigation": false,
+        "review_change_slides_every": 5,
+        "section_container_layout": "page-width",
+        "section_corner_radius": "no_corners_radius",
+        "section_color_scheme": "scheme2",
+        "section_top_padding": 14,
+        "section_bottom_padding": 25
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendation",
+      "disabled": true,
+      "settings": {
+        "section_caption": "Caption",
+        "section_caption_size": "text-size--medium",
+        "section_caption_weight": "--fw-medium",
+        "section_heading": "Heading",
+        "section_heading_size": "h4",
+        "section_heading_weight": "--fw-extra-bold",
+        "section_description": "",
+        "description_text_size": "text-size--medium",
+        "section_description_weight": "--fw-normal",
+        "max_header_size": 100,
+        "product_media_size": "adapt",
+        "product_heading_size": "text-size--medium",
+        "product_heading_weight": "--fw-semi-bold",
+        "enable_atc": true,
+        "enable_quick_view": true,
+        "show_price": true,
+        "show_vendor": true,
+        "show_stock_tag": true,
+        "show_sale_tag": false,
+        "show_custom_tag": true,
+        "section_container_layout": "contained-content",
+        "section_corner_radius": "no_corners_radius",
+        "thumbnail_layout": "scroll",
+        "section_text_alignment": "center",
+        "section_mobile_text_alignment": "center",
+        "section_color_scheme": "",
+        "products_to_show": 12,
+        "number_of_columns_on_mobile": "2",
+        "auto_play": false,
+        "show_navigation": true,
+        "show_pagination": false,
+        "change_slides_every": 5,
+        "section_top_padding": 14,
+        "section_bottom_padding": 25
+      }
+    },
+    "promotion_banner_phhQzk": {
+      "type": "promotion-banner",
+      "blocks": {
+        "banner_BNbHA6": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/Subscribe_1.png",
+            "block_discount": "",
+            "block_discount_size": "h1",
+            "block_discount_weight": "--fw-bold",
+            "block_heading": "Build Your Own 4-Pack",
+            "block_heading_size": "h2",
+            "block_heading_weight": "--fw-bold",
+            "block_caption": "5mg & 10mg",
+            "block_caption_size": "text-size--large",
+            "block_caption_weight": "--fw-medium",
+            "content_position": "bottom_left",
+            "link": "shopify://collections/hemp-extracted-d9-seltzers",
+            "open_new_window": false,
+            "block_corner_radius": "both_card_radius",
+            "block_corner_radius_mob": "both_mob_card_radius",
+            "columns": 4,
+            "rows": 2,
+            "block_color_scheme": ""
+          }
+        },
+        "banner_V38pff": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/ChatGPT_Image_Aug_10_2025_09_16_38_PM.png",
+            "block_discount": "",
+            "block_discount_size": "h3",
+            "block_discount_weight": "--fw-bold",
+            "block_heading": "",
+            "block_heading_size": "h6",
+            "block_heading_weight": "--fw-bold",
+            "block_caption": "",
+            "block_caption_size": "text-size--medium",
+            "block_caption_weight": "--fw-medium",
+            "content_position": "top_left",
+            "link": "",
+            "open_new_window": false,
+            "block_corner_radius": "both_card_radius",
+            "block_corner_radius_mob": "both_mob_card_radius",
+            "columns": 2,
+            "rows": 2,
+            "block_color_scheme": ""
+          }
+        },
+        "banner_88UWxe": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/flower.png",
+            "block_discount": "",
+            "block_discount_size": "h1",
+            "block_discount_weight": "--fw-bold",
+            "block_heading": "Shop Hemp Flower",
+            "block_heading_size": "h3",
+            "block_heading_weight": "--fw-bold",
+            "block_caption": "",
+            "block_caption_size": "text-size--medium",
+            "block_caption_weight": "--fw-medium",
+            "content_position": "center_right",
+            "link": "",
+            "open_new_window": false,
+            "block_corner_radius": "both_card_radius",
+            "block_corner_radius_mob": "both_mob_card_radius",
+            "columns": 3,
+            "rows": 1,
+            "block_color_scheme": ""
+          }
+        },
+        "banner_zUYRP6": {
+          "type": "banner",
+          "settings": {
+            "image": "shopify://shop_images/Surgeons_Online_CBD_Cannabinoid_Academy_For_Research_1901d3f7-dc2d-4322-b94d-42785902214e.png",
+            "block_discount": "",
+            "block_discount_size": "h1",
+            "block_discount_weight": "--fw-bold",
+            "block_heading": "Cannabinoid Academy",
+            "block_heading_size": "h2",
+            "block_heading_weight": "--fw-bold",
+            "block_caption": "",
+            "block_caption_size": "text-size--medium",
+            "block_caption_weight": "--fw-medium",
+            "content_position": "bottom_left",
+            "link": "",
+            "open_new_window": false,
+            "block_corner_radius": "both_card_radius",
+            "block_corner_radius_mob": "both_mob_card_radius",
+            "columns": 3,
+            "rows": 1,
+            "block_color_scheme": ""
+          }
+        }
+      },
+      "block_order": [
+        "banner_BNbHA6",
+        "banner_V38pff",
+        "banner_88UWxe",
+        "banner_zUYRP6"
+      ],
+      "name": "t:sections.promotion_banners.name",
+      "settings": {
+        "desktop_row_height": 205,
+        "mobile_row_height": 200,
+        "columns": 9,
+        "no_spacing": false,
+        "section_container_layout": "contained-content",
+        "section_corner_radius": "no_corners_radius",
+        "section_color_scheme": "",
+        "section_top_padding": 36,
+        "section_bottom_padding": 36
+      }
+    }
+  },
+  "order": [
+    "main",
+    "bundle_with_reviews",
+    "recommendations",
+    "promotion_banner_phhQzk"
+  ]
+}
