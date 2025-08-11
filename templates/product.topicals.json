@@ -221,10 +221,10 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "heading": "",
+            "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "",
+            "block_description": "Highly recommended! The customer service is helpful, kind and friendly. Their CBD and HHC products are amazing and their business will not disappoint!",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
