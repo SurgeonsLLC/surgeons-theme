@@ -27,8 +27,8 @@
         "section_container_layout": "page-width",
         "section_corner_radius": "both_corners_radius",
         "section_color_scheme": "scheme1",
-        "section_top_padding": 15,
-        "section_bottom_padding": 13
+        "section_top_padding": 10,
+        "section_bottom_padding": 10
       }
     },
     "image_gallery": {
