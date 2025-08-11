@@ -73,10 +73,10 @@
         "collapsible_1": {
           "type": "collapsible",
           "settings": {
-            "heading": "Ingredients",
+            "heading": "Usage Instructions",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "{{ product.metafields.usage.instructions | metafield_tag }}",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -86,10 +86,10 @@
         "collapsible_2": {
           "type": "collapsible",
           "settings": {
-            "heading": "Potency Grade",
+            "heading": "Safety Disclaimer",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p><strong>1000mg</strong> </p>",
+            "block_description": "<p></p>{{ product.metafields.safety.disclaimer | metafield_tag }}",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -99,10 +99,10 @@
         "collapsible_3": {
           "type": "collapsible",
           "settings": {
-            "heading": "Collapsible row",
+            "heading": "Primary Benefit",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "<p>{{ product.metafields.primary.benefit.value }}</p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -115,7 +115,7 @@
             "heading": "Frequently Asked Questions",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "<p>Q: My dog is in pain, can CBD help?</p><p>A: Yes. CBD can absolutely help dog's experiencing pain. It works by keeping the body's natural inflammation low and at a point where it can begin to heal. </p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -221,10 +221,10 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Google",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "",
+            "block_description": "Received amazing service for my dog that suffers with extreme separation anxiety. The staff really took the time to explain how the products work.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
