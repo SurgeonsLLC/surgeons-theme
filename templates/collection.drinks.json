@@ -80,7 +80,7 @@
           "settings": {
             "heading": "Take a Quiz",
             "description": "",
-            "button_label": "Start",
+            "button_label": "COMING SOON",
             "type": "secondary",
             "url": "",
             "open_new_window": false
@@ -89,9 +89,9 @@
         "column_3": {
           "type": "column",
           "settings": {
-            "heading": "Apply to be an Ambassador",
+            "heading": "New Edibles?",
             "description": "",
-            "button_label": "Learn More",
+            "button_label": "Coming Soon",
             "type": "secondary",
             "url": "",
             "open_new_window": false
