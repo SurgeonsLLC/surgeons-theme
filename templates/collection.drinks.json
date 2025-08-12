@@ -80,7 +80,7 @@
           "settings": {
             "heading": "Take a Quiz",
             "description": "",
-            "button_label": "COMING SOON",
+            "button_label": "Coming Soon",
             "type": "secondary",
             "url": "",
             "open_new_window": false
@@ -236,14 +236,14 @@
         "url": "",
         "open_new_window": true,
         "caption_color_scheme": "",
-        "marquee_speed": 15,
+        "marquee_speed": 10,
         "marquee_on_hover": false,
         "section_container_layout": "contained-content",
         "section_corner_radius": "no_corners_radius",
         "section_text_alignment": "center",
         "section_color_scheme": "",
-        "section_top_padding": 50,
-        "section_bottom_padding": 30
+        "section_top_padding": 10,
+        "section_bottom_padding": 10
       }
     }
   },
