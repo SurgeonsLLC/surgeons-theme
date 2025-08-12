@@ -940,7 +940,7 @@
             "block_caption_weight": "--fw-medium",
             "content_position": "center_right",
             "link": "",
-            "open_new_window": false,
+            "open_new_window": true,
             "block_corner_radius": "both_card_radius",
             "block_corner_radius_mob": "both_mob_card_radius",
             "columns": 3,
