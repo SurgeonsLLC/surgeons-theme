@@ -225,7 +225,7 @@
             "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "",
+            "block_description": "One of the best products by far!! the gummies are amazing along with the face cream. and the service is even better!! Ryan gives great recommendations and has even better products!! for sure buying again💯",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
@@ -384,7 +384,7 @@
             "description": "",
             "button_label": "Shop Now",
             "type": "primary",
-            "url": "",
+            "url": "shopify://collections/surgeons-apparel",
             "open_new_window": false
           }
         },
@@ -395,7 +395,7 @@
             "description": "",
             "button_label": "Visit Tik Tok Shop",
             "type": "secondary",
-            "url": "",
+            "url": "https://tiktok.com/@surgeonsllc",
             "open_new_window": true
           }
         },
@@ -417,7 +417,7 @@
             "description": "",
             "button_label": "See All Products",
             "type": "primary",
-            "url": "",
+            "url": "https://surgeonsolution.io/collections/all",
             "open_new_window": false
           }
         }
@@ -546,7 +546,7 @@
         "text_heading_weight": "--fw-bold",
         "button_label": "View Product",
         "type": "primary",
-        "url": "",
+        "url": "https://surgeonsolution.io/products/lifted-lollies",
         "open_new_window": true,
         "caption_color_scheme": "",
         "marquee_speed": 15,
