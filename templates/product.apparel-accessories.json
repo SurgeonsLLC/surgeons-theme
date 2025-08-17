@@ -102,7 +102,7 @@
             "heading": "Styles",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "<p>See More Apparel</p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -222,10 +222,10 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "heading": "Leave Us",
+            "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "",
+            "block_description": "My favorite part about Surgeons is the knowledge they share. They understand the needs of their customers and strive to ensure we get what we need for our particular symptoms. Whether it's a pain relief stick or the CBD or HHC gummies we know we are getting quality products. Love the flavors of those gummies and will always keep some on hand for myself and my family or friends.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
@@ -235,34 +235,34 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description": "Had a great experience with CBD Surgeons CBD + CBN gummies. I had used sleeping medication to fall asleep the last few years, and I always dreaded taking it because of how intense the effects are. These gummies ease you into a good restful sleep. The best part is I have completely stopped using my sleep meds and for that I will be forever grateful.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
           }
         },
-        "review_3": {
+        "review_4D7Pgg": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description": "I used the relief stick for shoulder and wrist pain. After applying the product on the areas that were bothering me I could feel the difference in a matter of a few minutes. I would recommend this product to anyone that is experiencing muscle soreness or pain.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
-            "block_color_scheme": ""
+            "block_color_scheme": "scheme2"
           }
         }
       },
       "block_order": [
         "review_1",
         "review_2",
-        "review_3"
+        "review_4D7Pgg"
       ],
       "settings": {
         "complementary_heading": "Complementary Picks",
@@ -385,7 +385,7 @@
             "description": "Search our current reviews on Trustpilot",
             "button_label": "See Reviews",
             "type": "secondary",
-            "url": "",
+            "url": "https://www.trustpilot.com/review/surgeonsolutions.org",
             "open_new_window": true
           }
         },
@@ -397,7 +397,7 @@
             "description": "Visit our Tik Tok Shop Store and follow us!",
             "button_label": "Visit",
             "type": "secondary",
-            "url": "",
+            "url": "https://tiktok.com/@surgeonsllc",
             "open_new_window": true
           }
         },
@@ -409,7 +409,7 @@
             "description": "Follow us on Facebook or Instagram for up-to-date information on events",
             "button_label": "Visit",
             "type": "secondary",
-            "url": "",
+            "url": "https://www.facebook.com/srgnNetworks/",
             "open_new_window": true
           }
         },
@@ -549,8 +549,8 @@
         "caption": "",
         "text_heading_weight": "--fw-bold",
         "button_label": "Learn More",
-        "type": "primary",
-        "url": "",
+        "type": "secondary",
+        "url": "shopify://products/cbdclassicsonline",
         "open_new_window": true,
         "caption_color_scheme": "",
         "marquee_speed": 8,
