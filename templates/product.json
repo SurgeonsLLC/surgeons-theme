@@ -221,7 +221,7 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "heading": "Google Rating",
+            "heading": "",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
             "block_description": "",
