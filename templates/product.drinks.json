@@ -29,7 +29,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "heading": "<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions.</p>",
+            "heading": "<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions. Pick your flavor, below.</p>",
             "block_text_size": "text-size--medium",
             "block_text_weight": "--fw-normal",
             "block_top_bdr": false,
@@ -89,7 +89,7 @@
             "heading": "VIBE VIP Account",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "<p><a href=\"https://realsurgeons.accounts.surgeonsolution.io/\" target=\"_blank\" title=\"https://realsurgeons.accounts.surgeonsolution.io/\">Sign Up, Today</a></p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -225,7 +225,7 @@
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
             "block_description": "Fantastic company and superior products! Very knowledgeable about everything to do with the benefits of their products. Highly recommend...",
-            "block_description_size": "h4",
+            "block_description_size": "h5",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
@@ -234,11 +234,11 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
-            "block_description_size": "h4",
+            "block_description": "I place an order online and accidentally put the wrong address. My problem was fixed immediately.",
+            "block_description_size": "h5",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
@@ -247,11 +247,11 @@
         "review_3": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
-            "block_description_size": "h4",
+            "block_description": "I purchased the relief stick about a week ago and have been using it due to some pain in my lower back. After a couple swipes of this topical, my back starts to feel better and I have better mobility. I just wanted to share my experience with this product as it has worked well for me",
+            "block_description_size": "h5",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
@@ -395,10 +395,10 @@
           "settings": {
             "image": "shopify://shop_images/Surgeons_Online_CBD_Cannabinoid_Academy_For_Research_1901d3f7-dc2d-4322-b94d-42785902214e.png",
             "block_discount": "",
-            "block_discount_size": "h1",
+            "block_discount_size": "h2",
             "block_discount_weight": "--fw-bold",
             "block_heading": "Cannabinoid Academy",
-            "block_heading_size": "h2",
+            "block_heading_size": "h3",
             "block_heading_weight": "--fw-bold",
             "block_caption": "",
             "block_caption_size": "text-size--medium",
