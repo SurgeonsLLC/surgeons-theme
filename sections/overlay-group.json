@@ -26,7 +26,7 @@
         "description": {
           "type": "description",
           "settings": {
-            "heading": "<p>HI! You are using a BETA-VERSION of this site. Some of the buttons do not work yet. We appreciate your understanding and sincerely apologize for the inconvenience.</p><p>Your privacy and security are important to us here Surgeons. </p><p>You must be at least 21 years old to purchase from this website. Please confirm your age below.</p>",
+            "heading": "<p>Welcome to Surgeons Online Cannabinoid Store, also known as <strong>CBD Surgeons</strong>.</p><p>Your privacy and security are important to us.</p><p>You must be at least 21 years old to purchase from this website. Please confirm your age below.</p>",
             "block_text_size_heading": "text-size--medium",
             "description_weight": "--fw-normal",
             "block_spacing": 20
