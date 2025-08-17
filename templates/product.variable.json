@@ -73,10 +73,10 @@
         "collapsible_1": {
           "type": "collapsible",
           "settings": {
-            "heading": "Best Practices",
+            "heading": "Usage Instructions",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "",
+            "block_description": "{{ product.metafields.usage.instructions | metafield_tag }}",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -86,10 +86,10 @@
         "collapsible_2": {
           "type": "collapsible",
           "settings": {
-            "heading": "Product Type",
+            "heading": "Primary Benefit",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "",
+            "block_description": "<p>{{ product.metafields.primary.benefit.value }}</p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -99,10 +99,10 @@
         "collapsible_3": {
           "type": "collapsible",
           "settings": {
-            "heading": "Potency Rating",
+            "heading": "THC Content",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "<p>{{ product.metafields.thc.content.value }}</p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -112,10 +112,10 @@
         "collapsible_4": {
           "type": "collapsible",
           "settings": {
-            "heading": "Frequently Asked Questions",
+            "heading": "Product Type",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "<p>{{ product.metafields.product.type.value }}</p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
