@@ -115,7 +115,7 @@
             "heading": "Frequently Asked Questions",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Q: My dog is in pain, can CBD help?</p><p>A: Yes. CBD can absolutely help dog's experiencing pain. It works by keeping the body's natural inflammation low and at a point where it can begin to heal. </p>",
+            "block_description": "<p><strong>Q: My dog is in pain, can CBD help?</strong></p><p>A: Yes. CBD can absolutely help dog's experiencing pain. It works by keeping the body's natural inflammation low and at a point where it can begin to heal. </p>",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
