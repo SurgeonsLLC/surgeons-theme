@@ -29,7 +29,7 @@
         "text": {
           "type": "text",
           "settings": {
-            "heading": "<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions.</p>",
+            "heading": "<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions. Be sure to select the correct number of gummies you would like to purchase, below.</p>",
             "block_text_size": "text-size--medium",
             "block_text_weight": "--fw-normal",
             "block_top_bdr": false,
