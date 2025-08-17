@@ -354,9 +354,9 @@
             "image": "shopify://shop_images/Untitled_design_15.svg",
             "heading": "Join Our Interactive Community",
             "description": "",
-            "button_label": "Join Our Interactive Community",
+            "button_label": "",
             "type": "secondary",
-            "url": "",
+            "url": "https://tiktok.com/@surgeonsllc",
             "open_new_window": false
           }
         },
@@ -364,7 +364,7 @@
           "type": "column",
           "settings": {
             "image": "shopify://shop_images/Untitled_design_14.svg",
-            "heading": "Column",
+            "heading": "",
             "description": "",
             "button_label": "Follow and engage with us on Facebook & Instagram",
             "type": "secondary",
