@@ -342,7 +342,7 @@
         "description_2": {
           "type": "description",
           "settings": {
-            "heading": "<p>Learn more about how cannabinoids can help you in various stages of your life.</p>",
+            "heading": "<p>Learn more about how cannabinoids can help you in various stages of your life.</p><p><a href=\"https://records.surgeonsolution.io\" title=\"https://records.surgeonsolution.io\"><strong>Create an account</strong></a> on our RECORDS platform, and you will surely find the answers to all your questions.</p>",
             "description_size": "text-size--large",
             "description_weight": "--fw-normal",
             "block_spacing": 0
