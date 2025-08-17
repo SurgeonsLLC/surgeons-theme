@@ -324,10 +324,10 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Google",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "",
+            "block_description": "CBD has honestly been a lifesaver for me. It helps with my pain and helps me relax. These are amazing products!",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
@@ -337,11 +337,11 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Google",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
-            "block_description_size": "h4",
+            "block_description": "If I could give them more than 5 stars, I would. CBD Surgeons are providing the highest quality product around, at an incredibly reasonable price for the product you get. The best part though, is that they aren't just another dispensary trying to sell you a product, they actually care, they want to hear your story, and they WANT to help. Great people with great product, give them a try and you'll never go anywhere else.",
+            "block_description_size": "h5",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
@@ -350,11 +350,11 @@
         "review_3": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Google",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
-            "block_description_size": "h4",
+            "block_description": "Nice selection and high quality products",
+            "block_description_size": "h5",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
