@@ -224,9 +224,9 @@
           "settings": {
             "heading": "Trustpilot",
             "block_heading_size": "h6",
-            "block_heading_weight": "--fw-bold",
+            "block_heading_weight": "--fw-normal",
             "block_description": "My favorite part about Surgeons is the knowledge they share. They understand the needs of their customers and strive to ensure we get what we need for our particular symptoms. Whether it's a pain relief stick or the CBD or HHC gummies we know we are getting quality products. Love the flavors of those gummies and will always keep some on hand for myself and my family or friends.",
-            "block_description_size": "h4",
+            "block_description_size": "h6",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
@@ -239,7 +239,7 @@
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
             "block_description": "Had a great experience with CBD Surgeons CBD + CBN gummies. I had used sleeping medication to fall asleep the last few years, and I always dreaded taking it because of how intense the effects are. These gummies ease you into a good restful sleep. The best part is I have completely stopped using my sleep meds and for that I will be forever grateful.",
-            "block_description_size": "h4",
+            "block_description_size": "h5",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": ""
@@ -252,7 +252,7 @@
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
             "block_description": "I used the relief stick for shoulder and wrist pain. After applying the product on the areas that were bothering me I could feel the difference in a matter of a few minutes. I would recommend this product to anyone that is experiencing muscle soreness or pain.",
-            "block_description_size": "h4",
+            "block_description_size": "h5",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
             "block_color_scheme": "scheme2"
