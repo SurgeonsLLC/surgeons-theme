@@ -115,7 +115,7 @@
             "heading": "Frequently Asked Questions",
             "block_heading_size": "text-size--medium",
             "block_heading_weight": "--fw-semi-bold",
-            "block_description": "<p>Collapsible description</p>",
+            "block_description": "",
             "block_description_size": "text-size--medium",
             "block_description_weight": "--fw-normal",
             "open_by_default": false,
@@ -140,7 +140,7 @@
               "surgeonscbdfloweronline",
               "surgeons-affiliate-bundles"
             ],
-            "heading": "Deal Products",
+            "heading": "Check these products out",
             "other_heading_size": "h6",
             "other_heading_weight": "--fw-bold",
             "block_heading_size": "text-size--medium",
