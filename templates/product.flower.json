@@ -245,6 +245,7 @@
         "column_p3xMEX": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/Untitled_design_2.svg",
             "heading": "SOUR PEBBLES",
             "description": "",
             "button_label": "",
@@ -256,6 +257,7 @@
         "column_frBkgB": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/Untitled_design_1.svg",
             "heading": "BLUE HURRICANE",
             "description": "",
             "button_label": "",
@@ -267,6 +269,7 @@
         "column_haig9d": {
           "type": "column",
           "settings": {
+            "image": "shopify://shop_images/Untitled_design.svg",
             "heading": "CHERRY WINE",
             "description": "",
             "button_label": "",
