@@ -269,7 +269,7 @@
         "complementary_heading_size": "h4",
         "complementary_heading_weight": "--fw-extra-bold",
         "show_variation": true,
-        "reviews_auto_play": false,
+        "reviews_auto_play": true,
         "reviews_show_navigation": false,
         "review_change_slides_every": 5,
         "section_container_layout": "page-width",
