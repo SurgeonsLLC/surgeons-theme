@@ -829,7 +829,7 @@
         "reel_2": {
           "type": "product",
           "settings": {
-            "product": "",
+            "product": "cbdclassicsonline",
             "cover_image": "shopify://shop_images/Untitled_design_6.svg"
           }
         },
@@ -843,7 +843,7 @@
         "reel_4": {
           "type": "product",
           "settings": {
-            "product": "",
+            "product": "cbdfordogstreats",
             "cover_image": "shopify://shop_images/Kiosk_Vertical_4.png"
           }
         }
