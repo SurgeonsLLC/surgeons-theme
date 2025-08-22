@@ -63,9 +63,9 @@
           "settings": {
             "heading": "Need Support?",
             "description": "",
-            "button_label": "Talk to a Specialist",
+            "button_label": "Learn More",
             "type": "secondary",
-            "url": "",
+            "url": "shopify://pages/about-us",
             "open_new_window": false
           }
         },
@@ -87,7 +87,7 @@
             "description": "",
             "button_label": "Apply Today",
             "type": "primary",
-            "url": "",
+            "url": "shopify://pages/apply-to-be-an-ambassador",
             "open_new_window": false
           }
         },
