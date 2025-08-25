@@ -233,7 +233,7 @@
         "text_heading_weight": "--fw-bold",
         "button_label": "Learn More",
         "type": "secondary",
-        "url": "",
+        "url": "shopify://collections/surgeons-apparel",
         "open_new_window": true,
         "caption_color_scheme": "",
         "marquee_speed": 15,
