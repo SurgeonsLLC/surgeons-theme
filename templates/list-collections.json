@@ -227,7 +227,7 @@
         "text_heading_weight": "--fw-bold",
         "button_label": "Shop Edibles",
         "type": "primary",
-        "url": "",
+        "url": "shopify://collections/surgeons-gummies-express",
         "open_new_window": true,
         "caption_color_scheme": "",
         "marquee_speed": 15,
