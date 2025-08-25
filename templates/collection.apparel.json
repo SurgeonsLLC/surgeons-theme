@@ -71,7 +71,7 @@
             "description": "",
             "button_label": "Contact",
             "type": "secondary",
-            "url": "",
+            "url": "shopify://pages/about-us",
             "open_new_window": false
           }
         },
@@ -93,7 +93,7 @@
             "description": "",
             "button_label": "Learn More",
             "type": "secondary",
-            "url": "",
+            "url": "shopify://pages/partnerships-opportunities-collaborations",
             "open_new_window": false
           }
         },
@@ -104,7 +104,7 @@
             "description": "",
             "button_label": "Rewards",
             "type": "secondary",
-            "url": "",
+            "url": "shopify://pages/vibe_loyalty",
             "open_new_window": false
           }
         }
