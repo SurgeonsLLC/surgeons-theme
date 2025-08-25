@@ -93,35 +93,35 @@
         "image_nXeqLK": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies.svg",
+            "image": "shopify://shop_images/Shop_Online_Full_Spectrum_CBD_Edibles.svg",
             "item_index": "2"
           }
         },
         "image_YRNW87": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_1.svg",
+            "image": "shopify://shop_images/Surgeons_Online_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "4"
           }
         },
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_4.svg",
+            "image": "shopify://shop_images/Online_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "1"
           }
         },
         "image_2": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_6.svg",
+            "image": "shopify://shop_images/Surgeons_Online_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "2"
           }
         },
         "image_3": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_5.svg",
+            "image": "shopify://shop_images/Surgeons_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "3"
           }
         }
