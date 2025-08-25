@@ -13,7 +13,6 @@
       "type": "featured-video",
       "name": "t:sections.video.name",
       "settings": {
-        "cover_image": "shopify://shop_images/flower.png",
         "alt_text": "",
         "video_heading": "A Craft Experience",
         "video_heading_size": "h2",
@@ -245,7 +244,7 @@
         "column_p3xMEX": {
           "type": "column",
           "settings": {
-            "image": "shopify://shop_images/Untitled_design_2.svg",
+            "image": "shopify://shop_images/Sour_Pebbles_Hemp_Flower_Enriched_with_CBD_Terpenes.svg",
             "heading": "SOUR PEBBLES",
             "description": "",
             "button_label": "",
@@ -257,7 +256,7 @@
         "column_frBkgB": {
           "type": "column",
           "settings": {
-            "image": "shopify://shop_images/Untitled_design_1.svg",
+            "image": "shopify://shop_images/Blue_Hurricane_Hemp_Flower_Enriched_with_CBD_Terpenes.svg",
             "heading": "BLUE HURRICANE",
             "description": "",
             "button_label": "",
@@ -269,7 +268,7 @@
         "column_haig9d": {
           "type": "column",
           "settings": {
-            "image": "shopify://shop_images/Untitled_design.svg",
+            "image": "shopify://shop_images/Cherry_Wine_Hemp_Flower_Enriched_with_CBD_Terpenes.svg",
             "heading": "CHERRY WINE",
             "description": "",
             "button_label": "",
