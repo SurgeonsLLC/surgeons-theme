@@ -379,56 +379,56 @@
         "image_1": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_5.svg",
+            "image": "shopify://shop_images/Surgeons_Online_Full_Spectrum_CBD_Gumimies_For_Sale.svg",
             "item_index": "1"
           }
         },
         "image_2": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_6.svg",
+            "image": "shopify://shop_images/Surgeons_Online_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "2"
           }
         },
         "image_3": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_4.svg",
+            "image": "shopify://shop_images/Full_Spectrum_CBD_Gummies_Available_Surgeons_LLC.svg",
             "item_index": "3"
           }
         },
         "image_r6dwJD": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_2.svg",
+            "image": "shopify://shop_images/Shop_Online_Full_Spectrum_CBD_Edibles.svg",
             "item_index": "4"
           }
         },
         "image_w9W8zH": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_1.svg",
+            "image": "shopify://shop_images/Shopping_Full_Spectrum_CBD_Gummy_Bears_Online.svg",
             "item_index": "1"
           }
         },
         "image_YEVPxY": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_4.svg",
+            "image": "shopify://shop_images/Online_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "2"
           }
         },
         "image_JMLp6Y": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_3.svg",
+            "image": "shopify://shop_images/Surgeons_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "3"
           }
         },
         "image_4": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/CBD_Gummies_1.svg",
+            "image": "shopify://shop_images/Surgeons_Online_Full_Spectrum_CBD_Gummies.svg",
             "item_index": "4"
           }
         }
@@ -451,7 +451,7 @@
         "description_text_size": "text-size--medium",
         "section_description_weight": "--fw-normal",
         "max_header_size": 100,
-        "banner_image": "shopify://shop_images/CBD_Gummies_9.svg",
+        "banner_image": "shopify://shop_images/Shop_Online_CBD_Gummies.svg",
         "text_caption": "",
         "text_caption_weight": "--fw-bold",
         "caption": "",
