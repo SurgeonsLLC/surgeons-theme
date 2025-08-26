@@ -9,6 +9,64 @@
  */
 {
   "sections": {
+    "richtext_c4pYbP": {
+      "type": "richtext",
+      "blocks": {
+        "caption_zk8hjB": {
+          "type": "caption",
+          "settings": {
+            "heading": "",
+            "caption_size": "text-size--medium",
+            "caption_weight": "--fw-medium",
+            "block_spacing": 25
+          }
+        },
+        "heading_ktkTnQ": {
+          "type": "heading",
+          "settings": {
+            "heading": "Schedule A Free Consultation",
+            "heading_size": "h4",
+            "heading_weight": "--fw-medium",
+            "block_spacing": 18
+          }
+        },
+        "description_py98LC": {
+          "type": "description",
+          "settings": {
+            "heading": "",
+            "description_size": "text-size--large",
+            "description_weight": "--fw-bold",
+            "block_spacing": 14
+          }
+        },
+        "button_iTgUG6": {
+          "type": "button",
+          "settings": {
+            "heading": "Start Now",
+            "type": "primary",
+            "url": "",
+            "open_new_window": true,
+            "block_spacing": 14
+          }
+        }
+      },
+      "block_order": [
+        "caption_zk8hjB",
+        "heading_ktkTnQ",
+        "description_py98LC",
+        "button_iTgUG6"
+      ],
+      "name": "t:sections.richtext.name",
+      "settings": {
+        "section_container_layout": "page-width",
+        "section_corner_radius": "both_corners_radius",
+        "max_content_size": 60,
+        "section_text_alignment": "center",
+        "section_color_scheme": "scheme-b74eff6f-2daa-43fb-b15f-31d410e5473e",
+        "section_top_padding": 0,
+        "section_bottom_padding": 24
+      }
+    },
     "featured_video_Jnpa3J": {
       "type": "featured-video",
       "name": "t:sections.video.name",
@@ -1103,6 +1161,7 @@
     }
   },
   "order": [
+    "richtext_c4pYbP",
     "featured_video_Jnpa3J",
     "image_gallery",
     "richtext_d8fYRC",
