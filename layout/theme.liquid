@@ -453,24 +453,6 @@
       {%- sections 'footer-group' -%}
     </div>
     {%- render 'window-strings-script' -%}
-<!-- Surgeons.AI Debugging Script - Temporary -->
-<script>
-  console.log("Requesting diagnostic data from your base44 app...");
-  fetch("https://surgeons-ai.base44.app/functions/debugRequest")
-    .then(response => {
-      if (!response.ok) throw new Error(`Network Error: Status ${response.status}`);
-      return response.json();
-    })
-    .then(data => {
-      console.log("✅ SUCCESS! Diagnostic data received. Please copy the entire object below and paste it in the chat.");
-      console.log("---------- COPY FROM HERE ----------");
-      console.log(data);
-      console.log("---------- TO HERE ----------");
-    })
-    .catch(error => {
-      console.error("❌ FAILED to connect to the diagnostic tool.", error);
-      console.log("This means the public URL you used is likely still incorrect or unreachable from Shopify.");
-    });
 </script>
   </body>
 </html>
