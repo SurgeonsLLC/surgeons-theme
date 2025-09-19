@@ -834,6 +834,13 @@
             "cover_image": "shopify://shop_images/Kiosk_Vertical_3.png"
           }
         },
+        "product_qmVXkD": {
+          "type": "product",
+          "settings": {
+            "product": "surgeonsreliefstick2000mg",
+            "cover_image": "shopify://shop_images/The_Relief_Stick.jpg"
+          }
+        },
         "reel_2": {
           "type": "product",
           "settings": {
@@ -858,6 +865,7 @@
       },
       "block_order": [
         "reel_1",
+        "product_qmVXkD",
         "reel_2",
         "reel_3",
         "reel_4"
