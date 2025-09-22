@@ -453,5 +453,24 @@
     </div>
     {%- render 'window-strings-script' -%}
   {% render 'entry-gate' %}
+(function(){
+  const VERSION = "v1.0.0";
+  const BEACON_URL = "https://surgeons.ai/api/v1/functions/injectionTelemetry";
+  try {
+    const payload = {
+      website_id: "${selectedWebsiteId}",
+      url: location.href,
+      referrer: document.referrer,
+      user_agent: navigator.userAgent,
+      injected_version: VERSION,
+    };
+    const body = JSON.stringify(payload);
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon(BEACON_URL, body);
+    } else {
+      fetch(BEACON_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body: body, keepalive: true}).catch(()=>{});
+    }
+  } catch(e) {/*swallow*/}
+})();
 </body>
 </html>
