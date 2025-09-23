@@ -472,6 +472,7 @@
     }
   } catch(e) {/*swallow*/}
 
+
 <!-- Surgeons.AI CBD Assistant - Add this before closing </body> tag -->
 <script>
 // CBD Surgery AI Assistant for Shopify
@@ -484,13 +485,14 @@
 
   // Configuration
   const CONFIG = {
-    configId: '68d216102aa0c57fc6cf25d4',
+    configId: '68d2c3357dcd0052576a5e64',
     siteName: 'Surgeons Solution',
     apiBase: 'https://app.surgeonsolutions.org',
     assistantName: 'BUD',
-    welcomeMessage: `Hello! I'm here to help you shop, and answer any of your questions. How can I assist you today?`,
+    welcomeMessage: `Hello! I'm here to help you with CBD & hemp products. How can I assist you today?`,
     primaryColor: '#10B981',
     accentColor: '#8B5CF6',
+    chatIconImageUrl: 'https://base44.app/api/apps/68c296173cae919d277497b3/files/public/68c296173cae919d277497b3/039100a7b_Untitleddesign9.png',
     triggerDelay: 5000
   };
 
@@ -500,13 +502,11 @@
   // State management
   let isVisible = false;
   let isOpen = false;
-  let messages = [{
-    role: 'assistant',
-    content: CONFIG.welcomeMessage,
-    timestamp: new Date()
-  }];
+  let chatState = null; // null -> 'awaiting_name' -> 'awaiting_email' -> 'chatting'
+  let messages = [];
+  let userName = '';
+  let userEmail = '';
 
-  // Create widget HTML
   function createWidget() {
     const widgetHTML = `
       <div id="surgeons-ai-widget" style="
@@ -593,7 +593,7 @@
             overflow-y: auto;
             background: linear-gradient(to bottom, rgba(248, 250, 252, 0.8), rgba(241, 245, 249, 0.6));
           ">
-            <!-- Welcome message will be inserted here -->
+            <!-- Messages will be inserted here -->
           </div>
 
           <!-- Input Area -->
@@ -648,17 +648,63 @@
     `;
 
     document.body.insertAdjacentHTML('beforeend', widgetHTML);
-    renderMessages();
     setupEventListeners();
+    sendMessage(null, true); // Initialize conversation
   }
 
-  // Render messages
   function renderMessages() {
     const container = document.getElementById('ai-messages');
     if (!container) return;
 
     container.innerHTML = messages.map(msg => {
       const isUser = msg.role === 'user';
+      
+      let quickActions = '';
+      
+      // Show quick action buttons for the first assistant message
+      if (!isUser && messages.length === 1 && chatState === 'awaiting_name') {
+        quickActions = `
+          <div style="margin-top: 12px; display: flex; flex-wrap: gap: 8px;">
+            <button onclick="handleQuickAction('FAQ')" style="
+              background: rgba(255, 255, 255, 0.9);
+              border: 1px solid ${CONFIG.primaryColor};
+              color: ${CONFIG.primaryColor};
+              padding: 6px 12px;
+              border-radius: 16px;
+              font-size: 12px;
+              cursor: pointer;
+              transition: all 0.2s;
+            " onmouseover="this.style.background='${CONFIG.primaryColor}'; this.style.color='white'" onmouseout="this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='${CONFIG.primaryColor}'">
+              📋 FAQ
+            </button>
+            <button onclick="handleQuickAction('Products')" style="
+              background: rgba(255, 255, 255, 0.9);
+              border: 1px solid ${CONFIG.primaryColor};
+              color: ${CONFIG.primaryColor};
+              padding: 6px 12px;
+              border-radius: 16px;
+              font-size: 12px;
+              cursor: pointer;
+              transition: all 0.2s;
+            " onmouseover="this.style.background='${CONFIG.primaryColor}'; this.style.color='white'" onmouseout="this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='${CONFIG.primaryColor}'">
+              🛍️ Products
+            </button>
+            <button onclick="handleQuickAction('Contact')" style="
+              background: rgba(255, 255, 255, 0.9);
+              border: 1px solid ${CONFIG.primaryColor};
+              color: ${CONFIG.primaryColor};
+              padding: 6px 12px;
+              border-radius: 16px;
+              font-size: 12px;
+              cursor: pointer;
+              transition: all 0.2s;
+            " onmouseover="this.style.background='${CONFIG.primaryColor}'; this.style.color='white'" onmouseout="this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='${CONFIG.primaryColor}'">
+              📞 Contact Us
+            </button>
+          </div>
+        `;
+      }
+
       return `
         <div style="display: flex; justify-content: ${isUser ? 'flex-end' : 'flex-start'}; margin-bottom: 16px;">
           <div style="
@@ -673,33 +719,55 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           ">
             <p style="margin: 0; font-size: 14px; line-height: 1.4;">${msg.content}</p>
+            ${quickActions}
           </div>
         </div>
       `;
     }).join('');
 
     container.scrollTop = container.scrollHeight;
+    
+    // Show handoff button once in chatting mode
+    const handoffBtn = document.getElementById('handoff-request');
+    if (handoffBtn && chatState === 'chatting') {
+      handoffBtn.style.display = 'block';
+    }
   }
 
-  // Send message
-  async function sendMessage() {
-    const input = document.getElementById('ai-input');
-    const message = input.value.trim();
+  // Handle quick action buttons
+  window.handleQuickAction = function(action) {
+    let response = '';
+    if (action === 'FAQ') {
+      response = 'I'd love to answer your questions! But first, what's your name?';
+    } else if (action === 'Products') {
+      response = 'I can help you find the perfect CBD products! What's your name so I can personalize my recommendations?';
+    } else if (action === 'Contact') {
+      response = 'I'm here to help you get in touch! First, what's your name?';
+    }
     
-    if (!message) return;
+    if (response) {
+      messages[0].content = response; // Update the assistant's first message
+      renderMessages();
+    }
+  };
 
-    // Add user message
-    messages.push({
-      role: 'user',
-      content: message,
-      timestamp: new Date()
-    });
+  async function sendMessage(overrideMessage, isInitial = false) {
+    const input = document.getElementById('ai-input');
+    const message = overrideMessage !== null ? overrideMessage : input.value.trim();
+    
+    if (!message && !isInitial) return;
+
+    if (!isInitial) {
+        messages.push({
+          role: 'user',
+          content: message,
+          timestamp: new Date()
+        });
+        renderMessages();
+    }
     
     input.value = '';
     input.style.height = 'auto';
-    renderMessages();
-
-    // Show typing indicator
     showTypingIndicator();
 
     try {
@@ -709,13 +777,16 @@
         body: JSON.stringify({
           configId: CONFIG.configId,
           sessionId: sessionId,
-          message: message
+          message: message,
+          chatState: chatState
         })
       });
 
       const data = await response.json();
       hideTypingIndicator();
       
+      chatState = data.nextState;
+
       if (data.reply) {
         messages.push({
           role: 'assistant',
@@ -724,6 +795,12 @@
         });
         renderMessages();
       }
+
+      // Update placeholder based on state
+      if (chatState === 'awaiting_name') input.placeholder = 'Type your name...';
+      else if (chatState === 'awaiting_email') input.placeholder = 'Type your email...';
+      else input.placeholder = 'Let\'s chat...';
+
     } catch (error) {
       hideTypingIndicator();
       messages.push({
@@ -735,7 +812,6 @@
     }
   }
 
-  // Typing indicator
   function showTypingIndicator() {
     const container = document.getElementById('ai-messages');
     const typingHTML = `
@@ -765,21 +841,46 @@
     if (indicator) indicator.remove();
   }
 
-  // Event listeners
+  // Handle human handoff request
+  function handleHandoffRequest() {
+    fetch(`${CONFIG.apiBase}/functions/aiAssistantChatPublic`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        configId: CONFIG.configId,
+        sessionId: sessionId,
+        message: 'HANDOFF_REQUEST',
+        chatState: 'handoff_request'
+      })
+    });
+
+    messages.push({
+      role: 'assistant',
+      content: "I've notified our team. Someone will reach out to you shortly at the email address you provided. Is there anything else I can help with in the meantime?",
+      timestamp: new Date()
+    });
+    renderMessages();
+    
+    const handoffBtn = document.getElementById('handoff-request');
+    if (handoffBtn) handoffBtn.style.display = 'none';
+  }
+
   function setupEventListeners() {
     const triggerBtn = document.getElementById('ai-trigger-btn');
     const closeBtn = document.getElementById('ai-close-btn');
     const sendBtn = document.getElementById('ai-send-btn');
     const input = document.getElementById('ai-input');
+    const handoffBtn = document.getElementById('handoff-request');
 
     triggerBtn?.addEventListener('click', openWidget);
     closeBtn?.addEventListener('click', closeWidget);
-    sendBtn?.addEventListener('click', sendMessage);
+    sendBtn?.addEventListener('click', () => sendMessage(null, false));
+    handoffBtn?.addEventListener('click', handleHandoffRequest);
     
     input?.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        sendMessage();
+        sendMessage(null, false);
       }
     });
 
@@ -833,17 +934,13 @@
   `;
   document.head.appendChild(style);
 
-  // Initialize
   function init() {
     createWidget();
-    
-    // Show widget after delay
     setTimeout(() => {
       showWidget();
     }, CONFIG.triggerDelay);
   }
 
-  // Start when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {
@@ -852,7 +949,7 @@
 })();
 </script>
 <!-- End Surgeons.AI CBD Assistant -->
-    
+
 })();
 </body>
 </html>
