@@ -841,6 +841,14 @@
             "cover_image": "shopify://shop_images/The_Relief_Stick.jpg"
           }
         },
+        "reel_4": {
+          "type": "product",
+          "settings": {
+            "product": "surgeonsreliefstick2000mg",
+            "cover_image": "shopify://shop_images/PROOF_4b7fcfd6-ea71-45c1-9645-02be9c97a4e9.png",
+            "upload_video": "shopify://files/videos/2025-09-27-120740703.mp4"
+          }
+        },
         "reel_2": {
           "type": "product",
           "settings": {
@@ -854,21 +862,14 @@
             "product": "cbdcbncbgoils",
             "cover_image": "shopify://shop_images/Fight_arthritis_with_our_Triple_Stack_of_CBD_CBG_CBN_infused_oils.png"
           }
-        },
-        "reel_4": {
-          "type": "product",
-          "settings": {
-            "product": "cbdfordogstreats",
-            "cover_image": "shopify://shop_images/Kiosk_Vertical_4.png"
-          }
         }
       },
       "block_order": [
         "reel_1",
         "product_qmVXkD",
+        "reel_4",
         "reel_2",
-        "reel_3",
-        "reel_4"
+        "reel_3"
       ],
       "settings": {
         "upload_video": "shopify://files/videos/Untitled video - Made with Clipchamp (2).mp4",
