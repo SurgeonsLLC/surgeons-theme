@@ -455,15 +455,6 @@
     {%- render 'window-strings-script' -%}
 </script>
 <!-- Surgeons AI Chatbot -->
-<script>
-  (function() {
-    var script = document.createElement('script');
-    script.src = 'https://ai.surgeonsolutions.org/chatbot/widget-loader.js';
-    script.setAttribute('data-config-id', 'cs-surgeonsolution-io');
-    script.setAttribute('data-domain', 'surgeonsolution.io');
-    script.async = true;
-    document.body.appendChild(script);
-  })();
-</script>
+<script src="https://ai.surgeonsolutions.org/functions/aiAssistantEmbed?configId=cs-surgeonsolution-io" async defer></script>
   </body>
 </html>
