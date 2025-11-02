@@ -453,32 +453,118 @@
     </div>
     {%- render 'window-strings-script' -%}
   {% render 'entry-gate' %}
-<!-- BUD AI Chat Widget -->
+<!-- BUD AI Chat Widget - IMPROVED VERSION -->
 <script>
 (function() {
   const bubble = document.createElement('div');
-  bubble.style.cssText = 'position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:#2563eb;border-radius:50%;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;z-index:9999;';
+  bubble.style.cssText = 'position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:#2563eb;border-radius:50%;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:flex;align-items:center;justify-content:center;z-index:9999;transition:transform 0.2s;';
   bubble.innerHTML = '<svg width="32" height="32" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/></svg>';
   
   const chat = document.createElement('div');
   chat.style.cssText = 'position:fixed;bottom:90px;right:20px;width:350px;height:500px;background:white;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.2);display:none;flex-direction:column;z-index:9999;';
-  chat.innerHTML = '<div style="padding:16px;background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:white;border-radius:12px 12px 0 0;"><h3 style="margin:0;font-size:18px;">Chat with BUD</h3><p style="margin:4px 0 0;font-size:12px;opacity:0.9;">Your AI assistant</p></div><div id="bud-msgs" style="flex:1;overflow-y:auto;padding:16px;"></div><div style="padding:16px;border-top:1px solid #e5e7eb;"><input id="bud-input" type="text" placeholder="Ask me anything..." style="width:100%;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;"></div>';
+  chat.innerHTML = `
+    <div style="padding:16px;background:linear-gradient(135deg,#2563eb 0%,#7c3aed 100%);color:white;border-radius:12px 12px 0 0;">
+      <h3 style="margin:0;font-size:18px;">💬 Chat with BUD</h3>
+      <p style="margin:4px 0 0;font-size:12px;opacity:0.9;">Your Cannabinoid Specialist</p>
+    </div>
+    <div id="bud-msgs" style="flex:1;overflow-y:auto;padding:16px;background:#f9fafb;"></div>
+    <div style="padding:12px;border-top:1px solid #e5e7eb;background:white;border-radius:0 0 12px 12px;">
+      <div style="display:flex;gap:8px;">
+        <input id="bud-input" type="text" placeholder="Type your message..." style="flex:1;padding:10px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:14px;outline:none;">
+        <button id="bud-send" style="padding:10px 20px;background:#2563eb;color:white;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background 0.2s;">Send</button>
+      </div>
+    </div>
+  `;
   
   document.body.appendChild(bubble);
   document.body.appendChild(chat);
   
   let convId = null;
+  let isOpen = false;
+  let hasInitialized = false;
   const msgs = document.getElementById('bud-msgs');
   const input = document.getElementById('bud-input');
+  const sendBtn = document.getElementById('bud-send');
   
-  bubble.onclick = () => { chat.style.display = chat.style.display === 'none' ? 'flex' : 'none'; };
+  // Add hover effect to send button
+  sendBtn.onmouseover = () => { sendBtn.style.background = '#1d4ed8'; };
+  sendBtn.onmouseout = () => { sendBtn.style.background = '#2563eb'; };
   
+  // Toggle chat window
+  bubble.onclick = async () => {
+    isOpen = !isOpen;
+    chat.style.display = isOpen ? 'flex' : 'none';
+    
+    // Send initial greeting when opening for the first time
+    if (isOpen && !hasInitialized) {
+      hasInitialized = true;
+      await sendInitialGreeting();
+      input.focus();
+    } else if (isOpen) {
+      input.focus();
+    }
+  };
+  
+  // Initial greeting from BUD
+  async function sendInitialGreeting() {
+    // Show typing indicator
+    msgs.innerHTML = '<div id="typing" style="margin-bottom:12px;"><div style="display:inline-block;background:#e5e7eb;padding:8px 12px;border-radius:12px;"><span style="animation:blink 1.4s infinite;">●</span> <span style="animation:blink 1.4s infinite 0.2s;">●</span> <span style="animation:blink 1.4s infinite 0.4s;">●</span></div></div>';
+    
+    try {
+      const res = await fetch('https://ai.surgeonsolutions.org/api/v1/bud/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          message: 'Hello',
+          conversationId: convId,
+          context: { 
+            type: 'sales_chat', 
+            domain: 'surgeonsolution.io', 
+            page: window.location.pathname,
+            isInitial: true
+          }
+        })
+      });
+      const data = await res.json();
+      convId = data.conversationId || convId;
+      
+      // Remove typing indicator
+      document.getElementById('typing')?.remove();
+      
+      // Add BUD's greeting
+      const greeting = data.response || data.message || "Hi! 👋 I'm BUD, your Cannabinoid Specialist. How can I help you today?";
+      addBudMessage(greeting);
+    } catch (err) {
+      document.getElementById('typing')?.remove();
+      addBudMessage("Hi! 👋 I'm BUD, your Cannabinoid Specialist. How can I help you today?");
+    }
+  }
+  
+  // Add BUD message to chat
+  function addBudMessage(text) {
+    msgs.innerHTML += '<div style="margin-bottom:12px;"><div style="display:inline-block;background:#f3f4f6;color:#1f2937;padding:10px 14px;border-radius:12px;max-width:80%;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.05);">' + text + '</div></div>';
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  
+  // Add user message to chat
+  function addUserMessage(text) {
+    msgs.innerHTML += '<div style="margin-bottom:12px;text-align:right;"><div style="display:inline-block;background:#2563eb;color:white;padding:10px 14px;border-radius:12px;max-width:80%;line-height:1.5;box-shadow:0 1px 2px rgba(0,0,0,0.1);">' + text + '</div></div>';
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  
+  // Send user message
   async function send() {
     const msg = input.value.trim();
     if (!msg) return;
     
-    msgs.innerHTML += '<div style="margin-bottom:12px;text-align:right;"><div style="display:inline-block;background:#2563eb;color:white;padding:8px 12px;border-radius:12px;max-width:80%;">' + msg + '</div></div>';
+    addUserMessage(msg);
     input.value = '';
+    sendBtn.disabled = true;
+    sendBtn.style.opacity = '0.5';
+    
+    // Show typing indicator
+    const typingId = 'typing-' + Date.now();
+    msgs.innerHTML += '<div id="' + typingId + '" style="margin-bottom:12px;"><div style="display:inline-block;background:#e5e7eb;padding:8px 12px;border-radius:12px;"><span style="animation:blink 1.4s infinite;">●</span> <span style="animation:blink 1.4s infinite 0.2s;">●</span> <span style="animation:blink 1.4s infinite 0.4s;">●</span></div></div>';
     msgs.scrollTop = msgs.scrollHeight;
     
     try {
@@ -493,14 +579,30 @@
       });
       const data = await res.json();
       convId = data.conversationId || convId;
-      msgs.innerHTML += '<div style="margin-bottom:12px;"><div style="display:inline-block;background:#f3f4f6;padding:8px 12px;border-radius:12px;max-width:80%;">' + (data.response || data.message || 'Error') + '</div></div>';
-      msgs.scrollTop = msgs.scrollHeight;
+      
+      // Remove typing indicator
+      document.getElementById(typingId)?.remove();
+      
+      addBudMessage(data.response || data.message || 'Sorry, I encountered an issue. Please try again.');
     } catch (err) {
-      msgs.innerHTML += '<div><div style="display:inline-block;background:#fee;color:#c00;padding:8px 12px;border-radius:12px;">Error</div></div>';
+      document.getElementById(typingId)?.remove();
+      msgs.innerHTML += '<div style="margin-bottom:12px;"><div style="display:inline-block;background:#fee2e2;color:#991b1b;padding:10px 14px;border-radius:12px;max-width:80%;">Sorry, I had trouble connecting. Please try again.</div></div>';
+      msgs.scrollTop = msgs.scrollHeight;
+    } finally {
+      sendBtn.disabled = false;
+      sendBtn.style.opacity = '1';
+      input.focus();
     }
   }
   
+  // Event listeners
+  sendBtn.onclick = send;
   input.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
+  
+  // Add CSS animation for typing indicator
+  const style = document.createElement('style');
+  style.textContent = '@keyframes blink { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }';
+  document.head.appendChild(style);
 })();
 </script>
 </body>
