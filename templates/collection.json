@@ -11,6 +11,7 @@
   "sections": {
     "main": {
       "type": "main-products-grid",
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/Untitled_design_20_80797da4-ada8-4e0d-8f30-ab8e44535df5.png",
         "parallax_effect": false,
