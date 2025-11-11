@@ -87,7 +87,7 @@
           "border": "#444444",
           "alter_clr": "#ffffff",
           "element_focus": "#ffffff",
-          "primary_bg": "#ffffff",
+          "primary_bg": "#a8002a",
           "primary_text": "#181818",
           "primary_bdr": "#ebebeb",
           "secondary_bg": "#111111",
@@ -106,7 +106,7 @@
           "widget_hover_active": "#181818",
           "widget_border": "#d6d6d6",
           "widget_element_focus": "#181818",
-          "widget_alter_clr": "#000000",
+          "widget_alter_clr": "#ffffff",
           "widget_form_error": "#a8002a",
           "widget_form_warning": "#6b4d00",
           "widget_form_success": "#075f0c"
