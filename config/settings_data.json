@@ -106,7 +106,7 @@
           "widget_hover_active": "#181818",
           "widget_border": "#d6d6d6",
           "widget_element_focus": "#181818",
-          "widget_alter_clr": "#ffffff",
+          "widget_alter_clr": "#000000",
           "widget_form_error": "#a8002a",
           "widget_form_warning": "#6b4d00",
           "widget_form_success": "#075f0c"
