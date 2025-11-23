@@ -151,6 +151,81 @@
 <script>
 (function(){var e="sg_attr_",t={FIRST_SOURCE:e+"first_source",FIRST_MEDIUM:e+"first_medium",FIRST_CAMPAIGN:e+"first_campaign",LAST_SOURCE:e+"last_source",LAST_MEDIUM:e+"last_medium",LAST_CAMPAIGN:e+"last_campaign",LAST_TIMESTAMP:e+"last_ts",VISITOR_ID:"surgeons_visitor_id"};function r(){var e=new URLSearchParams(window.location.search);return{source:e.get("utm_source"),medium:e.get("utm_medium"),campaign:e.get("utm_campaign")}}function o(){var e=document.referrer.toLowerCase();return e?e.includes("facebook.com")||e.includes("fb.com")?{source:"facebook",medium:"social"}:e.includes("instagram.com")?{source:"instagram",medium:"social"}:e.includes("google.")?{source:"google",medium:"organic"}:e.includes("bing.com")?{source:"bing",medium:"organic"}:{source:"referral",medium:"referral"}:{source:"direct",medium:"none"}}function a(){return{first_touch_source:localStorage.getItem(t.FIRST_SOURCE)||"direct",first_touch_medium:localStorage.getItem(t.FIRST_MEDIUM)||"none",first_touch_campaign:localStorage.getItem(t.FIRST_CAMPAIGN)||"",last_touch_source:localStorage.getItem(t.LAST_SOURCE)||localStorage.getItem(t.FIRST_SOURCE)||"direct",last_touch_medium:localStorage.getItem(t.LAST_MEDIUM)||localStorage.getItem(t.FIRST_MEDIUM)||"none",last_touch_campaign:localStorage.getItem(t.LAST_CAMPAIGN)||"",visitor_id:localStorage.getItem(t.VISITOR_ID)||""}}async function n(){try{await fetch("/cart/update.js",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({attributes:a()})})}catch(e){}}function i(){var e=r(),a=o();localStorage.getItem(t.FIRST_SOURCE)||(localStorage.setItem(t.FIRST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.FIRST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.FIRST_CAMPAIGN,e.campaign||""));var i=e.source||e.medium||e.campaign,s=parseInt(localStorage.getItem(t.LAST_TIMESTAMP)||"0");(i||Date.now()-s>18e5)&&(localStorage.setItem(t.LAST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.LAST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.LAST_CAMPAIGN,e.campaign||""),localStorage.setItem(t.LAST_TIMESTAMP,Date.now().toString()));n();document.addEventListener("click",function(e){e.target.matches('[name="add"],.add-to-cart,[data-add-to-cart],.product-form__submit')&&setTimeout(n,500)})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",i):i();window.SurgeonsAttribution={getData:a,updateCart:n}})();
 </script>
+{% comment %}
+  Surgeons AI SEO Injection Loader
+
+  Add this snippet to your theme.liquid file, just before the closing </head> tag.
+  This will dynamically load all deployed SEO injections from the Surgeons AI backend.
+
+  Website ID: surgeonsolution-io
+  Backend: https://ai.surgeonsolutions.org
+{% endcomment %}
+
+<script>
+(function() {
+  // Configuration
+  var SURGEONS_API = 'https://ai.surgeonsolutions.org/api/v1';
+  var WEBSITE_ID = 'surgeonsolution-io';
+  var PAGE_URL = window.location.href;
+
+  // Fetch and inject SEO optimizations
+  function loadSEOInjections() {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', SURGEONS_API + '/code-injections?website_id=' + WEBSITE_ID + '&status=deployed&page_url=' + encodeURIComponent(PAGE_URL), true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          var response = JSON.parse(xhr.responseText);
+          var injections = response.results || response || [];
+
+          injections.forEach(function(injection) {
+            if (injection.code && injection.placement === 'head') {
+              // Create a container for the injection
+              var container = document.createElement('div');
+              container.innerHTML = injection.code;
+              container.setAttribute('data-surgeons-injection', injection.id);
+
+              // Move all child nodes to head
+              while (container.firstChild) {
+                document.head.appendChild(container.firstChild);
+              }
+
+              // Log successful injection
+              console.log('[Surgeons SEO] Injected:', injection.name);
+            }
+          });
+
+          // Beacon back to confirm injections loaded
+          if (injections.length > 0) {
+            var beacon = new Image();
+            beacon.src = SURGEONS_API + '/telemetry/injection-beacons?website_id=' + WEBSITE_ID +
+                        '&page_url=' + encodeURIComponent(PAGE_URL) +
+                        '&injections_loaded=' + injections.length +
+                        '&t=' + Date.now();
+          }
+        } catch (e) {
+          console.error('[Surgeons SEO] Parse error:', e);
+        }
+      }
+    };
+
+    xhr.onerror = function() {
+      console.error('[Surgeons SEO] Network error');
+    };
+
+    xhr.send();
+  }
+
+  // Load on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadSEOInjections);
+  } else {
+    loadSEOInjections();
+  }
+})();
+</script>
 </head>
   <body>
     <div id="page-wrapper">
