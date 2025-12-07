@@ -490,12 +490,12 @@
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
           message: msg,
-          conversationId: convId,
+          conversation_id: convId,
           context: { type: 'sales_chat', domain: 'surgeonsolution.io', page: window.location.pathname }
         })
       });
       const data = await res.json();
-      convId = data.conversationId || convId;
+      convId = data.conversation_id || convId;
       msgs.innerHTML += '<div style="margin-bottom:12px;"><div style="display:inline-block;background:#f3f4f6;padding:8px 12px;border-radius:12px;max-width:80%;">' + (data.response || data.message || 'Error') + '</div></div>';
       msgs.scrollTop = msgs.scrollHeight;
     } catch (err) {
@@ -506,6 +506,6 @@
   input.addEventListener('keypress', (e) => { if (e.key === 'Enter') send(); });
 })();
 </script>
-<script src="https://ai.surgeonsolutions.org/api/chatbot/loader.js" async></script>
   </body>
+</html>
 </html>
