@@ -5,6 +5,103 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
+
+    <!-- Surgeons Security: Content Security Policy with Domain Allowlist -->
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self' https://*.shopify.com https://*.shopifycdn.com;
+      script-src 'self' 'unsafe-inline' 'unsafe-eval'
+        https://*.shopify.com
+        https://*.shopifycdn.com
+        https://ai.surgeonsolutions.org
+        https://*.surgeonsolutions.org
+        https://*.surgeonsolution.io
+        https://surgeonsolution.io
+        https://cbdsurgeons.shop
+        https://*.cbdsurgeons.shop
+        https://onlythebestherbs.io
+        https://*.onlythebestherbs.io
+        https://cdn.shopify.com;
+      style-src 'self' 'unsafe-inline' https://*.shopify.com https://*.shopifycdn.com https://fonts.googleapis.com;
+      font-src 'self' https://*.shopify.com https://*.shopifycdn.com https://fonts.gstatic.com https://fonts.shopifycdn.com;
+      img-src 'self' data: blob: https: http:;
+      connect-src 'self'
+        https://*.shopify.com
+        https://ai.surgeonsolutions.org
+        https://*.surgeonsolutions.org
+        https://*.surgeonsolution.io
+        https://surgeonsolution.io
+        https://records.surgeonsolution.io
+        https://cbdsurgeons.shop
+        https://*.cbdsurgeons.shop
+        https://onlythebestherbs.io
+        https://*.onlythebestherbs.io
+        https://monorail-edge.shopifysvc.com;
+      frame-src 'self' https://*.shopify.com https://*.youtube.com https://*.vimeo.com;
+      object-src 'none';
+      base-uri 'self';
+    ">
+
+    <!-- Surgeons Security: Domain Allowlist Configuration -->
+    <script>
+    window.SurgeonsSecurity = {
+      version: '1.0.0',
+      allowedDomains: [
+        'surgeonsolutions.org',
+        'ai.surgeonsolutions.org',
+        'surgeonsolution.io',
+        'records.surgeonsolution.io',
+        'accounts.surgeonsolution.io',
+        'realsurgeons.accounts.surgeonsolution.io',
+        'cbdsurgeons.shop',
+        'onlythebestherbs.io',
+        'shopify.com',
+        'cdn.shopify.com',
+        'monorail-edge.shopifysvc.com'
+      ],
+
+      isAllowedDomain: function(url) {
+        try {
+          var parsed = new URL(url);
+          var hostname = parsed.hostname.toLowerCase();
+          return this.allowedDomains.some(function(domain) {
+            return hostname === domain || hostname.endsWith('.' + domain);
+          });
+        } catch (e) {
+          console.warn('[Surgeons Security] Invalid URL:', url);
+          return false;
+        }
+      },
+
+      secureFetch: function(url, options) {
+        if (!this.isAllowedDomain(url)) {
+          console.error('[Surgeons Security] Blocked request to unauthorized domain:', url);
+          return Promise.reject(new Error('Domain not in allowlist: ' + url));
+        }
+        return fetch(url, options);
+      },
+
+      secureXHR: function(method, url, async) {
+        if (!this.isAllowedDomain(url)) {
+          console.error('[Surgeons Security] Blocked XHR to unauthorized domain:', url);
+          throw new Error('Domain not in allowlist: ' + url);
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open(method, url, async !== false);
+        return xhr;
+      },
+
+      log: function(message, data) {
+        if (window.location.hostname === 'localhost' || window.location.search.includes('debug=true')) {
+          console.log('[Surgeons Security]', message, data || '');
+        }
+      }
+    };
+
+    // Log security initialization
+    window.SurgeonsSecurity.log('Security module initialized', {
+      allowedDomains: window.SurgeonsSecurity.allowedDomains.length + ' domains configured'
+    });
+    </script>
     <link rel="canonical" href="{{ canonical_url }}">
     {%- unless settings.headings_font.system? and settings.body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
@@ -152,10 +249,11 @@
 (function(){var e="sg_attr_",t={FIRST_SOURCE:e+"first_source",FIRST_MEDIUM:e+"first_medium",FIRST_CAMPAIGN:e+"first_campaign",LAST_SOURCE:e+"last_source",LAST_MEDIUM:e+"last_medium",LAST_CAMPAIGN:e+"last_campaign",LAST_TIMESTAMP:e+"last_ts",VISITOR_ID:"surgeons_visitor_id"};function r(){var e=new URLSearchParams(window.location.search);return{source:e.get("utm_source"),medium:e.get("utm_medium"),campaign:e.get("utm_campaign")}}function o(){var e=document.referrer.toLowerCase();return e?e.includes("facebook.com")||e.includes("fb.com")?{source:"facebook",medium:"social"}:e.includes("instagram.com")?{source:"instagram",medium:"social"}:e.includes("google.")?{source:"google",medium:"organic"}:e.includes("bing.com")?{source:"bing",medium:"organic"}:{source:"referral",medium:"referral"}:{source:"direct",medium:"none"}}function a(){return{first_touch_source:localStorage.getItem(t.FIRST_SOURCE)||"direct",first_touch_medium:localStorage.getItem(t.FIRST_MEDIUM)||"none",first_touch_campaign:localStorage.getItem(t.FIRST_CAMPAIGN)||"",last_touch_source:localStorage.getItem(t.LAST_SOURCE)||localStorage.getItem(t.FIRST_SOURCE)||"direct",last_touch_medium:localStorage.getItem(t.LAST_MEDIUM)||localStorage.getItem(t.FIRST_MEDIUM)||"none",last_touch_campaign:localStorage.getItem(t.LAST_CAMPAIGN)||"",visitor_id:localStorage.getItem(t.VISITOR_ID)||""}}async function n(){try{await fetch("/cart/update.js",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({attributes:a()})})}catch(e){}}function i(){var e=r(),a=o();localStorage.getItem(t.FIRST_SOURCE)||(localStorage.setItem(t.FIRST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.FIRST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.FIRST_CAMPAIGN,e.campaign||""));var i=e.source||e.medium||e.campaign,s=parseInt(localStorage.getItem(t.LAST_TIMESTAMP)||"0");(i||Date.now()-s>18e5)&&(localStorage.setItem(t.LAST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.LAST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.LAST_CAMPAIGN,e.campaign||""),localStorage.setItem(t.LAST_TIMESTAMP,Date.now().toString()));n();document.addEventListener("click",function(e){e.target.matches('[name="add"],.add-to-cart,[data-add-to-cart],.product-form__submit')&&setTimeout(n,500)})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",i):i();window.SurgeonsAttribution={getData:a,updateCart:n}})();
 </script>
 {% comment %}
-  Surgeons AI SEO Injection Loader
+  Surgeons AI SEO Injection Loader (Secured)
 
   Add this snippet to your theme.liquid file, just before the closing </head> tag.
   This will dynamically load all deployed SEO injections from the Surgeons AI backend.
+  Now uses SurgeonsSecurity allowlist validation for all requests.
 
   Website ID: surgeonsolution-io
   Backend: https://ai.surgeonsolutions.org
@@ -168,10 +266,33 @@
   var WEBSITE_ID = 'surgeonsolution-io';
   var PAGE_URL = window.location.href;
 
+  // Validate domain before any requests
+  function validateAndFetch() {
+    if (window.SurgeonsSecurity && !window.SurgeonsSecurity.isAllowedDomain(SURGEONS_API)) {
+      console.error('[Surgeons SEO] API domain not in allowlist - aborting');
+      return;
+    }
+    loadSEOInjections();
+  }
+
   // Fetch and inject SEO optimizations
   function loadSEOInjections() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', SURGEONS_API + '/code-injections?website_id=' + WEBSITE_ID + '&status=deployed&page_url=' + encodeURIComponent(PAGE_URL), true);
+    var requestUrl = SURGEONS_API + '/code-injections?website_id=' + WEBSITE_ID + '&status=deployed&page_url=' + encodeURIComponent(PAGE_URL);
+
+    // Use secure XHR if available
+    var xhr;
+    if (window.SurgeonsSecurity && window.SurgeonsSecurity.secureXHR) {
+      try {
+        xhr = window.SurgeonsSecurity.secureXHR('GET', requestUrl, true);
+      } catch (e) {
+        console.error('[Surgeons SEO] Security validation failed:', e.message);
+        return;
+      }
+    } else {
+      xhr = new XMLHttpRequest();
+      xhr.open('GET', requestUrl, true);
+    }
+
     xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.onload = function() {
@@ -186,6 +307,7 @@
               var container = document.createElement('div');
               container.innerHTML = injection.code;
               container.setAttribute('data-surgeons-injection', injection.id);
+              container.setAttribute('data-surgeons-verified', 'true');
 
               // Move all child nodes to head
               while (container.firstChild) {
@@ -193,17 +315,24 @@
               }
 
               // Log successful injection
-              console.log('[Surgeons SEO] Injected:', injection.name);
+              if (window.SurgeonsSecurity) {
+                window.SurgeonsSecurity.log('SEO Injected:', injection.name);
+              }
             }
           });
 
           // Beacon back to confirm injections loaded
           if (injections.length > 0) {
-            var beacon = new Image();
-            beacon.src = SURGEONS_API + '/telemetry/injection-beacons?website_id=' + WEBSITE_ID +
+            var beaconUrl = SURGEONS_API + '/telemetry/injection-beacons?website_id=' + WEBSITE_ID +
                         '&page_url=' + encodeURIComponent(PAGE_URL) +
                         '&injections_loaded=' + injections.length +
                         '&t=' + Date.now();
+
+            // Validate beacon URL before sending
+            if (!window.SurgeonsSecurity || window.SurgeonsSecurity.isAllowedDomain(beaconUrl)) {
+              var beacon = new Image();
+              beacon.src = beaconUrl;
+            }
           }
         } catch (e) {
           console.error('[Surgeons SEO] Parse error:', e);
@@ -220,9 +349,9 @@
 
   // Load on DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadSEOInjections);
+    document.addEventListener('DOMContentLoaded', validateAndFetch);
   } else {
-    loadSEOInjections();
+    validateAndFetch();
   }
 })();
 </script>
@@ -390,14 +519,124 @@ Version 0.1
 </div>
 </div>
 <script>
+// BUD Chat Widget - Now with SurgeonsSecurity validation
+const BUD_API_URL = 'https://ai.surgeonsolutions.org/api/v1/bud/chat';
 let budConvId=null,budOpen=false,budInit=false;
 const budMsgs=()=>document.getElementById('bud-msgs'),budInput=()=>document.getElementById('bud-input'),budSend=()=>document.getElementById('bud-send');
+
+// Secure fetch wrapper for BUD
+async function budSecureFetch(url, options) {
+  if (window.SurgeonsSecurity && !window.SurgeonsSecurity.isAllowedDomain(url)) {
+    throw new Error('BUD API domain not in security allowlist');
+  }
+  return fetch(url, options);
+}
+
 function toggleBudChat(){budOpen=!budOpen;document.getElementById('bud-chat').classList.toggle('open',budOpen);if(budOpen&&!budInit){budInit=true;sendBudGreeting();budInput()?.focus()}else if(budOpen)budInput()?.focus()}
-async function sendBudGreeting(){budMsgs().innerHTML='<div class="bud-msg bud"><div class="bud-bubble-msg"><div class="bud-typing"><span></span><span></span><span></span></div></div></div>';try{const r=await fetch('https://ai.surgeonsolutions.org/api/v1/bud/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Hello',conversationId:budConvId,context:{type:'sales_chat',domain:'surgeonsolution.io',page:window.location.pathname,isInitial:true}})});const d=await r.json();budConvId=d.conversationId||budConvId;budMsgs().innerHTML='';addBudMsg(d.response||d.message||"Hi! 👋 I'm BUD, powered by GPT-4. I can help you find exactly what you need, answer questions instantly, and guide you to the perfect solution. What can I help you with today?")}catch(e){budMsgs().innerHTML='';addBudMsg("Hi! 👋 I'm BUD, how can I help you today?")}}
+async function sendBudGreeting(){budMsgs().innerHTML='<div class="bud-msg bud"><div class="bud-bubble-msg"><div class="bud-typing"><span></span><span></span><span></span></div></div></div>';try{const r=await budSecureFetch(BUD_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'Hello',conversationId:budConvId,context:{type:'sales_chat',domain:'surgeonsolution.io',page:window.location.pathname,isInitial:true}})});const d=await r.json();budConvId=d.conversationId||budConvId;budMsgs().innerHTML='';addBudMsg(d.response||d.message||"Hi! 👋 I'm BUD, powered by GPT-4. I can help you find exactly what you need, answer questions instantly, and guide you to the perfect solution. What can I help you with today?")}catch(e){budMsgs().innerHTML='';addBudMsg("Hi! 👋 I'm BUD, how can I help you today?")}}
 function addBudMsg(t){budMsgs().innerHTML+='<div class="bud-msg bud"><div class="bud-bubble-msg">'+t+'</div></div>';budMsgs().scrollTop=budMsgs().scrollHeight}
 function addUserMsg(t){budMsgs().innerHTML+='<div class="bud-msg user"><div class="bud-bubble-msg">'+t+'</div></div>';budMsgs().scrollTop=budMsgs().scrollHeight}
-async function sendBudMsg(){const m=budInput().value.trim();if(!m)return;addUserMsg(m);budInput().value='';budSend().disabled=true;const tid='t'+Date.now();budMsgs().innerHTML+='<div id="'+tid+'" class="bud-msg bud"><div class="bud-bubble-msg"><div class="bud-typing"><span></span><span></span><span></span></div></div></div>';budMsgs().scrollTop=budMsgs().scrollHeight;try{const r=await fetch('https://ai.surgeonsolutions.org/api/v1/bud/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:m,conversationId:budConvId,context:{type:'sales_chat',domain:'surgeonsolution.io',page:window.location.pathname}})});const d=await r.json();budConvId=d.conversationId||budConvId;document.getElementById(tid)?.remove();addBudMsg(d.response||d.message||'Sorry, I encountered an issue. Please try again.')}catch(e){document.getElementById(tid)?.remove();budMsgs().innerHTML+='<div class="bud-msg bud"><div class="bud-bubble-msg" style="background:#fee2e2;color:#991b1b;">Sorry, I had trouble connecting. Please try again.</div></div>';budMsgs().scrollTop=budMsgs().scrollHeight}finally{budSend().disabled=false;budInput().focus()}}
+async function sendBudMsg(){const m=budInput().value.trim();if(!m)return;addUserMsg(m);budInput().value='';budSend().disabled=true;const tid='t'+Date.now();budMsgs().innerHTML+='<div id="'+tid+'" class="bud-msg bud"><div class="bud-bubble-msg"><div class="bud-typing"><span></span><span></span><span></span></div></div></div>';budMsgs().scrollTop=budMsgs().scrollHeight;try{const r=await budSecureFetch(BUD_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:m,conversationId:budConvId,context:{type:'sales_chat',domain:'surgeonsolution.io',page:window.location.pathname}})});const d=await r.json();budConvId=d.conversationId||budConvId;document.getElementById(tid)?.remove();addBudMsg(d.response||d.message||'Sorry, I encountered an issue. Please try again.')}catch(e){document.getElementById(tid)?.remove();budMsgs().innerHTML+='<div class="bud-msg bud"><div class="bud-bubble-msg" style="background:#fee2e2;color:#991b1b;">Sorry, I had trouble connecting. Please try again.</div></div>';budMsgs().scrollTop=budMsgs().scrollHeight}finally{budSend().disabled=false;budInput().focus()}}
 document.getElementById('bud-bubble').onclick=toggleBudChat;budSend().onclick=sendBudMsg;budInput().addEventListener('keypress',e=>{if(e.key==='Enter')sendBudMsg()});
 </script>
+
+<!-- Surgeons Sales Booster: Exit-Intent Popup -->
+<div id="sg-exit-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:16px;max-width:480px;width:90%;padding:40px;text-align:center;position:relative;animation:bud-slideUp 0.4s ease-out;">
+    <button onclick="closeExitPopup()" style="position:absolute;top:15px;right:15px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;">&times;</button>
+    <div style="font-size:48px;margin-bottom:16px;">🎁</div>
+    <h2 style="margin:0 0 12px;font-size:28px;color:#111;">Wait! Don't Leave Empty-Handed</h2>
+    <p style="color:#666;margin:0 0 24px;font-size:16px;">Get <strong>15% OFF</strong> your first order with code:</p>
+    <div style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:16px 32px;border-radius:10px;font-size:24px;font-weight:700;letter-spacing:2px;margin-bottom:24px;display:inline-block;">WELCOME15</div>
+    <p style="color:#888;font-size:14px;margin:0 0 20px;">Plus <strong>FREE shipping</strong> on orders over $74.99!</p>
+    <a href="/collections/all" onclick="closeExitPopup()" style="display:inline-block;background:#111;color:#fff;padding:14px 40px;border-radius:50px;text-decoration:none;font-weight:600;transition:transform 0.2s;">Shop Now & Save</a>
+    <p style="margin:16px 0 0;font-size:12px;color:#999;">CBD Surgeons & Surgeons, LLC - Premium Hemp Products</p>
+  </div>
+</div>
+<script>
+(function(){
+  var exitShown = sessionStorage.getItem('sg_exit_shown');
+  if (exitShown) return;
+
+  function showExitPopup() {
+    if (sessionStorage.getItem('sg_exit_shown')) return;
+    document.getElementById('sg-exit-popup').style.display = 'flex';
+    sessionStorage.setItem('sg_exit_shown', 'true');
+  }
+
+  // Exit intent detection (desktop)
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY < 10 && e.relatedTarget === null) {
+      showExitPopup();
+    }
+  });
+
+  // Scroll-based trigger for mobile (50% scroll + 30 seconds on page)
+  var pageStartTime = Date.now();
+  var scrollTriggered = false;
+  window.addEventListener('scroll', function() {
+    if (scrollTriggered) return;
+    var scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    if (scrollPercent > 50 && (Date.now() - pageStartTime) > 30000) {
+      scrollTriggered = true;
+      showExitPopup();
+    }
+  });
+})();
+
+function closeExitPopup() {
+  document.getElementById('sg-exit-popup').style.display = 'none';
+}
+</script>
+
+<!-- Surgeons Sales Booster: Low Stock & Urgency Indicators -->
+<script>
+(function(){
+  // Add urgency to product pages
+  function addUrgencyIndicators() {
+    var stockElements = document.querySelectorAll('[data-inventory-quantity]');
+    stockElements.forEach(function(el) {
+      var qty = parseInt(el.getAttribute('data-inventory-quantity'));
+      if (qty > 0 && qty <= 5) {
+        var urgency = document.createElement('div');
+        urgency.className = 'sg-urgency-badge';
+        urgency.innerHTML = '🔥 Only ' + qty + ' left - Order soon!';
+        urgency.style.cssText = 'background:#fef2f2;color:#dc2626;padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;margin:12px 0;display:inline-block;animation:bud-pulse 2s infinite;';
+        el.parentNode.insertBefore(urgency, el.nextSibling);
+      }
+    });
+
+    // Add "selling fast" badge to popular products
+    var productCards = document.querySelectorAll('.product-card, .card-product');
+    productCards.forEach(function(card, index) {
+      if (index < 3) { // Top 3 products
+        var badge = card.querySelector('.sg-hot-badge');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'sg-hot-badge';
+          badge.innerHTML = '🔥 Popular';
+          badge.style.cssText = 'position:absolute;top:10px;left:10px;background:#ef4444;color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;z-index:10;';
+          card.style.position = 'relative';
+          card.appendChild(badge);
+        }
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', addUrgencyIndicators);
+  } else {
+    addUrgencyIndicators();
+  }
+})();
+</script>
+
+<!-- Surgeons Sales Booster: Trust Badges -->
+<style>
+.sg-trust-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding:16px;margin:16px 0;background:#f9fafb;border-radius:12px;}
+.sg-trust-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;font-weight:500;}
+.sg-trust-badge svg{width:18px;height:18px;color:#10b981;}
+</style>
+
 </body>
 </html>
