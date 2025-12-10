@@ -34,6 +34,12 @@
     "image_gallery": {
       "type": "image-gallery",
       "blocks": {
+        "image_bjp8YK": {
+          "type": "image",
+          "settings": {
+            "item_index": ""
+          }
+        },
         "image_ee6YTx": {
           "type": "image",
           "settings": {
@@ -127,6 +133,7 @@
         }
       },
       "block_order": [
+        "image_bjp8YK",
         "image_ee6YTx",
         "image_6WwBpj",
         "image_MiTJYr",
