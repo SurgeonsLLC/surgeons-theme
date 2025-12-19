@@ -11,11 +11,18 @@
       assign og_url = request.origin
   endif
 -%}
+<!-- SEO: Enforce www canonical for surgeonsolution.io -->
+{%- assign canonical_www = og_url | replace: '://surgeonsolution.io', '://www.surgeonsolution.io' -%}
+<link rel="canonical" href="{{ canonical_www }}">
 <meta property="og:site_name" content="{{ shop.name }}">
-<meta property="og:url" content="{{ og_url }}">
+<meta property="og:url" content="{{ canonical_www }}">
 <meta property="og:title" content="{{ og_title | escape }}">
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:description" content="{{ og_description | escape }}">
+<!-- Additional SEO meta tags -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="CBD Surgeons & Surgeons, LLC">
+<meta name="publisher" content="surgeonsolution.io">
 {%- if page_image -%}
   <meta property="og:image" content="http:{{ page_image | image_url }}">
   <meta property="og:image:secure_url" content="https:{{ page_image | image_url }}">

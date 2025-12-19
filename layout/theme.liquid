@@ -30,6 +30,7 @@
         https://*.surgeonsolutions.org
         https://*.surgeonsolution.io
         https://surgeonsolution.io
+        https://www.surgeonsolution.io
         https://records.surgeonsolution.io
         https://cbdsurgeons.shop
         https://*.cbdsurgeons.shop
@@ -49,6 +50,7 @@
         'surgeonsolutions.org',
         'ai.surgeonsolutions.org',
         'surgeonsolution.io',
+        'www.surgeonsolution.io',
         'records.surgeonsolution.io',
         'accounts.surgeonsolution.io',
         'realsurgeons.accounts.surgeonsolution.io',
@@ -102,7 +104,7 @@
       allowedDomains: window.SurgeonsSecurity.allowedDomains.length + ' domains configured'
     });
     </script>
-    <link rel="canonical" href="{{ canonical_url }}">
+    <!-- Canonical URL is set in meta-tags.liquid with www enforcement -->
     {%- unless settings.headings_font.system? and settings.body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
