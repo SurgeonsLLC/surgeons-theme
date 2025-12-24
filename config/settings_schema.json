@@ -1,11 +1,11 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Grove",
-    "theme_version": "1.0.0",
-    "theme_author": "Omelatte",
-    "theme_documentation_url": "https://docs.omelatte.com/themes/Grove/",
-    "theme_support_url": "https://docs.omelatte.com/themes/Grove/getSupport"
+    "theme_name": "B-ROLL",
+    "theme_version": "2.0.0",
+    "theme_author": "SRGN NETWORKS",
+    "theme_documentation_url": "none",
+    "theme_support_url": "none"
   },
   {
     "name": "t:settings_schema.color_schemes.name",
@@ -1305,6 +1305,18 @@
         "default": "scheme1",
         "label": "t:settings_schema.color_schemes.name"
       }
+    ]
+  },
+  {
+    "name": "Entry Gate",
+    "settings": [
+      { "type": "checkbox", "id": "ss_gate_enable", "label": "Enable entry gate", "default": true },
+      { "type": "range", "id": "ss_gate_cookie_days", "label": "Remember choice (days)", "min": 1, "max": 90, "step": 1, "default": 30 },
+      { "type": "text", "id": "ss_gate_title", "label": "Title", "default": "Welcome to Surgeons — Please Verify" },
+      { "type": "textarea", "id": "ss_gate_subtext", "label": "Subtext", "default": "You must be 21+ to purchase. Continue as a guest or create an account to unlock perks." },
+      { "type": "text", "id": "ss_gate_guest_text", "label": "Guest button text", "default": "Continue as Guest" },
+      { "type": "text", "id": "ss_gate_cta_text", "label": "Account button text", "default": "Create Account & Save 10%" },
+      { "type": "text", "id": "ss_gate_discount_code", "label": "Welcome discount code (optional)", "default": "" }
     ]
   }
 ]

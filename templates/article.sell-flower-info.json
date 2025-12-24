@@ -1,0 +1,319 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-article",
+      "blocks": {
+        "featured_image": {
+          "type": "featured_image",
+          "settings": {
+            "card_media_size": "adapt"
+          }
+        },
+        "tags": {
+          "type": "tags",
+          "settings": {
+            "show_tags": true
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h2",
+            "heading_weight": "--fw-extra-bold"
+          }
+        },
+        "content": {
+          "type": "content",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "featured_image",
+        "tags",
+        "title",
+        "content"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/Background-CBD-Surgeons-Gummies.jpg",
+        "parallax_effect": false,
+        "background": "linear-gradient(180deg, rgba(24, 24, 24, 1), rgba(0, 0, 0, 0.95) 5%, rgba(2, 2, 2, 0) 100%)",
+        "section_caption": "",
+        "section_caption_size": "text-size--medium",
+        "section_caption_weight": "--fw-bold",
+        "heading": "Surgeons Online Cannabinoid Academy",
+        "section_heading_size": "h4",
+        "section_heading_weight": "--fw-extra-bold",
+        "section_description": "",
+        "description_text_size": "text-size--large",
+        "section_description_weight": "--fw-normal",
+        "show_date": true,
+        "show_author": false,
+        "show_comments_count": false,
+        "section_container_layout": "page-width",
+        "section_corner_radius": "bottom_corners_radius",
+        "max_content_size": 50,
+        "section_height": "small",
+        "section_text_alignment": "center",
+        "banner_color_scheme": "scheme2",
+        "show_breadcrumb": true,
+        "show_top_bdr": false,
+        "show_bottom_bdr": false,
+        "breadcrumb_corner_radius": "no_corners_radius",
+        "breadcrumb_container_layout": "page-width",
+        "breadcrumb_color_scheme": "",
+        "bottom_container_layout": "page-width",
+        "bottom_corner_radius": "no_corners_radius",
+        "article_text_alignment": "left",
+        "enable_pagination": true,
+        "enable_share": true,
+        "section_color_scheme": "",
+        "section_top_padding": 0,
+        "section_bottom_padding": 0
+      }
+    },
+    "featured_product_AqdL9T": {
+      "type": "featured-product",
+      "blocks": {
+        "scroll_text_VnD9dD": {
+          "type": "scroll_text",
+          "settings": {
+            "heading": "Grown Locally",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-medium",
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 10
+          }
+        },
+        "scroll_text_QWyQJm": {
+          "type": "scroll_text",
+          "settings": {
+            "heading": "Pick Your Strain",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-medium",
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 10
+          }
+        },
+        "heading_AbRzNq": {
+          "type": "heading",
+          "settings": {
+            "heading": "USDA Organic",
+            "block_heading_size": "h4",
+            "block_heading_weight": "--fw-extra-bold",
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 14
+          }
+        },
+        "tags_kL7NBx": {
+          "type": "tags",
+          "settings": {
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 7
+          }
+        },
+        "title_Wck3eE": {
+          "type": "title",
+          "settings": {
+            "show_vendor": true,
+            "show_stock": true,
+            "block_text_size": "text-size--small",
+            "block_text_weight": "--fw-medium",
+            "block_heading_size": "h5",
+            "block_heading_weight": "--fw-bold",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 7
+          }
+        },
+        "text_znygkk": {
+          "type": "text",
+          "settings": {
+            "heading": "<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions.</p>",
+            "block_text_size": "text-size--medium",
+            "block_text_weight": "--fw-normal",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 4
+          }
+        },
+        "variants_price_LEc3Qd": {
+          "type": "variants_price",
+          "settings": {
+            "show_price": true,
+            "show_sku": true,
+            "show_unitprice": true,
+            "show_variation": true,
+            "show_size_chart": true,
+            "block_spacing": 15
+          }
+        },
+        "quantity_input_j9kNNL": {
+          "type": "quantity_input",
+          "settings": {
+            "show_subtotal": true,
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 13
+          }
+        },
+        "buttons_9QXTAL": {
+          "type": "buttons",
+          "settings": {
+            "show_dynamic_checkouts": true,
+            "show_whatsapp": false,
+            "whatsapp_number": "",
+            "custom_message": "Hi! I'm interested in learning more about the ||product_url||. Could you please provide more details or assist me with the purchase? Looking forward to your response! Thank you!",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 18
+          }
+        },
+        "detail_link_N4pEGL": {
+          "type": "detail_link",
+          "settings": {
+            "detail_label": "View details",
+            "open_new_window": false,
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 0
+          }
+        }
+      },
+      "block_order": [
+        "scroll_text_VnD9dD",
+        "scroll_text_QWyQJm",
+        "heading_AbRzNq",
+        "tags_kL7NBx",
+        "title_Wck3eE",
+        "text_znygkk",
+        "variants_price_LEc3Qd",
+        "quantity_input_j9kNNL",
+        "buttons_9QXTAL",
+        "detail_link_N4pEGL"
+      ],
+      "name": "t:sections.featured_product.name",
+      "settings": {
+        "product": "surgeonscbdfloweronline",
+        "product_media_size": "adapt",
+        "gallery_view": "slider_view",
+        "gallery_auto_play": false,
+        "gallery_show_navigation": true,
+        "gallery_change_slides_every": 5,
+        "marquee_speed": 15,
+        "marquee_direction": "marquee_backward",
+        "marquee_on_hover": false,
+        "section_container_layout": "page-width",
+        "section_corner_radius": "both_corners_radius",
+        "section_color_scheme": "",
+        "section_top_padding": 10,
+        "section_bottom_padding": 10
+      }
+    },
+    "multicolumn_QYngVp": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_kTLytV": {
+          "type": "column",
+          "settings": {
+            "heading": "Contact us",
+            "description": "",
+            "button_label": "Learn More",
+            "type": "secondary",
+            "url": "https://surgeonsolution.io/pages/about-us",
+            "open_new_window": false
+          }
+        },
+        "column_EcH6k6": {
+          "type": "column",
+          "settings": {
+            "heading": "Cannabinoid Academy",
+            "description": "",
+            "button_label": "More Articles",
+            "type": "secondary",
+            "url": "shopify://blogs/surgeons-online-cbd-cannabinoid-academy",
+            "open_new_window": false
+          }
+        },
+        "column_MXiJU6": {
+          "type": "column",
+          "settings": {
+            "heading": "Shop Edibles",
+            "description": "",
+            "button_label": "Shop Edibles",
+            "type": "secondary",
+            "url": "shopify://collections/surgeons-gummies-express",
+            "open_new_window": false
+          }
+        },
+        "column_CM3t4X": {
+          "type": "column",
+          "settings": {
+            "heading": "RECORDS",
+            "description": "",
+            "button_label": "Make An Account",
+            "type": "secondary",
+            "url": "https://wordpress.com/log-in?redirect_to=https%3A%2F%2Fwordpress.com%2Flog-in%2Flink%3Fblog_id%3D241765703%26redirect_to%3Dhttps%253A%252F%252Fsubscribe.wordpress.com%252Fmemberships%252Fjwt%252F%253Fsite_id%253D241765703%2526redirect_url%253Dhttps%25253A%25252F%25252Frecords.surgeonsolution.io%25252Fwp-json%25252Fjetpack%25252Fv4%25252Fsubscribers%25252Fauth%25253Fredirect_url%25253Dhttps%25253A%25252F%25252Frecords.surgeonsolution.io%25252F",
+            "open_new_window": false
+          }
+        }
+      },
+      "block_order": [
+        "column_kTLytV",
+        "column_EcH6k6",
+        "column_MXiJU6",
+        "column_CM3t4X"
+      ],
+      "name": "t:sections.multicolumn.name",
+      "settings": {
+        "section_heading": "Experience Everything",
+        "section_heading_size": "h3",
+        "section_heading_weight": "--fw-bold",
+        "section_description": "",
+        "description_text_size": "text-size--medium",
+        "section_description_weight": "--fw-normal",
+        "max_header_size": 100,
+        "number_of_columns_on_desktop": 4,
+        "number_of_columns_on_mobile": "2",
+        "card_alignment": "left",
+        "card_media_width": "icon_width",
+        "card_media_size": "adapt",
+        "card_heading_size": "h6",
+        "card_heading_weight": "--fw-bold",
+        "card_description_size": "text-size--medium",
+        "card_description_weight": "--fw-normal",
+        "section_container_layout": "page-width",
+        "section_corner_radius": "both_corners_radius",
+        "section_top_bdr": true,
+        "section_bottom_bdr": true,
+        "section_text_alignment": "center",
+        "section_mobile_text_alignment": "center",
+        "section_color_scheme": "scheme2",
+        "enable_slideshow": false,
+        "auto_play": false,
+        "show_navigation": true,
+        "show_pagination": true,
+        "change_slides_every": 5,
+        "section_top_padding": 10,
+        "section_bottom_padding": 10
+      }
+    }
+  },
+  "order": [
+    "main",
+    "featured_product_AqdL9T",
+    "multicolumn_QYngVp"
+  ]
+}

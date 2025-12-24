@@ -446,6 +446,11 @@
                     </li>
                   </ul>
                 {%- endif -%}
+                <!-- Surgeons Security: Honeypot Spam Protection -->
+                <div class="sg-honeypot" style="position:absolute;left:-9999px;top:-9999px;height:0;width:0;overflow:hidden;" aria-hidden="true">
+                  <label for="sg-website-{{ form_id }}">Leave this field empty</label>
+                  <input type="text" id="sg-website-{{ form_id }}" name="contact[website_url]" tabindex="-1" autocomplete="off">
+                </div>
                 <div class="two-form-group">
                   <div class="form-group form-group--name">
                     <label class="text-size--small --fw-medium visually-hidden" for="contact-name-{{ form_id }}">{{- 'contact_form.form_label.name.label' | t -}}</label>

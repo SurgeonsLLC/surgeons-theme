@@ -1,0 +1,102 @@
+{
+  "version": "2.0.1",
+  "lastUpdated": "2025-12-19T03:00:00Z",
+  "repository": "SurgeonsLLC/surgeons-theme",
+  "branch": "feature/auth-redirect-404",
+  "changes": [
+    {
+      "id": "perf-001",
+      "date": "2025-12-19",
+      "type": "performance",
+      "title": "Remove duplicate CSS/JS asset loads",
+      "description": "Fixed duplicate asset loading that was causing unnecessary bandwidth usage and slower page loads",
+      "file": "layout/theme.liquid",
+      "fixes": [
+        {
+          "issue": "base.css loaded twice",
+          "location": "line 135 (removed)",
+          "before": "{{- 'base.css' | asset_url | stylesheet_tag -}} (sync) + media='print' version (async)",
+          "after": "Only async version with media='print' onload pattern",
+          "assetSize": "52KB",
+          "savingsPerPage": "52KB"
+        },
+        {
+          "issue": "global.js loaded twice on non-index pages",
+          "location": "lines 245-247 (removed)",
+          "before": "Always loaded + conditionally loaded again on product/collection/cart pages",
+          "after": "Single deferred load on all pages",
+          "assetSize": "99KB",
+          "savingsPerPage": "99KB (on affected pages)"
+        },
+        {
+          "issue": "splide.esm.js potentially loaded twice",
+          "location": "lines 242-244 (removed)",
+          "before": "Inline module import + conditional script tag",
+          "after": "Only inline module import",
+          "assetSize": "95KB",
+          "savingsPerPage": "95KB (on pages with carousels)"
+        }
+      ],
+      "metrics": {
+        "totalBandwidthSaved": "246KB per page load",
+        "expectedLCPImprovement": "500-800ms",
+        "expectedTBTReduction": "200-400ms",
+        "affectedPages": ["product", "collection", "cart", "all pages with carousels"]
+      },
+      "coreWebVitals": {
+        "LCP": {
+          "impact": "high",
+          "reason": "Reduced render-blocking resources and total download size"
+        },
+        "FID": {
+          "impact": "medium",
+          "reason": "Less JavaScript to parse on main thread"
+        },
+        "CLS": {
+          "impact": "low",
+          "reason": "No layout changes from this fix"
+        },
+        "INP": {
+          "impact": "medium",
+          "reason": "Faster initial hydration"
+        }
+      },
+      "status": "pending_deployment",
+      "verificationSteps": [
+        "Run Lighthouse before deployment",
+        "Deploy changes",
+        "Run Lighthouse after deployment",
+        "Compare LCP, TBT, and Speed Index scores",
+        "Monitor Shopify Speed Report for 7 days"
+      ]
+    }
+  ],
+  "baselineMetrics": {
+    "captureDate": "2025-12-19",
+    "source": "Pre-fix estimate based on asset analysis",
+    "homepage": {
+      "assetsLoaded": {
+        "css": ["base.css (52KB) x2", "splide-core.css"],
+        "js": ["global.js (99KB)", "splide.esm.js (95KB)"]
+      }
+    },
+    "productPage": {
+      "assetsLoaded": {
+        "css": ["base.css (52KB) x2", "photoswipe.css", "quick-view.css"],
+        "js": ["global.js (99KB) x2", "splide.esm.js (95KB) x2", "photoswipe.esm.js (179KB)"]
+      }
+    }
+  },
+  "deploymentCommands": {
+    "development": "shopify theme dev --store=cbdsurgeons.myshopify.com",
+    "preview": "shopify theme push --unpublished",
+    "production": "shopify theme push --live",
+    "pull": "shopify theme pull --theme-id=THEME_ID"
+  },
+  "operator": {
+    "name": "Ryan Bolda",
+    "address": "130 Dickinson St, Mount Clemens, MI 48043",
+    "organization": "CBD Surgeons & Surgeons, LLC",
+    "website": "surgeonsolution.io"
+  }
+}
