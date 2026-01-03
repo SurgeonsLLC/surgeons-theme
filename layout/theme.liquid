@@ -365,6 +365,146 @@
   }
 })();
 </script>
+
+{% comment %}
+  CBD Surgeons / Surgeons, LLC - Schema Markup for surgeonsolution.io
+  Generated: 2026-01-02
+{% endcomment %}
+
+{% comment %} Organization Schema - Shows in Google Knowledge Panel {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CBD Surgeons",
+  "legalName": "Surgeons, LLC",
+  "url": "https://surgeonsolution.io",
+  "logo": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+  "email": "customer.relations@surgeonsolution.io",
+  "telephone": "+1-586-246-5852",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "130 Dickinson St",
+    "addressLocality": "Mount Clemens",
+    "addressRegion": "MI",
+    "postalCode": "48043",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://www.facebook.com/srgnNetworks",
+    "https://surgeonsolutions.org",
+    "https://blog.surgeonsolutions.org"
+  ],
+  "foundingDate": "2022-03-20",
+  "description": "CBD Surgeons is a manufacturer and distributor of premium hemp-derived CBD products based in Mount Clemens, Michigan."
+}
+</script>
+
+{% comment %} LocalBusiness Schema - For Google Maps & Local SEO {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://surgeonsolution.io/#localbusiness",
+  "name": "CBD Surgeons",
+  "legalName": "Surgeons, LLC",
+  "url": "https://surgeonsolution.io",
+  "logo": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+  "image": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+  "telephone": "+1-586-246-5852",
+  "email": "customer.relations@surgeonsolution.io",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "130 Dickinson St",
+    "addressLocality": "Mount Clemens",
+    "addressRegion": "MI",
+    "postalCode": "48043",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "42.5972",
+    "longitude": "-82.8802"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "priceRange": "$",
+  "paymentAccepted": ["Credit Card", "Debit Card"],
+  "currenciesAccepted": "USD",
+  "sameAs": [
+    "https://www.facebook.com/srgnNetworks",
+    "https://surgeonsolutions.org",
+    "https://blog.surgeonsolutions.org"
+  ],
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+  }
+}
+</script>
+
+{% comment %} WebSite Schema - For Sitelinks Search Box {% endcomment %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CBD Surgeons",
+  "url": "https://surgeonsolution.io",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://surgeonsolution.io/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+{% comment %} Product Schema - Dynamic for product pages {% endcomment %}
+{% if template contains 'product' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.title | escape }}",
+  "description": "{{ product.description | strip_html | truncate: 500 | escape }}",
+  "image": "{{ product.featured_image | image_url: width: 1024 }}",
+  "url": "{{ shop.url }}{{ product.url }}",
+  "sku": "{{ product.selected_or_first_available_variant.sku | escape }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "CBD Surgeons",
+    "logo": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png"
+  },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Surgeons, LLC",
+    "url": "https://surgeonsolution.io"
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ shop.url }}{{ product.url }}",
+    "priceCurrency": "{{ shop.currency }}",
+    "price": "{{ product.price | money_without_currency | remove: ',' }}",
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "seller": {
+      "@type": "Organization",
+      "name": "CBD Surgeons"
+    }
+  }
+  {% if product.metafields.reviews.rating %}
+  ,"aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "{{ product.metafields.reviews.rating.value }}",
+    "reviewCount": "{{ product.metafields.reviews.rating_count.value }}"
+  }
+  {% endif %}
+}
+</script>
+{% endif %}
+
 </head>
   <body>
     <div id="page-wrapper">
