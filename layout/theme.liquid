@@ -1,6 +1,9 @@
 <!doctype html>
-<html class="no-js" lang="{{ request.locale.iso_code }}">
+<html class="no-js fouc-guard" lang="{{ request.locale.iso_code }}">
   <head>
+    <!-- FOUC Prevention - MUST be first in head -->
+    <style>.fouc-guard{opacity:0!important}.fouc-ready{opacity:1!important;transition:opacity .15s ease-in}</style>
+    <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},400);</script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -230,23 +233,13 @@
     </script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
 
-  <!-- SMART Optimizations + FOUC Prevention -->
+  <!-- SMART Optimizations -->
   <style>
     html { font-size: 62.5%; box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
     .hidden { display: none !important; }
     h1, h2, h3, .button { word-break: break-word; }
-    /* FOUC Prevention - fade in when CSS loads */
-    html.fouc-guard { opacity: 0; }
-    html.fouc-ready { opacity: 1; transition: opacity 0.15s ease-in; }
   </style>
-  <script>
-    (function(){
-      document.documentElement.classList.add('fouc-guard');
-      // Failsafe: show page after 400ms regardless
-      setTimeout(function(){ document.documentElement.classList.remove('fouc-guard'); document.documentElement.classList.add('fouc-ready'); }, 400);
-    })();
-  </script>
 
   <link rel="stylesheet" href="{{ 'base.css' | asset_url }}" media="print" onload="this.media='all';document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready');">
   <noscript><link rel="stylesheet" href="{{ 'base.css' | asset_url }}"></noscript>
