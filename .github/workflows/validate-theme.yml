@@ -1,0 +1,122 @@
+name: Validate Theme
+
+on:
+  push:
+    branches: [main, 'feature/**']
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate Theme Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check settings_schema.json integrity
+        run: |
+          FILE="config/settings_schema.json"
+          if [ ! -f "$FILE" ]; then
+            echo "::error::$FILE is missing!"
+            exit 1
+          fi
+
+          LINES=$(wc -l < "$FILE")
+          if [ "$LINES" -lt 100 ]; then
+            echo "::error::$FILE appears corrupted or empty ($LINES lines, expected 1000+)"
+            exit 1
+          fi
+
+          # Validate JSON syntax
+          if ! python3 -m json.tool "$FILE" > /dev/null 2>&1; then
+            echo "::error::$FILE contains invalid JSON"
+            exit 1
+          fi
+
+          echo "✅ $FILE is valid ($LINES lines)"
+
+      - name: Check settings_data.json integrity
+        run: |
+          FILE="config/settings_data.json"
+          if [ ! -f "$FILE" ]; then
+            echo "::error::$FILE is missing!"
+            exit 1
+          fi
+
+          LINES=$(wc -l < "$FILE")
+          if [ "$LINES" -lt 50 ]; then
+            echo "::error::$FILE appears corrupted or empty ($LINES lines)"
+            exit 1
+          fi
+
+          # Validate JSON syntax
+          if ! python3 -m json.tool "$FILE" > /dev/null 2>&1; then
+            echo "::error::$FILE contains invalid JSON"
+            exit 1
+          fi
+
+          echo "✅ $FILE is valid ($LINES lines)"
+
+      - name: Check theme.liquid integrity
+        run: |
+          FILE="layout/theme.liquid"
+          if [ ! -f "$FILE" ]; then
+            echo "::error::$FILE is missing!"
+            exit 1
+          fi
+
+          LINES=$(wc -l < "$FILE")
+          if [ "$LINES" -lt 100 ]; then
+            echo "::error::$FILE appears corrupted ($LINES lines)"
+            exit 1
+          fi
+
+          echo "✅ $FILE is valid ($LINES lines)"
+
+      - name: Verify required SVG symbols exist
+        run: |
+          FILE="layout/theme.liquid"
+          MISSING=""
+
+          # List of required symbols for product cards
+          SYMBOLS="icn-new-cart icn-quick-eye icn-check-o"
+
+          for SYMBOL in $SYMBOLS; do
+            if ! grep -q "id=\"$SYMBOL\"" "$FILE"; then
+              MISSING="$MISSING $SYMBOL"
+            fi
+          done
+
+          if [ -n "$MISSING" ]; then
+            echo "::error::Missing required SVG symbols in $FILE:$MISSING"
+            exit 1
+          fi
+
+          echo "✅ All required SVG symbols are defined"
+
+      - name: Check for Liquid syntax errors
+        run: |
+          # Basic check for unclosed Liquid tags
+          for FILE in layout/*.liquid sections/*.liquid snippets/*.liquid templates/*.liquid; do
+            if [ -f "$FILE" ]; then
+              OPENS=$(grep -o '{%' "$FILE" 2>/dev/null | wc -l)
+              CLOSES=$(grep -o '%}' "$FILE" 2>/dev/null | wc -l)
+              if [ "$OPENS" -ne "$CLOSES" ]; then
+                echo "::warning::$FILE may have unclosed Liquid tags (opens: $OPENS, closes: $CLOSES)"
+              fi
+            fi
+          done
+          echo "✅ Liquid syntax check complete"
+
+      - name: Summary
+        run: |
+          echo "## Theme Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| File | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| config/settings_schema.json | ✅ Valid |" >> $GITHUB_STEP_SUMMARY
+          echo "| config/settings_data.json | ✅ Valid |" >> $GITHUB_STEP_SUMMARY
+          echo "| layout/theme.liquid | ✅ Valid |" >> $GITHUB_STEP_SUMMARY
+          echo "| SVG Symbols | ✅ All present |" >> $GITHUB_STEP_SUMMARY
