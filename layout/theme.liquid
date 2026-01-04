@@ -230,20 +230,15 @@
     </script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
 
-  <!-- SMART Optimizations + FOUC Prevention -->
+  <!-- SMART Optimizations -->
   <style>
-    /* FOUC Prevention - hide page until CSS loads */
-    html.css-loading { visibility: hidden; opacity: 0; }
-    html.css-loaded { visibility: visible; opacity: 1; transition: opacity 0.1s ease-in; }
-
     html { font-size: 62.5%; box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
     .hidden { display: none !important; }
     h1, h2, h3, .button { word-break: break-word; }
   </style>
-  <script>document.documentElement.classList.add('css-loading');</script>
 
-  <link rel="stylesheet" href="{{ 'base.css' | asset_url }}" media="print" onload="this.media='all';document.documentElement.classList.remove('css-loading');document.documentElement.classList.add('css-loaded');">
+  <link rel="stylesheet" href="{{ 'base.css' | asset_url }}" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="{{ 'base.css' | asset_url }}"></noscript>
 
   {% if template contains 'product' %}
@@ -401,7 +396,17 @@
           <path d="M0 10.5664C0.0559728 10.1498 0.0952614 9.72997 0.171148 9.31712C0.739487 6.23178 2.3374 3.81228 4.92399 2.05053C6.41857 1.03267 8.08376 0.458342 9.8792 0.265643C10.2484 0.225812 10.6225 0.213431 10.9938 0.212893C11.4464 0.211817 11.7968 0.548771 11.821 0.978307C11.8469 1.43799 11.5546 1.80078 11.0896 1.85137C10.6278 1.90143 10.1601 1.90412 9.69998 1.96602C7.96213 2.19909 6.41373 2.88484 5.06823 4.0039C3.5279 5.28497 2.44989 6.88577 1.9725 8.83914C1.18727 12.0537 1.86755 14.942 4.06018 17.4369C5.51224 19.0888 7.34751 20.0997 9.51807 20.4291C12.3727 20.8624 14.9264 20.1406 17.1228 18.2475C18.5722 16.9982 19.5593 15.4415 20.0232 13.5834C20.19 12.9149 20.2336 12.2157 20.3294 11.5299C20.3461 11.4099 20.3353 11.2861 20.3493 11.1655C20.4075 10.6676 20.7541 10.364 21.2293 10.3899C21.6749 10.4141 22.0011 10.7764 21.9995 11.2581C21.9968 12.2291 21.8875 13.191 21.605 14.1195C20.3746 18.1581 17.7218 20.7569 13.6493 21.8781C13.061 22.0401 12.4383 22.0794 11.8318 22.1758C11.7688 22.186 11.7069 22.2005 11.6445 22.2129C11.215 22.2129 10.785 22.2129 10.3555 22.2129C10.3001 22.2005 10.2457 22.1817 10.1897 22.1774C8.46911 22.0557 6.85882 21.5637 5.39007 20.6632C2.54084 18.9171 0.786848 16.3991 0.171148 13.1044C0.094185 12.692 0.0559728 12.2722 0 11.8561C0 11.426 0 10.9965 0 10.5664Z" fill="currentColor"/>
           <path d="M10.2678 13.1952C10.3464 13.0849 10.3878 13.0063 10.4481 12.946C13.6617 9.73742 16.8769 6.53151 20.0899 3.32291C20.3251 3.08823 20.5792 2.92836 20.9274 2.99134C21.5522 3.10437 21.8235 3.82511 21.4263 4.32139C21.373 4.38814 21.3106 4.44842 21.2498 4.50925C17.8123 7.93908 14.3743 11.3689 10.9362 14.7982C10.4352 15.2977 9.97931 15.2902 9.503 14.7729C8.16881 13.3244 6.83353 11.876 5.50149 10.4259C5.11775 10.0082 5.14412 9.45483 5.55369 9.14587C5.86746 8.90903 6.28457 8.91818 6.58381 9.17224C6.65431 9.23199 6.71782 9.30089 6.78079 9.36925C7.89217 10.5755 9.00355 11.7818 10.1133 12.9891C10.1569 13.0348 10.1903 13.0897 10.2678 13.1952Z" fill="currentColor"/>
         </symbol>
-        <!-- (All other SVG symbols remain the same - keeping them for space) -->
+        <!-- Product card icons for Quick View and Add to Cart -->
+        <symbol id="icn-new-cart" viewBox="0 0 21 21">
+          <path d="M17.6256 10.0251C16.6557 7.15601 15.4442 6.2251 11.858 6.2251H8.26793C4.55815 6.2251 3.12312 7.16366 2.09719 10.7255C1.17313 13.9337 0.711092 15.5378 1.19415 16.7818C1.48999 17.5437 2.01523 18.2043 2.70335 18.68C4.07817 19.6305 7.6313 20.0799 10.9754 19.9885" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M5.75 6.7V5.14545C5.75 2.85598 7.66405 1 10.0252 1C12.3863 1 14.3003 2.85598 14.3003 5.14545V6.7" stroke="currentColor" stroke-width="1.8" fill="none"/>
+          <path d="M12.4004 16.1999H20.0007M16.2005 19.9999L16.2005 12.3999" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M9.07422 9.55005H10.9743" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+        </symbol>
+        <symbol id="icn-quick-eye" viewBox="0 0 20 20">
+          <path d="M1.78233 7.45606C1.70732 7.25401 1.70732 7.03175 1.78233 6.82969C2.51282 5.05845 3.75279 3.544 5.34504 2.47832C6.93729 1.41265 8.81011 0.84375 10.7261 0.84375C12.642 0.84375 14.5149 1.41265 16.1071 2.47832C17.6994 3.544 18.9393 5.05845 19.6698 6.82969C19.7448 7.03175 19.7448 7.25401 19.6698 7.45606C18.9393 9.2273 17.6994 10.7418 16.1071 11.8074C14.5149 12.8731 12.642 13.442 10.7261 13.442C8.81011 13.442 6.93729 12.8731 5.34504 11.8074C3.75279 10.7418 2.51282 9.2273 1.78233 7.45606Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M10.726 9.8426C12.2171 9.8426 13.4258 8.63383 13.4258 7.14274C13.4258 5.65164 12.2171 4.44287 10.726 4.44287C9.23489 4.44287 8.02612 5.65164 8.02612 7.14274C8.02612 8.63383 9.23489 9.8426 10.726 9.8426Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </symbol>
       </svg>
       {%- liquid
         sections 'header-group'
