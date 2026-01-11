@@ -1,9 +1,42 @@
 {
-  "version": "2.0.1",
-  "lastUpdated": "2025-12-19T03:00:00Z",
+  "version": "2.0.2",
+  "lastUpdated": "2026-01-11T00:00:00Z",
   "repository": "SurgeonsLLC/surgeons-theme",
   "branch": "feature/auth-redirect-404",
   "changes": [
+    {
+      "id": "perf-002",
+      "date": "2026-01-11",
+      "type": "performance",
+      "title": "Remove remaining duplicate asset loads",
+      "description": "Removed duplicate global.js and splide.esm.js conditional loads that were still present in theme.liquid",
+      "file": "layout/theme.liquid",
+      "fixes": [
+        {
+          "issue": "global.js loaded twice on non-index pages",
+          "location": "lines 253-255 (removed)",
+          "before": "Conditional load for non-index/contact pages duplicating line 234",
+          "after": "Single deferred load on line 234 for all pages",
+          "assetSize": "99KB",
+          "savingsPerPage": "99KB (on affected pages)"
+        },
+        {
+          "issue": "splide.esm.js loaded twice on carousel pages",
+          "location": "lines 250-252 (removed)",
+          "before": "Conditional script tag duplicating inline module import at line 149",
+          "after": "Only inline module import at line 149",
+          "assetSize": "95KB",
+          "savingsPerPage": "95KB (on carousel pages)"
+        }
+      ],
+      "metrics": {
+        "totalBandwidthSaved": "194KB per affected page",
+        "expectedLCPImprovement": "300-500ms",
+        "expectedTBTReduction": "100-200ms",
+        "affectedPages": ["product", "collection", "cart", "blog", "pages with carousels"]
+      },
+      "status": "completed"
+    },
     {
       "id": "perf-001",
       "date": "2025-12-19",
@@ -61,7 +94,7 @@
           "reason": "Faster initial hydration"
         }
       },
-      "status": "pending_deployment",
+      "status": "ready_for_deployment",
       "verificationSteps": [
         "Run Lighthouse before deployment",
         "Deploy changes",
