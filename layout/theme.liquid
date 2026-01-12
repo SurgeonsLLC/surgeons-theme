@@ -2,8 +2,8 @@
 <html class="no-js fouc-guard" lang="{{ request.locale.iso_code }}">
   <head>
     <!-- FOUC Prevention - MUST be first in head -->
-    <style>.fouc-guard{opacity:0!important}.fouc-ready{opacity:1!important;transition:opacity .15s ease-in}</style>
-    <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},400);</script>
+    <style>.fouc-guard{opacity:0!important}.fouc-ready{opacity:1!important;transition:opacity .1s ease-in}</style>
+    <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},150);</script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -249,6 +249,93 @@
   {% endif %}
 <script>
 (function(){var e="sg_attr_",t={FIRST_SOURCE:e+"first_source",FIRST_MEDIUM:e+"first_medium",FIRST_CAMPAIGN:e+"first_campaign",LAST_SOURCE:e+"last_source",LAST_MEDIUM:e+"last_medium",LAST_CAMPAIGN:e+"last_campaign",LAST_TIMESTAMP:e+"last_ts",VISITOR_ID:"surgeons_visitor_id"};function r(){var e=new URLSearchParams(window.location.search);return{source:e.get("utm_source"),medium:e.get("utm_medium"),campaign:e.get("utm_campaign")}}function o(){var e=document.referrer.toLowerCase();return e?e.includes("facebook.com")||e.includes("fb.com")?{source:"facebook",medium:"social"}:e.includes("instagram.com")?{source:"instagram",medium:"social"}:e.includes("google.")?{source:"google",medium:"organic"}:e.includes("bing.com")?{source:"bing",medium:"organic"}:{source:"referral",medium:"referral"}:{source:"direct",medium:"none"}}function a(){return{first_touch_source:localStorage.getItem(t.FIRST_SOURCE)||"direct",first_touch_medium:localStorage.getItem(t.FIRST_MEDIUM)||"none",first_touch_campaign:localStorage.getItem(t.FIRST_CAMPAIGN)||"",last_touch_source:localStorage.getItem(t.LAST_SOURCE)||localStorage.getItem(t.FIRST_SOURCE)||"direct",last_touch_medium:localStorage.getItem(t.LAST_MEDIUM)||localStorage.getItem(t.FIRST_MEDIUM)||"none",last_touch_campaign:localStorage.getItem(t.LAST_CAMPAIGN)||"",visitor_id:localStorage.getItem(t.VISITOR_ID)||""}}async function n(){try{await fetch("/cart/update.js",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({attributes:a()})})}catch(e){}}function i(){var e=r(),a=o();localStorage.getItem(t.FIRST_SOURCE)||(localStorage.setItem(t.FIRST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.FIRST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.FIRST_CAMPAIGN,e.campaign||""));var i=e.source||e.medium||e.campaign,s=parseInt(localStorage.getItem(t.LAST_TIMESTAMP)||"0");(i||Date.now()-s>18e5)&&(localStorage.setItem(t.LAST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.LAST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.LAST_CAMPAIGN,e.campaign||""),localStorage.setItem(t.LAST_TIMESTAMP,Date.now().toString()));n();document.addEventListener("click",function(e){e.target.matches('[name="add"],.add-to-cart,[data-add-to-cart],.product-form__submit')&&setTimeout(n,500)})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",i):i();window.SurgeonsAttribution={getData:a,updateCart:n}})();
+</script>
+<!-- Surgeons Bot Detection v1.0 -->
+<script>
+(function(){
+  var BD_KEY = 'sg_bot_score';
+  var BD_FLAGS_KEY = 'sg_bot_flags';
+  var score = 0;
+  var flags = [];
+
+  // 1. Webdriver / Automation Detection
+  if (navigator.webdriver) { score += 40; flags.push('webdriver'); }
+  if (window.__nightmare) { score += 40; flags.push('nightmare'); }
+  if (window.callPhantom || window._phantom) { score += 40; flags.push('phantom'); }
+  if (window.chrome && !window.chrome.runtime) { score += 20; flags.push('headless_chrome'); }
+
+  // 2. Missing browser features (common in bots)
+  if (!navigator.languages || navigator.languages.length === 0) { score += 15; flags.push('no_languages'); }
+  if (!window.localStorage) { score += 20; flags.push('no_localstorage'); }
+  if (navigator.plugins && navigator.plugins.length === 0 && !/mobile|android|iphone/i.test(navigator.userAgent)) { score += 15; flags.push('no_plugins'); }
+
+  // 3. Screen/window anomalies
+  if (screen.width === 0 || screen.height === 0) { score += 30; flags.push('no_screen'); }
+  if (window.outerWidth === 0 || window.outerHeight === 0) { score += 25; flags.push('zero_window'); }
+
+  // 4. User agent checks
+  var ua = navigator.userAgent.toLowerCase();
+  var botPatterns = /bot|crawl|spider|scrape|headless|phantom|selenium|puppeteer|playwright|wget|curl|python|java\//;
+  if (botPatterns.test(ua)) { score += 35; flags.push('bot_ua'); }
+
+  // 5. Timing anomalies (page load too fast)
+  var loadStart = performance.timing ? performance.timing.navigationStart : Date.now();
+  setTimeout(function(){
+    var loadTime = Date.now() - loadStart;
+    if (loadTime < 100) { score += 20; flags.push('instant_load'); }
+  }, 50);
+
+  // 6. Behavior tracking (no interaction = suspicious)
+  var hasInteracted = false;
+  var interactionHandler = function() {
+    hasInteracted = true;
+    score = Math.max(0, score - 10); // Reduce score on real interaction
+    localStorage.setItem(BD_KEY, score);
+    document.removeEventListener('mousemove', interactionHandler);
+    document.removeEventListener('touchstart', interactionHandler);
+    document.removeEventListener('keydown', interactionHandler);
+    document.removeEventListener('scroll', interactionHandler);
+  };
+  document.addEventListener('mousemove', interactionHandler, {once: true, passive: true});
+  document.addEventListener('touchstart', interactionHandler, {once: true, passive: true});
+  document.addEventListener('keydown', interactionHandler, {once: true, passive: true});
+  document.addEventListener('scroll', interactionHandler, {once: true, passive: true});
+
+  // Check after 5 seconds if no interaction
+  setTimeout(function(){
+    if (!hasInteracted) { score += 15; flags.push('no_interaction_5s'); localStorage.setItem(BD_KEY, score); localStorage.setItem(BD_FLAGS_KEY, JSON.stringify(flags)); }
+  }, 5000);
+
+  // Store results
+  localStorage.setItem(BD_KEY, score);
+  localStorage.setItem(BD_FLAGS_KEY, JSON.stringify(flags));
+
+  // Expose for attribution integration
+  window.SurgeonsBotDetection = {
+    getScore: function() { return parseInt(localStorage.getItem(BD_KEY)) || 0; },
+    getFlags: function() { try { return JSON.parse(localStorage.getItem(BD_FLAGS_KEY)) || []; } catch(e) { return []; } },
+    isLikelyBot: function() { return this.getScore() >= 30; },
+    getData: function() { return { bot_score: this.getScore(), bot_flags: this.getFlags().join(','), is_bot: this.isLikelyBot() }; }
+  };
+
+  // Integrate with cart attributes for order filtering
+  if (window.SurgeonsAttribution) {
+    var origGetData = window.SurgeonsAttribution.getData;
+    window.SurgeonsAttribution.getData = function() {
+      var data = origGetData();
+      var botData = window.SurgeonsBotDetection.getData();
+      data.bot_score = botData.bot_score;
+      data.bot_flags = botData.bot_flags;
+      data.is_bot = botData.is_bot ? 'true' : 'false';
+      return data;
+    };
+  }
+
+  // Log for debugging (only in dev)
+  if (window.location.hostname === 'localhost' || window.location.search.includes('debug=true')) {
+    console.log('[Surgeons Bot Detection]', { score: score, flags: flags, isLikelyBot: score >= 30 });
+  }
+})();
 </script>
 {% comment %}
   Surgeons AI SEO Injection Loader (Secured)
