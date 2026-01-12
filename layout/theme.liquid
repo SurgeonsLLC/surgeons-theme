@@ -4,6 +4,42 @@
     <!-- FOUC Prevention - MUST be first in head -->
     <style>.fouc-guard{opacity:0!important}.fouc-ready{opacity:1!important;transition:opacity .1s ease-in}</style>
     <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},150);</script>
+
+    <!-- Critical CSS: Above-the-fold styles inlined for instant render -->
+    <style>
+      /* Layout primitives */
+      *,*::before,*::after{box-sizing:border-box}
+      html{font-size:62.5%;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+      body{margin:0;font-family:var(--body-font-family,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif);font-size:var(--body-font-size,1.6rem);line-height:1.6;color:var(--text-color,#111);background:var(--bg-color,#fff)}
+      img,video{max-width:100%;height:auto;display:block}
+      .hidden{display:none!important}
+      .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;border:0!important}
+
+      /* Header skeleton */
+      .header{position:sticky;top:0;z-index:1000;background:var(--header-bg,#fff)}
+      .header-wrapper{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;max-width:1440px;margin:0 auto}
+
+      /* Hero/carousel skeleton - prevents CLS */
+      .carousel-section,.hero-section{min-height:50vh;position:relative;overflow:hidden}
+      .splide__slide{min-height:inherit}
+      .carousel-card{width:100%;height:100%;object-fit:cover}
+
+      /* Button primitives */
+      .button{display:inline-flex;align-items:center;justify-content:center;padding:1.2rem 2.4rem;border:none;border-radius:var(--btn-radius,4px);font-weight:600;cursor:pointer;transition:transform .15s,opacity .15s}
+      .button:active{transform:scale(.98)}
+
+      /* Product grid skeleton */
+      .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem}
+      .product-card{aspect-ratio:3/4;background:#f5f5f5;border-radius:8px}
+
+      /* Loading states */
+      @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+      .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+
+      /* Mobile-first responsive */
+      @media(min-width:768px){.header-wrapper{padding:1.5rem 4rem}}
+      @media(min-width:992px){.product-grid{grid-template-columns:repeat(4,1fr)}}
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -111,6 +147,18 @@
     {%- unless settings.headings_font.system? and settings.body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
+
+    <!-- Performance: Resource Hints for External APIs -->
+    <link rel="preconnect" href="https://ai.surgeonsolutions.org" crossorigin>
+    <link rel="preconnect" href="https://records.surgeonsolution.io" crossorigin>
+    <link rel="dns-prefetch" href="https://ai.surgeonsolutions.org">
+    <link rel="dns-prefetch" href="https://records.surgeonsolution.io">
+    <link rel="dns-prefetch" href="https://monorail-edge.shopifysvc.com">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="{{ 'global.js' | asset_url }}" as="script">
+    <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
     {%- unless settings.body_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
       <link rel="preload" as="font" href="{{ settings.body_font | font_url }}" type="font/woff2" crossorigin>
@@ -543,12 +591,55 @@
   {% render 'entry-gate' %}
 
 <!-- ========================================
-     BUD Chat Widget v0.2 - CBD Surgeons
-     Implemented: 2025-12-22
-     Replaces: BUD v0.1 inline popup widget
-     Docs: .bud/models/BUD_MODEL_VERSIONS.md
+     BUD Chat Widget v0.2 - CBD Surgeons (Performance Optimized)
+     Implemented: 2025-12-22 | Perf Update: 2026-01-12
+     Strategy: Facade pattern - loads on user interaction
+     Saves ~50-100KB on initial page load
      ======================================== -->
-<script src="https://ai.surgeonsolutions.org/api/chatbot/loader.js" defer></script>
+<div id="bud-chat-facade" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:50%;cursor:pointer;z-index:9998;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,99,235,0.4);transition:transform .2s,box-shadow .2s;" aria-label="Open chat">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+</div>
+<script>
+(function(){
+  var facade = document.getElementById('bud-chat-facade');
+  var loaded = false;
+
+  function loadChatbot() {
+    if (loaded) return;
+    loaded = true;
+    facade.style.display = 'none';
+
+    var script = document.createElement('script');
+    script.src = 'https://ai.surgeonsolutions.org/api/chatbot/loader.js';
+    script.onload = function() {
+      // Trigger chat open after load
+      if (window.BUDChat && window.BUDChat.open) {
+        setTimeout(function() { window.BUDChat.open(); }, 100);
+      }
+    };
+    document.body.appendChild(script);
+  }
+
+  // Load on click
+  facade.addEventListener('click', loadChatbot);
+
+  // Load on hover (desktop preload)
+  facade.addEventListener('mouseenter', function() {
+    if (!loaded && window.innerWidth > 768) {
+      loadChatbot();
+    }
+  }, { once: true });
+
+  // Load during idle time after 5 seconds (background preload)
+  if ('requestIdleCallback' in window) {
+    setTimeout(function() {
+      requestIdleCallback(function() {
+        if (!loaded) loadChatbot();
+      }, { timeout: 3000 });
+    }, 5000);
+  }
+})();
+</script>
 
 <!-- Surgeons Sales Booster: Exit-Intent Popup -->
 <div id="sg-exit-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;align-items:center;justify-content:center;">
@@ -647,6 +738,122 @@ function closeExitPopup() {
 .sg-trust-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;font-weight:500;}
 .sg-trust-badge svg{width:18px;height:18px;color:#10b981;}
 </style>
+
+<!-- Core Web Vitals Performance Monitoring -->
+<script>
+(function(){
+  // Core Web Vitals Reporter - Sends real user metrics to analytics
+  var cwv = {
+    lcp: null,
+    fid: null,
+    cls: 0,
+    inp: null,
+    ttfb: null
+  };
+
+  // Largest Contentful Paint
+  if ('PerformanceObserver' in window) {
+    try {
+      new PerformanceObserver(function(list) {
+        var entries = list.getEntries();
+        var lastEntry = entries[entries.length - 1];
+        cwv.lcp = Math.round(lastEntry.startTime);
+      }).observe({ type: 'largest-contentful-paint', buffered: true });
+
+      // First Input Delay
+      new PerformanceObserver(function(list) {
+        var entry = list.getEntries()[0];
+        cwv.fid = Math.round(entry.processingStart - entry.startTime);
+      }).observe({ type: 'first-input', buffered: true });
+
+      // Cumulative Layout Shift
+      new PerformanceObserver(function(list) {
+        list.getEntries().forEach(function(entry) {
+          if (!entry.hadRecentInput) {
+            cwv.cls += entry.value;
+          }
+        });
+      }).observe({ type: 'layout-shift', buffered: true });
+
+      // Interaction to Next Paint (INP)
+      var maxINP = 0;
+      new PerformanceObserver(function(list) {
+        list.getEntries().forEach(function(entry) {
+          if (entry.interactionId) {
+            var duration = entry.duration;
+            if (duration > maxINP) {
+              maxINP = duration;
+              cwv.inp = Math.round(duration);
+            }
+          }
+        });
+      }).observe({ type: 'event', buffered: true, durationThreshold: 16 });
+
+    } catch(e) {}
+
+    // Time to First Byte
+    if (performance.timing) {
+      cwv.ttfb = Math.round(performance.timing.responseStart - performance.timing.requestStart);
+    }
+
+    // Report on page unload
+    window.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') {
+        // Format CLS to 3 decimal places
+        cwv.cls = Math.round(cwv.cls * 1000) / 1000;
+
+        // Log for debugging
+        if (window.location.search.includes('debug=true')) {
+          console.log('[CWV Report]', cwv);
+        }
+
+        // Send to analytics endpoint
+        var beaconData = JSON.stringify({
+          page: window.location.pathname,
+          lcp: cwv.lcp,
+          fid: cwv.fid,
+          cls: cwv.cls,
+          inp: cwv.inp,
+          ttfb: cwv.ttfb,
+          timestamp: Date.now()
+        });
+
+        // Use sendBeacon for reliable delivery
+        if (navigator.sendBeacon && window.SurgeonsSecurity) {
+          var endpoint = 'https://ai.surgeonsolutions.org/api/v1/telemetry/cwv';
+          if (window.SurgeonsSecurity.isAllowedDomain(endpoint)) {
+            navigator.sendBeacon(endpoint, beaconData);
+          }
+        }
+      }
+    });
+  }
+
+  // Expose for debugging
+  window.SurgeonsCWV = { getData: function() { return cwv; } };
+})();
+</script>
+
+<!-- Idle-Time Script Loader: Defers non-critical scripts -->
+<script>
+(function(){
+  function runWhenIdle(fn, timeout) {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(fn, { timeout: timeout || 2000 });
+    } else {
+      setTimeout(fn, 200);
+    }
+  }
+
+  // Defer non-critical inline scripts until idle
+  runWhenIdle(function() {
+    // Initialize sales boosters after page is interactive
+    if (typeof addUrgencyIndicators === 'function') {
+      addUrgencyIndicators();
+    }
+  }, 3000);
+})();
+</script>
 
 </body>
 </html>
