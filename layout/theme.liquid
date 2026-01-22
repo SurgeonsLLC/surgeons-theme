@@ -2,20 +2,59 @@
 <html class="no-js fouc-guard" lang="{{ request.locale.iso_code }}">
   <head>
     <!-- FOUC Prevention - MUST be first in head -->
-    <style>.fouc-guard{opacity:0!important}.fouc-ready{opacity:1!important;transition:opacity .15s ease-in}</style>
-    <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},400);</script>
+    <style>.fouc-guard{opacity:0!important}.fouc-ready{opacity:1!important;transition:opacity .1s ease-in}</style>
+    <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},150);</script>
+
+    <!-- Critical CSS: Above-the-fold styles inlined for instant render -->
+    <style>
+      /* Layout primitives */
+      *,*::before,*::after{box-sizing:border-box}
+      html{font-size:62.5%;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+      body{margin:0;font-family:var(--body-font-family,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif);font-size:var(--body-font-size,1.6rem);line-height:1.6;color:var(--text-color,#111);background:var(--bg-color,#fff)}
+      img,video{max-width:100%;height:auto;display:block}
+      .hidden{display:none!important}
+      .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;border:0!important}
+
+      /* Header skeleton */
+      .header{position:sticky;top:0;z-index:1000;background:var(--header-bg,#fff)}
+      .header-wrapper{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;max-width:1440px;margin:0 auto}
+
+      /* Hero/carousel skeleton - prevents CLS */
+      .carousel-section,.hero-section{min-height:50vh;position:relative;overflow:hidden}
+      .splide__slide{min-height:inherit}
+      .carousel-card{width:100%;height:100%;object-fit:cover}
+
+      /* Button primitives */
+      .button{display:inline-flex;align-items:center;justify-content:center;padding:1.2rem 2.4rem;border:none;border-radius:var(--btn-radius,4px);font-weight:600;cursor:pointer;transition:transform .15s,opacity .15s}
+      .button:active{transform:scale(.98)}
+
+      /* Product grid skeleton */
+      .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem}
+      .product-card{aspect-ratio:3/4;background:#f5f5f5;border-radius:8px}
+
+      /* Loading states */
+      @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+      .loading-skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+
+      /* Mobile-first responsive */
+      @media(min-width:768px){.header-wrapper{padding:1.5rem 4rem}}
+      @media(min-width:992px){.product-grid{grid-template-columns:repeat(4,1fr)}}
+    </style>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
 
-    <!-- Surgeons Security: Content Security Policy with Domain Allowlist -->
+    <!-- Surgeons Security Suite v2.0: Enhanced Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self' https://*.shopify.com https://*.shopifycdn.com;
       script-src 'self' 'unsafe-inline' 'unsafe-eval'
         https://*.shopify.com
         https://*.shopifycdn.com
         https://ai.surgeonsolutions.org
+        https://cdn.surgeonsolutions.org
+        https://edge.surgeonsolutions.org
+        https://waf.surgeonsolutions.org
         https://*.surgeonsolutions.org
         https://*.surgeonsolution.io
         https://surgeonsolution.io
@@ -24,12 +63,15 @@
         https://onlythebestherbs.io
         https://*.onlythebestherbs.io
         https://cdn.shopify.com;
-      style-src 'self' 'unsafe-inline' https://*.shopify.com https://*.shopifycdn.com https://fonts.googleapis.com;
-      font-src 'self' https://*.shopify.com https://*.shopifycdn.com https://fonts.gstatic.com https://fonts.shopifycdn.com;
-      img-src 'self' data: blob: https: http:;
+      style-src 'self' 'unsafe-inline' https://*.shopify.com https://*.shopifycdn.com https://fonts.googleapis.com https://cdn.surgeonsolutions.org;
+      font-src 'self' https://*.shopify.com https://*.shopifycdn.com https://fonts.gstatic.com https://fonts.shopifycdn.com https://cdn.surgeonsolutions.org;
+      img-src 'self' data: blob: https: http: https://cdn.surgeonsolutions.org;
       connect-src 'self'
         https://*.shopify.com
         https://ai.surgeonsolutions.org
+        https://cdn.surgeonsolutions.org
+        https://edge.surgeonsolutions.org
+        https://waf.surgeonsolutions.org
         https://*.surgeonsolutions.org
         https://*.surgeonsolution.io
         https://surgeonsolution.io
@@ -43,22 +85,33 @@
       frame-src 'self' https://*.shopify.com https://*.youtube.com https://*.vimeo.com;
       object-src 'none';
       base-uri 'self';
+      upgrade-insecure-requests;
     ">
 
-    <!-- Surgeons Security: Domain Allowlist Configuration -->
+    {%- comment -%} Surgeons Security & Performance Suite v2.0 {%- endcomment -%}
+    {%- render 'surgeons-security-suite' -%}
+
+    <!-- Surgeons Security: Domain Allowlist Configuration (Extended by Security Suite v2.0) -->
     <script>
     window.SurgeonsSecurity = {
-      version: '1.0.0',
+      version: '2.0.0',
       allowedDomains: [
+        // Surgeons Solutions Infrastructure
         'surgeonsolutions.org',
         'ai.surgeonsolutions.org',
+        'cdn.surgeonsolutions.org',
+        'edge.surgeonsolutions.org',
+        'waf.surgeonsolutions.org',
+        // Surgeons Solution Store
         'surgeonsolution.io',
         'www.surgeonsolution.io',
         'records.surgeonsolution.io',
         'accounts.surgeonsolution.io',
         'realsurgeons.accounts.surgeonsolution.io',
+        // Partner Domains
         'cbdsurgeons.shop',
         'onlythebestherbs.io',
+        // Shopify Infrastructure
         'shopify.com',
         'cdn.shopify.com',
         'monorail-edge.shopifysvc.com'
@@ -111,6 +164,18 @@
     {%- unless settings.headings_font.system? and settings.body_font.system? -%}
       <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
     {%- endunless -%}
+
+    <!-- Performance: Resource Hints for External APIs -->
+    <link rel="preconnect" href="https://ai.surgeonsolutions.org" crossorigin>
+    <link rel="preconnect" href="https://records.surgeonsolution.io" crossorigin>
+    <link rel="dns-prefetch" href="https://ai.surgeonsolutions.org">
+    <link rel="dns-prefetch" href="https://records.surgeonsolution.io">
+    <link rel="dns-prefetch" href="https://monorail-edge.shopifysvc.com">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+
+    <!-- Preload critical assets -->
+    <link rel="preload" href="{{ 'global.js' | asset_url }}" as="script">
+    <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
     {%- unless settings.body_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
       <link rel="preload" as="font" href="{{ settings.body_font | font_url }}" type="font/woff2" crossorigin>
@@ -128,17 +193,29 @@
       <link rel="apple-touch-icon" sizes="180x180" href="{{ settings.favicon_icon | image_url: width: 180, height: 180 }}">
       <link rel="shortcut icon" href="{{ settings.favicon_icon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
+    {%- comment -%} Enhanced SEO Title with Transactional Keywords {%- endcomment -%}
+    {%- capture seo_title -%}
+      {%- case request.page_type -%}
+        {%- when 'index' -%}
+          {{ shop.name }}{% if settings.seo_homepage_title_suffix != blank %} {{ settings.seo_homepage_title_suffix }}{% endif %}
+        {%- when 'collection' -%}
+          {% if settings.seo_collection_title_prefix != blank %}{{ settings.seo_collection_title_prefix }} {% endif %}{{ collection.title }}{% if settings.seo_collection_title_suffix != blank %} {{ settings.seo_collection_title_suffix }}{% endif %} - {{ shop.name }}
+        {%- when 'product' -%}
+          {{ product.title }}{% if settings.seo_product_title_suffix != blank %} {{ settings.seo_product_title_suffix }}{% endif %}
+        {%- else -%}
+          {{ page_title }}
+          {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+          {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+          {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- endcase -%}
+    {%- endcapture -%}
+    <title>{{ seo_title | strip_newlines | strip }}</title>
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
     {%- liquid
       render 'meta-tags'
+      render 'seo-keywords'
       render 'theme-variables'
     -%}
     {{ content_for_header }}
@@ -247,14 +324,95 @@
   {% if template contains 'product' %}
     <script type="module" src="{{ 'photoswipe.esm.js' | asset_url }}" defer></script>
   {% endif %}
-  {% if content_for_layout contains 'splide' %}
-    <script type="module" src="{{ 'splide.esm.js' | asset_url }}" defer></script>
-  {% endif %}
-  {% unless template == 'index' or template == 'page.contact' %}
-    <script src="{{ 'global.js' | asset_url }}" defer></script>
-  {% endunless %}
 <script>
 (function(){var e="sg_attr_",t={FIRST_SOURCE:e+"first_source",FIRST_MEDIUM:e+"first_medium",FIRST_CAMPAIGN:e+"first_campaign",LAST_SOURCE:e+"last_source",LAST_MEDIUM:e+"last_medium",LAST_CAMPAIGN:e+"last_campaign",LAST_TIMESTAMP:e+"last_ts",VISITOR_ID:"surgeons_visitor_id"};function r(){var e=new URLSearchParams(window.location.search);return{source:e.get("utm_source"),medium:e.get("utm_medium"),campaign:e.get("utm_campaign")}}function o(){var e=document.referrer.toLowerCase();return e?e.includes("facebook.com")||e.includes("fb.com")?{source:"facebook",medium:"social"}:e.includes("instagram.com")?{source:"instagram",medium:"social"}:e.includes("google.")?{source:"google",medium:"organic"}:e.includes("bing.com")?{source:"bing",medium:"organic"}:{source:"referral",medium:"referral"}:{source:"direct",medium:"none"}}function a(){return{first_touch_source:localStorage.getItem(t.FIRST_SOURCE)||"direct",first_touch_medium:localStorage.getItem(t.FIRST_MEDIUM)||"none",first_touch_campaign:localStorage.getItem(t.FIRST_CAMPAIGN)||"",last_touch_source:localStorage.getItem(t.LAST_SOURCE)||localStorage.getItem(t.FIRST_SOURCE)||"direct",last_touch_medium:localStorage.getItem(t.LAST_MEDIUM)||localStorage.getItem(t.FIRST_MEDIUM)||"none",last_touch_campaign:localStorage.getItem(t.LAST_CAMPAIGN)||"",visitor_id:localStorage.getItem(t.VISITOR_ID)||""}}async function n(){try{await fetch("/cart/update.js",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({attributes:a()})})}catch(e){}}function i(){var e=r(),a=o();localStorage.getItem(t.FIRST_SOURCE)||(localStorage.setItem(t.FIRST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.FIRST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.FIRST_CAMPAIGN,e.campaign||""));var i=e.source||e.medium||e.campaign,s=parseInt(localStorage.getItem(t.LAST_TIMESTAMP)||"0");(i||Date.now()-s>18e5)&&(localStorage.setItem(t.LAST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.LAST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.LAST_CAMPAIGN,e.campaign||""),localStorage.setItem(t.LAST_TIMESTAMP,Date.now().toString()));n();document.addEventListener("click",function(e){e.target.matches('[name="add"],.add-to-cart,[data-add-to-cart],.product-form__submit')&&setTimeout(n,500)})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",i):i();window.SurgeonsAttribution={getData:a,updateCart:n}})();
+</script>
+<!-- Surgeons Bot Detection v1.0 -->
+<script>
+(function(){
+  var BD_KEY = 'sg_bot_score';
+  var BD_FLAGS_KEY = 'sg_bot_flags';
+  var score = 0;
+  var flags = [];
+
+  // 1. Webdriver / Automation Detection
+  if (navigator.webdriver) { score += 40; flags.push('webdriver'); }
+  if (window.__nightmare) { score += 40; flags.push('nightmare'); }
+  if (window.callPhantom || window._phantom) { score += 40; flags.push('phantom'); }
+  if (window.chrome && !window.chrome.runtime) { score += 20; flags.push('headless_chrome'); }
+
+  // 2. Missing browser features (common in bots)
+  if (!navigator.languages || navigator.languages.length === 0) { score += 15; flags.push('no_languages'); }
+  if (!window.localStorage) { score += 20; flags.push('no_localstorage'); }
+  if (navigator.plugins && navigator.plugins.length === 0 && !/mobile|android|iphone/i.test(navigator.userAgent)) { score += 15; flags.push('no_plugins'); }
+
+  // 3. Screen/window anomalies
+  if (screen.width === 0 || screen.height === 0) { score += 30; flags.push('no_screen'); }
+  if (window.outerWidth === 0 || window.outerHeight === 0) { score += 25; flags.push('zero_window'); }
+
+  // 4. User agent checks
+  var ua = navigator.userAgent.toLowerCase();
+  var botPatterns = /bot|crawl|spider|scrape|headless|phantom|selenium|puppeteer|playwright|wget|curl|python|java\//;
+  if (botPatterns.test(ua)) { score += 35; flags.push('bot_ua'); }
+
+  // 5. Timing anomalies (page load too fast)
+  var loadStart = performance.timing ? performance.timing.navigationStart : Date.now();
+  setTimeout(function(){
+    var loadTime = Date.now() - loadStart;
+    if (loadTime < 100) { score += 20; flags.push('instant_load'); }
+  }, 50);
+
+  // 6. Behavior tracking (no interaction = suspicious)
+  var hasInteracted = false;
+  var interactionHandler = function() {
+    hasInteracted = true;
+    score = Math.max(0, score - 10); // Reduce score on real interaction
+    localStorage.setItem(BD_KEY, score);
+    document.removeEventListener('mousemove', interactionHandler);
+    document.removeEventListener('touchstart', interactionHandler);
+    document.removeEventListener('keydown', interactionHandler);
+    document.removeEventListener('scroll', interactionHandler);
+  };
+  document.addEventListener('mousemove', interactionHandler, {once: true, passive: true});
+  document.addEventListener('touchstart', interactionHandler, {once: true, passive: true});
+  document.addEventListener('keydown', interactionHandler, {once: true, passive: true});
+  document.addEventListener('scroll', interactionHandler, {once: true, passive: true});
+
+  // Check after 5 seconds if no interaction
+  setTimeout(function(){
+    if (!hasInteracted) { score += 15; flags.push('no_interaction_5s'); localStorage.setItem(BD_KEY, score); localStorage.setItem(BD_FLAGS_KEY, JSON.stringify(flags)); }
+  }, 5000);
+
+  // Store results
+  localStorage.setItem(BD_KEY, score);
+  localStorage.setItem(BD_FLAGS_KEY, JSON.stringify(flags));
+
+  // Expose for attribution integration
+  window.SurgeonsBotDetection = {
+    getScore: function() { return parseInt(localStorage.getItem(BD_KEY)) || 0; },
+    getFlags: function() { try { return JSON.parse(localStorage.getItem(BD_FLAGS_KEY)) || []; } catch(e) { return []; } },
+    isLikelyBot: function() { return this.getScore() >= 30; },
+    getData: function() { return { bot_score: this.getScore(), bot_flags: this.getFlags().join(','), is_bot: this.isLikelyBot() }; }
+  };
+
+  // Integrate with cart attributes for order filtering
+  if (window.SurgeonsAttribution) {
+    var origGetData = window.SurgeonsAttribution.getData;
+    window.SurgeonsAttribution.getData = function() {
+      var data = origGetData();
+      var botData = window.SurgeonsBotDetection.getData();
+      data.bot_score = botData.bot_score;
+      data.bot_flags = botData.bot_flags;
+      data.is_bot = botData.is_bot ? 'true' : 'false';
+      return data;
+    };
+  }
+
+  // Log for debugging (only in dev)
+  if (window.location.hostname === 'localhost' || window.location.search.includes('debug=true')) {
+    console.log('[Surgeons Bot Detection]', { score: score, flags: flags, isLikelyBot: score >= 30 });
+  }
+})();
 </script>
 {% comment %}
   Surgeons AI SEO Injection Loader (Secured)
@@ -375,8 +533,157 @@
 {"@context":"https://schema.org","@type":"WebSite","name":"CBD Surgeons","url":"https://surgeonsolution.io","potentialAction":{"@type":"SearchAction","target":"https://surgeonsolution.io/search?q={search_term_string}","query-input":"required name=search_term_string"}}
 </script>
 {% if template contains 'product' %}
+{%- comment -%} Enhanced Product Schema with Transactional Signals {%- endcomment -%}
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Product","name":"{{ product.title | escape }}","description":"{{ product.description | strip_html | truncate: 500 | escape }}","image":"{{ product.featured_image | image_url: width: 1024 }}","url":"{{ shop.url }}{{ product.url }}","sku":"{{ product.selected_or_first_available_variant.sku | escape }}","brand":{"@type":"Brand","name":"CBD Surgeons"},"manufacturer":{"@type":"Organization","name":"Surgeons, LLC","url":"https://surgeonsolution.io"},"offers":{"@type":"Offer","url":"{{ shop.url }}{{ product.url }}","priceCurrency":"{{ shop.currency }}","price":"{{ product.price | money_without_currency | remove: ',' }}","availability":"{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}","seller":{"@type":"Organization","name":"CBD Surgeons"}}}
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.title | escape }}",
+  "description": "Buy {{ product.title | escape }} online at CBD Surgeons. {{ product.description | strip_html | truncate: 400 | escape }}",
+  "image": [
+    "{{ product.featured_image | image_url: width: 1024 }}"
+    {%- for image in product.images offset: 1 limit: 3 -%}
+    ,"{{ image | image_url: width: 1024 }}"
+    {%- endfor -%}
+  ],
+  "url": "{{ shop.url }}{{ product.url }}",
+  "sku": "{{ product.selected_or_first_available_variant.sku | escape }}",
+  "mpn": "{{ product.selected_or_first_available_variant.barcode | default: product.id }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "CBD Surgeons"
+  },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Surgeons, LLC",
+    "url": "https://surgeonsolution.io"
+  },
+  "category": "{{ product.type | default: 'CBD Products' | escape }}",
+  {%- if product.tags.size > 0 -%}
+  "keywords": "buy {{ product.title | downcase | escape }}, order {{ product.type | downcase | default: 'CBD' | escape }}, {{ product.tags | join: ', ' | escape }}",
+  {%- endif -%}
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ shop.url }}{{ product.url }}",
+    "priceCurrency": "{{ shop.currency }}",
+    "price": "{{ product.price | money_without_currency | remove: ',' }}",
+    {%- if product.compare_at_price > product.price -%}
+    "priceValidUntil": "{{ 'now' | date: '%Y' | plus: 1 }}-12-31",
+    {%- endif -%}
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Organization",
+      "name": "CBD Surgeons",
+      "url": "https://surgeonsolution.io"
+    },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "USD"
+      },
+      "shippingDestination": {
+        "@type": "DefinedRegion",
+        "addressCountry": "US"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 1,
+          "maxValue": 2,
+          "unitCode": "DAY"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 2,
+          "maxValue": 5,
+          "unitCode": "DAY"
+        }
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 30,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn"
+    }
+  }
+}
+</script>
+{% endif %}
+{% if template contains 'collection' %}
+{%- comment -%} Collection Schema with Transactional Keywords for SEO {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Shop {{ collection.title }} - Buy Online",
+  "description": "Shop {{ collection.title }} online at CBD Surgeons. Buy premium {{ collection.title | downcase }} with fast shipping. {{ collection.description | strip_html | truncate: 200 | escape }}",
+  "url": "{{ shop.url }}{{ collection.url }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "{{ collection.title }} Products for Sale",
+    "description": "Browse and buy {{ collection.title | downcase }} online at CBD Surgeons.",
+    "numberOfItems": {{ collection.products_count }},
+    "itemListElement": [
+      {%- for product in collection.products limit: 10 -%}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.index }},
+        "item": {
+          "@type": "Product",
+          "name": "{{ product.title | escape }}",
+          "url": "{{ shop.url }}{{ product.url }}",
+          "image": "{{ product.featured_image | image_url: width: 400 }}",
+          "offers": {
+            "@type": "Offer",
+            "price": "{{ product.price | money_without_currency | remove: ',' }}",
+            "priceCurrency": "{{ shop.currency }}",
+            "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+          }
+        }
+      }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "CBD Surgeons",
+    "url": "https://surgeonsolution.io"
+  }
+}
+</script>
+{%- comment -%} BreadcrumbList Schema for Collection Pages {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ shop.url }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Shop All",
+      "item": "{{ shop.url }}/collections/all"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ collection.title }}",
+      "item": "{{ shop.url }}{{ collection.url }}"
+    }
+  ]
+}
 </script>
 {% endif %}
 
@@ -462,12 +769,55 @@
   {% render 'entry-gate' %}
 
 <!-- ========================================
-     BUD Chat Widget v0.2 - CBD Surgeons
-     Implemented: 2025-12-22
-     Replaces: BUD v0.1 inline popup widget
-     Docs: .bud/models/BUD_MODEL_VERSIONS.md
+     BUD Chat Widget v0.2 - CBD Surgeons (Performance Optimized)
+     Implemented: 2025-12-22 | Perf Update: 2026-01-12
+     Strategy: Facade pattern - loads on user interaction
+     Saves ~50-100KB on initial page load
      ======================================== -->
-<script src="https://ai.surgeonsolutions.org/api/chatbot/loader.js" defer></script>
+<div id="bud-chat-facade" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:50%;cursor:pointer;z-index:9998;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,99,235,0.4);transition:transform .2s,box-shadow .2s;" aria-label="Open chat">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+</div>
+<script>
+(function(){
+  var facade = document.getElementById('bud-chat-facade');
+  var loaded = false;
+
+  function loadChatbot() {
+    if (loaded) return;
+    loaded = true;
+    facade.style.display = 'none';
+
+    var script = document.createElement('script');
+    script.src = 'https://ai.surgeonsolutions.org/api/chatbot/loader.js';
+    script.onload = function() {
+      // Trigger chat open after load
+      if (window.BUDChat && window.BUDChat.open) {
+        setTimeout(function() { window.BUDChat.open(); }, 100);
+      }
+    };
+    document.body.appendChild(script);
+  }
+
+  // Load on click
+  facade.addEventListener('click', loadChatbot);
+
+  // Load on hover (desktop preload)
+  facade.addEventListener('mouseenter', function() {
+    if (!loaded && window.innerWidth > 768) {
+      loadChatbot();
+    }
+  }, { once: true });
+
+  // Load during idle time after 5 seconds (background preload)
+  if ('requestIdleCallback' in window) {
+    setTimeout(function() {
+      requestIdleCallback(function() {
+        if (!loaded) loadChatbot();
+      }, { timeout: 3000 });
+    }, 5000);
+  }
+})();
+</script>
 
 <!-- Surgeons Sales Booster: Exit-Intent Popup -->
 <div id="sg-exit-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;align-items:center;justify-content:center;">
@@ -566,6 +916,122 @@ function closeExitPopup() {
 .sg-trust-badge{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;font-weight:500;}
 .sg-trust-badge svg{width:18px;height:18px;color:#10b981;}
 </style>
+
+<!-- Core Web Vitals Performance Monitoring -->
+<script>
+(function(){
+  // Core Web Vitals Reporter - Sends real user metrics to analytics
+  var cwv = {
+    lcp: null,
+    fid: null,
+    cls: 0,
+    inp: null,
+    ttfb: null
+  };
+
+  // Largest Contentful Paint
+  if ('PerformanceObserver' in window) {
+    try {
+      new PerformanceObserver(function(list) {
+        var entries = list.getEntries();
+        var lastEntry = entries[entries.length - 1];
+        cwv.lcp = Math.round(lastEntry.startTime);
+      }).observe({ type: 'largest-contentful-paint', buffered: true });
+
+      // First Input Delay
+      new PerformanceObserver(function(list) {
+        var entry = list.getEntries()[0];
+        cwv.fid = Math.round(entry.processingStart - entry.startTime);
+      }).observe({ type: 'first-input', buffered: true });
+
+      // Cumulative Layout Shift
+      new PerformanceObserver(function(list) {
+        list.getEntries().forEach(function(entry) {
+          if (!entry.hadRecentInput) {
+            cwv.cls += entry.value;
+          }
+        });
+      }).observe({ type: 'layout-shift', buffered: true });
+
+      // Interaction to Next Paint (INP)
+      var maxINP = 0;
+      new PerformanceObserver(function(list) {
+        list.getEntries().forEach(function(entry) {
+          if (entry.interactionId) {
+            var duration = entry.duration;
+            if (duration > maxINP) {
+              maxINP = duration;
+              cwv.inp = Math.round(duration);
+            }
+          }
+        });
+      }).observe({ type: 'event', buffered: true, durationThreshold: 16 });
+
+    } catch(e) {}
+
+    // Time to First Byte
+    if (performance.timing) {
+      cwv.ttfb = Math.round(performance.timing.responseStart - performance.timing.requestStart);
+    }
+
+    // Report on page unload
+    window.addEventListener('visibilitychange', function() {
+      if (document.visibilityState === 'hidden') {
+        // Format CLS to 3 decimal places
+        cwv.cls = Math.round(cwv.cls * 1000) / 1000;
+
+        // Log for debugging
+        if (window.location.search.includes('debug=true')) {
+          console.log('[CWV Report]', cwv);
+        }
+
+        // Send to analytics endpoint
+        var beaconData = JSON.stringify({
+          page: window.location.pathname,
+          lcp: cwv.lcp,
+          fid: cwv.fid,
+          cls: cwv.cls,
+          inp: cwv.inp,
+          ttfb: cwv.ttfb,
+          timestamp: Date.now()
+        });
+
+        // Use sendBeacon for reliable delivery
+        if (navigator.sendBeacon && window.SurgeonsSecurity) {
+          var endpoint = 'https://ai.surgeonsolutions.org/api/v1/telemetry/cwv';
+          if (window.SurgeonsSecurity.isAllowedDomain(endpoint)) {
+            navigator.sendBeacon(endpoint, beaconData);
+          }
+        }
+      }
+    });
+  }
+
+  // Expose for debugging
+  window.SurgeonsCWV = { getData: function() { return cwv; } };
+})();
+</script>
+
+<!-- Idle-Time Script Loader: Defers non-critical scripts -->
+<script>
+(function(){
+  function runWhenIdle(fn, timeout) {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(fn, { timeout: timeout || 2000 });
+    } else {
+      setTimeout(fn, 200);
+    }
+  }
+
+  // Defer non-critical inline scripts until idle
+  runWhenIdle(function() {
+    // Initialize sales boosters after page is interactive
+    if (typeof addUrgencyIndicators === 'function') {
+      addUrgencyIndicators();
+    }
+  }, 3000);
+})();
+</script>
 
 </body>
 </html>

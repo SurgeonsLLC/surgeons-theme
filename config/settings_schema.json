@@ -1306,5 +1306,134 @@
         "label": "t:settings_schema.color_schemes.name"
       }
     ]
+  },
+  {
+    "name": "SEO & Keywords",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Transactional Keywords"
+      },
+      {
+        "type": "paragraph",
+        "content": "Configure transactional keywords to improve search engine rankings for purchase-intent searches."
+      },
+      {
+        "type": "checkbox",
+        "id": "seo_enable_keywords",
+        "label": "Enable transactional keywords",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "seo_brand_name",
+        "label": "Brand name for keywords",
+        "default": "CBD Surgeons"
+      },
+      {
+        "type": "textarea",
+        "id": "seo_primary_keywords",
+        "label": "Primary transactional keywords",
+        "info": "One keyword phrase per line. These appear in meta keywords.",
+        "default": "buy CBD online\nshop CBD products\norder CBD gummies\npurchase hemp products\nCBD for sale\npremium CBD online store"
+      },
+      {
+        "type": "textarea",
+        "id": "seo_product_keywords",
+        "label": "Product category keywords",
+        "info": "One per line. Used for product pages.",
+        "default": "buy CBD gummies online\norder CBD flower\nshop CBD topicals\npurchase CBD drinks\nCBD edibles for sale\nhemp flower online"
+      },
+      {
+        "type": "header",
+        "content": "Homepage SEO"
+      },
+      {
+        "type": "text",
+        "id": "seo_homepage_title_suffix",
+        "label": "Homepage title suffix",
+        "default": "| Buy Premium CBD Online",
+        "info": "Appended to homepage title for search results"
+      },
+      {
+        "type": "textarea",
+        "id": "seo_homepage_description",
+        "label": "Homepage meta description",
+        "default": "Shop premium CBD products at CBD Surgeons. Buy CBD gummies, hemp flower, topicals & more. Fast shipping, lab-tested quality. Order CBD online today!",
+        "info": "Recommended: 150-160 characters"
+      },
+      {
+        "type": "header",
+        "content": "Collection SEO"
+      },
+      {
+        "type": "text",
+        "id": "seo_collection_title_prefix",
+        "label": "Collection title prefix",
+        "default": "Shop",
+        "info": "Added before collection name (e.g., 'Shop CBD Gummies')"
+      },
+      {
+        "type": "text",
+        "id": "seo_collection_title_suffix",
+        "label": "Collection title suffix",
+        "default": "| Buy Online",
+        "info": "Added after collection name"
+      },
+      {
+        "type": "header",
+        "content": "Product SEO"
+      },
+      {
+        "type": "text",
+        "id": "seo_product_title_suffix",
+        "label": "Product title suffix",
+        "default": "| CBD Surgeons",
+        "info": "Appended to all product titles"
+      },
+      {
+        "type": "checkbox",
+        "id": "seo_product_include_price",
+        "label": "Include price in meta description",
+        "default": true,
+        "info": "Shows 'Starting at $X' in product descriptions"
+      },
+      {
+        "type": "checkbox",
+        "id": "seo_product_include_availability",
+        "label": "Include availability in meta description",
+        "default": true,
+        "info": "Shows 'In Stock' or 'Ships Today' messaging"
+      },
+      {
+        "type": "header",
+        "content": "Local SEO"
+      },
+      {
+        "type": "checkbox",
+        "id": "seo_enable_local",
+        "label": "Enable local SEO keywords",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "seo_local_city",
+        "label": "City",
+        "default": "Mount Clemens"
+      },
+      {
+        "type": "text",
+        "id": "seo_local_state",
+        "label": "State",
+        "default": "Michigan"
+      },
+      {
+        "type": "text",
+        "id": "seo_local_region",
+        "label": "Region keywords",
+        "default": "Metro Detroit, Southeast Michigan",
+        "info": "Comma-separated regional keywords"
+      }
+    ]
   }
 ]
