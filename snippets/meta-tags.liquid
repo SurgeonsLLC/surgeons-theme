@@ -3,6 +3,66 @@
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: shop.name
+  assign brand_name = settings.seo_brand_name | default: 'CBD Surgeons'
+  assign enable_seo = settings.seo_enable_keywords | default: true
+
+  comment
+    Build enhanced SEO title based on page type
+  endcomment
+  if enable_seo
+    case request.page_type
+      when 'index'
+        if settings.seo_homepage_title_suffix != blank
+          assign og_title = og_title | append: ' ' | append: settings.seo_homepage_title_suffix
+        endif
+        if settings.seo_homepage_description != blank
+          assign og_description = settings.seo_homepage_description
+        endif
+      when 'collection'
+        if settings.seo_collection_title_prefix != blank
+          assign og_title = settings.seo_collection_title_prefix | append: ' ' | append: collection.title
+        endif
+        if settings.seo_collection_title_suffix != blank
+          assign og_title = og_title | append: ' ' | append: settings.seo_collection_title_suffix
+        endif
+        unless page_description != blank
+          capture collection_desc
+            echo 'Shop '
+            echo collection.title
+            echo ' online at '
+            echo brand_name
+            echo '. Buy premium '
+            echo collection.title | downcase
+            echo ' with fast shipping. Order now!'
+          endcapture
+          assign og_description = collection_desc
+        endunless
+      when 'product'
+        if settings.seo_product_title_suffix != blank
+          assign og_title = product.title | append: ' ' | append: settings.seo_product_title_suffix
+        endif
+        unless page_description != blank
+          capture product_desc
+            echo 'Buy '
+            echo product.title
+            echo ' online.'
+            if settings.seo_product_include_price and product.price > 0
+              echo ' Starting at '
+              echo product.price | money
+              echo '.'
+            endif
+            if settings.seo_product_include_availability and product.available
+              echo ' In stock - ships fast!'
+            endif
+            echo ' Shop '
+            echo brand_name
+            echo ' for premium CBD products.'
+          endcapture
+          assign og_description = product_desc
+        endunless
+    endcase
+  endif
+
   if request.page_type == 'product'
     assign og_type = 'product'
     elsif request.page_type == 'article'

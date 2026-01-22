@@ -698,8 +698,14 @@ git push origin main
 |---------|-----|---------|
 | Chatbot | https://ai.surgeonsolutions.org/api/v1/bud/chat | BUD AI |
 | SEO | https://ai.surgeonsolutions.org/api/v1/code-injections | SEO injection |
+| Telemetry | https://ai.surgeonsolutions.org/api/v1/telemetry/performance | RUM metrics |
+| Edge CDN | https://cdn.surgeonsolutions.org/optimize/ | Asset optimization |
+| Bundler | https://edge.surgeonsolutions.org/api/v1/bundle | Script bundling |
+| WAF | https://waf.surgeonsolutions.org/api/v1/threats | Threat logging |
 | Attribution | https://records.surgeonsolution.io | Tracking data |
 | Auth | https://accounts.surgeonsolution.io | Authentication |
+
+> **Full API Specification:** See `SURGEONS_API_SPEC.md` for complete endpoint documentation.
 
 ---
 

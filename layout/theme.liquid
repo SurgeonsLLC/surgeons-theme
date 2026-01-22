@@ -45,13 +45,16 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
 
-    <!-- Surgeons Security: Content Security Policy with Domain Allowlist -->
+    <!-- Surgeons Security Suite v2.0: Enhanced Content Security Policy -->
     <meta http-equiv="Content-Security-Policy" content="
       default-src 'self' https://*.shopify.com https://*.shopifycdn.com;
       script-src 'self' 'unsafe-inline' 'unsafe-eval'
         https://*.shopify.com
         https://*.shopifycdn.com
         https://ai.surgeonsolutions.org
+        https://cdn.surgeonsolutions.org
+        https://edge.surgeonsolutions.org
+        https://waf.surgeonsolutions.org
         https://*.surgeonsolutions.org
         https://*.surgeonsolution.io
         https://surgeonsolution.io
@@ -60,12 +63,15 @@
         https://onlythebestherbs.io
         https://*.onlythebestherbs.io
         https://cdn.shopify.com;
-      style-src 'self' 'unsafe-inline' https://*.shopify.com https://*.shopifycdn.com https://fonts.googleapis.com;
-      font-src 'self' https://*.shopify.com https://*.shopifycdn.com https://fonts.gstatic.com https://fonts.shopifycdn.com;
-      img-src 'self' data: blob: https: http:;
+      style-src 'self' 'unsafe-inline' https://*.shopify.com https://*.shopifycdn.com https://fonts.googleapis.com https://cdn.surgeonsolutions.org;
+      font-src 'self' https://*.shopify.com https://*.shopifycdn.com https://fonts.gstatic.com https://fonts.shopifycdn.com https://cdn.surgeonsolutions.org;
+      img-src 'self' data: blob: https: http: https://cdn.surgeonsolutions.org;
       connect-src 'self'
         https://*.shopify.com
         https://ai.surgeonsolutions.org
+        https://cdn.surgeonsolutions.org
+        https://edge.surgeonsolutions.org
+        https://waf.surgeonsolutions.org
         https://*.surgeonsolutions.org
         https://*.surgeonsolution.io
         https://surgeonsolution.io
@@ -79,22 +85,33 @@
       frame-src 'self' https://*.shopify.com https://*.youtube.com https://*.vimeo.com;
       object-src 'none';
       base-uri 'self';
+      upgrade-insecure-requests;
     ">
 
-    <!-- Surgeons Security: Domain Allowlist Configuration -->
+    {%- comment -%} Surgeons Security & Performance Suite v2.0 {%- endcomment -%}
+    {%- render 'surgeons-security-suite' -%}
+
+    <!-- Surgeons Security: Domain Allowlist Configuration (Extended by Security Suite v2.0) -->
     <script>
     window.SurgeonsSecurity = {
-      version: '1.0.0',
+      version: '2.0.0',
       allowedDomains: [
+        // Surgeons Solutions Infrastructure
         'surgeonsolutions.org',
         'ai.surgeonsolutions.org',
+        'cdn.surgeonsolutions.org',
+        'edge.surgeonsolutions.org',
+        'waf.surgeonsolutions.org',
+        // Surgeons Solution Store
         'surgeonsolution.io',
         'www.surgeonsolution.io',
         'records.surgeonsolution.io',
         'accounts.surgeonsolution.io',
         'realsurgeons.accounts.surgeonsolution.io',
+        // Partner Domains
         'cbdsurgeons.shop',
         'onlythebestherbs.io',
+        // Shopify Infrastructure
         'shopify.com',
         'cdn.shopify.com',
         'monorail-edge.shopifysvc.com'
@@ -176,17 +193,29 @@
       <link rel="apple-touch-icon" sizes="180x180" href="{{ settings.favicon_icon | image_url: width: 180, height: 180 }}">
       <link rel="shortcut icon" href="{{ settings.favicon_icon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
-    <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-    </title>
+    {%- comment -%} Enhanced SEO Title with Transactional Keywords {%- endcomment -%}
+    {%- capture seo_title -%}
+      {%- case request.page_type -%}
+        {%- when 'index' -%}
+          {{ shop.name }}{% if settings.seo_homepage_title_suffix != blank %} {{ settings.seo_homepage_title_suffix }}{% endif %}
+        {%- when 'collection' -%}
+          {% if settings.seo_collection_title_prefix != blank %}{{ settings.seo_collection_title_prefix }} {% endif %}{{ collection.title }}{% if settings.seo_collection_title_suffix != blank %} {{ settings.seo_collection_title_suffix }}{% endif %} - {{ shop.name }}
+        {%- when 'product' -%}
+          {{ product.title }}{% if settings.seo_product_title_suffix != blank %} {{ settings.seo_product_title_suffix }}{% endif %}
+        {%- else -%}
+          {{ page_title }}
+          {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+          {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+          {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- endcase -%}
+    {%- endcapture -%}
+    <title>{{ seo_title | strip_newlines | strip }}</title>
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
     {%- liquid
       render 'meta-tags'
+      render 'seo-keywords'
       render 'theme-variables'
     -%}
     {{ content_for_header }}
@@ -504,8 +533,157 @@
 {"@context":"https://schema.org","@type":"WebSite","name":"CBD Surgeons","url":"https://surgeonsolution.io","potentialAction":{"@type":"SearchAction","target":"https://surgeonsolution.io/search?q={search_term_string}","query-input":"required name=search_term_string"}}
 </script>
 {% if template contains 'product' %}
+{%- comment -%} Enhanced Product Schema with Transactional Signals {%- endcomment -%}
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Product","name":"{{ product.title | escape }}","description":"{{ product.description | strip_html | truncate: 500 | escape }}","image":"{{ product.featured_image | image_url: width: 1024 }}","url":"{{ shop.url }}{{ product.url }}","sku":"{{ product.selected_or_first_available_variant.sku | escape }}","brand":{"@type":"Brand","name":"CBD Surgeons"},"manufacturer":{"@type":"Organization","name":"Surgeons, LLC","url":"https://surgeonsolution.io"},"offers":{"@type":"Offer","url":"{{ shop.url }}{{ product.url }}","priceCurrency":"{{ shop.currency }}","price":"{{ product.price | money_without_currency | remove: ',' }}","availability":"{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}","seller":{"@type":"Organization","name":"CBD Surgeons"}}}
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "{{ product.title | escape }}",
+  "description": "Buy {{ product.title | escape }} online at CBD Surgeons. {{ product.description | strip_html | truncate: 400 | escape }}",
+  "image": [
+    "{{ product.featured_image | image_url: width: 1024 }}"
+    {%- for image in product.images offset: 1 limit: 3 -%}
+    ,"{{ image | image_url: width: 1024 }}"
+    {%- endfor -%}
+  ],
+  "url": "{{ shop.url }}{{ product.url }}",
+  "sku": "{{ product.selected_or_first_available_variant.sku | escape }}",
+  "mpn": "{{ product.selected_or_first_available_variant.barcode | default: product.id }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "CBD Surgeons"
+  },
+  "manufacturer": {
+    "@type": "Organization",
+    "name": "Surgeons, LLC",
+    "url": "https://surgeonsolution.io"
+  },
+  "category": "{{ product.type | default: 'CBD Products' | escape }}",
+  {%- if product.tags.size > 0 -%}
+  "keywords": "buy {{ product.title | downcase | escape }}, order {{ product.type | downcase | default: 'CBD' | escape }}, {{ product.tags | join: ', ' | escape }}",
+  {%- endif -%}
+  "offers": {
+    "@type": "Offer",
+    "url": "{{ shop.url }}{{ product.url }}",
+    "priceCurrency": "{{ shop.currency }}",
+    "price": "{{ product.price | money_without_currency | remove: ',' }}",
+    {%- if product.compare_at_price > product.price -%}
+    "priceValidUntil": "{{ 'now' | date: '%Y' | plus: 1 }}-12-31",
+    {%- endif -%}
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "itemCondition": "https://schema.org/NewCondition",
+    "seller": {
+      "@type": "Organization",
+      "name": "CBD Surgeons",
+      "url": "https://surgeonsolution.io"
+    },
+    "shippingDetails": {
+      "@type": "OfferShippingDetails",
+      "shippingRate": {
+        "@type": "MonetaryAmount",
+        "value": "0",
+        "currency": "USD"
+      },
+      "shippingDestination": {
+        "@type": "DefinedRegion",
+        "addressCountry": "US"
+      },
+      "deliveryTime": {
+        "@type": "ShippingDeliveryTime",
+        "handlingTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 1,
+          "maxValue": 2,
+          "unitCode": "DAY"
+        },
+        "transitTime": {
+          "@type": "QuantitativeValue",
+          "minValue": 2,
+          "maxValue": 5,
+          "unitCode": "DAY"
+        }
+      }
+    },
+    "hasMerchantReturnPolicy": {
+      "@type": "MerchantReturnPolicy",
+      "applicableCountry": "US",
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+      "merchantReturnDays": 30,
+      "returnMethod": "https://schema.org/ReturnByMail",
+      "returnFees": "https://schema.org/FreeReturn"
+    }
+  }
+}
+</script>
+{% endif %}
+{% if template contains 'collection' %}
+{%- comment -%} Collection Schema with Transactional Keywords for SEO {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Shop {{ collection.title }} - Buy Online",
+  "description": "Shop {{ collection.title }} online at CBD Surgeons. Buy premium {{ collection.title | downcase }} with fast shipping. {{ collection.description | strip_html | truncate: 200 | escape }}",
+  "url": "{{ shop.url }}{{ collection.url }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "name": "{{ collection.title }} Products for Sale",
+    "description": "Browse and buy {{ collection.title | downcase }} online at CBD Surgeons.",
+    "numberOfItems": {{ collection.products_count }},
+    "itemListElement": [
+      {%- for product in collection.products limit: 10 -%}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.index }},
+        "item": {
+          "@type": "Product",
+          "name": "{{ product.title | escape }}",
+          "url": "{{ shop.url }}{{ product.url }}",
+          "image": "{{ product.featured_image | image_url: width: 400 }}",
+          "offers": {
+            "@type": "Offer",
+            "price": "{{ product.price | money_without_currency | remove: ',' }}",
+            "priceCurrency": "{{ shop.currency }}",
+            "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
+          }
+        }
+      }{% unless forloop.last %},{% endunless %}
+      {%- endfor -%}
+    ]
+  },
+  "provider": {
+    "@type": "Organization",
+    "name": "CBD Surgeons",
+    "url": "https://surgeonsolution.io"
+  }
+}
+</script>
+{%- comment -%} BreadcrumbList Schema for Collection Pages {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ shop.url }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Shop All",
+      "item": "{{ shop.url }}/collections/all"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ collection.title }}",
+      "item": "{{ shop.url }}{{ collection.url }}"
+    }
+  ]
+}
 </script>
 {% endif %}
 
