@@ -687,6 +687,154 @@
 </script>
 {% endif %}
 
+{% comment %}
+  Surgeons AI SEO Injection Loader v2.0
+
+  Dynamically loads all deployed SEO injections from the Surgeons AI backend.
+
+  Supported Domains:
+    - surgeonsolution.io (Primary CBD shop)
+    - cbdsurgeons.shop
+    - onlythebestherbs.io
+
+  Backend: https://ai.surgeonsolutions.org
+{% endcomment %}
+
+<script>
+(function() {
+  'use strict';
+
+  // Configuration
+  var SURGEONS_API = 'https://ai.surgeonsolutions.org';
+  var DEBUG = false; // Set to true for console logging
+
+  function log() {
+    if (DEBUG) console.log.apply(console, ['[Surgeons SEO]'].concat(Array.prototype.slice.call(arguments)));
+  }
+
+  function getCurrentDomain() {
+    return window.location.hostname.toLowerCase();
+  }
+
+  function getCurrentPath() {
+    return window.location.pathname || '/';
+  }
+
+  // Fetch and inject SEO optimizations
+  function loadSEOInjections() {
+    var domain = getCurrentDomain();
+    var path = getCurrentPath();
+
+    log('Loading SEO injections for', domain, path);
+
+    var url = SURGEONS_API + '/api/inject/seo?domain=' + encodeURIComponent(domain) + '&path=' + encodeURIComponent(path);
+
+    fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(function(response) {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      return response.json();
+    })
+    .then(function(data) {
+      log('Response:', data);
+
+      if (!data.ok || !data.injections || data.injections.length === 0) {
+        log('No injections to apply');
+        return;
+      }
+
+      var appliedCount = 0;
+
+      data.injections.forEach(function(injection) {
+        if (!injection.code) return;
+
+        try {
+          // Create a temporary container to parse the code
+          var container = document.createElement('div');
+          container.innerHTML = injection.code;
+
+          // Get the placement target
+          var target = injection.placement === 'body' ? document.body : document.head;
+
+          // Move all child nodes to target
+          while (container.firstChild) {
+            var node = container.firstChild;
+
+            // Mark the injection for tracking
+            if (node.nodeType === 1) { // Element node
+              node.setAttribute('data-surgeons-seo', injection.id);
+            }
+
+            target.appendChild(node);
+          }
+
+          appliedCount++;
+          log('Injected:', injection.name, '(' + injection.id + ')');
+        } catch (e) {
+          console.error('[Surgeons SEO] Injection error:', injection.name, e);
+        }
+      });
+
+      // Send beacon to confirm injections were applied
+      if (appliedCount > 0) {
+        sendBeacon(domain, path, appliedCount);
+      }
+    })
+    .catch(function(error) {
+      console.error('[Surgeons SEO] Load error:', error);
+    });
+  }
+
+  // Send beacon to confirm successful injection
+  function sendBeacon(domain, path, count) {
+    try {
+      var beaconUrl = SURGEONS_API + '/api/inject/seo/beacon';
+      var payload = JSON.stringify({
+        domain: domain,
+        path: path,
+        injections_applied: count,
+        page_url: window.location.href,
+        timestamp: Date.now()
+      });
+
+      // Use sendBeacon API if available (doesn't block page unload)
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(beaconUrl, payload);
+      } else {
+        // Fallback to fetch
+        fetch(beaconUrl, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true
+        }).catch(function() {});
+      }
+
+      log('Beacon sent:', count, 'injections applied');
+    } catch (e) {
+      // Silently ignore beacon errors
+    }
+  }
+
+  // Load on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadSEOInjections);
+  } else {
+    // DOM already loaded, run immediately
+    loadSEOInjections();
+  }
+
+  // Also listen for Shopify page transitions (AJAX navigation)
+  if (window.Shopify && window.Shopify.designMode === false) {
+    document.addEventListener('shopify:section:load', loadSEOInjections);
+  }
+})();
+</script>
+
 </head>
   <body>
     {%- render 'icons-data', use_ref: true -%}
