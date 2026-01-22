@@ -111,6 +111,26 @@ This document tracks all SEO optimizations for the Surgeons theme. Use this to v
 
 **Verification:** Collection pages should show `collection.description` visibly.
 
+### 6. FAQ Section with Schema
+**Location:** `sections/faq-section.liquid`
+
+**What it provides:**
+- **Frontend (Visible):** Accordion-style FAQ that users can click to expand
+- **Backend (Schema):** FAQPage structured data for Google rich results
+
+**How to Use:**
+1. Go to Theme Editor
+2. Add section → "FAQ Section"
+3. Add FAQ Item blocks with questions and answers
+4. Google will show FAQ rich results in search listings
+
+**Default FAQs included:**
+- What is CBD?
+- How do I choose the right CBD product?
+- Is CBD legal?
+- How long does shipping take?
+- What is your return policy?
+
 ---
 
 ## THEME SETTINGS (settings_schema.json)
@@ -205,6 +225,7 @@ Macomb County CBD
 | Keywords injection | `snippets/seo-keywords.liquid` |
 | Product blocks (H1, desc, badges) | `snippets/product-blocks.liquid` |
 | Homepage H1 section | `sections/seo-hero.liquid` |
+| FAQ section with schema | `sections/faq-section.liquid` |
 | Main layout (schema) | `layout/theme.liquid` |
 | Theme settings | `config/settings_schema.json` |
 | Current settings | `config/settings_data.json` |
