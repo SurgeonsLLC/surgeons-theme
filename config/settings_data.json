@@ -26,6 +26,8 @@
     "social_youtube_link": "https://www.youtube.com/@cbdsurgeonsonline",
     "social_snapchat_link": "www.snapchat.com/add/cbdsurgeons",
     "social_tiktok_link": "https://tiktok.com/@surgeonsllc",
+    "enable_shop_login_button": false,
+    "login_image": "shopify://shop_images/Untitled_design_-_2025-06-25T200448.783.png",
     "seo_enable_keywords": true,
     "seo_brand_name": "CBD Surgeons",
     "seo_primary_keywords": "buy CBD online\nshop CBD products\norder CBD gummies\npurchase hemp products\nCBD for sale\npremium CBD online store\nbuy hemp flower\nCBD edibles online\nshop CBD topicals",
@@ -41,17 +43,20 @@
     "seo_local_city": "Mount Clemens",
     "seo_local_state": "Michigan",
     "seo_local_region": "Metro Detroit, Southeast Michigan, Macomb County",
-    "enable_shop_login_button": false,
-    "login_image": "shopify://shop_images/Untitled_design_-_2025-06-25T200448.783.png",
     "content_for_index": [],
     "blocks": {
-      "4976129024724438625": {
-        "type": "shopify://apps/smart-seo/blocks/brokenLinkDetection/7b0a6064-ca2e-4392-9a1d-8c43c942357b",
-        "disabled": true,
-        "settings": {}
-      },
       "13768625480086291342": {
         "type": "shopify://apps/forms/blocks/forms/8744a304-fcb1-4347-b211-bb6b4759a76a",
+        "disabled": false,
+        "settings": {}
+      },
+      "6406956604159796213": {
+        "type": "shopify://apps/smart-seo/blocks/smartseo/7b0a6064-ca2e-4392-9a1d-8c43c942357b",
+        "disabled": false,
+        "settings": {}
+      },
+      "4976129024724438625": {
+        "type": "shopify://apps/smart-seo/blocks/brokenLinkDetection/7b0a6064-ca2e-4392-9a1d-8c43c942357b",
         "disabled": false,
         "settings": {}
       }
