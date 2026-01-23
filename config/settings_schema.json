@@ -1350,10 +1350,17 @@
       },
       {
         "type": "text",
+        "id": "seo_homepage_title",
+        "label": "Homepage title (full)",
+        "default": "CBD Surgeons | CBD Oil & Hemp Products | USA, MI",
+        "info": "Complete homepage title. If set, overrides shop name + suffix."
+      },
+      {
+        "type": "text",
         "id": "seo_homepage_title_suffix",
-        "label": "Homepage title suffix",
+        "label": "Homepage title suffix (fallback)",
         "default": "| Buy Premium CBD Online",
-        "info": "Appended to homepage title for search results"
+        "info": "Only used if full title is empty. Appended to shop name."
       },
       {
         "type": "textarea",
