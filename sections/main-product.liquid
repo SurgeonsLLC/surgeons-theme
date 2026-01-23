@@ -1550,6 +1550,10 @@
     <path d="M14.7071 8.70711C15.0976 8.31658 15.0976 7.68342 14.7071 7.29289L8.34315 0.928932C7.95262 0.538408 7.31946 0.538408 6.92893 0.928932C6.53841 1.31946 6.53841 1.95262 6.92893 2.34315L12.5858 8L6.92893 13.6569C6.53841 14.0474 6.53841 14.6805 6.92893 15.0711C7.31946 15.4616 7.95262 15.4616 8.34315 15.0711L14.7071 8.70711ZM0 9H14V7H0V9Z" fill="currentColor"/>
   </symbol>
 </svg>
+{%- comment -%} SEO: Breadcrumb navigation for product pages {%- endcomment -%}
+{%- if section.settings.show_breadcrumb -%}
+  {%- render 'breadcrumb', border_top: section.settings.breadcrumb_top_bdr, border_bottom: section.settings.breadcrumb_bottom_bdr, color_scheme: section.settings.breadcrumb_color_scheme, breadcrumb_corner_radius: section.settings.breadcrumb_corner_radius, breadcrumb_container_layout: section.settings.breadcrumb_container_layout, content_alignment: '--justify-left' -%}
+{%- endif -%}
 <div
   class="global-block {{ section_prefix_class }} {{ section_prefix_class }}-{{ section.id }} {% if section_container_layout == 'container-fluid' or section_container_layout == 'contained-container' %}{{ section_scheme_class }} {{ section_corner_radius }}{% endif %}"
   id="{{- section.id -}}"
@@ -3007,6 +3011,68 @@
     }
   ],
   "settings": [
+    {
+      "type": "header",
+      "content": "Breadcrumb (SEO)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb navigation",
+      "default": true,
+      "info": "Improves SEO with visual breadcrumb trail"
+    },
+    {
+      "type": "checkbox",
+      "id": "breadcrumb_top_bdr",
+      "label": "Show top border",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "breadcrumb_bottom_bdr",
+      "label": "Show bottom border",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "breadcrumb_color_scheme",
+      "label": "Color scheme",
+      "options": [
+        { "value": "default", "label": "Default" },
+        { "value": "scheme-1", "label": "Scheme 1" },
+        { "value": "scheme-2", "label": "Scheme 2" },
+        { "value": "scheme-3", "label": "Scheme 3" }
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "breadcrumb_corner_radius",
+      "label": "Corner radius",
+      "options": [
+        { "value": "no_corners_radius", "label": "None" },
+        { "value": "top_corners_radius", "label": "Top" },
+        { "value": "bottom_corners_radius", "label": "Bottom" },
+        { "value": "both_corners_radius", "label": "Both" }
+      ],
+      "default": "no_corners_radius"
+    },
+    {
+      "type": "select",
+      "id": "breadcrumb_container_layout",
+      "label": "Container layout",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "contained-content", "label": "Contained" },
+        { "value": "container-fluid", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Product Media"
+    },
     {
       "type": "select",
       "id": "product_media_size",

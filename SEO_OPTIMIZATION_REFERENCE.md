@@ -1,6 +1,6 @@
 # SEO Optimization Reference - CBD Surgeons / surgeonsolution.io
 
-> **Last Updated:** 2026-01-21
+> **Last Updated:** 2026-01-22
 > **Operator:** Ryan Bolda, 130 Dickinson St, Mount Clemens, MI 48043
 
 This document tracks all SEO optimizations for the Surgeons theme. Use this to verify settings haven't been reverted by Shopify or theme updates.
@@ -53,11 +53,19 @@ This document tracks all SEO optimizations for the Surgeons theme. Use this to v
 - Shipping details (free shipping, 2-5 day delivery)
 - Return policy (30-day free returns)
 - Seller: CBD Surgeons
+- **AggregateRating** (enables star snippets in Google search results)
+- **BreadcrumbList** (enables breadcrumb rich snippets)
 
 **Collection Schema includes:**
 - CollectionPage type with ItemList
 - BreadcrumbList for navigation
 - Transactional naming: "Shop [Category] - Buy Online"
+
+**Article Schema includes:**
+- Article type with headline, description, image
+- Author and publisher information
+- datePublished and dateModified timestamps
+- BreadcrumbList for navigation
 
 ---
 
@@ -111,7 +119,21 @@ This document tracks all SEO optimizations for the Surgeons theme. Use this to v
 
 **Verification:** Collection pages should show `collection.description` visibly.
 
-### 6. FAQ Section with Schema
+### 6. Product Page Breadcrumbs
+**Location:** `sections/main-product.liquid`
+
+**Settings (in Theme Editor → Product Page section):**
+- `show_breadcrumb` - Enable/disable breadcrumb navigation
+- `breadcrumb_color_scheme` - Color scheme for breadcrumb
+- `breadcrumb_container_layout` - Container width
+- `breadcrumb_corner_radius` - Border radius
+- `breadcrumb_top_bdr` / `breadcrumb_bottom_bdr` - Border visibility
+
+**What it provides:**
+- Visual breadcrumb trail: Home > Collection > Product
+- Paired with BreadcrumbList schema for rich snippets
+
+### 7. FAQ Section with Schema
 **Location:** `sections/faq-section.liquid`
 
 **What it provides:**
@@ -153,6 +175,83 @@ This document tracks all SEO optimizations for the Surgeons theme. Use this to v
 
 ---
 
+## GOOGLE COMPLIANCE STATUS
+
+### Schema Compliance (as of 2026-01-22)
+
+| Schema Type | Status | Validation | Notes |
+|-------------|--------|------------|-------|
+| Organization | ✅ Compliant | Valid | All required fields present |
+| LocalBusiness | ✅ Compliant | Valid | Geo coordinates, hours, contact |
+| WebSite + SearchAction | ✅ Compliant | Valid | Sitelinks search box enabled |
+| Product | ✅ Compliant | Valid | Price, availability, shipping, returns |
+| Product > AggregateRating | ⚠️ Conditional | Valid | Only shows if real reviews exist |
+| Product > BreadcrumbList | ✅ Compliant | Valid | Dynamic based on collection |
+| CollectionPage | ✅ Compliant | Valid | ItemList with products |
+| Collection > BreadcrumbList | ✅ Compliant | Valid | 3-level hierarchy |
+| Article | ✅ Compliant | Valid | Author, publisher, dates |
+| Article > BreadcrumbList | ✅ Compliant | Valid | Blog hierarchy |
+| FAQPage | ✅ Compliant | Valid | Question/Answer pairs |
+
+### Core Web Vitals Target
+
+| Metric | Target | Current | Status |
+|--------|--------|---------|--------|
+| LCP (Largest Contentful Paint) | < 2.5s | Monitor | Preload + critical CSS implemented |
+| INP (Interaction to Next Paint) | < 200ms | Monitor | Deferred scripts implemented |
+| CLS (Cumulative Layout Shift) | < 0.1 | Monitor | Skeleton loaders + explicit dimensions |
+
+### Google Policy Compliance
+
+| Requirement | Status | Implementation |
+|-------------|--------|----------------|
+| No fake reviews | ✅ Fixed | AggregateRating only shows with real metafield data |
+| Real product identifiers | ✅ Compliant | GTIN from barcode, SKU as MPN |
+| Accurate pricing | ✅ Compliant | Dynamic from Shopify |
+| Accurate availability | ✅ Compliant | InStock/OutOfStock from inventory |
+| No cloaking | ✅ Compliant | Same content for users and bots |
+| Mobile-friendly | ✅ Compliant | Responsive design |
+| HTTPS | ✅ Compliant | Shopify-enforced SSL |
+
+### Testing URLs
+- **Rich Results Test:** https://search.google.com/test/rich-results
+- **Schema Validator:** https://validator.schema.org/
+- **PageSpeed Insights:** https://pagespeed.web.dev/
+- **Mobile-Friendly Test:** https://search.google.com/test/mobile-friendly
+
+---
+
+## CONTINUOUS IMPROVEMENT TRACKER
+
+### Implemented (2026-01-22)
+- [x] AggregateRating schema (conditional on real reviews)
+- [x] Product BreadcrumbList schema
+- [x] Article schema for blog posts
+- [x] Article BreadcrumbList schema
+- [x] Visual breadcrumbs on product pages
+- [x] GTIN support in Product schema
+- [x] Removed fake review data (compliance fix)
+
+### Pending Implementation
+- [ ] Install review app (Judge.me, Yotpo, or Loox) for real AggregateRating
+- [ ] Add product barcodes in Shopify for GTIN data
+- [ ] Implement HowTo schema for educational content
+- [ ] Add VideoObject schema if product videos exist
+- [ ] Create XML sitemap priority rules
+- [ ] Implement hreflang if expanding internationally
+
+### Monitoring Schedule
+| Task | Frequency | Tool |
+|------|-----------|------|
+| Schema validation | Weekly | Rich Results Test |
+| Core Web Vitals | Weekly | PageSpeed Insights |
+| Search Console errors | Daily | Google Search Console |
+| Keyword rankings | Weekly | Search Console Performance |
+| Index coverage | Weekly | Search Console Coverage |
+| Backlink profile | Monthly | Search Console Links |
+
+---
+
 ## SEO CHECKLIST
 
 ### Weekly Verification:
@@ -162,12 +261,16 @@ This document tracks all SEO optimizations for the Surgeons theme. Use this to v
 - [ ] Collection descriptions are showing
 - [ ] Trust badges display on product pages
 - [ ] Schema markup validates (test at schema.org/validator)
+- [ ] Product page breadcrumbs are visible
+- [ ] Star ratings showing in Product schema
 
 ### Monthly Verification:
 - [ ] Check Google Search Console for indexing issues
 - [ ] Verify canonical URLs working correctly
 - [ ] Test structured data in Google Rich Results Test
 - [ ] Review keyword rankings in Search Console
+- [ ] Check for star rating snippets in Google (may take 2-4 weeks to appear)
+- [ ] Verify breadcrumb snippets showing in search results
 
 ### After Theme Updates:
 1. Check `snippets/product-blocks.liquid` - verify H1 not reverted to H2
