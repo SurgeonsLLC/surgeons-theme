@@ -737,130 +737,36 @@
 </script>
 {% endif %}
 
-{% comment %}
-  Surgeons AI SEO Injection Loader v3.0
-
-  Dynamically loads deployed SEO optimizations from Surgeons AI backend.
-  - Domain-restricted for security (only serves to authorized domains)
-  - Read-only (cannot modify SEO, only display deployed injections)
-
-  Backend: https://ai.surgeonsolutions.org
-  Domains: surgeonsolution.io, cbdsurgeons.shop, onlythebestherbs.io
-{% endcomment %}
-
+{% comment %} Surgeons AI SEO Injection Loader {% endcomment %}
 <script>
 (function() {
   'use strict';
-
-  // Configuration
   var SURGEONS_API = 'https://ai.surgeonsolutions.org';
-  var DEBUG = false;
-
-  function log() {
-    if (DEBUG) console.log.apply(console, ['[Surgeons SEO]'].concat(Array.prototype.slice.call(arguments)));
-  }
 
   function loadSEOInjections() {
     var domain = window.location.hostname.toLowerCase();
     var path = window.location.pathname || '/';
-
-    log('Loading SEO injections for', domain, path);
-
     var url = SURGEONS_API + '/api/inject/seo?domain=' + encodeURIComponent(domain) + '&path=' + encodeURIComponent(path);
 
-    fetch(url, {
-      method: 'GET',
-      mode: 'cors',
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(function(response) {
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      return response.json();
-    })
+    fetch(url, { method: 'GET', mode: 'cors', headers: { 'Accept': 'application/json' }})
+    .then(function(r) { return r.json(); })
     .then(function(data) {
-      log('Response:', data);
-
-      if (!data.ok || !data.injections || data.injections.length === 0) {
-        log('No injections to apply');
-        return;
-      }
-
-      var appliedCount = 0;
-
-      data.injections.forEach(function(injection) {
-        if (!injection.code) return;
-
-        try {
-          var container = document.createElement('div');
-          container.innerHTML = injection.code;
-
-          var target = injection.placement === 'body' ? document.body : document.head;
-
-          while (container.firstChild) {
-            var node = container.firstChild;
-            if (node.nodeType === 1) {
-              node.setAttribute('data-surgeons-seo', injection.id);
-            }
-            target.appendChild(node);
-          }
-
-          appliedCount++;
-          log('Injected:', injection.name);
-        } catch (e) {
-          console.error('[Surgeons SEO] Injection error:', injection.name, e);
+      if (!data.ok || !data.injections) return;
+      data.injections.forEach(function(inj) {
+        if (!inj.code) return;
+        var c = document.createElement('div');
+        c.innerHTML = inj.code;
+        var t = inj.placement === 'body' ? document.body : document.head;
+        while (c.firstChild) {
+          if (c.firstChild.nodeType === 1) c.firstChild.setAttribute('data-surgeons-seo', inj.id);
+          t.appendChild(c.firstChild);
         }
       });
-
-      // Send beacon to confirm injections were applied
-      if (appliedCount > 0) {
-        sendBeacon(domain, path, appliedCount);
-      }
-    })
-    .catch(function(error) {
-      console.error('[Surgeons SEO] Load error:', error);
-    });
+    }).catch(function(e) { console.error('[Surgeons SEO]', e); });
   }
 
-  function sendBeacon(domain, path, count) {
-    try {
-      var beaconUrl = SURGEONS_API + '/api/inject/seo/beacon';
-      var payload = JSON.stringify({
-        domain: domain,
-        path: path,
-        injections_applied: count,
-        page_url: window.location.href,
-        timestamp: Date.now()
-      });
-
-      if (navigator.sendBeacon) {
-        navigator.sendBeacon(beaconUrl, payload);
-      } else {
-        fetch(beaconUrl, {
-          method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload,
-          keepalive: true
-        }).catch(function() {});
-      }
-
-      log('Beacon sent:', count, 'injections applied');
-    } catch (e) {
-      // Silently ignore beacon errors
-    }
-  }
-
-  // Load on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadSEOInjections);
-  } else {
-    loadSEOInjections();
-  }
-
-  // Handle Shopify AJAX navigation
-  if (window.Shopify && window.Shopify.designMode === false) {
-    document.addEventListener('shopify:section:load', loadSEOInjections);
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', loadSEOInjections);
+  else loadSEOInjections();
 })();
 </script>
 
