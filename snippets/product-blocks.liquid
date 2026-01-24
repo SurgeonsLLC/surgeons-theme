@@ -98,8 +98,9 @@
       {%- endif -%}
       <div class="{{ section_prefix_class }}_description-content {{ block.settings.block_text_size }} {{ block.settings.block_text_weight }}" itemprop="description">
         {%- if block.settings.truncate_description -%}
+          {%- assign description_length = product.description | strip_html | size -%}
           {{ product.description | strip_html | truncate: 500 }}
-          {%- if product.description | strip_html | size > 500 -%}
+          {%- if description_length > 500 -%}
             <details class="{{ section_prefix_class }}_description-more">
               <summary class="button button--link">Read more</summary>
               <div class="{{ section_prefix_class }}_description-full">
