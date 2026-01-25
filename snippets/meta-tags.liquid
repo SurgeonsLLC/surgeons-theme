@@ -13,7 +13,6 @@
   if enable_seo
     case request.page_type
       when 'index'
-        comment Use full custom title if set, matching the page title endcomment
         if settings.seo_homepage_title != blank
           assign og_title = settings.seo_homepage_title
         elsif settings.seo_homepage_title_suffix != blank
