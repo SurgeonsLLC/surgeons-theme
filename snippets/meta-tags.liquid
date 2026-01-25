@@ -8,12 +8,16 @@
 
   comment
     Build enhanced SEO title based on page type
+    OG title should match page title for consistency
   endcomment
   if enable_seo
     case request.page_type
       when 'index'
-        if settings.seo_homepage_title_suffix != blank
-          assign og_title = og_title | append: ' ' | append: settings.seo_homepage_title_suffix
+        comment Use full custom title if set, matching the page title endcomment
+        if settings.seo_homepage_title != blank
+          assign og_title = settings.seo_homepage_title
+        elsif settings.seo_homepage_title_suffix != blank
+          assign og_title = shop.name | append: ' ' | append: settings.seo_homepage_title_suffix
         endif
         if settings.seo_homepage_description != blank
           assign og_description = settings.seo_homepage_description

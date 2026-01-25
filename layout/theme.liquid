@@ -237,6 +237,8 @@
     {%- liquid
       render 'meta-tags'
       render 'seo-keywords'
+      render 'seo-faq-schema'
+      render 'seo-breadcrumb-schema'
       render 'theme-variables'
     -%}
     {{ content_for_header }}
@@ -435,9 +437,53 @@
   }
 })();
 </script>
-{% comment %} CBD Surgeons Schema Markup for SEO {% endcomment %}
+{% comment %} CBD Surgeons Schema Markup for SEO - Enhanced for Knowledge Graph {% endcomment %}
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"CBD Surgeons","legalName":"Surgeons, LLC","url":"https://surgeonsolution.io","logo":"https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png","email":"customer.relations@surgeonsolution.io","telephone":"+1-586-246-5852","address":{"@type":"PostalAddress","streetAddress":"130 Dickinson St","addressLocality":"Mount Clemens","addressRegion":"MI","postalCode":"48043","addressCountry":"US"},"sameAs":["https://www.facebook.com/srgnNetworks","https://surgeonsolutions.org","https://blog.surgeonsolutions.org"],"foundingDate":"2022-03-20","description":"CBD Surgeons is a manufacturer and distributor of premium hemp-derived CBD products based in Mount Clemens, Michigan."}
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CBD Surgeons",
+  "legalName": "Surgeons, LLC",
+  "url": "https://surgeonsolution.io",
+  "logo": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+  "email": "customer.relations@surgeonsolution.io",
+  "telephone": "+1-586-246-5852",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "130 Dickinson St",
+    "addressLocality": "Mount Clemens",
+    "addressRegion": "MI",
+    "postalCode": "48043",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://www.facebook.com/srgnNetworks",
+    "https://instagram.com/surgeonsolution.io",
+    "https://www.linkedin.com/company/cbd-surgeons/",
+    "https://www.youtube.com/@cbdsurgeonsonline",
+    "https://tiktok.com/@surgeonsllc",
+    "https://www.snapchat.com/add/cbdsurgeons",
+    "https://surgeonsolutions.org"
+  ],
+  "foundingDate": "2022-03-20",
+  "description": "CBD Surgeons is Michigan's trusted source for premium hemp-derived CBD products. Shop lab-tested CBD gummies, oils, topicals & more with fast shipping.",
+  "slogan": "Premium CBD Oil & Hemp Products",
+  "knowsAbout": ["CBD", "Hemp", "Cannabidiol", "CBD Gummies", "CBD Oil", "Hemp Flower", "CBD Topicals"],
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "CBD Products",
+    "itemListElement": [
+      {"@type": "OfferCatalog", "name": "CBD Gummies"},
+      {"@type": "OfferCatalog", "name": "CBD Oil"},
+      {"@type": "OfferCatalog", "name": "Hemp Flower"},
+      {"@type": "OfferCatalog", "name": "CBD Topicals"}
+    ]
+  }
+}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://surgeonsolution.io/#localbusiness","name":"CBD Surgeons","url":"https://surgeonsolution.io","logo":"https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png","telephone":"+1-586-246-5852","email":"customer.relations@surgeonsolution.io","address":{"@type":"PostalAddress","streetAddress":"130 Dickinson St","addressLocality":"Mount Clemens","addressRegion":"MI","postalCode":"48043","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":"42.5972","longitude":"-82.8802"},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"},"priceRange":"$","areaServed":{"@type":"Country","name":"United States"}}
