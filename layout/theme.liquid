@@ -56,6 +56,7 @@
         https://www.googletagmanager.com
         https://*.google-analytics.com
         https://apis.google.com
+        https://www.gstatic.com
         https://*.trustpilot.com
         https://*.avada.io
         https://connect.facebook.net
@@ -1146,6 +1147,18 @@ function closeExitPopup() {
     }
   }, 3000);
 })();
+</script>
+
+<!-- Google Merchant Customer Reviews Badge -->
+<script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
+<script>
+  document.getElementById('merchantWidgetScript').addEventListener('load', function() {
+    merchantwidget.start({
+      merchant_id: 5586792336,
+      position: "BOTTOM_RIGHT",
+      region: "US"
+    });
+  });
 </script>
 
 </body>
