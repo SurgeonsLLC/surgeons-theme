@@ -55,6 +55,7 @@
         https://browser.bugsnag.com
         https://www.googletagmanager.com
         https://*.google-analytics.com
+        https://apis.google.com
         https://*.trustpilot.com
         https://*.avada.io
         https://connect.facebook.net
@@ -132,6 +133,8 @@
         // Partner Domains
         'cbdsurgeons.shop',
         'onlythebestherbs.io',
+        // Google Services
+        'apis.google.com',
         // Shopify Infrastructure
         'shopify.com',
         'cdn.shopify.com',
@@ -633,48 +636,7 @@
   {%- endif -%}
 }
 </script>
-{%- comment -%} BreadcrumbList Schema for Product Pages - Enables breadcrumb rich snippets {%- endcomment -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "{{ shop.url }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Shop All",
-      "item": "{{ shop.url }}/collections/all"
-    }
-    {%- if product.collections.size > 0 -%}
-    ,{
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ product.collections.first.title | escape }}",
-      "item": "{{ shop.url }}{{ product.collections.first.url }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
-      "name": "{{ product.title | escape }}",
-      "item": "{{ shop.url }}{{ product.url }}"
-    }
-    {%- else -%}
-    ,{
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ product.title | escape }}",
-      "item": "{{ shop.url }}{{ product.url }}"
-    }
-    {%- endif -%}
-  ]
-}
-</script>
+{%- comment -%} BreadcrumbList for product pages is now handled by snippets/seo-breadcrumb-schema.liquid (rendered in head). Duplicate removed to prevent conflicting structured data. {%- endcomment -%}
 {% endif %}
 {% if template contains 'collection' %}
 {%- comment -%} Collection Schema with Transactional Keywords for SEO {%- endcomment -%}
