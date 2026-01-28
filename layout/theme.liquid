@@ -283,91 +283,113 @@
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
     </script>
-    <script type="module">
-      import Splide from '{{- 'splide.esm.js' | asset_url -}}';
-      class SplideSlider extends HTMLElement{
-        connectedCallback(){
-          this.initialize()
-        }
+    <!-- Splide: Deferred loading for better performance -->
+    <script>
+      (function(){
+        var splideUrl = '{{- 'splide.esm.js' | asset_url -}}';
+        var splideLoaded = false;
 
-        initialize(){
-          if(this.dataset.desktopHidden === 'wide' && screen.width > 991) return;
-          this.slider = null;
-          let countElement = this.querySelector('[data-splide-current]');
-          const prepareSlidesForDesktop = () => {
-            if (window.innerWidth > 767) return;
-            const slideElems = this.querySelectorAll('.splide__slide');
-            slideElems.forEach(slide => {
-              const article = slide.querySelector('.carousel-banner_two-col');
-              if (!article) return;
-              const divs = article.querySelectorAll('.carousel-banner_col');
-              if (divs.length === 2) {
-                const parent = slide.parentNode;
-                const newSlide1 = document.createElement('div');
-                newSlide1.className = 'splide__slide';
-                const article1 = document.createElement('article');
-                article1.className = `carousel-card ${this.dataset.prefixClass}-${this.dataset.sectionId}`;
-                article1.appendChild(divs[0]);
-                newSlide1.appendChild(article1);
-                const newSlide2 = document.createElement('div');
-                newSlide2.className = 'splide__slide';
-                const article2 = document.createElement('article');
-                article2.className = `carousel-card ${this.dataset.prefixClass}-${this.dataset.sectionId}`;
-                article2.appendChild(divs[1]);
-                newSlide2.appendChild(article2);
-                parent.insertBefore(newSlide1, slide);
-                parent.insertBefore(newSlide2, slide);
-                parent.removeChild(slide);
+        function initSplideSlider() {
+          if (customElements.get('splide-slider')) return;
+
+          class SplideSlider extends HTMLElement {
+            connectedCallback() {
+              if (!splideLoaded) {
+                import(splideUrl).then(function(module) {
+                  splideLoaded = true;
+                  window.Splide = module.default;
+                  this.initialize();
+                }.bind(this));
+              } else {
+                this.initialize();
               }
-            });
-          };
-          const initializeSplide = (element, options) => {
-            const splide = new Splide(element, options);
-            splide.mount();
-            const sliderList = this.querySelectorAll('.splide__list');
-            sliderList.forEach(list => {
-              list.classList.remove('splide-slider--h-scroll', 'splide-slider--v-scroll');
-            });
-            splide.on("inactive", (slide) => SplideSlider.inactiveEvent(slide));
-            countElement && splide.on("active", (slide) => countElement.textContent = slide.index + 1);
-            return splide;
-          };
-          switch (this.dataset.sliderType) {
-            case 'sync':
-              const mpElem = this.querySelector('[data-main-thumbs]');
-              const swElem = this.querySelector('[data-switcher-thumbs]');
-              const mpOpts = JSON.parse(mpElem.getAttribute('data-splide'));
-              const swOpts = JSON.parse(swElem.getAttribute('data-splide'));
-              const mpSplide = initializeSplide(mpElem, mpOpts);
-              const swSplide = initializeSplide(swElem, swOpts);
-              mpSplide.sync(swSplide);
-              this.slider = mpSplide;
-              break;
-            case 'default':
-              const elem = this.querySelector('.splide');
-              const options = JSON.parse(elem.getAttribute('data-splide'));
-              prepareSlidesForDesktop();
-              const splide = initializeSplide(elem, options);
-              if (this.dataset.goTo === 'true'){
-                document.addEventListener('shopify:block:select', (event) => {
-                  if(!event.target.classList.contains('splide__slide')) return;
-                  const findSlideByBlockId = splide.Components.Slides.filter(`#${event.target.id}`)[0];
-                  if (!findSlideByBlockId) return;
-                  splide.go(findSlideByBlockId.index);
+            }
+            initialize() {
+              if (!window.Splide) return;
+              if (this.dataset.desktopHidden === 'wide' && screen.width > 991) return;
+              this.slider = null;
+              var countElement = this.querySelector('[data-splide-current]');
+              var self = this;
+              var prepareSlidesForDesktop = function() {
+                if (window.innerWidth > 767) return;
+                var slideElems = self.querySelectorAll('.splide__slide');
+                slideElems.forEach(function(slide) {
+                  var article = slide.querySelector('.carousel-banner_two-col');
+                  if (!article) return;
+                  var divs = article.querySelectorAll('.carousel-banner_col');
+                  if (divs.length === 2) {
+                    var parent = slide.parentNode;
+                    var newSlide1 = document.createElement('div');
+                    newSlide1.className = 'splide__slide';
+                    var article1 = document.createElement('article');
+                    article1.className = 'carousel-card ' + self.dataset.prefixClass + '-' + self.dataset.sectionId;
+                    article1.appendChild(divs[0]);
+                    newSlide1.appendChild(article1);
+                    var newSlide2 = document.createElement('div');
+                    newSlide2.className = 'splide__slide';
+                    var article2 = document.createElement('article');
+                    article2.className = 'carousel-card ' + self.dataset.prefixClass + '-' + self.dataset.sectionId;
+                    article2.appendChild(divs[1]);
+                    newSlide2.appendChild(article2);
+                    parent.insertBefore(newSlide1, slide);
+                    parent.insertBefore(newSlide2, slide);
+                    parent.removeChild(slide);
+                  }
                 });
+              };
+              var initializeSplide = function(element, options) {
+                var splide = new window.Splide(element, options);
+                splide.mount();
+                var sliderList = self.querySelectorAll('.splide__list');
+                sliderList.forEach(function(list) {
+                  list.classList.remove('splide-slider--h-scroll', 'splide-slider--v-scroll');
+                });
+                splide.on("inactive", function(slide) { SplideSlider.inactiveEvent(slide); });
+                if (countElement) splide.on("active", function(slide) { countElement.textContent = slide.index + 1; });
+                return splide;
+              };
+              switch (this.dataset.sliderType) {
+                case 'sync':
+                  var mpElem = this.querySelector('[data-main-thumbs]');
+                  var swElem = this.querySelector('[data-switcher-thumbs]');
+                  var mpOpts = JSON.parse(mpElem.getAttribute('data-splide'));
+                  var swOpts = JSON.parse(swElem.getAttribute('data-splide'));
+                  var mpSplide = initializeSplide(mpElem, mpOpts);
+                  var swSplide = initializeSplide(swElem, swOpts);
+                  mpSplide.sync(swSplide);
+                  this.slider = mpSplide;
+                  break;
+                case 'default':
+                  var elem = this.querySelector('.splide');
+                  var options = JSON.parse(elem.getAttribute('data-splide'));
+                  prepareSlidesForDesktop();
+                  var splide = initializeSplide(elem, options);
+                  if (this.dataset.goTo === 'true') {
+                    document.addEventListener('shopify:block:select', function(event) {
+                      if (!event.target.classList.contains('splide__slide')) return;
+                      var findSlideByBlockId = splide.Components.Slides.filter('#' + event.target.id)[0];
+                      if (!findSlideByBlockId) return;
+                      splide.go(findSlideByBlockId.index);
+                    });
+                  }
+                  this.slider = splide;
+                  break;
               }
-              this.slider = splide;
-              break;
-            default:
-              break;
+            }
+            static inactiveEvent(currentSlide) {
+              if (window.pauseElementBasedMedia) window.pauseElementBasedMedia(currentSlide.slide);
+            }
           }
+          customElements.define('splide-slider', SplideSlider);
         }
 
-        static inactiveEvent(currentSlide){
-          window.pauseElementBasedMedia(currentSlide.slide);
+        // Initialize when DOM is ready, non-blocking
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initSplideSlider);
+        } else {
+          requestAnimationFrame(initSplideSlider);
         }
-      }
-      if(!customElements.get('splide-slider')) customElements.define('splide-slider', SplideSlider);
+      })();
     </script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
     {% if template contains 'product' %}
@@ -382,96 +404,71 @@
   <noscript><link rel="stylesheet" href="{{ 'base.css' | asset_url }}"></noscript>
 
   {% if template contains 'product' %}
-    <script type="module" src="{{ 'photoswipe.esm.js' | asset_url }}" defer></script>
+    <!-- PhotoSwipe: Lazy-loaded on gallery click for better performance -->
+    <script>
+      window.loadPhotoSwipe = function() {
+        if (window.photoSwipeLoaded) return Promise.resolve();
+        return import('{{ 'photoswipe.esm.js' | asset_url }}').then(function(m) {
+          window.PhotoSwipe = m.default;
+          window.photoSwipeLoaded = true;
+        });
+      };
+    </script>
   {% endif %}
-<script>
-(function(){var e="sg_attr_",t={FIRST_SOURCE:e+"first_source",FIRST_MEDIUM:e+"first_medium",FIRST_CAMPAIGN:e+"first_campaign",LAST_SOURCE:e+"last_source",LAST_MEDIUM:e+"last_medium",LAST_CAMPAIGN:e+"last_campaign",LAST_TIMESTAMP:e+"last_ts",VISITOR_ID:"surgeons_visitor_id"};function r(){var e=new URLSearchParams(window.location.search);return{source:e.get("utm_source"),medium:e.get("utm_medium"),campaign:e.get("utm_campaign")}}function o(){var e=document.referrer.toLowerCase();return e?e.includes("facebook.com")||e.includes("fb.com")?{source:"facebook",medium:"social"}:e.includes("instagram.com")?{source:"instagram",medium:"social"}:e.includes("google.")?{source:"google",medium:"organic"}:e.includes("bing.com")?{source:"bing",medium:"organic"}:{source:"referral",medium:"referral"}:{source:"direct",medium:"none"}}function a(){return{first_touch_source:localStorage.getItem(t.FIRST_SOURCE)||"direct",first_touch_medium:localStorage.getItem(t.FIRST_MEDIUM)||"none",first_touch_campaign:localStorage.getItem(t.FIRST_CAMPAIGN)||"",last_touch_source:localStorage.getItem(t.LAST_SOURCE)||localStorage.getItem(t.FIRST_SOURCE)||"direct",last_touch_medium:localStorage.getItem(t.LAST_MEDIUM)||localStorage.getItem(t.FIRST_MEDIUM)||"none",last_touch_campaign:localStorage.getItem(t.LAST_CAMPAIGN)||"",visitor_id:localStorage.getItem(t.VISITOR_ID)||""}}async function n(){try{await fetch("/cart/update.js",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({attributes:a()})})}catch(e){}}function i(){var e=r(),a=o();localStorage.getItem(t.FIRST_SOURCE)||(localStorage.setItem(t.FIRST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.FIRST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.FIRST_CAMPAIGN,e.campaign||""));var i=e.source||e.medium||e.campaign,s=parseInt(localStorage.getItem(t.LAST_TIMESTAMP)||"0");(i||Date.now()-s>18e5)&&(localStorage.setItem(t.LAST_SOURCE,e.source||a.source||"direct"),localStorage.setItem(t.LAST_MEDIUM,e.medium||a.medium||"none"),localStorage.setItem(t.LAST_CAMPAIGN,e.campaign||""),localStorage.setItem(t.LAST_TIMESTAMP,Date.now().toString()));n();document.addEventListener("click",function(e){e.target.matches('[name="add"],.add-to-cart,[data-add-to-cart],.product-form__submit')&&setTimeout(n,500)})}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",i):i();window.SurgeonsAttribution={getData:a,updateCart:n}})();
-</script>
-<!-- Surgeons Bot Detection v1.0 -->
+<!-- Attribution & Bot Detection: Deferred to idle time for better performance -->
 <script>
 (function(){
-  var BD_KEY = 'sg_bot_score';
-  var BD_FLAGS_KEY = 'sg_bot_flags';
-  var score = 0;
-  var flags = [];
-
-  // 1. Webdriver / Automation Detection
-  if (navigator.webdriver) { score += 40; flags.push('webdriver'); }
-  if (window.__nightmare) { score += 40; flags.push('nightmare'); }
-  if (window.callPhantom || window._phantom) { score += 40; flags.push('phantom'); }
-  if (window.chrome && !window.chrome.runtime) { score += 20; flags.push('headless_chrome'); }
-
-  // 2. Missing browser features (common in bots)
-  if (!navigator.languages || navigator.languages.length === 0) { score += 15; flags.push('no_languages'); }
-  if (!window.localStorage) { score += 20; flags.push('no_localstorage'); }
-  if (navigator.plugins && navigator.plugins.length === 0 && !/mobile|android|iphone/i.test(navigator.userAgent)) { score += 15; flags.push('no_plugins'); }
-
-  // 3. Screen/window anomalies
-  if (screen.width === 0 || screen.height === 0) { score += 30; flags.push('no_screen'); }
-  if (window.outerWidth === 0 || window.outerHeight === 0) { score += 25; flags.push('zero_window'); }
-
-  // 4. User agent checks
-  var ua = navigator.userAgent.toLowerCase();
-  var botPatterns = /bot|crawl|spider|scrape|headless|phantom|selenium|puppeteer|playwright|wget|curl|python|java\//;
-  if (botPatterns.test(ua)) { score += 35; flags.push('bot_ua'); }
-
-  // 5. Timing anomalies (page load too fast)
-  var loadStart = performance.timing ? performance.timing.navigationStart : Date.now();
-  setTimeout(function(){
-    var loadTime = Date.now() - loadStart;
-    if (loadTime < 100) { score += 20; flags.push('instant_load'); }
-  }, 50);
-
-  // 6. Behavior tracking (no interaction = suspicious)
-  var hasInteracted = false;
-  var interactionHandler = function() {
-    hasInteracted = true;
-    score = Math.max(0, score - 10); // Reduce score on real interaction
-    localStorage.setItem(BD_KEY, score);
-    document.removeEventListener('mousemove', interactionHandler);
-    document.removeEventListener('touchstart', interactionHandler);
-    document.removeEventListener('keydown', interactionHandler);
-    document.removeEventListener('scroll', interactionHandler);
-  };
-  document.addEventListener('mousemove', interactionHandler, {once: true, passive: true});
-  document.addEventListener('touchstart', interactionHandler, {once: true, passive: true});
-  document.addEventListener('keydown', interactionHandler, {once: true, passive: true});
-  document.addEventListener('scroll', interactionHandler, {once: true, passive: true});
-
-  // Check after 5 seconds if no interaction
-  setTimeout(function(){
-    if (!hasInteracted) { score += 15; flags.push('no_interaction_5s'); localStorage.setItem(BD_KEY, score); localStorage.setItem(BD_FLAGS_KEY, JSON.stringify(flags)); }
-  }, 5000);
-
-  // Store results
-  localStorage.setItem(BD_KEY, score);
-  localStorage.setItem(BD_FLAGS_KEY, JSON.stringify(flags));
-
-  // Expose for attribution integration
-  window.SurgeonsBotDetection = {
-    getScore: function() { return parseInt(localStorage.getItem(BD_KEY)) || 0; },
-    getFlags: function() { try { return JSON.parse(localStorage.getItem(BD_FLAGS_KEY)) || []; } catch(e) { return []; } },
-    isLikelyBot: function() { return this.getScore() >= 30; },
-    getData: function() { return { bot_score: this.getScore(), bot_flags: this.getFlags().join(','), is_bot: this.isLikelyBot() }; }
+  var runWhenIdle = function(fn) {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(fn, {timeout: 3000});
+    } else {
+      setTimeout(fn, 1000);
+    }
   };
 
-  // Integrate with cart attributes for order filtering
-  if (window.SurgeonsAttribution) {
-    var origGetData = window.SurgeonsAttribution.getData;
-    window.SurgeonsAttribution.getData = function() {
-      var data = origGetData();
-      var botData = window.SurgeonsBotDetection.getData();
-      data.bot_score = botData.bot_score;
-      data.bot_flags = botData.bot_flags;
-      data.is_bot = botData.is_bot ? 'true' : 'false';
-      return data;
+  // Attribution tracking - deferred
+  runWhenIdle(function(){
+    var e="sg_attr_",t={FIRST_SOURCE:e+"first_source",FIRST_MEDIUM:e+"first_medium",FIRST_CAMPAIGN:e+"first_campaign",LAST_SOURCE:e+"last_source",LAST_MEDIUM:e+"last_medium",LAST_CAMPAIGN:e+"last_campaign",LAST_TIMESTAMP:e+"last_ts",VISITOR_ID:"surgeons_visitor_id"};
+    function r(){var e=new URLSearchParams(window.location.search);return{source:e.get("utm_source"),medium:e.get("utm_medium"),campaign:e.get("utm_campaign")}}
+    function o(){var e=document.referrer.toLowerCase();return e?e.includes("facebook.com")||e.includes("fb.com")?{source:"facebook",medium:"social"}:e.includes("instagram.com")?{source:"instagram",medium:"social"}:e.includes("google.")?{source:"google",medium:"organic"}:e.includes("bing.com")?{source:"bing",medium:"organic"}:{source:"referral",medium:"referral"}:{source:"direct",medium:"none"}}
+    function a(){return{first_touch_source:localStorage.getItem(t.FIRST_SOURCE)||"direct",first_touch_medium:localStorage.getItem(t.FIRST_MEDIUM)||"none",first_touch_campaign:localStorage.getItem(t.FIRST_CAMPAIGN)||"",last_touch_source:localStorage.getItem(t.LAST_SOURCE)||localStorage.getItem(t.FIRST_SOURCE)||"direct",last_touch_medium:localStorage.getItem(t.LAST_MEDIUM)||localStorage.getItem(t.FIRST_MEDIUM)||"none",last_touch_campaign:localStorage.getItem(t.LAST_CAMPAIGN)||"",visitor_id:localStorage.getItem(t.VISITOR_ID)||""}}
+    async function n(){try{await fetch("/cart/update.js",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({attributes:a()})})}catch(e){}}
+    var utm=r(),ref=o();
+    if(!localStorage.getItem(t.FIRST_SOURCE)){localStorage.setItem(t.FIRST_SOURCE,utm.source||ref.source||"direct");localStorage.setItem(t.FIRST_MEDIUM,utm.medium||ref.medium||"none");localStorage.setItem(t.FIRST_CAMPAIGN,utm.campaign||"")}
+    var hasUtm=utm.source||utm.medium||utm.campaign,lastTs=parseInt(localStorage.getItem(t.LAST_TIMESTAMP)||"0");
+    if(hasUtm||Date.now()-lastTs>18e5){localStorage.setItem(t.LAST_SOURCE,utm.source||ref.source||"direct");localStorage.setItem(t.LAST_MEDIUM,utm.medium||ref.medium||"none");localStorage.setItem(t.LAST_CAMPAIGN,utm.campaign||"");localStorage.setItem(t.LAST_TIMESTAMP,Date.now().toString())}
+    n();
+    document.addEventListener("click",function(e){e.target.matches('[name="add"],.add-to-cart,[data-add-to-cart],.product-form__submit')&&setTimeout(n,500)});
+    window.SurgeonsAttribution={getData:a,updateCart:n};
+  });
+
+  // Bot detection - deferred
+  runWhenIdle(function(){
+    var BD_KEY='sg_bot_score',BD_FLAGS_KEY='sg_bot_flags',score=0,flags=[];
+    if(navigator.webdriver){score+=40;flags.push('webdriver')}
+    if(window.__nightmare){score+=40;flags.push('nightmare')}
+    if(window.callPhantom||window._phantom){score+=40;flags.push('phantom')}
+    if(window.chrome&&!window.chrome.runtime){score+=20;flags.push('headless_chrome')}
+    if(!navigator.languages||navigator.languages.length===0){score+=15;flags.push('no_languages')}
+    if(!window.localStorage){score+=20;flags.push('no_localstorage')}
+    if(navigator.plugins&&navigator.plugins.length===0&&!/mobile|android|iphone/i.test(navigator.userAgent)){score+=15;flags.push('no_plugins')}
+    if(screen.width===0||screen.height===0){score+=30;flags.push('no_screen')}
+    if(window.outerWidth===0||window.outerHeight===0){score+=25;flags.push('zero_window')}
+    var ua=navigator.userAgent.toLowerCase();
+    if(/bot|crawl|spider|scrape|headless|phantom|selenium|puppeteer|playwright|wget|curl|python|java\//.test(ua)){score+=35;flags.push('bot_ua')}
+    localStorage.setItem(BD_KEY,score);
+    localStorage.setItem(BD_FLAGS_KEY,JSON.stringify(flags));
+    window.SurgeonsBotDetection={
+      getScore:function(){return parseInt(localStorage.getItem(BD_KEY))||0},
+      getFlags:function(){try{return JSON.parse(localStorage.getItem(BD_FLAGS_KEY))||[]}catch(e){return[]}},
+      isLikelyBot:function(){return this.getScore()>=30},
+      getData:function(){return{bot_score:this.getScore(),bot_flags:this.getFlags().join(','),is_bot:this.isLikelyBot()}}
     };
-  }
-
-  // Log for debugging (only in dev)
-  if (window.location.hostname === 'localhost' || window.location.search.includes('debug=true')) {
-    console.log('[Surgeons Bot Detection]', { score: score, flags: flags, isLikelyBot: score >= 30 });
-  }
+    if(window.SurgeonsAttribution){
+      var origGetData=window.SurgeonsAttribution.getData;
+      window.SurgeonsAttribution.getData=function(){var data=origGetData();var botData=window.SurgeonsBotDetection.getData();data.bot_score=botData.bot_score;data.bot_flags=botData.bot_flags;data.is_bot=botData.is_bot?'true':'false';return data};
+    }
+  });
 })();
 </script>
 {% comment %} CBD Surgeons Schema Markup for SEO - Enhanced for Knowledge Graph {% endcomment %}
@@ -993,24 +990,27 @@
     sessionStorage.setItem('sg_exit_shown', 'true');
   }
 
-  // Exit intent detection (desktop)
+  // Exit intent detection (desktop) - use passive listener
   document.addEventListener('mouseout', function(e) {
-    if (e.clientY < 10 && e.relatedTarget === null) {
-      showExitPopup();
-    }
-  });
+    if (e.clientY < 10 && e.relatedTarget === null) showExitPopup();
+  }, {passive: true});
 
-  // Scroll-based trigger for mobile (50% scroll + 30 seconds on page)
+  // Scroll-based trigger - throttled to run max once per 500ms
   var pageStartTime = Date.now();
   var scrollTriggered = false;
+  var scrollTimeout = null;
   window.addEventListener('scroll', function() {
-    if (scrollTriggered) return;
-    var scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    if (scrollPercent > 50 && (Date.now() - pageStartTime) > 30000) {
-      scrollTriggered = true;
-      showExitPopup();
-    }
-  });
+    if (scrollTriggered || scrollTimeout) return;
+    scrollTimeout = setTimeout(function() {
+      scrollTimeout = null;
+      if (scrollTriggered) return;
+      var scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+      if (scrollPercent > 50 && (Date.now() - pageStartTime) > 30000) {
+        scrollTriggered = true;
+        showExitPopup();
+      }
+    }, 500);
+  }, {passive: true});
 })();
 
 function closeExitPopup() {
@@ -1018,10 +1018,9 @@ function closeExitPopup() {
 }
 </script>
 
-<!-- Surgeons Sales Booster: Low Stock & Urgency Indicators -->
+<!-- Surgeons Sales Booster: Low Stock & Urgency Indicators - Deferred to idle -->
 <script>
 (function(){
-  // Add urgency to product pages
   function addUrgencyIndicators() {
     var stockElements = document.querySelectorAll('[data-inventory-quantity]');
     stockElements.forEach(function(el) {
@@ -1034,11 +1033,9 @@ function closeExitPopup() {
         el.parentNode.insertBefore(urgency, el.nextSibling);
       }
     });
-
-    // Add "selling fast" badge to popular products
     var productCards = document.querySelectorAll('.product-card, .card-product');
     productCards.forEach(function(card, index) {
-      if (index < 3) { // Top 3 products
+      if (index < 3) {
         var badge = card.querySelector('.sg-hot-badge');
         if (!badge) {
           badge = document.createElement('span');
@@ -1051,11 +1048,11 @@ function closeExitPopup() {
       }
     });
   }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', addUrgencyIndicators);
+  // Defer to idle time - not critical for initial render
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(addUrgencyIndicators, {timeout: 5000});
   } else {
-    addUrgencyIndicators();
+    setTimeout(addUrgencyIndicators, 2000);
   }
 })();
 </script>
