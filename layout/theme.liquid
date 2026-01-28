@@ -1151,11 +1151,18 @@ function closeExitPopup() {
 
 <!-- Google Merchant Customer Reviews Badge — forced bottom-left -->
 <style>
-  /* Force Google Merchant badge to bottom-left */
+  /* Force Google Merchant badge to bottom-left, constrain to viewport */
   iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"],
   div[style*="position: fixed"][style*="right: 0"][style*="bottom: 0"] iframe[src*="google"] {
     left: 0 !important;
     right: auto !important;
+    max-width: 100vw !important;
+  }
+  @media (max-width: 768px) {
+    iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
+      max-width: calc(100vw - 16px) !important;
+      left: 8px !important;
+    }
   }
   /* Widen BUD chat popup message */
   #bud-chat-facade ~ div[style*="position"],
@@ -1180,20 +1187,26 @@ function closeExitPopup() {
     // Force-reposition the Google badge iframe to bottom-left
     var observer = new MutationObserver(function(mutations) {
       var iframes = document.querySelectorAll('iframe[src*="merchantwidget"], iframe[src*="google.com/shopping"]');
+      var isMobile = window.innerWidth <= 768;
+      var leftVal = isMobile ? '8px' : '0px';
+      var maxW = isMobile ? (window.innerWidth - 16) + 'px' : '100vw';
       iframes.forEach(function(iframe) {
         var parent = iframe.parentElement;
         if (parent && parent.style) {
-          parent.style.setProperty('left', '0px', 'important');
+          parent.style.setProperty('left', leftVal, 'important');
           parent.style.setProperty('right', 'auto', 'important');
+          parent.style.setProperty('max-width', maxW, 'important');
         }
-        iframe.style.setProperty('left', '0px', 'important');
+        iframe.style.setProperty('left', leftVal, 'important');
         iframe.style.setProperty('right', 'auto', 'important');
+        iframe.style.setProperty('max-width', maxW, 'important');
       });
       // Also catch any fixed-position divs Google creates
       document.querySelectorAll('div[style*="position: fixed"][style*="bottom"]').forEach(function(el) {
         if (el.querySelector('iframe[src*="google"]') || el.querySelector('iframe[src*="merchant"]')) {
-          el.style.setProperty('left', '0px', 'important');
+          el.style.setProperty('left', leftVal, 'important');
           el.style.setProperty('right', 'auto', 'important');
+          el.style.setProperty('max-width', maxW, 'important');
         }
       });
     });
