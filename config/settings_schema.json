@@ -859,6 +859,17 @@
         "id": "social_vimeo_link",
         "label": "t:settings_schema.social_media.settings.social_vimeo_link.label",
         "info": "t:settings_schema.social_media.settings.social_vimeo_link.info"
+      },
+      {
+        "type": "header",
+        "content": "Tracking pixels"
+      },
+      {
+        "type": "text",
+        "id": "facebook_pixel_id",
+        "label": "Facebook Pixel ID",
+        "default": "561057779931363",
+        "info": "Enter your Facebook Pixel ID (e.g., 1234567890). Find it in Meta Events Manager."
       }
     ]
   },
