@@ -72,10 +72,13 @@
     {%- endcase -%}
   {%- endcapture -%}
 
-  {%- comment -%} Output meta keywords tag {%- endcomment -%}
-  <meta name="keywords" content="{{ seo_keywords | strip_newlines | strip | escape }}">
+  {%- comment -%}
+    Meta keywords tag removed: Google has officially ignored <meta name="keywords"> since 2009.
+    Stuffed keyword lists provide zero ranking value and risk appearing spammy.
+    The dynamic keyword capture above is retained for potential future use (e.g. internal search analytics).
+  {%- endcomment -%}
 
-  {%- comment -%} Additional transactional intent signals {%- endcomment -%}
+  {%- comment -%} Product & collection meta signals (used by Facebook/social commerce) {%- endcomment -%}
   {%- if request.page_type == 'product' -%}
     <meta name="product:availability" content="{% if product.available %}in stock{% else %}out of stock{% endif %}">
     <meta name="product:price:amount" content="{{ product.price | money_without_currency }}">

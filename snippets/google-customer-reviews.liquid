@@ -1,0 +1,106 @@
+{%- comment -%}
+  Google Customer Reviews — Survey Opt-In
+  CBD Surgeons & Surgeons, LLC / surgeonsolution.io
+  Merchant ID: 5586792336
+
+  DEPLOYMENT INSTRUCTIONS:
+  ========================
+  This script runs on the ORDER CONFIRMATION PAGE (thank you page).
+  Shopify does NOT allow theme files on the checkout/order-status page
+  unless you are on Shopify Plus with checkout.liquid.
+
+  TO INSTALL:
+  1. Go to Shopify Admin → Settings → Checkout
+  2. Scroll to "Order status page" → "Additional scripts"
+  3. Paste the EXACT content between the ═══ markers below
+  4. Save
+
+  The Liquid variables (checkout.order_number, checkout.email, etc.)
+  are only available in the order status page context.
+
+  WHAT IT DOES:
+  - After checkout, Google shows the customer an opt-in to receive
+    a review survey via email
+  - Reviews feed into Google Merchant Center and can show as
+    seller ratings in Google Shopping and Search ads
+  - Directly improves ad CTR and product listing trust
+
+  SEO IMPACT:
+  - Seller ratings in Google Shopping ads (star ratings)
+  - Google Merchant Center trust signals
+  - Increased CTR on Shopping and Search campaigns
+
+  BUD IMPACT:
+  - None. This script only runs on the Shopify-hosted checkout page,
+    which is outside the theme's DOM and BUD's scope.
+
+  LAST UPDATED: 2026-01-27
+  OPERATOR: Ryan Bolda, 130 Dickinson St, Mount Clemens, MI 48043
+{%- endcomment -%}
+
+{%- comment -%}
+  ═══════════════════════════════════════════════════════════════
+  COPY EVERYTHING BELOW THIS LINE INTO:
+  Shopify Admin → Settings → Checkout → Order status page → Additional scripts
+  ═══════════════════════════════════════════════════════════════
+{%- endcomment -%}
+
+<!-- Google Customer Reviews — CBD Surgeons (Merchant ID: 5586792336) -->
+<script src="https://apis.google.com/js/platform.js?onload=renderOptIn" async defer></script>
+
+<script>
+  window.renderOptIn = function() {
+    window.gapi.load('surveyoptin', function() {
+      window.gapi.surveyoptin.render({
+        "merchant_id": 5586792336,
+        "order_id": "{{ checkout.order_number }}",
+        "email": "{{ checkout.email }}",
+        "delivery_country": "{{ checkout.shipping_address.country_code }}",
+        "estimated_delivery_date": "{{ checkout.created_at | date: '%s' | plus: 604800 | date: '%Y-%m-%d' }}",
+        "products": [
+          {%- for line_item in checkout.line_items -%}
+            {%- if line_item.variant.barcode != blank -%}
+              {"gtin": "{{ line_item.variant.barcode }}"}{% unless forloop.last %},{% endunless %}
+            {%- endif -%}
+          {%- endfor -%}
+        ]
+      });
+    });
+  }
+</script>
+
+{%- comment -%}
+  ═══════════════════════════════════════════════════════════════
+  STOP COPYING HERE
+  ═══════════════════════════════════════════════════════════════
+
+  NOTES:
+  - checkout.order_number → Shopify order number (e.g. #1042)
+  - checkout.email → customer email from checkout
+  - checkout.shipping_address.country_code → ISO country code (e.g. "US")
+  - estimated_delivery_date → order date + 7 days (1-2 handling + 2-5 transit)
+  - products[].gtin → product barcodes from Shopify variant data
+    (only included if barcode is populated in Shopify Admin)
+
+  TO ADD BARCODES:
+  Shopify Admin → Products → [Product] → Variants → edit variant → Barcode (ISBN, UPC, GTIN)
+  This feeds both the Product schema (theme.liquid) and Google Customer Reviews.
+
+  OPTIONAL: STOREFRONT BADGE
+  If you want the Google Customer Reviews badge on your storefront,
+  add this to theme.liquid before </body>:
+
+    <script src="https://apis.google.com/js/platform.js?onload=renderBadge" async defer></script>
+    <script>
+      window.renderBadge = function() {
+        var r498498498 = document.createElement("div");
+        r498498498.id = "___ratingbadge";
+        document.body.appendChild(r498498498);
+        window.gapi.load("ratingbadge", function() {
+          window.gapi.ratingbadge.render(r498498498, {"merchant_id": 5586792336, "position": "BOTTOM_RIGHT"});
+        });
+      }
+    </script>
+
+  If adding the badge, ensure apis.google.com is in the CSP (already added in theme.liquid).
+{%- endcomment -%}

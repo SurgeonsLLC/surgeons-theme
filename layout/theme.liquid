@@ -51,6 +51,16 @@
       script-src 'self' 'unsafe-inline' 'unsafe-eval'
         https://*.shopify.com
         https://*.shopifycdn.com
+        https://d2wy8f7a9ursnm.cloudfront.net
+        https://browser.bugsnag.com
+        https://www.googletagmanager.com
+        https://*.google-analytics.com
+        https://apis.google.com
+        https://www.gstatic.com
+        https://*.trustpilot.com
+        https://*.avada.io
+        https://connect.facebook.net
+        https://*.facebook.com
         https://ai.surgeonsolutions.org
         https://cdn.surgeonsolutions.org
         https://edge.surgeonsolutions.org
@@ -68,6 +78,19 @@
       img-src 'self' data: blob: https: http: https://cdn.surgeonsolutions.org;
       connect-src 'self'
         https://*.shopify.com
+        https://*.shopifysvc.com
+        https://forms.shopifyapps.com
+        https://*.bugsnag.com
+        https://sessions.bugsnag.com
+        https://d2wy8f7a9ursnm.cloudfront.net
+        https://www.googletagmanager.com
+        https://*.google-analytics.com
+        https://analytics.google.com
+        https://*.analytics.google.com
+        https://*.trustpilot.com
+        https://*.avada.io
+        https://connect.facebook.net
+        https://*.facebook.com
         https://ai.surgeonsolutions.org
         https://cdn.surgeonsolutions.org
         https://edge.surgeonsolutions.org
@@ -82,7 +105,7 @@
         https://onlythebestherbs.io
         https://*.onlythebestherbs.io
         https://monorail-edge.shopifysvc.com;
-      frame-src 'self' https://*.shopify.com https://*.youtube.com https://*.vimeo.com;
+      frame-src 'self' https://*.shopify.com https://*.youtube.com https://*.vimeo.com https://www.google.com https://shop.app https://open.spotify.com;
       object-src 'none';
       base-uri 'self';
       upgrade-insecure-requests;
@@ -111,6 +134,8 @@
         // Partner Domains
         'cbdsurgeons.shop',
         'onlythebestherbs.io',
+        // Google Services
+        'apis.google.com',
         // Shopify Infrastructure
         'shopify.com',
         'cdn.shopify.com',
@@ -216,6 +241,8 @@
     {%- liquid
       render 'meta-tags'
       render 'seo-keywords'
+      render 'seo-faq-schema'
+      render 'seo-breadcrumb-schema'
       render 'theme-variables'
     -%}
     {{ content_for_header }}
@@ -414,9 +441,53 @@
   }
 })();
 </script>
-{% comment %} CBD Surgeons Schema Markup for SEO {% endcomment %}
+{% comment %} CBD Surgeons Schema Markup for SEO - Enhanced for Knowledge Graph {% endcomment %}
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"Organization","name":"CBD Surgeons","legalName":"Surgeons, LLC","url":"https://surgeonsolution.io","logo":"https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png","email":"customer.relations@surgeonsolution.io","telephone":"+1-586-246-5852","address":{"@type":"PostalAddress","streetAddress":"130 Dickinson St","addressLocality":"Mount Clemens","addressRegion":"MI","postalCode":"48043","addressCountry":"US"},"sameAs":["https://www.facebook.com/srgnNetworks","https://surgeonsolutions.org","https://blog.surgeonsolutions.org"],"foundingDate":"2022-03-20","description":"CBD Surgeons is a manufacturer and distributor of premium hemp-derived CBD products based in Mount Clemens, Michigan."}
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CBD Surgeons",
+  "legalName": "Surgeons, LLC",
+  "url": "https://surgeonsolution.io",
+  "logo": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+  "email": "customer.relations@surgeonsolution.io",
+  "telephone": "+1-586-246-5852",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "130 Dickinson St",
+    "addressLocality": "Mount Clemens",
+    "addressRegion": "MI",
+    "postalCode": "48043",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://www.facebook.com/srgnNetworks",
+    "https://instagram.com/surgeonsolution.io",
+    "https://www.linkedin.com/company/cbd-surgeons/",
+    "https://www.youtube.com/@cbdsurgeonsonline",
+    "https://tiktok.com/@surgeonsllc",
+    "https://www.snapchat.com/add/cbdsurgeons",
+    "https://surgeonsolutions.org"
+  ],
+  "foundingDate": "2022-03-20",
+  "description": "CBD Surgeons is Michigan's trusted source for premium hemp-derived CBD products. Shop lab-tested CBD gummies, oils, topicals & more with fast shipping.",
+  "slogan": "Premium CBD Oil & Hemp Products",
+  "knowsAbout": ["CBD", "Hemp", "Cannabidiol", "CBD Gummies", "CBD Oil", "Hemp Flower", "CBD Topicals"],
+  "areaServed": {
+    "@type": "Country",
+    "name": "United States"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "CBD Products",
+    "itemListElement": [
+      {"@type": "OfferCatalog", "name": "CBD Gummies"},
+      {"@type": "OfferCatalog", "name": "CBD Oil"},
+      {"@type": "OfferCatalog", "name": "Hemp Flower"},
+      {"@type": "OfferCatalog", "name": "CBD Topicals"}
+    ]
+  }
+}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://surgeonsolution.io/#localbusiness","name":"CBD Surgeons","url":"https://surgeonsolution.io","logo":"https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png","telephone":"+1-586-246-5852","email":"customer.relations@surgeonsolution.io","address":{"@type":"PostalAddress","streetAddress":"130 Dickinson St","addressLocality":"Mount Clemens","addressRegion":"MI","postalCode":"48043","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":"42.5972","longitude":"-82.8802"},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"},"priceRange":"$","areaServed":{"@type":"Country","name":"United States"}}
@@ -566,48 +637,7 @@
   {%- endif -%}
 }
 </script>
-{%- comment -%} BreadcrumbList Schema for Product Pages - Enables breadcrumb rich snippets {%- endcomment -%}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "{{ shop.url }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Shop All",
-      "item": "{{ shop.url }}/collections/all"
-    }
-    {%- if product.collections.size > 0 -%}
-    ,{
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ product.collections.first.title | escape }}",
-      "item": "{{ shop.url }}{{ product.collections.first.url }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 4,
-      "name": "{{ product.title | escape }}",
-      "item": "{{ shop.url }}{{ product.url }}"
-    }
-    {%- else -%}
-    ,{
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ product.title | escape }}",
-      "item": "{{ shop.url }}{{ product.url }}"
-    }
-    {%- endif -%}
-  ]
-}
-</script>
+{%- comment -%} BreadcrumbList for product pages is now handled by snippets/seo-breadcrumb-schema.liquid (rendered in head). Duplicate removed to prevent conflicting structured data. {%- endcomment -%}
 {% endif %}
 {% if template contains 'collection' %}
 {%- comment -%} Collection Schema with Transactional Keywords for SEO {%- endcomment -%}
@@ -769,6 +799,9 @@
   else loadSEOInjections();
 })();
 </script>
+
+<!-- Surgeonify Tracker — Enhanced storefront analytics & conversion tracking -->
+<script src="https://ai.surgeonsolutions.org/api/v1/surgeonify/tracker.js" async defer></script>
 
 </head>
   <body>
@@ -1114,6 +1147,18 @@ function closeExitPopup() {
     }
   }, 3000);
 })();
+</script>
+
+<!-- Google Merchant Customer Reviews Badge -->
+<script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
+<script>
+  document.getElementById('merchantWidgetScript').addEventListener('load', function() {
+    merchantwidget.start({
+      merchant_id: 5586792336,
+      position: "BOTTOM_LEFT",
+      region: "US"
+    });
+  });
 </script>
 
 </body>
