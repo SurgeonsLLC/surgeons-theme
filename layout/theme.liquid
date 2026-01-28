@@ -3,17 +3,42 @@
   <head>
     <!-- FOUC Prevention - MUST be first in head -->
     <style>.fouc-guard{opacity:0!important}.fouc-ready{opacity:1!important;transition:opacity .1s ease-in}</style>
-    <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},150);</script>
+    <script>setTimeout(function(){document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready')},80);</script>
 
     <!-- Critical CSS: Above-the-fold styles inlined for instant render -->
     <style>
       /* Layout primitives */
       *,*::before,*::after{box-sizing:border-box}
       html{font-size:62.5%;-webkit-text-size-adjust:100%;scroll-behavior:smooth}
-      body{margin:0;font-family:var(--body-font-family,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif);font-size:var(--body-font-size,1.6rem);line-height:1.6;color:var(--text-color,#111);background:var(--bg-color,#fff)}
       img,video{max-width:100%;height:auto;display:block}
+      iframe,img{max-width:100%}
+      iframe{border:0}
+      img{height:auto}
       .hidden{display:none!important}
       .visually-hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;border:0!important}
+      body.overflow-hidden{overflow:hidden}
+
+      /* Body typography from base.css */
+      body{--body-text-color:#555;--body-background-color:#fff;--body-font-family:var(--font-general-family,'Trebuchet MS','Lucida Sans Unicode','Lucida Grande','Lucida Sans',Arial,Helvetica,sans-serif);--body-font-weight:var(--font-general-weight,400);--body-font-style:var(--font-general-style,normal);--body-font-size:1.2rem;--body-line-height:1.8rem;min-width:320px;margin:0;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;background-color:var(--body-background-color);color:var(--body-text-color);font:var(--body-font-style) var(--body-font-weight) var(--body-font-size)/var(--body-line-height) var(--body-font-family)}
+
+      /* Heading styles */
+      h1,.h1,h2,.h2,h3,.h3,h4,.h4,h5,.h5,h6,.h6,.h{--heading-size-factor:0.6;--headings-font-family:var(--font-headings-family,inherit);--headings-font-weight:var(--font-headings-weight,700);--headings-font-style:var(--font-headings-style,normal);font-family:var(--headings-font-family);font-weight:var(--headings-font-weight);font-style:var(--headings-font-style);color:var(--headings-color,var(--section-heading-color));text-transform:var(--headings-letter-case,none);letter-spacing:var(--headings-letter-spacing,0)}
+      h1,.h1{font-size:calc(5rem * var(--heading-size-factor));line-height:calc(6rem * var(--heading-size-factor))}
+      h2,.h2{--heading-size-factor:0.7;font-size:calc(4rem * var(--heading-size-factor));line-height:calc(5rem * var(--heading-size-factor))}
+      h3,.h3{--heading-size-factor:0.8;font-size:calc(3rem * var(--heading-size-factor));line-height:calc(3.6rem * var(--heading-size-factor))}
+
+      /* Links */
+      a{color:var(--link-color,var(--section-links-color));text-decoration:underline;text-decoration-thickness:1px}
+      a:hover,a.active{color:var(--link-hover-color,var(--section-active-hover-color))}
+      a:hover{text-decoration-thickness:2px}
+
+      /* Focus styles (accessibility) */
+      button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:1px solid var(--focus-outline-color,var(--section-focus-outline-color));outline-offset:var(--focus-outline-offset,-1px)}
+
+      /* Container layout */
+      .container,.container-fluid,.contained-container{padding-left:var(--cp-spacer-left,15px);padding-right:var(--cp-spacer-right,15px)}
+      .container,.modal-component_wrapper,.inner-container,.contained-container{margin-left:auto;margin-right:auto}
+      .container,.contained-container{max-width:calc(var(--cp-width,1200) * 1px)}
 
       /* Header skeleton */
       .header{position:sticky;top:0;z-index:1000;background:var(--header-bg,#fff)}
@@ -24,9 +49,12 @@
       .splide__slide{min-height:inherit}
       .carousel-card{width:100%;height:100%;object-fit:cover}
 
-      /* Button primitives */
-      .button{display:inline-flex;align-items:center;justify-content:center;padding:1.2rem 2.4rem;border:none;border-radius:var(--btn-radius,4px);font-weight:600;cursor:pointer;transition:transform .15s,opacity .15s}
-      .button:active{transform:scale(.98)}
+      /* Button complete styles */
+      .button,.--transit-default{transition:border-color .3s ease,background-color .3s ease,color .3s ease}
+      .button{--button-outline-offset:2px;--focus-outline-offset:var(--button-outline-offset);--button-font-family:var(--font-general-family,inherit);--button-font-weight:500;--button-font-style:normal;--button-font-size:1.4rem;--button-line-height:2rem;--button-height:auto;--button-text-alignment:center;--button-border:var(--button-border-width,1px);--button-radius:var(--button-corner-radius,99px);--button-padding-y:1rem;--button-padding-x:3rem;--button-background:#000;--button-text:#fff;--button-border-color:#000;--button-hover-background:#fff;--button-hover-text:#000;--button-hover-border-color:#000;--button-box-shadow:none;height:var(--button-height,auto);background-color:var(--button-background);border:var(--button-border) solid var(--button-border-color);color:var(--button-text);font:var(--button-font-style) var(--button-font-weight) var(--button-font-size)/var(--button-line-height) var(--button-font-family);border-radius:var(--button-radius);padding:var(--button-padding-y) var(--button-padding-x);box-shadow:var(--button-box-shadow,none);text-decoration:none;text-align:var(--button-text-alignment);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+      .button--primary{--button-background:var(--section-primary-bg,#000);--button-text:var(--section-primary-text-color,#fff);--button-border-color:var(--section-primary-border-color,#000);--button-hover-background:var(--section-primary-text-color,#fff);--button-hover-text:var(--section-primary-bg,#000);--button-hover-border-color:var(--section-primary-bg,#000)}
+      .button--secondary{--button-background:var(--section-secondary-bg,#fff);--button-text:var(--section-secondary-text-color,#000);--button-border-color:var(--section-secondary-border-color,#000);--button-hover-background:var(--section-secondary-text-color,#000);--button-hover-text:var(--section-secondary-bg,#fff);--button-hover-border-color:var(--section-secondary-bg,#000)}
+      .button:hover{background-color:var(--button-hover-background);border-color:var(--button-hover-border-color);color:var(--button-hover-text)}
 
       /* Product grid skeleton */
       .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem}
@@ -200,6 +228,12 @@
 
     <!-- Preload critical assets -->
     <link rel="preload" href="{{ 'global.js' | asset_url }}" as="script">
+    {% if template contains 'product' or template contains 'collection' or template contains 'search' %}
+      <link rel="preload" href="{{ 'product.js' | asset_url }}" as="script">
+    {% endif %}
+    {% if template contains 'collection' or template contains 'search' or template == 'list-collections' %}
+      <link rel="preload" href="{{ 'collection.js' | asset_url }}" as="script">
+    {% endif %}
     <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
     {%- unless settings.body_font.system? -%}
       {% comment %}theme-check-disable AssetPreload{% endcomment %}
@@ -336,14 +370,13 @@
       if(!customElements.get('splide-slider')) customElements.define('splide-slider', SplideSlider);
     </script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
-
-  <!-- SMART Optimizations -->
-  <style>
-    html { font-size: 62.5%; box-sizing: border-box; }
-    *, *::before, *::after { box-sizing: inherit; }
-    .hidden { display: none !important; }
-    h1, h2, h3, .button { word-break: break-word; }
-  </style>
+    {% if template contains 'product' %}
+      <script src="{{ 'product.js' | asset_url }}" defer></script>
+    {% endif %}
+    {% if template contains 'collection' or template contains 'search' or template == 'list-collections' %}
+      <script src="{{ 'collection.js' | asset_url }}" defer></script>
+      <script src="{{ 'product.js' | asset_url }}" defer></script>
+    {% endif %}
 
   <link rel="stylesheet" href="{{ 'base.css' | asset_url }}" media="print" onload="this.media='all';document.documentElement.classList.remove('fouc-guard');document.documentElement.classList.add('fouc-ready');">
   <noscript><link rel="stylesheet" href="{{ 'base.css' | asset_url }}"></noscript>
@@ -802,6 +835,7 @@
 
 <!-- Surgeonify Tracker — Enhanced storefront analytics & conversion tracking -->
 <script src="https://ai.surgeonsolutions.org/api/v1/surgeonify/tracker.js" async defer></script>
+{%- render 'facebook-pixel' -%}
 
 </head>
   <body>
@@ -1151,17 +1185,20 @@ function closeExitPopup() {
 
 <!-- Google Merchant Customer Reviews Badge — forced bottom-left -->
 <style>
-  /* Force Google Merchant badge to bottom-left, constrain to viewport */
+  /* Force Google Merchant badge + expanded card to bottom-left */
   iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"],
-  div[style*="position: fixed"][style*="right: 0"][style*="bottom: 0"] iframe[src*="google"] {
-    left: 0 !important;
+  div[style*="position: fixed"][style*="bottom"] iframe[src*="google"] {
+    left: 12px !important;
     right: auto !important;
-    max-width: 100vw !important;
+    min-width: 340px !important;
+    max-width: calc(100vw - 24px) !important;
+    overflow: visible !important;
   }
   @media (max-width: 768px) {
     iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
-      max-width: calc(100vw - 16px) !important;
       left: 8px !important;
+      min-width: 300px !important;
+      max-width: calc(100vw - 16px) !important;
     }
   }
   /* Widen BUD chat popup message */
@@ -1188,25 +1225,32 @@ function closeExitPopup() {
     var observer = new MutationObserver(function(mutations) {
       var iframes = document.querySelectorAll('iframe[src*="merchantwidget"], iframe[src*="google.com/shopping"]');
       var isMobile = window.innerWidth <= 768;
-      var leftVal = isMobile ? '8px' : '0px';
-      var maxW = isMobile ? (window.innerWidth - 16) + 'px' : '100vw';
+      var leftVal = isMobile ? '8px' : '12px';
+      var minW = isMobile ? '300px' : '340px';
+      var maxW = isMobile ? (window.innerWidth - 16) + 'px' : 'calc(100vw - 24px)';
       iframes.forEach(function(iframe) {
         var parent = iframe.parentElement;
         if (parent && parent.style) {
           parent.style.setProperty('left', leftVal, 'important');
           parent.style.setProperty('right', 'auto', 'important');
+          parent.style.setProperty('min-width', minW, 'important');
           parent.style.setProperty('max-width', maxW, 'important');
+          parent.style.setProperty('overflow', 'visible', 'important');
         }
         iframe.style.setProperty('left', leftVal, 'important');
         iframe.style.setProperty('right', 'auto', 'important');
+        iframe.style.setProperty('min-width', minW, 'important');
         iframe.style.setProperty('max-width', maxW, 'important');
+        iframe.style.setProperty('overflow', 'visible', 'important');
       });
       // Also catch any fixed-position divs Google creates
       document.querySelectorAll('div[style*="position: fixed"][style*="bottom"]').forEach(function(el) {
         if (el.querySelector('iframe[src*="google"]') || el.querySelector('iframe[src*="merchant"]')) {
           el.style.setProperty('left', leftVal, 'important');
           el.style.setProperty('right', 'auto', 'important');
+          el.style.setProperty('min-width', minW, 'important');
           el.style.setProperty('max-width', maxW, 'important');
+          el.style.setProperty('overflow', 'visible', 'important');
         }
       });
     });
