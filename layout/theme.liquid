@@ -133,7 +133,7 @@
         https://onlythebestherbs.io
         https://*.onlythebestherbs.io
         https://monorail-edge.shopifysvc.com;
-      frame-src 'self' https://*.shopify.com https://*.youtube.com https://*.vimeo.com https://www.google.com https://shop.app https://open.spotify.com;
+      frame-src 'self' https://*.shopify.com https://*.youtube.com https://*.vimeo.com https://www.google.com https://shop.app https://open.spotify.com https://*.trustpilot.com https://widget.trustpilot.com;
       object-src 'none';
       base-uri 'self';
       upgrade-insecure-requests;
@@ -835,7 +835,7 @@
 
 <!-- Surgeonify Tracker — Enhanced storefront analytics & conversion tracking -->
 <script src="https://ai.surgeonsolutions.org/api/v1/surgeonify/tracker.js" async defer></script>
-{%- render 'facebook-pixel' -%}
+{%- comment -%}{%- render 'facebook-pixel' -%}{%- endcomment -%}
 
 </head>
   <body>
@@ -1186,8 +1186,15 @@ function closeExitPopup() {
 <!-- Google Merchant Customer Reviews Badge — forced bottom-left -->
 <style>
   /* Force Google Merchant badge + expanded card to bottom-left */
+  /* Disable pointer-events on Google's container so it doesn't block page clicks */
+  div[style*="position: fixed"][style*="bottom"]:has(iframe[src*="google"]),
+  div[style*="position: fixed"][style*="bottom"]:has(iframe[src*="merchant"]) {
+    pointer-events: none !important;
+  }
+  /* Re-enable pointer-events on the actual iframe */
   iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"],
   div[style*="position: fixed"][style*="bottom"] iframe[src*="google"] {
+    pointer-events: auto !important;
     left: 12px !important;
     right: auto !important;
     min-width: 340px !important;
@@ -1236,12 +1243,14 @@ function closeExitPopup() {
           parent.style.setProperty('min-width', minW, 'important');
           parent.style.setProperty('max-width', maxW, 'important');
           parent.style.setProperty('overflow', 'visible', 'important');
+          parent.style.setProperty('pointer-events', 'none', 'important');
         }
         iframe.style.setProperty('left', leftVal, 'important');
         iframe.style.setProperty('right', 'auto', 'important');
         iframe.style.setProperty('min-width', minW, 'important');
         iframe.style.setProperty('max-width', maxW, 'important');
         iframe.style.setProperty('overflow', 'visible', 'important');
+        iframe.style.setProperty('pointer-events', 'auto', 'important');
       });
       // Also catch any fixed-position divs Google creates
       document.querySelectorAll('div[style*="position: fixed"][style*="bottom"]').forEach(function(el) {
@@ -1251,6 +1260,10 @@ function closeExitPopup() {
           el.style.setProperty('min-width', minW, 'important');
           el.style.setProperty('max-width', maxW, 'important');
           el.style.setProperty('overflow', 'visible', 'important');
+          el.style.setProperty('pointer-events', 'none', 'important');
+          // Re-enable pointer-events on the iframe itself
+          var iframeInside = el.querySelector('iframe');
+          if (iframeInside) iframeInside.style.setProperty('pointer-events', 'auto', 'important');
         }
       });
     });
