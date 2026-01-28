@@ -1185,27 +1185,21 @@ function closeExitPopup() {
 
 <!-- Google Merchant Customer Reviews Badge — forced bottom-left -->
 <style>
-  /* Force Google Merchant badge + expanded card to bottom-left */
-  /* Disable pointer-events on Google's container so it doesn't block page clicks */
-  div[style*="position: fixed"][style*="bottom"]:has(iframe[src*="google"]),
-  div[style*="position: fixed"][style*="bottom"]:has(iframe[src*="merchant"]) {
+  /* Kill Google's full-page overlay backdrop */
+  div[style*="position: fixed"][style*="100%"][style*="100%"],
+  div[style*="position: fixed"][style*="inset: 0"],
+  div[style*="position: fixed"][style*="top: 0"][style*="left: 0"][style*="right: 0"] {
     pointer-events: none !important;
   }
-  /* Re-enable pointer-events on the actual iframe */
-  iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"],
-  div[style*="position: fixed"][style*="bottom"] iframe[src*="google"] {
+  /* Badge iframe stays clickable and positioned left */
+  iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
     pointer-events: auto !important;
     left: 12px !important;
     right: auto !important;
-    min-width: 340px !important;
-    max-width: calc(100vw - 24px) !important;
-    overflow: visible !important;
   }
   @media (max-width: 768px) {
     iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
       left: 8px !important;
-      min-width: 300px !important;
-      max-width: calc(100vw - 16px) !important;
     }
   }
   /* Widen BUD chat popup message */
@@ -1228,49 +1222,20 @@ function closeExitPopup() {
       region: "US"
     });
 
-    // Force-reposition the Google badge iframe to bottom-left
-    var observer = new MutationObserver(function(mutations) {
-      var iframes = document.querySelectorAll('iframe[src*="merchantwidget"], iframe[src*="google.com/shopping"]');
-      var isMobile = window.innerWidth <= 768;
-      var leftVal = isMobile ? '8px' : '12px';
-      var minW = isMobile ? '300px' : '340px';
-      var maxW = isMobile ? (window.innerWidth - 16) + 'px' : 'calc(100vw - 24px)';
-      iframes.forEach(function(iframe) {
-        var parent = iframe.parentElement;
-        if (parent && parent.style) {
-          parent.style.setProperty('left', leftVal, 'important');
-          parent.style.setProperty('right', 'auto', 'important');
-          parent.style.setProperty('min-width', minW, 'important');
-          parent.style.setProperty('max-width', maxW, 'important');
-          parent.style.setProperty('overflow', 'visible', 'important');
-          parent.style.setProperty('pointer-events', 'none', 'important');
-        }
-        iframe.style.setProperty('left', leftVal, 'important');
-        iframe.style.setProperty('right', 'auto', 'important');
-        iframe.style.setProperty('min-width', minW, 'important');
-        iframe.style.setProperty('max-width', maxW, 'important');
-        iframe.style.setProperty('overflow', 'visible', 'important');
-        iframe.style.setProperty('pointer-events', 'auto', 'important');
+    // Simple fix: position badge left, kill any overlay
+    setTimeout(function() {
+      // Position the badge iframe to the left
+      document.querySelectorAll('iframe[src*="merchant"]').forEach(function(el) {
+        el.style.cssText += 'left:12px!important;right:auto!important;pointer-events:auto!important;';
       });
-      // Also catch any fixed-position divs Google creates
-      document.querySelectorAll('div[style*="position: fixed"][style*="bottom"]').forEach(function(el) {
-        if (el.querySelector('iframe[src*="google"]') || el.querySelector('iframe[src*="merchant"]')) {
-          el.style.setProperty('left', leftVal, 'important');
-          el.style.setProperty('right', 'auto', 'important');
-          el.style.setProperty('min-width', minW, 'important');
-          el.style.setProperty('max-width', maxW, 'important');
-          el.style.setProperty('overflow', 'visible', 'important');
-          el.style.setProperty('pointer-events', 'none', 'important');
-          // Re-enable pointer-events on the iframe itself
-          var iframeInside = el.querySelector('iframe');
-          if (iframeInside) iframeInside.style.setProperty('pointer-events', 'auto', 'important');
+      // Kill pointer-events on any full-page overlays Google created
+      document.querySelectorAll('body > div[style*="fixed"]').forEach(function(el) {
+        var style = el.getAttribute('style') || '';
+        if (style.includes('100%') || style.includes('inset')) {
+          el.style.pointerEvents = 'none';
         }
       });
-    });
-    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
-
-    // Disconnect observer after 10s to avoid ongoing overhead
-    setTimeout(function() { observer.disconnect(); }, 10000);
+    }, 1000);
   });
 </script>
 
