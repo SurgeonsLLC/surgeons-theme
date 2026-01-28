@@ -1149,7 +1149,25 @@ function closeExitPopup() {
 })();
 </script>
 
-<!-- Google Merchant Customer Reviews Badge -->
+<!-- Google Merchant Customer Reviews Badge — forced bottom-left -->
+<style>
+  /* Force Google Merchant badge to bottom-left */
+  iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"],
+  div[style*="position: fixed"][style*="right: 0"][style*="bottom: 0"] iframe[src*="google"] {
+    left: 0 !important;
+    right: auto !important;
+  }
+  /* Widen BUD chat popup message */
+  #bud-chat-facade ~ div[style*="position"],
+  div[class*="bud"] div[class*="message"],
+  div[class*="bud"] div[class*="popup"],
+  div[class*="chatbot"] div[class*="greeting"],
+  div[class*="chatbot"] div[class*="bubble"] {
+    min-width: 240px !important;
+    width: auto !important;
+    max-width: 300px !important;
+  }
+</style>
 <script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
 <script>
   document.getElementById('merchantWidgetScript').addEventListener('load', function() {
@@ -1158,6 +1176,31 @@ function closeExitPopup() {
       position: "BOTTOM_LEFT",
       region: "US"
     });
+
+    // Force-reposition the Google badge iframe to bottom-left
+    var observer = new MutationObserver(function(mutations) {
+      var iframes = document.querySelectorAll('iframe[src*="merchantwidget"], iframe[src*="google.com/shopping"]');
+      iframes.forEach(function(iframe) {
+        var parent = iframe.parentElement;
+        if (parent && parent.style) {
+          parent.style.setProperty('left', '0px', 'important');
+          parent.style.setProperty('right', 'auto', 'important');
+        }
+        iframe.style.setProperty('left', '0px', 'important');
+        iframe.style.setProperty('right', 'auto', 'important');
+      });
+      // Also catch any fixed-position divs Google creates
+      document.querySelectorAll('div[style*="position: fixed"][style*="bottom"]').forEach(function(el) {
+        if (el.querySelector('iframe[src*="google"]') || el.querySelector('iframe[src*="merchant"]')) {
+          el.style.setProperty('left', '0px', 'important');
+          el.style.setProperty('right', 'auto', 'important');
+        }
+      });
+    });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true });
+
+    // Disconnect observer after 10s to avoid ongoing overhead
+    setTimeout(function() { observer.disconnect(); }, 10000);
   });
 </script>
 
