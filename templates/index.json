@@ -57,6 +57,7 @@
     },
     "custom_liquid_dUCzwX": {
       "type": "custom-liquid",
+      "disabled": true,
       "name": "t:custom_liquid.name",
       "settings": {
         "custom_liquid": "<h1 class=\"visually-hidden\">Premium Full Spectrum CBD Gummies & Cannabinoid Oils</h1>",
