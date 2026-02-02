@@ -55,6 +55,18 @@
         "section_bottom_padding": 10
       }
     },
+    "custom_liquid_dUCzwX": {
+      "type": "custom-liquid",
+      "name": "t:custom_liquid.name",
+      "settings": {
+        "custom_liquid": "<h1 class=\"visually-hidden\">Premium Full Spectrum CBD Gummies & Cannabinoid Oils</h1>",
+        "section_full_width": false,
+        "section_text_alignment": "center",
+        "section_color_scheme": "",
+        "section_top_padding": 0,
+        "section_bottom_padding": 0
+      }
+    },
     "image_gallery": {
       "type": "image-gallery",
       "blocks": {
@@ -1145,6 +1157,7 @@
   "order": [
     "seo_hero_iwfnPg",
     "featured_video_Jnpa3J",
+    "custom_liquid_dUCzwX",
     "image_gallery",
     "richtext_d8fYRC",
     "featured_collection_2",
