@@ -836,6 +836,18 @@
 
 <!-- CBD Surgeons Cookie Consent Banner -->
 <script src="https://ai.surgeonsolutions.org/api/v1/consent/widget.js" async></script>
+<style>
+  /* Move cookie consent banner to top of page */
+  [class*="cookie-consent"], [class*="cookie-banner"], [id*="cookie-consent"], [id*="cookie-banner"],
+  [class*="consent-banner"], [id*="consent-banner"], [class*="surgeons-consent"], [id*="surgeons-consent"] {
+    top: 0 !important;
+    bottom: auto !important;
+  }
+  /* Ensure body has padding at top when banner is visible */
+  body.has-cookie-banner {
+    padding-top: 60px;
+  }
+</style>
 
 </head>
   <body>
