@@ -470,8 +470,9 @@
         <div class="{{ section_prefix_class }}_wrapper --q-align {{ section_prefix_class }}--bdr-bottom  {% if follow_exists == 'true' %}follow-flex{% endif %}">
           <div class="{{ section_prefix_class }}_left">
             <div class="logo {{ section_prefix_class }}_logo logo_heading h2">
-              {%- comment -%} SEO: Logo should NOT be H1 {%- endcomment -%}
-              <div class="logo_heading h2 mty">
+              {%- if request.page_type == 'index' -%}
+                <h1 class="logo_heading h2 mty">
+              {%- endif -%}
                   <a href="{{ routes.root_url }}" class="logo_link --word-break --text-decoration-none">
                     {%- liquid
                       assign logo_alt = section.settings.logo.alt | default: shop.name | escape
@@ -504,7 +505,9 @@
                     {%- endif -%}
                     <span class="visually-hidden">{{- shop.name -}}</span>
                   </a>
-              </div>
+              {%- if request.page_type == 'index' -%}
+                </h1>
+              {%- endif -%}
             </div>
             {%- if section.settings.section_description != blank -%}
               <div class="{{ section_prefix_class }}_description {{ section.settings.section_description_size }} {{ section.settings.section_description_weight }} --word-break mty">

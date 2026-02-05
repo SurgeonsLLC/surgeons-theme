@@ -2251,8 +2251,9 @@
           <div class="{{ section_prefix_class }}_nav {{ section_prefix_class }}_align-wrap {{ section_prefix_class }}_grow">
             <div class="{{ section_prefix_class }}_box-logo">
               <div class="logo {{ section_prefix_class }}_logo">
-                {%- comment -%} SEO: Logo should NOT be H1 - main content heading should be H1 {%- endcomment -%}
-                <div class="logo_heading h6 mty">
+                {%- if request.page_type == 'index' -%}
+                  <h1 class="logo_heading h6 mty">
+                {%- endif -%}
                     <a href="{{ routes.root_url }}" class="logo_link --word-break">
                       {%- liquid
                         assign logo_alt = section.settings.logo.alt | default: shop.name | escape
@@ -2284,7 +2285,9 @@
                           {{- shop.name -}}
                       {%- endif -%}
                     </a>
-                </div>
+                {%- if request.page_type == 'index' -%}
+                  </h1>
+                {%- endif -%}
               </div>
             </div>
             <div class="{{ section_prefix_class }}_links-col">
@@ -2343,8 +2346,9 @@
                             </button>
                           </modal-component-toggler>
                           <div class="logo {{ section_prefix_class }}_logo drawer-logo">
-                            {%- comment -%} SEO: Logo should NOT be H1 {%- endcomment -%}
-                            <div class="logo_heading h6 mty">
+                            {%- if request.page_type == 'index' -%}
+                              <h1 class="logo_heading h6 mty">
+                            {%- endif -%}
                                 <a href="{{ routes.root_url }}" class="logo_link --word-break">
                                   {%- liquid
                                     assign logo_alt = section.settings.logo.alt | default: shop.name | escape
@@ -2376,7 +2380,9 @@
                                       {{- shop.name -}}
                                   {%- endif -%}
                                 </a>
-                            </div>
+                            {%- if request.page_type == 'index' -%}
+                              </h1>
+                            {%- endif -%}
                           </div>
                           <ul class="drawer-user-link list-unstyled">
                             {%- if section.settings.show_customer -%}

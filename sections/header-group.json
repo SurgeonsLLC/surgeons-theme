@@ -11,14 +11,6 @@
   "type": "header",
   "name": "Header Group",
   "sections": {
-    "phone_bar": {
-      "type": "header-phone-bar",
-      "settings": {
-        "phone_number": "(586) 246-5852",
-        "label_text": "Call Us Today:",
-        "section_color_scheme": "scheme1"
-      }
-    },
     "header_top_bar": {
       "type": "header-top-bar",
       "settings": {
@@ -125,7 +117,6 @@
     }
   },
   "order": [
-    "phone_bar",
     "header_top_bar",
     "header"
   ]
