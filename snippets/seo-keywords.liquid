@@ -1,0 +1,109 @@
+{%- comment -%}
+  SEO Transactional Keywords Snippet
+  surgeonsolution.io - CBD Surgeons & Surgeons, LLC
+
+  Injects transactional keywords for improved search engine rankings
+  on purchase-intent queries like "buy CBD online", "order CBD gummies", etc.
+{%- endcomment -%}
+
+{%- liquid
+  assign enable_keywords = settings.seo_enable_keywords | default: true
+  assign brand_name = settings.seo_brand_name | default: 'CBD Surgeons'
+  assign enable_local = settings.seo_enable_local | default: true
+-%}
+
+{%- if enable_keywords -%}
+  {%- comment -%} Build dynamic keyword list based on page type {%- endcomment -%}
+  {%- capture seo_keywords -%}
+    {%- case request.page_type -%}
+      {%- when 'index' -%}
+        buy CBD online, shop CBD products, order CBD, CBD for sale, premium CBD, {{ brand_name }}, hemp products online, CBD store, purchase CBD, CBD delivery, online CBD shop
+        {%- if enable_local -%}
+          , CBD {{ settings.seo_local_city }}, CBD {{ settings.seo_local_state }}, {{ settings.seo_local_region | replace: ', ', ' CBD, ' }} CBD
+        {%- endif -%}
+
+      {%- when 'collection' -%}
+        {%- assign collection_keywords = collection.title | downcase -%}
+        shop {{ collection_keywords }}, buy {{ collection_keywords }} online, order {{ collection_keywords }}, {{ collection_keywords }} for sale, best {{ collection_keywords }}, premium {{ collection_keywords }}, {{ brand_name }} {{ collection_keywords }}
+        {%- if collection_keywords contains 'gummies' or collection_keywords contains 'gummy' -%}
+          , CBD gummies online, buy CBD edibles, order CBD gummies, gummies for sale, hemp gummies
+        {%- endif -%}
+        {%- if collection_keywords contains 'flower' -%}
+          , CBD flower online, buy hemp flower, order CBD buds, hemp flower for sale, premium flower
+        {%- endif -%}
+        {%- if collection_keywords contains 'topical' -%}
+          , CBD topicals online, buy CBD cream, order CBD balm, CBD lotion for sale, hemp topicals
+        {%- endif -%}
+        {%- if collection_keywords contains 'drink' or collection_keywords contains 'beverage' -%}
+          , CBD drinks online, buy CBD beverages, order CBD soda, CBD seltzers for sale, hemp drinks
+        {%- endif -%}
+        {%- if collection_keywords contains 'pet' -%}
+          , CBD for pets, buy pet CBD, order dog CBD, cat CBD for sale, hemp pet products
+        {%- endif -%}
+
+      {%- when 'product' -%}
+        {%- assign product_keywords = product.title | downcase -%}
+        {%- assign product_type_kw = product.type | downcase | default: 'CBD product' -%}
+        buy {{ product_keywords }}, order {{ product_keywords }}, {{ product_keywords }} for sale, shop {{ product_type_kw }}, {{ brand_name }}, premium {{ product_type_kw }}, best {{ product_type_kw }}
+        {%- if product.tags.size > 0 -%}
+          {%- for tag in product.tags limit: 5 -%}
+            {%- unless tag contains ':' or tag contains '_' -%}
+              , {{ tag | downcase }}
+            {%- endunless -%}
+          {%- endfor -%}
+        {%- endif -%}
+        {%- if product.available -%}
+          , in stock, ships today, fast shipping, buy now
+        {%- endif -%}
+
+      {%- when 'search' -%}
+        {%- if search.terms != blank -%}
+          buy {{ search.terms }}, order {{ search.terms }}, {{ search.terms }} for sale, shop {{ search.terms }}
+        {%- else -%}
+          search CBD products, find CBD, browse CBD, {{ brand_name }} products
+        {%- endif -%}
+
+      {%- when 'blog' or 'article' -%}
+        CBD information, hemp education, CBD guide, {{ brand_name }} blog, learn about CBD, CBD benefits, hemp knowledge
+
+      {%- else -%}
+        buy CBD online, shop CBD, {{ brand_name }}, CBD products, hemp products, order CBD
+
+    {%- endcase -%}
+  {%- endcapture -%}
+
+  {%- comment -%}
+    Meta keywords tag removed: Google has officially ignored <meta name="keywords"> since 2009.
+    Stuffed keyword lists provide zero ranking value and risk appearing spammy.
+    The dynamic keyword capture above is retained for potential future use (e.g. internal search analytics).
+  {%- endcomment -%}
+
+  {%- comment -%} Product & collection meta signals (used by Facebook/social commerce) {%- endcomment -%}
+  {%- if request.page_type == 'product' -%}
+    <meta name="product:availability" content="{% if product.available %}in stock{% else %}out of stock{% endif %}">
+    <meta name="product:price:amount" content="{{ product.price | money_without_currency }}">
+    <meta name="product:price:currency" content="{{ shop.currency }}">
+    <meta name="product:retailer_item_id" content="{{ product.id }}">
+    <meta name="product:brand" content="{{ brand_name }}">
+    {%- if product.selected_or_first_available_variant.sku != blank -%}
+      <meta name="product:sku" content="{{ product.selected_or_first_available_variant.sku }}">
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if request.page_type == 'collection' -%}
+    <meta name="category" content="{{ collection.title }}">
+    <meta name="product:category" content="{{ collection.title }}">
+    {%- if collection.products_count > 0 -%}
+      <meta name="collection:product_count" content="{{ collection.products_count }}">
+    {%- endif -%}
+  {%- endif -%}
+
+{%- endif -%}
+
+{%- comment -%} Geo-targeting meta tags for local SEO {%- endcomment -%}
+{%- if enable_local -%}
+  <meta name="geo.region" content="US-MI">
+  <meta name="geo.placename" content="{{ settings.seo_local_city | default: 'Mount Clemens' }}">
+  <meta name="geo.position" content="42.5972;-82.8802">
+  <meta name="ICBM" content="42.5972, -82.8802">
+{%- endif -%}

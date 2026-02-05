@@ -1,0 +1,47 @@
+{% comment %}
+  SurgeonsEdge CDN Image Helper
+  CBD Surgeons & Surgeons, LLC / surgeonsolution.io
+
+  Usage: {%- render 'surgeons-cdn-image', src: image_url, width: 400, quality: 80 -%}
+  Returns: CDN-optimized URL when live, original URL otherwise.
+
+  Set cdn_live to true and update cdn_base when the endpoint is ready.
+
+  DEPLOYMENT COMMANDS (Ryan Bolda, 130 Dickinson St, Mount Clemens, MI 48043):
+  - Development: shopify theme dev --store=cbdsurgeons.myshopify.com
+  - Preview: shopify theme push --unpublished
+  - Production: shopify theme push --live
+{% endcomment %}
+
+{% assign cdn_live = false %}
+{% assign cdn_base = 'https://cdn.surgeonsolutions.org/optimize/' %}
+
+{% if cdn_live and src != blank %}
+  {%- liquid
+    assign cdn_params = ''
+    if width
+      assign cdn_params = cdn_params | append: 'w=' | append: width
+    endif
+    if height
+      if cdn_params != ''
+        assign cdn_params = cdn_params | append: '&'
+      endif
+      assign cdn_params = cdn_params | append: 'h=' | append: height
+    endif
+    if quality
+      if cdn_params != ''
+        assign cdn_params = cdn_params | append: '&'
+      endif
+      assign cdn_params = cdn_params | append: 'q=' | append: quality
+    endif
+    if cdn_params != ''
+      assign cdn_params = cdn_params | append: '&'
+    endif
+    assign cdn_params = cdn_params | append: 'f=auto'
+    assign encoded_src = src | url_encode
+    assign cdn_url = cdn_base | append: encoded_src | append: '?' | append: cdn_params
+  -%}
+  {{- cdn_url -}}
+{% else %}
+  {{- src -}}
+{% endif %}

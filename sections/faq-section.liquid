@@ -1,0 +1,379 @@
+{%- comment -%}
+  FAQ Section with Schema - CBD Surgeons
+
+  This section provides:
+  1. FRONTEND: Visible FAQ accordion for users to read
+  2. BACKEND: FAQPage schema markup for Google rich results
+
+  Google shows FAQ rich results in search, expanding your listing.
+
+  Usage: Add this section to any page via Theme Editor.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_scheme_class = section.settings.color_scheme | prepend: 'scheme scheme--'
+
+  capture section_container_layout
+    case section.settings.container_layout
+      when 'page-width'
+        echo 'container'
+      when 'contained-content'
+        echo 'contained-container'
+      when 'container-fluid'
+        echo 'container-fluid'
+    endcase
+  endcapture
+-%}
+
+{%- style -%}
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .faq-section {
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  .faq-section_header {
+    text-align: {{ section.settings.heading_align }};
+    margin-bottom: 32px;
+  }
+
+  .faq-section_heading {
+    margin: 0 0 8px;
+  }
+
+  .faq-section_subheading {
+    margin: 0;
+    max-width: 600px;
+    {% if section.settings.heading_align == 'center' %}
+    margin-left: auto;
+    margin-right: auto;
+    {% endif %}
+  }
+
+  .faq-section_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 900px;
+    {% if section.settings.heading_align == 'center' %}
+    margin-left: auto;
+    margin-right: auto;
+    {% endif %}
+  }
+
+  .faq-section_item {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .faq-section_item:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .faq-section_question {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--color-heading);
+    transition: color 0.2s ease;
+  }
+
+  .faq-section_question:hover {
+    color: var(--color-hover-active);
+  }
+
+  .faq-section_icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-section_item.is-open .faq-section_icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-section_answer {
+    display: none;
+    padding: 0 0 20px;
+    color: var(--color-text);
+    line-height: 1.7;
+  }
+
+  .faq-section_item.is-open .faq-section_answer {
+    display: block;
+  }
+
+  .faq-section_answer p {
+    margin: 0 0 12px;
+  }
+
+  .faq-section_answer p:last-child {
+    margin-bottom: 0;
+  }
+{%- endstyle -%}
+
+<section class="faq-section {{ section_scheme_class }}">
+  <div class="{{ section_container_layout }}">
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="faq-section_header">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="faq-section_heading {{ section.settings.heading_size }}">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="faq-section_subheading --text-alternative">
+            {{ section.settings.subheading }}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="faq-section_list" role="list">
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank and block.settings.answer != blank -%}
+            <li class="faq-section_item" {{ block.shopify_attributes }}>
+              <button
+                class="faq-section_question"
+                type="button"
+                aria-expanded="false"
+                aria-controls="faq-answer-{{ block.id }}"
+              >
+                <span>{{ block.settings.question }}</span>
+                <svg class="faq-section_icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              <div
+                class="faq-section_answer"
+                id="faq-answer-{{ block.id }}"
+                role="region"
+              >
+                {{ block.settings.answer }}
+              </div>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- comment -%} BACKEND SEO: FAQPage Schema for Google Rich Results {%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {%- for block in section.blocks -%}
+          {%- if block.settings.question != blank and block.settings.answer != blank -%}
+            {
+              "@type": "Question",
+              "name": {{ block.settings.question | json }},
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": {{ block.settings.answer | strip_html | json }}
+              }
+            }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endif -%}
+        {%- endfor -%}
+      ]
+    }
+  </script>
+{%- endif -%}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-section_item');
+
+    faqItems.forEach(function(item) {
+      const button = item.querySelector('.faq-section_question');
+
+      button.addEventListener('click', function() {
+        const isOpen = item.classList.contains('is-open');
+
+        // Close all other items (accordion behavior)
+        faqItems.forEach(function(otherItem) {
+          otherItem.classList.remove('is-open');
+          otherItem.querySelector('.faq-section_question').setAttribute('aria-expanded', 'false');
+        });
+
+        // Toggle current item
+        if (!isOpen) {
+          item.classList.add('is-open');
+          button.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "FAQ Section",
+  "tag": "section",
+  "class": "faq-section-wrapper",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Frequently Asked Questions"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Find answers to common questions about our CBD products, shipping, and more."
+    },
+    {
+      "type": "header",
+      "content": "Typography"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "options": [
+        { "value": "h2", "label": "Large" },
+        { "value": "h3", "label": "Medium" },
+        { "value": "h4", "label": "Small" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "select",
+      "id": "heading_align",
+      "label": "Text alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "container_layout",
+      "label": "Container width",
+      "options": [
+        { "value": "page-width", "label": "Page width" },
+        { "value": "contained-content", "label": "Contained" },
+        { "value": "container-fluid", "label": "Full width" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 60,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "What is CBD?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>CBD (cannabidiol) is a natural compound found in hemp plants. Unlike THC, CBD is non-psychoactive, meaning it won't get you high. Our CBD products are derived from USA-grown hemp and are third-party lab tested for quality and purity.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ Section",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is CBD?",
+            "answer": "<p>CBD (cannabidiol) is a natural compound found in hemp plants. Unlike THC, CBD is non-psychoactive, meaning it won't get you high. Our CBD products are derived from USA-grown hemp and are third-party lab tested for quality and purity.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I choose the right CBD product?",
+            "answer": "<p>The best CBD product depends on your preferences and needs. CBD gummies are great for convenient, pre-measured doses. CBD topicals work well for targeted application. CBD flower offers the fastest effects. Our team is happy to help you find the right product - contact us anytime!</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is CBD legal?",
+            "answer": "<p>Yes! CBD derived from hemp containing less than 0.3% THC is federally legal in the United States under the 2018 Farm Bill. All CBD Surgeons products comply with federal regulations and are made from legal, USA-grown hemp.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>We offer fast shipping on all orders! Most orders ship within 1-2 business days and arrive within 2-5 business days depending on your location. Free shipping is available on orders over $74.99.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your return policy?",
+            "answer": "<p>We offer a 30-day satisfaction guarantee on all products. If you're not completely satisfied with your purchase, contact us for a full refund or exchange. Your satisfaction is our priority!</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

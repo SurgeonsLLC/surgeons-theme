@@ -1,0 +1,630 @@
+{% comment %}
+  ================================================================================
+  SURGEONS SECURITY & PERFORMANCE SUITE v2.0
+  ================================================================================
+
+  Integrated security and performance optimization layer for surgeonsolution.io
+  Leverages surgeonsolutions.org infrastructure for:
+  - Edge CDN asset delivery
+  - Script optimization API
+  - WAF / SQL injection protection
+  - Enhanced security headers
+  - Real-time threat detection
+
+  Organization: CBD Surgeons & Surgeons, LLC
+  Operator: Ryan Bolda - 130 Dickinson St, Mount Clemens, MI 48043
+
+  DEPLOYMENT COMMANDS:
+  - Development: shopify theme dev --store=cbdsurgeons.myshopify.com
+  - Preview: shopify theme push --unpublished
+  - Production: shopify theme push --live
+
+  Last Updated: 2026-01-16
+  ================================================================================
+{% endcomment %}
+
+{% comment %} Enhanced Security Headers via Meta Tags {% endcomment %}
+{% comment %} Note: X-Frame-Options must be set via HTTP header, not meta tag {% endcomment %}
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-XSS-Protection" content="1; mode=block">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(self), usb=()">
+
+{% comment %} Preconnect to Surgeons Infrastructure {% endcomment %}
+<link rel="preconnect" href="https://cdn.surgeonsolutions.org" crossorigin>
+<link rel="preconnect" href="https://edge.surgeonsolutions.org" crossorigin>
+<link rel="preconnect" href="https://waf.surgeonsolutions.org" crossorigin>
+<link rel="dns-prefetch" href="https://cdn.surgeonsolutions.org">
+<link rel="dns-prefetch" href="https://edge.surgeonsolutions.org">
+<link rel="dns-prefetch" href="https://waf.surgeonsolutions.org">
+
+<script>
+/**
+ * SURGEONS SECURITY & PERFORMANCE SUITE v2.0
+ * Integrated protection and optimization layer
+ *
+ * Services:
+ * - cdn.surgeonsolutions.org: Edge CDN for assets
+ * - edge.surgeonsolutions.org: Script optimization API
+ * - waf.surgeonsolutions.org: Web Application Firewall
+ * - ai.surgeonsolutions.org: AI services (existing)
+ */
+(function() {
+  'use strict';
+
+  // ==========================================================================
+  // CONFIGURATION
+  // ==========================================================================
+  var SURGEONS_CONFIG = {
+    version: '2.0.0',
+    cdnBase: 'https://cdn.surgeonsolutions.org',
+    edgeBase: 'https://edge.surgeonsolutions.org',
+    wafBase: 'https://waf.surgeonsolutions.org',
+    aiBase: 'https://ai.surgeonsolutions.org',
+    websiteId: 'surgeonsolution-io',
+    debug: window.location.search.includes('debug=true')
+  };
+
+  // ==========================================================================
+  // SURGEONS EDGE CDN SERVICE
+  // ==========================================================================
+  window.SurgeonsEdge = {
+    version: SURGEONS_CONFIG.version,
+
+    /**
+     * Transform asset URL to use Surgeons CDN
+     * Provides: compression, WebP conversion, edge caching
+     */
+    cdnUrl: function(originalUrl, options) {
+      options = options || {};
+      var params = [];
+
+      if (options.width) params.push('w=' + options.width);
+      if (options.height) params.push('h=' + options.height);
+      if (options.quality) params.push('q=' + options.quality);
+      if (options.format) params.push('f=' + options.format);
+
+      var queryString = params.length ? '?' + params.join('&') : '';
+      var encodedUrl = encodeURIComponent(originalUrl);
+
+      return SURGEONS_CONFIG.cdnBase + '/optimize/' + encodedUrl + queryString;
+    },
+
+    /**
+     * Preload critical assets via edge
+     */
+    preloadAsset: function(url, as, crossorigin) {
+      var link = document.createElement('link');
+      link.rel = 'preload';
+      link.href = this.cdnUrl(url);
+      link.as = as || 'fetch';
+      if (crossorigin) link.crossOrigin = 'anonymous';
+      document.head.appendChild(link);
+    },
+
+    /**
+     * Load optimized script bundle from edge
+     */
+    loadOptimizedBundle: function(scripts, callback) {
+      var bundleUrl = SURGEONS_CONFIG.edgeBase + '/api/v1/bundle';
+      var payload = {
+        website_id: SURGEONS_CONFIG.websiteId,
+        scripts: scripts,
+        minify: true,
+        sourcemap: SURGEONS_CONFIG.debug
+      };
+
+      fetch(bundleUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(response) { return response.json(); })
+      .then(function(data) {
+        if (data.bundleUrl) {
+          var script = document.createElement('script');
+          script.src = data.bundleUrl;
+          script.defer = true;
+          script.onload = callback;
+          document.head.appendChild(script);
+        }
+      })
+      .catch(function(err) {
+        if (SURGEONS_CONFIG.debug) console.error('[Surgeons Edge] Bundle error:', err);
+        // Fallback: load scripts individually
+        scripts.forEach(function(src) {
+          var s = document.createElement('script');
+          s.src = src;
+          s.defer = true;
+          document.head.appendChild(s);
+        });
+        if (callback) callback();
+      });
+    }
+  };
+
+  // ==========================================================================
+  // SURGEONS WAF - WEB APPLICATION FIREWALL
+  // ==========================================================================
+  window.SurgeonsWAF = {
+    version: SURGEONS_CONFIG.version,
+
+    // SQL Injection patterns
+    sqlPatterns: [
+      /(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|TRUNCATE|EXEC|UNION|DECLARE)\b)/gi,
+      /(--|#|\/\*|\*\/)/g,
+      /(\b(OR|AND)\b\s+\d+\s*=\s*\d+)/gi,
+      /(;\s*(SELECT|INSERT|UPDATE|DELETE|DROP))/gi,
+      /('|")\s*(OR|AND)\s*('|")\s*=\s*('|")/gi,
+      /(CONCAT|CHAR|ASCII|SUBSTRING|LENGTH)\s*\(/gi,
+      /(0x[0-9a-fA-F]+)/g,
+      /(SLEEP|BENCHMARK|WAITFOR)\s*\(/gi
+    ],
+
+    // XSS patterns
+    xssPatterns: [
+      /<script[^>]*>[\s\S]*?<\/script>/gi,
+      /javascript:/gi,
+      /on\w+\s*=/gi,
+      /<iframe[^>]*>/gi,
+      /<object[^>]*>/gi,
+      /<embed[^>]*>/gi,
+      /<svg[^>]*onload/gi,
+      /expression\s*\(/gi,
+      /vbscript:/gi,
+      /data:text\/html/gi
+    ],
+
+    // Path traversal patterns
+    pathTraversalPatterns: [
+      /\.\.\//g,
+      /\.\.\\+/g,
+      /%2e%2e%2f/gi,
+      /%252e%252e%252f/gi,
+      /\.\.%c0%af/gi,
+      /\.\.%c1%9c/gi
+    ],
+
+    /**
+     * Validate input against WAF rules
+     * Returns: { safe: boolean, threats: string[], sanitized: string }
+     */
+    validateInput: function(input, options) {
+      options = options || {};
+      var result = {
+        safe: true,
+        threats: [],
+        sanitized: input,
+        score: 0
+      };
+
+      if (typeof input !== 'string') return result;
+
+      // Check SQL Injection
+      if (options.checkSQL !== false) {
+        this.sqlPatterns.forEach(function(pattern) {
+          if (pattern.test(input)) {
+            result.safe = false;
+            result.threats.push('SQL_INJECTION');
+            result.score += 50;
+          }
+        });
+      }
+
+      // Check XSS
+      if (options.checkXSS !== false) {
+        this.xssPatterns.forEach(function(pattern) {
+          if (pattern.test(input)) {
+            result.safe = false;
+            result.threats.push('XSS');
+            result.score += 40;
+          }
+        });
+      }
+
+      // Check Path Traversal
+      if (options.checkPathTraversal !== false) {
+        this.pathTraversalPatterns.forEach(function(pattern) {
+          if (pattern.test(input)) {
+            result.safe = false;
+            result.threats.push('PATH_TRAVERSAL');
+            result.score += 30;
+          }
+        });
+      }
+
+      // Sanitize if requested
+      if (options.sanitize && !result.safe) {
+        result.sanitized = this.sanitize(input);
+      }
+
+      // Deduplicate threats
+      result.threats = [...new Set(result.threats)];
+
+      return result;
+    },
+
+    /**
+     * Sanitize potentially malicious input
+     */
+    sanitize: function(input) {
+      if (typeof input !== 'string') return input;
+
+      return input
+        // Escape HTML entities
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#x27;')
+        // Remove null bytes
+        .replace(/\x00/g, '')
+        // Remove SQL comment sequences
+        .replace(/--/g, '')
+        .replace(/\/\*/g, '')
+        .replace(/\*\//g, '');
+    },
+
+    /**
+     * Protect all forms on the page
+     */
+    protectForms: function() {
+      var self = this;
+
+      document.addEventListener('submit', function(e) {
+        var form = e.target;
+        if (!form || form.tagName !== 'FORM') return;
+
+        var inputs = form.querySelectorAll('input, textarea, select');
+        var blocked = false;
+        var threats = [];
+
+        inputs.forEach(function(input) {
+          if (input.type === 'hidden' || input.type === 'submit' || input.type === 'button') return;
+
+          var validation = self.validateInput(input.value);
+          if (!validation.safe) {
+            blocked = true;
+            threats = threats.concat(validation.threats);
+
+            // Highlight problematic field
+            input.style.borderColor = '#dc2626';
+            input.style.boxShadow = '0 0 0 3px rgba(220, 38, 38, 0.2)';
+          }
+        });
+
+        if (blocked) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          // Log threat to WAF service
+          self.reportThreat({
+            type: 'FORM_INJECTION',
+            threats: [...new Set(threats)],
+            page: window.location.pathname,
+            form: form.action || 'unknown'
+          });
+
+          // Show user-friendly error
+          var errorMsg = document.createElement('div');
+          errorMsg.className = 'surgeons-waf-error';
+          errorMsg.innerHTML = '<strong>Security Alert:</strong> Invalid characters detected. Please remove special characters and try again.';
+          errorMsg.style.cssText = 'background:#fef2f2;color:#dc2626;padding:12px 16px;border-radius:8px;margin:12px 0;font-size:14px;border:1px solid #fecaca;';
+
+          var existingError = form.querySelector('.surgeons-waf-error');
+          if (existingError) existingError.remove();
+          form.insertBefore(errorMsg, form.firstChild);
+
+          if (SURGEONS_CONFIG.debug) {
+            console.warn('[Surgeons WAF] Blocked form submission:', threats);
+          }
+        }
+      }, true);
+
+      if (SURGEONS_CONFIG.debug) {
+        console.log('[Surgeons WAF] Form protection enabled');
+      }
+    },
+
+    /**
+     * Protect URL parameters
+     */
+    protectURLParams: function() {
+      var self = this;
+      var params = new URLSearchParams(window.location.search);
+      var threats = [];
+
+      params.forEach(function(value, key) {
+        var validation = self.validateInput(value);
+        if (!validation.safe) {
+          threats.push({
+            param: key,
+            threats: validation.threats
+          });
+        }
+      });
+
+      if (threats.length > 0) {
+        this.reportThreat({
+          type: 'URL_INJECTION',
+          threats: threats,
+          page: window.location.pathname,
+          query: window.location.search
+        });
+
+        if (SURGEONS_CONFIG.debug) {
+          console.warn('[Surgeons WAF] Suspicious URL parameters detected:', threats);
+        }
+      }
+    },
+
+    /**
+     * Report threat to WAF service
+     */
+    reportThreat: function(data) {
+      var payload = {
+        website_id: SURGEONS_CONFIG.websiteId,
+        timestamp: Date.now(),
+        userAgent: navigator.userAgent,
+        referrer: document.referrer,
+        ...data
+      };
+
+      // Use beacon for reliable delivery
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(
+          SURGEONS_CONFIG.wafBase + '/api/v1/threats',
+          JSON.stringify(payload)
+        );
+      } else {
+        fetch(SURGEONS_CONFIG.wafBase + '/api/v1/threats', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          keepalive: true
+        }).catch(function() {});
+      }
+    },
+
+    /**
+     * Initialize WAF protection
+     */
+    init: function() {
+      this.protectForms();
+      this.protectURLParams();
+
+      if (SURGEONS_CONFIG.debug) {
+        console.log('[Surgeons WAF] Initialized v' + this.version);
+      }
+    }
+  };
+
+  // ==========================================================================
+  // ENHANCED SECURITY MODULE
+  // ==========================================================================
+  window.SurgeonsSecurity = window.SurgeonsSecurity || {};
+
+  // Extend existing security module
+  Object.assign(window.SurgeonsSecurity, {
+    version: SURGEONS_CONFIG.version,
+
+    allowedDomains: [
+      'surgeonsolutions.org',
+      'ai.surgeonsolutions.org',
+      'cdn.surgeonsolutions.org',
+      'edge.surgeonsolutions.org',
+      'waf.surgeonsolutions.org',
+      'surgeonsolution.io',
+      'www.surgeonsolution.io',
+      'records.surgeonsolution.io',
+      'accounts.surgeonsolution.io',
+      'realsurgeons.accounts.surgeonsolution.io',
+      'cbdsurgeons.shop',
+      'onlythebestherbs.io',
+      'shopify.com',
+      'cdn.shopify.com',
+      'monorail-edge.shopifysvc.com'
+    ],
+
+    isAllowedDomain: function(url) {
+      try {
+        var parsed = new URL(url);
+        var hostname = parsed.hostname.toLowerCase();
+        return this.allowedDomains.some(function(domain) {
+          return hostname === domain || hostname.endsWith('.' + domain);
+        });
+      } catch (e) {
+        return false;
+      }
+    },
+
+    secureFetch: function(url, options) {
+      if (!this.isAllowedDomain(url)) {
+        console.error('[Surgeons Security] Blocked request to unauthorized domain:', url);
+        return Promise.reject(new Error('Domain not in allowlist: ' + url));
+      }
+      return fetch(url, options);
+    },
+
+    /**
+     * Generate secure nonce for inline scripts
+     */
+    generateNonce: function() {
+      var array = new Uint8Array(16);
+      crypto.getRandomValues(array);
+      return btoa(String.fromCharCode.apply(null, array));
+    },
+
+    /**
+     * Validate and sanitize all user inputs
+     */
+    sanitizeInput: function(input) {
+      return window.SurgeonsWAF.sanitize(input);
+    }
+  });
+
+  // ==========================================================================
+  // ENHANCED PERFORMANCE MONITORING
+  // ==========================================================================
+  window.SurgeonsPerf = {
+    version: SURGEONS_CONFIG.version,
+    metrics: {},
+
+    /**
+     * Collect all performance metrics
+     */
+    collectMetrics: function() {
+      var self = this;
+
+      // Navigation timing
+      if (performance.timing) {
+        var t = performance.timing;
+        this.metrics.ttfb = t.responseStart - t.requestStart;
+        this.metrics.domLoad = t.domContentLoadedEventEnd - t.navigationStart;
+        this.metrics.windowLoad = t.loadEventEnd - t.navigationStart;
+        this.metrics.dns = t.domainLookupEnd - t.domainLookupStart;
+        this.metrics.tcp = t.connectEnd - t.connectStart;
+        this.metrics.ssl = t.connectEnd - t.secureConnectionStart;
+      }
+
+      // Core Web Vitals via PerformanceObserver
+      if ('PerformanceObserver' in window) {
+        // LCP
+        try {
+          new PerformanceObserver(function(list) {
+            var entries = list.getEntries();
+            var lastEntry = entries[entries.length - 1];
+            self.metrics.lcp = Math.round(lastEntry.startTime);
+          }).observe({ type: 'largest-contentful-paint', buffered: true });
+        } catch(e) {}
+
+        // FID
+        try {
+          new PerformanceObserver(function(list) {
+            var entry = list.getEntries()[0];
+            self.metrics.fid = Math.round(entry.processingStart - entry.startTime);
+          }).observe({ type: 'first-input', buffered: true });
+        } catch(e) {}
+
+        // CLS
+        try {
+          var clsValue = 0;
+          new PerformanceObserver(function(list) {
+            list.getEntries().forEach(function(entry) {
+              if (!entry.hadRecentInput) {
+                clsValue += entry.value;
+              }
+            });
+            self.metrics.cls = Math.round(clsValue * 1000) / 1000;
+          }).observe({ type: 'layout-shift', buffered: true });
+        } catch(e) {}
+
+        // INP
+        try {
+          var maxINP = 0;
+          new PerformanceObserver(function(list) {
+            list.getEntries().forEach(function(entry) {
+              if (entry.interactionId && entry.duration > maxINP) {
+                maxINP = entry.duration;
+                self.metrics.inp = Math.round(maxINP);
+              }
+            });
+          }).observe({ type: 'event', buffered: true, durationThreshold: 16 });
+        } catch(e) {}
+
+        // Resource timing
+        try {
+          new PerformanceObserver(function(list) {
+            var resources = list.getEntries();
+            var jsSize = 0, cssSize = 0, imgSize = 0;
+
+            resources.forEach(function(r) {
+              var size = r.transferSize || 0;
+              if (r.initiatorType === 'script') jsSize += size;
+              else if (r.initiatorType === 'link' || r.initiatorType === 'css') cssSize += size;
+              else if (r.initiatorType === 'img') imgSize += size;
+            });
+
+            self.metrics.jsBytes = jsSize;
+            self.metrics.cssBytes = cssSize;
+            self.metrics.imgBytes = imgSize;
+            self.metrics.totalBytes = jsSize + cssSize + imgSize;
+          }).observe({ type: 'resource', buffered: true });
+        } catch(e) {}
+      }
+    },
+
+    /**
+     * Report metrics to Surgeons telemetry
+     */
+    report: function() {
+      var self = this;
+
+      window.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'hidden') {
+          var payload = {
+            website_id: SURGEONS_CONFIG.websiteId,
+            page: window.location.pathname,
+            timestamp: Date.now(),
+            metrics: self.metrics,
+            userAgent: navigator.userAgent,
+            connection: navigator.connection ? {
+              effectiveType: navigator.connection.effectiveType,
+              downlink: navigator.connection.downlink,
+              rtt: navigator.connection.rtt
+            } : null
+          };
+
+          if (navigator.sendBeacon) {
+            navigator.sendBeacon(
+              SURGEONS_CONFIG.aiBase + '/api/v1/telemetry/performance',
+              JSON.stringify(payload)
+            );
+          }
+
+          if (SURGEONS_CONFIG.debug) {
+            console.log('[Surgeons Perf] Metrics:', self.metrics);
+          }
+        }
+      });
+    },
+
+    /**
+     * Initialize performance monitoring
+     */
+    init: function() {
+      this.collectMetrics();
+      this.report();
+
+      if (SURGEONS_CONFIG.debug) {
+        console.log('[Surgeons Perf] Initialized v' + this.version);
+      }
+    }
+  };
+
+  // ==========================================================================
+  // INITIALIZATION
+  // ==========================================================================
+  function initSurgeonsSuite() {
+    // Initialize WAF protection
+    window.SurgeonsWAF.init();
+
+    // Initialize performance monitoring
+    window.SurgeonsPerf.init();
+
+    // Log initialization
+    if (SURGEONS_CONFIG.debug) {
+      console.log('[Surgeons Suite] Security & Performance Suite v' + SURGEONS_CONFIG.version + ' initialized');
+      console.log('[Surgeons Suite] Services: Edge CDN, WAF, Performance Monitoring');
+    }
+  }
+
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSurgeonsSuite);
+  } else {
+    initSurgeonsSuite();
+  }
+
+})();
+</script>

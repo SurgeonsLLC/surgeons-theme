@@ -78,9 +78,81 @@
         {%- endif -%}
       </ul>
     {%- endif -%}
-    <h2 class="mty {{ section_prefix_class }}_heading {{ block.settings.block_heading_weight }} {{ block.settings.block_heading_size }}">
+    {%- comment -%} SEO: Product title MUST be H1 for proper page hierarchy {%- endcomment -%}
+    <h1 class="mty {{ section_prefix_class }}_heading {{ block.settings.block_heading_weight }} {{ block.settings.block_heading_size }}">
       {{- product.title -}}
-    </h2>
+    </h1>
+  </div>
+{%- when 'product_description' -%}
+  {%- comment -%} SEO: Visible product description for search engines and users {%- endcomment -%}
+  {%- if product.description != blank -%}
+    <div
+      class="{{ section_prefix_class }}_row {{ section_prefix_class }}_row--description {% if block.settings.block_top_bdr %}{{ section_prefix_class }}_row--bdr-top{% endif %} {% if block.settings.block_bottom_bdr %}{{ section_prefix_class }}_row--bdr-bottom{% endif %}"
+      style="--block-spacing: {{ block.settings.block_spacing }}px;"
+      {{ block.shopify_attributes }}
+    >
+      {%- if block.settings.show_heading -%}
+        <h2 class="{{ section_prefix_class }}_description-heading {{ block.settings.block_heading_size }} {{ block.settings.block_heading_weight }} mty">
+          {{ block.settings.heading | default: 'About This Product' }}
+        </h2>
+      {%- endif -%}
+      <div class="{{ section_prefix_class }}_description-content {{ block.settings.block_text_size }} {{ block.settings.block_text_weight }}" itemprop="description">
+        {%- if block.settings.truncate_description -%}
+          {%- assign description_length = product.description | strip_html | size -%}
+          {{ product.description | strip_html | truncate: 500 }}
+          {%- if description_length > 500 -%}
+            <details class="{{ section_prefix_class }}_description-more">
+              <summary class="button button--link">Read more</summary>
+              <div class="{{ section_prefix_class }}_description-full">
+                {{ product.description }}
+              </div>
+            </details>
+          {%- endif -%}
+        {%- else -%}
+          {{ product.description }}
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+{%- when 'trust_badges' -%}
+  {%- comment -%} SEO: Trust signals for conversion and credibility {%- endcomment -%}
+  <div
+    class="{{ section_prefix_class }}_row {{ section_prefix_class }}_row--trust-badges {% if block.settings.block_top_bdr %}{{ section_prefix_class }}_row--bdr-top{% endif %} {% if block.settings.block_bottom_bdr %}{{ section_prefix_class }}_row--bdr-bottom{% endif %}"
+    style="--block-spacing: {{ block.settings.block_spacing }}px;"
+    {{ block.shopify_attributes }}
+  >
+    <ul class="list-unstyled {{ section_prefix_class }}_trust-badges" style="display:flex;flex-wrap:wrap;gap:12px;margin:0;padding:0;">
+      {%- if block.settings.show_lab_tested -%}
+        <li class="{{ section_prefix_class }}_trust-badge" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--section-foreground-color);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2v-4M9 21H5a2 2 0 0 1-2-2v-4"/><line x1="14" y1="9" x2="14" y2="15"/><line x1="11" y1="12" x2="17" y2="12"/></svg>
+          <span>Lab Tested</span>
+        </li>
+      {%- endif -%}
+      {%- if block.settings.show_fast_shipping -%}
+        <li class="{{ section_prefix_class }}_trust-badge" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--section-foreground-color);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          <span>Fast Shipping</span>
+        </li>
+      {%- endif -%}
+      {%- if block.settings.show_secure_checkout -%}
+        <li class="{{ section_prefix_class }}_trust-badge" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--section-foreground-color);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Secure Checkout</span>
+        </li>
+      {%- endif -%}
+      {%- if block.settings.show_satisfaction -%}
+        <li class="{{ section_prefix_class }}_trust-badge" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--section-foreground-color);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <span>Satisfaction Guaranteed</span>
+        </li>
+      {%- endif -%}
+      {%- if block.settings.show_usa_hemp -%}
+        <li class="{{ section_prefix_class }}_trust-badge" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--section-foreground-color);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#10b981;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span>USA-Grown Hemp</span>
+        </li>
+      {%- endif -%}
+    </ul>
   </div>
 {%- when 'text' -%}
   <div

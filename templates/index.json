@@ -9,6 +9,30 @@
  */
 {
   "sections": {
+    "seo_hero_iwfnPg": {
+      "type": "seo-hero",
+      "name": "SEO Hero (H1)",
+      "settings": {
+        "caption": "Full Spectrum Solutions",
+        "heading": "CBD Surgeons | CBD Oil, Gummies & Hemp | Michigan USA",
+        "subheading": "Buy lab-tested CBD gummies, hemp flower, topicals & more. Fast shipping on all orders. Michigan's trusted CBD source since 2022. Serving local and online customers every day.",
+        "button_label": "Shop Now",
+        "button_link": "shopify://collections/all",
+        "button_label_2": "Cannabinoid Academy",
+        "button_link_2": "shopify://blogs/surgeons-online-cbd-cannabinoid-academy",
+        "show_trust_text": true,
+        "trust_text": "Lab Tested • Fast Shipping • Satisfaction Guaranteed",
+        "heading_size": "h1",
+        "heading_weight": "--fw-bold",
+        "text_size": "text-size--large",
+        "text_weight": "--fw-normal",
+        "text_align": "center",
+        "container_layout": "page-width",
+        "color_scheme": "",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
     "featured_video_Jnpa3J": {
       "type": "featured-video",
       "name": "t:sections.video.name",
@@ -1119,6 +1143,7 @@
     }
   },
   "order": [
+    "seo_hero_iwfnPg",
     "featured_video_Jnpa3J",
     "image_gallery",
     "richtext_d8fYRC",
