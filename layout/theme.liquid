@@ -541,5 +541,61 @@ function closeExitPopup() {
 .sg-trust-badge svg{width:18px;height:18px;color:#10b981;}
 </style>
 
+<!-- Google Merchant Customer Reviews Badge — forced bottom-left -->
+<style>
+  /* Kill Google's full-page overlay backdrop (exclude exit popup) */
+  div[style*="position: fixed"][style*="100%"][style*="100%"]:not(#sg-exit-popup),
+  div[style*="position: fixed"][style*="inset: 0"]:not(#sg-exit-popup),
+  div[style*="position: fixed"][style*="top: 0"][style*="left: 0"][style*="right: 0"]:not(#sg-exit-popup) {
+    pointer-events: none !important;
+  }
+  /* Badge iframe stays clickable and positioned left */
+  iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
+    pointer-events: auto !important;
+    left: 12px !important;
+    right: auto !important;
+  }
+  @media (max-width: 768px) {
+    iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
+      left: 8px !important;
+    }
+  }
+  /* Widen BUD chat popup message */
+  #bud-chat-facade ~ div[style*="position"],
+  div[class*="bud"] div[class*="message"],
+  div[class*="bud"] div[class*="popup"],
+  div[class*="chatbot"] div[class*="greeting"],
+  div[class*="chatbot"] div[class*="bubble"] {
+    min-width: 240px !important;
+    width: auto !important;
+    max-width: 300px !important;
+  }
+</style>
+<script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
+<script>
+  document.getElementById('merchantWidgetScript').addEventListener('load', function() {
+    merchantwidget.start({
+      merchant_id: 5586792336,
+      position: "BOTTOM_LEFT",
+      region: "US"
+    });
+
+    // Simple fix: position badge left, kill any overlay
+    setTimeout(function() {
+      // Position the badge iframe to the left
+      document.querySelectorAll('iframe[src*="merchant"]').forEach(function(el) {
+        el.style.cssText += 'left:12px!important;right:auto!important;pointer-events:auto!important;';
+      });
+      // Kill pointer-events on any full-page overlays Google created (exclude exit popup)
+      document.querySelectorAll('body > div[style*="fixed"]').forEach(function(el) {
+        var style = el.getAttribute('style') || '';
+        if (el.id !== 'sg-exit-popup' && (style.includes('100%') || style.includes('inset'))) {
+          el.style.pointerEvents = 'none';
+        }
+      });
+    }, 1000);
+  });
+</script>
+
 </body>
 </html>
