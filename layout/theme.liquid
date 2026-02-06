@@ -818,7 +818,7 @@
         c.innerHTML = inj.code;
         var t = inj.placement === 'body' ? document.body : document.head;
         while (c.firstChild) {
-          if (c.firstChild.nodeType === 1) c.firstChild.setAttribute('seo', inj.id);
+          if (c.firstChild.nodeType === 1) c.firstChild.setAttribute('data-surgeons-seo', inj.id);
           t.appendChild(c.firstChild);
         }
       });
