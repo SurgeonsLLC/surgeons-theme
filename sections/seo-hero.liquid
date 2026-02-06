@@ -78,7 +78,7 @@
 
       {%- comment -%} SEO: This is the PRIMARY H1 for the homepage {%- endcomment -%}
       <h1 class="seo-hero_heading {{ section.settings.heading_size }} {{ section.settings.heading_weight }}">
-        {{ section.settings.heading  }}
+        {{ section.settings.heading | default: 'Premium CBD Oil & Hemp Products | CBD Surgeons Michigan' }}
       </h1>
 
       {%- if section.settings.subheading != blank -%}
