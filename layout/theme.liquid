@@ -269,7 +269,7 @@
       {%- endcase -%}
     {%- endcapture -%}
     {% comment %} <title>{{ seo_title | strip_newlines | strip }}</title> {% endcomment %}
-    <title>{% if template == 'index' %} Premium Full Spectrum CBD Gummies, Oils & More | Shop Now {% else %} {{ seo_title | strip_newlines | strip }} {% endif %}</title>
+    <title>{{ seo_title | strip_newlines | strip }}</title>
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
