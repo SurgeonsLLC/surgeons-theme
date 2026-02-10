@@ -256,7 +256,7 @@
     {%- capture seo_title -%}
       {%- case request.page_type -%}
         {%- when 'index' -%}
-          {% if settings.seo_homepage_title != blank %}{{ settings.seo_homepage_title }}{% else %}{{ shop.name }}{% if settings.seo_homepage_title_suffix != blank %} {{ settings.seo_homepage_title_suffix }}{% endif %}{% endif %}
+          {% if settings.seo_homepage_title != blank %}{{ settings.seo_homepage_title }}{% else %}{{ shop.name }} {% endif %} {% if settings.seo_homepage_title_suffix != blank %} {{ settings.seo_homepage_title_suffix }}{% endif %}
         {%- when 'collection' -%}
           {% if settings.seo_collection_title_prefix != blank %}{{ settings.seo_collection_title_prefix }} {% endif %}{{ collection.title }}{% if settings.seo_collection_title_suffix != blank %} {{ settings.seo_collection_title_suffix }}{% endif %} - {{ shop.name }}
         {%- when 'product' -%}
