@@ -253,7 +253,7 @@
       <link rel="shortcut icon" href="{{ settings.favicon_icon | image_url: width: 32, height: 32 }}">
     {%- endif -%}
     {%- comment -%} Enhanced SEO Title with Transactional Keywords {%- endcomment -%}
-    {%- capture seo_title -%}
+    {% comment %} {%- capture seo_title -%}
       {%- case request.page_type -%}
         {%- when 'index' -%}
           {% if settings.seo_homepage_title != blank %}{{ settings.seo_homepage_title }}{% else %}{{ shop.name }} {% endif %} {% if settings.seo_homepage_title_suffix != blank %} {{ settings.seo_homepage_title_suffix }}{% endif %}
@@ -267,9 +267,15 @@
           {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
           {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
       {%- endcase -%}
-    {%- endcapture -%}
+    {%- endcapture -%} {% endcomment %}
     {% comment %} <title>{{ seo_title | strip_newlines | strip }}</title> {% endcomment %}
-    <title>{{ seo_title | strip_newlines | strip }}</title>
+    {% comment %} <title>{{ seo_title | strip_newlines | strip }}</title> {% endcomment %}
+     <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
