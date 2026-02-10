@@ -268,7 +268,8 @@
           {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
       {%- endcase -%}
     {%- endcapture -%}
-    <title>Premium Full Spectrum CBD Gummies, Oils & More | Shop Now</title>
+    {% comment %} <title>{{ seo_title | strip_newlines | strip }}</title> {% endcomment %}
+    <title>{% if template == 'index' %} Premium Full Spectrum CBD Gummies, Oils & More | Shop Now {% else %} {{ seo_title | strip_newlines | strip }} {% endif %}</title>
     {%- if page_description -%}
       <meta name="description" content="{{ page_description | escape }}">
     {%- endif -%}
