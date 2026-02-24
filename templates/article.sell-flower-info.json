@@ -206,7 +206,7 @@
       ],
       "name": "t:sections.featured_product.name",
       "settings": {
-        "product": "cbd-flower-online",
+        "product": "surgeonscbdfloweronline",
         "product_media_size": "adapt",
         "gallery_view": "slider_view",
         "gallery_auto_play": false,
@@ -254,7 +254,7 @@
             "description": "",
             "button_label": "Shop Edibles",
             "type": "secondary",
-            "url": "shopify://collections/surgeons-gummies-express",
+            "url": "shopify://collections/cbd-gummies-for-sleep",
             "open_new_window": false
           }
         },
