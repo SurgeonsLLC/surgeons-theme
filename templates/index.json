@@ -9,6 +9,36 @@
  */
 {
   "sections": {
+    "1771970719ff7125ae": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_df5c25d_iFcM4J": {
+          "type": "ai_gen_block_df5c25d",
+          "settings": {
+            "button_text": "Call us now",
+            "phone_number": "1-586-504-7627",
+            "show_icon": true,
+            "desktop_width_percent": 30,
+            "button_color": "#ec0000",
+            "button_hover_color": "#181818",
+            "button_text_color": "#ffffff",
+            "button_hover_text_color": "#ffffff",
+            "border_color": "#000000",
+            "border_hover_color": "#181818",
+            "border_width": 0,
+            "border_radius": 8,
+            "font_size": 16,
+            "button_padding": 14,
+            "icon_size": 20
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_df5c25d_iFcM4J"
+      ],
+      "settings": {}
+    },
     "seo_hero_iwfnPg": {
       "type": "seo-hero",
       "name": "SEO Hero (H1)",
@@ -1143,6 +1173,7 @@
     }
   },
   "order": [
+    "1771970719ff7125ae",
     "seo_hero_iwfnPg",
     "featured_video_Jnpa3J",
     "image_gallery",
