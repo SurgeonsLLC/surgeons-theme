@@ -114,10 +114,36 @@
         "section_color_scheme": "",
         "links_font_weight": "--fw-semi-bold"
       }
+    },
+    "1771971032364d9592": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_d220131_MwxKTQ": {
+          "type": "ai_gen_block_d220131",
+          "settings": {
+            "phone_number": "586-246-5852",
+            "button_text": "Call Now",
+            "button_color": "#dc2626",
+            "button_hover_color": "#b91c1c",
+            "button_text_color": "#ffffff",
+            "button_hover_text_color": "#ffffff",
+            "font_size": 16,
+            "button_padding": 16,
+            "border_radius": 8,
+            "icon_size": 20
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_d220131_MwxKTQ"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "header_top_bar",
-    "header"
+    "header",
+    "1771971032364d9592"
   ]
 }
