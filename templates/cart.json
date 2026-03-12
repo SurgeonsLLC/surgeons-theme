@@ -29,7 +29,7 @@
         "icon_heading_weight": "--fw-semi-bold",
         "icon_text_size": "text-size--medium",
         "icon_description_weight": "--fw-normal",
-        "section_container_layout": "contained-content",
+        "section_container_layout": "page-width",
         "section_corner_radius": "no_corners_radius",
         "section_color_scheme": "scheme2",
         "section_top_padding": 73,
