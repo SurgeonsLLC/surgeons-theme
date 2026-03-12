@@ -8,6 +8,21 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "custom_liquid_TXq8kC": {
+      "type": "custom-liquid",
+      "name": "t:custom_liquid.name",
+      "settings": {
+        "custom_liquid": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2937.163150680151!2d-82.87431362333994!3d42.594281871172036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882521b189550c5d%3A0x931563c9eec02163!2sCBD%20Surgeons!5e0!3m2!1sen!2sus!4v1773341269675!5m2!1sen!2sus\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+        "section_full_width": false,
+        "section_text_alignment": "center",
+        "section_color_scheme": "",
+        "section_top_padding": 60,
+        "section_bottom_padding": 60
+      }
+    }
+  },
+  "order": [
+    "custom_liquid_TXq8kC"
+  ]
 }
