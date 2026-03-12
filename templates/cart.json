@@ -23,7 +23,7 @@
         "show_top_bdr": false,
         "show_bottom_bdr": false,
         "breadcrumb_corner_radius": "bottom_corners_radius",
-        "breadcrumb_container_layout": "page-width",
+        "breadcrumb_container_layout": "contained-content",
         "breadcrumb_color_scheme": "",
         "icon_heading_size": "h6",
         "icon_heading_weight": "--fw-semi-bold",
