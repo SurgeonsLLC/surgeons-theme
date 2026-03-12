@@ -8,6 +8,216 @@
  * ------------------------------------------------------------
  */
 {
-  "sections": {},
-  "order": []
+  "sections": {
+    "featured_product_wM9gME": {
+      "type": "featured-product",
+      "blocks": {
+        "scroll_text_VXgdcd": {
+          "type": "scroll_text",
+          "settings": {
+            "heading": "Your scrolling text here",
+            "block_heading_size": "text-size--medium",
+            "block_heading_weight": "--fw-medium",
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 10
+          }
+        },
+        "heading_CMUUmw": {
+          "type": "heading",
+          "settings": {
+            "heading": "Featured Product",
+            "block_heading_size": "h4",
+            "block_heading_weight": "--fw-extra-bold",
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 14
+          }
+        },
+        "tags_3iD9Fm": {
+          "type": "tags",
+          "settings": {
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 7
+          }
+        },
+        "title_i8pFfd": {
+          "type": "title",
+          "settings": {
+            "show_vendor": true,
+            "show_stock": true,
+            "block_text_size": "text-size--small",
+            "block_text_weight": "--fw-medium",
+            "block_heading_size": "h5",
+            "block_heading_weight": "--fw-bold",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 7
+          }
+        },
+        "text_XAPW8h": {
+          "type": "text",
+          "settings": {
+            "heading": "<p>Discover our carefully crafted product, designed with quality materials and attention to detail. Perfect for everyday use or special occasions.</p>",
+            "block_text_size": "text-size--medium",
+            "block_text_weight": "--fw-normal",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 4
+          }
+        },
+        "variants_price_kGqHiA": {
+          "type": "variants_price",
+          "settings": {
+            "show_price": true,
+            "show_sku": true,
+            "show_unitprice": true,
+            "show_variation": true,
+            "show_size_chart": true,
+            "block_spacing": 15
+          }
+        },
+        "quantity_input_8VHa4X": {
+          "type": "quantity_input",
+          "settings": {
+            "show_subtotal": true,
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 13
+          }
+        },
+        "buttons_RDDQhj": {
+          "type": "buttons",
+          "settings": {
+            "show_dynamic_checkouts": true,
+            "show_whatsapp": false,
+            "whatsapp_number": "",
+            "custom_message": "Hi! I'm interested in learning more about the ||product_url||. Could you please provide more details or assist me with the purchase? Looking forward to your response! Thank you!",
+            "block_top_bdr": false,
+            "block_bottom_bdr": false,
+            "block_spacing": 18
+          }
+        },
+        "detail_link_4pXnC7": {
+          "type": "detail_link",
+          "settings": {
+            "detail_label": "View details",
+            "open_new_window": false,
+            "block_top_bdr": false,
+            "block_bottom_bdr": true,
+            "block_spacing": 0
+          }
+        }
+      },
+      "block_order": [
+        "scroll_text_VXgdcd",
+        "heading_CMUUmw",
+        "tags_3iD9Fm",
+        "title_i8pFfd",
+        "text_XAPW8h",
+        "variants_price_kGqHiA",
+        "quantity_input_8VHa4X",
+        "buttons_RDDQhj",
+        "detail_link_4pXnC7"
+      ],
+      "name": "t:sections.featured_product.name",
+      "settings": {
+        "product": "original850tincture",
+        "product_media_size": "adapt",
+        "gallery_view": "slider_view",
+        "gallery_auto_play": false,
+        "gallery_show_navigation": true,
+        "gallery_change_slides_every": 5,
+        "marquee_speed": 15,
+        "marquee_direction": "marquee_backward",
+        "marquee_on_hover": false,
+        "section_container_layout": "page-width",
+        "section_corner_radius": "both_corners_radius",
+        "section_color_scheme": "",
+        "section_top_padding": 50,
+        "section_bottom_padding": 50
+      }
+    },
+    "collection_list_mnwx7x": {
+      "type": "collection-list",
+      "blocks": {
+        "collection_block_G87xc3": {
+          "type": "collection_block",
+          "settings": {
+            "collection": "full-spectrum-hemp-topicals",
+            "collection_custom_badges": "{Tag,#000000,#FFFFFF}"
+          }
+        },
+        "collection_block_nTyiKz": {
+          "type": "collection_block",
+          "settings": {
+            "collection": "cbd-gummies-for-sleep",
+            "collection_custom_badges": "{Tag,#000000,#FFFFFF}"
+          }
+        },
+        "collection_block_AKCcnb": {
+          "type": "collection_block",
+          "settings": {
+            "collection": "pet-solutions",
+            "collection_custom_badges": "{Tag,#000000,#FFFFFF}"
+          }
+        },
+        "collection_block_ckwMfQ": {
+          "type": "collection_block",
+          "settings": {
+            "collection": "surgeons-apparel",
+            "collection_custom_badges": "{Tag,#000000,#FFFFFF}"
+          }
+        }
+      },
+      "block_order": [
+        "collection_block_G87xc3",
+        "collection_block_nTyiKz",
+        "collection_block_AKCcnb",
+        "collection_block_ckwMfQ"
+      ],
+      "name": "t:sections.collection_list.name",
+      "settings": {
+        "view_type": "slideshow",
+        "section_caption": "Chat with BUD to Learn More",
+        "section_caption_size": "text-size--medium",
+        "section_caption_weight": "--fw-medium",
+        "section_heading": "Popular Collections",
+        "section_heading_size": "h4",
+        "section_heading_weight": "--fw-extra-bold",
+        "section_description": "",
+        "description_text_size": "text-size--medium",
+        "section_description_weight": "--fw-normal",
+        "max_header_size": 60,
+        "view_more_label": "",
+        "view_more_link": "",
+        "open_new_window": false,
+        "card_heading_size": "h6",
+        "card_heading_weight": "--fw-bold",
+        "card_media_size": "square",
+        "show_tags": true,
+        "show_title": true,
+        "show_counts": true,
+        "show_animation_on_hover": true,
+        "show_animation_bar": true,
+        "section_container_layout": "container-fluid",
+        "section_corner_radius": "no_corners_radius",
+        "section_text_alignment": "center",
+        "section_mobile_text_alignment": "center",
+        "section_color_scheme": "",
+        "number_of_columns_on_desktop": 7,
+        "number_of_columns_on_mobile": "2",
+        "auto_play": true,
+        "show_pagination": true,
+        "change_slides_every": 9,
+        "section_top_padding": 50,
+        "section_bottom_padding": 50
+      }
+    }
+  },
+  "order": [
+    "featured_product_wM9gME",
+    "collection_list_mnwx7x"
+  ]
 }
