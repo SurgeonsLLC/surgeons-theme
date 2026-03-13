@@ -1,0 +1,343 @@
+{%- comment -%}
+  Geo Intelligence Layer
+  surgeonsolution.io — CBD Surgeons & Surgeons, LLC
+
+  Three-part geo system:
+  1. Browser geolocation (consent-gated) + Shopify localization fallback
+  2. Geo data enrichment for Surgeonify analytics events
+  3. Dynamic "nearest store" UI with distance calculation
+
+  Store coordinates are defined inline so the theme doesn't depend on
+  an external API for basic proximity calculations.
+{%- endcomment -%}
+
+<script>
+(function() {
+  'use strict';
+
+  // ============================================================
+  // STORE LOCATIONS DATABASE
+  // Add new locations here as CBD Surgeons expands
+  // ============================================================
+  var STORES = [
+    {
+      id: 'mount-clemens-hq',
+      name: 'CBD Surgeons — Mount Clemens',
+      address: '130 Dickinson St, Mount Clemens, MI 48043',
+      city: 'Mount Clemens',
+      state: 'MI',
+      zip: '48043',
+      lat: 42.5972,
+      lng: -82.8802,
+      phone: '+1-586-246-5852',
+      email: 'customer.relations@surgeonsolution.io',
+      hours: 'Mon-Sun: Open',
+      directionsUrl: 'https://maps.app.goo.gl/TGMCuAjJKpTvZeRCA',
+      isHQ: true
+    }
+  ];
+
+  // ============================================================
+  // GEO UTILITIES
+  // ============================================================
+  function haversineDistance(lat1, lng1, lat2, lng2) {
+    var R = 3959; // Earth radius in miles
+    var dLat = (lat2 - lat1) * Math.PI / 180;
+    var dLng = (lng2 - lng1) * Math.PI / 180;
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function findNearestStore(lat, lng) {
+    var nearest = null;
+    var minDist = Infinity;
+    for (var i = 0; i < STORES.length; i++) {
+      var dist = haversineDistance(lat, lng, STORES[i].lat, STORES[i].lng);
+      if (dist < minDist) {
+        minDist = dist;
+        nearest = STORES[i];
+      }
+    }
+    return { store: nearest, distance: Math.round(minDist * 10) / 10 };
+  }
+
+  // ============================================================
+  // GEO DATA STORAGE
+  // Persists visitor geo data in localStorage with TTL
+  // ============================================================
+  var GEO_KEY = 'sg_geo_data';
+  var GEO_TTL = 3600000; // 1 hour
+
+  function saveGeoData(data) {
+    data._ts = Date.now();
+    try { localStorage.setItem(GEO_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function loadGeoData() {
+    try {
+      var raw = localStorage.getItem(GEO_KEY);
+      if (!raw) return null;
+      var data = JSON.parse(raw);
+      if (Date.now() - (data._ts || 0) > GEO_TTL) {
+        localStorage.removeItem(GEO_KEY);
+        return null;
+      }
+      return data;
+    } catch(e) { return null; }
+  }
+
+  // ============================================================
+  // REVERSE GEOCODE (approximate, no API needed)
+  // Maps coordinates to Michigan metro areas for analytics
+  // ============================================================
+  var MI_REGIONS = [
+    { name: 'Mount Clemens', lat: 42.597, lng: -82.880, radius: 5 },
+    { name: 'Detroit', lat: 42.331, lng: -83.046, radius: 15 },
+    { name: 'Sterling Heights', lat: 42.580, lng: -83.030, radius: 5 },
+    { name: 'Warren', lat: 42.477, lng: -83.027, radius: 5 },
+    { name: 'Clinton Township', lat: 42.585, lng: -82.929, radius: 5 },
+    { name: 'Troy', lat: 42.606, lng: -83.150, radius: 5 },
+    { name: 'Royal Oak', lat: 42.489, lng: -83.145, radius: 4 },
+    { name: 'Rochester Hills', lat: 42.658, lng: -83.150, radius: 5 },
+    { name: 'St. Clair Shores', lat: 42.497, lng: -82.891, radius: 4 },
+    { name: 'Shelby Township', lat: 42.670, lng: -83.032, radius: 5 },
+    { name: 'Ann Arbor', lat: 42.281, lng: -83.749, radius: 8 },
+    { name: 'Lansing', lat: 42.733, lng: -84.556, radius: 10 },
+    { name: 'Grand Rapids', lat: 42.963, lng: -85.668, radius: 10 },
+    { name: 'Flint', lat: 43.012, lng: -83.688, radius: 8 }
+  ];
+
+  function approximateCity(lat, lng) {
+    for (var i = 0; i < MI_REGIONS.length; i++) {
+      var r = MI_REGIONS[i];
+      var dist = haversineDistance(lat, lng, r.lat, r.lng);
+      if (dist <= r.radius) return r.name;
+    }
+    return null;
+  }
+
+  // ============================================================
+  // PART 1: GEOLOCATION DETECTION
+  // Consent-gated browser geolocation with Shopify fallback
+  // ============================================================
+  function detectGeo(callback) {
+    // Check cache first
+    var cached = loadGeoData();
+    if (cached && cached.lat) {
+      callback(cached);
+      return;
+    }
+
+    // Try browser geolocation (requires user consent via browser prompt)
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function(pos) {
+          var geoData = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+            accuracy: Math.round(pos.coords.accuracy),
+            source: 'browser',
+            city: approximateCity(pos.coords.latitude, pos.coords.longitude),
+            country: '{{ localization.country.iso_code | default: "US" }}'
+          };
+          var result = findNearestStore(geoData.lat, geoData.lng);
+          geoData.nearestStore = result.store ? result.store.id : null;
+          geoData.distanceToStore = result.distance;
+          saveGeoData(geoData);
+          callback(geoData);
+        },
+        function(err) {
+          // Geolocation denied or unavailable — use Shopify localization fallback
+          var fallback = {
+            lat: null,
+            lng: null,
+            source: 'shopify_localization',
+            country: '{{ localization.country.iso_code | default: "US" }}',
+            city: null,
+            nearestStore: 'mount-clemens-hq',
+            distanceToStore: null
+          };
+          saveGeoData(fallback);
+          callback(fallback);
+        },
+        { timeout: 5000, maximumAge: 3600000, enableHighAccuracy: false }
+      );
+    } else {
+      // No geolocation API — Shopify fallback only
+      var fallback = {
+        lat: null,
+        lng: null,
+        source: 'shopify_localization',
+        country: '{{ localization.country.iso_code | default: "US" }}',
+        city: null,
+        nearestStore: 'mount-clemens-hq',
+        distanceToStore: null
+      };
+      saveGeoData(fallback);
+      callback(fallback);
+    }
+  }
+
+  // ============================================================
+  // PART 2: SURGEONIFY GEO ENRICHMENT
+  // Patches SurgeonsAttribution.getData() to include geo data
+  // ============================================================
+  function enrichSurgeonify(geoData) {
+    if (!window.SurgeonsAttribution) return;
+
+    var origGetData = window.SurgeonsAttribution.getData;
+    window.SurgeonsAttribution.getData = function() {
+      var data = origGetData();
+      data.geo_lat = geoData.lat || '';
+      data.geo_lng = geoData.lng || '';
+      data.geo_source = geoData.source || '';
+      data.geo_city = geoData.city || '';
+      data.geo_country = geoData.country || '';
+      data.geo_nearest_store = geoData.nearestStore || '';
+      data.geo_distance_miles = geoData.distanceToStore || '';
+      return data;
+    };
+
+    // Re-update cart with geo-enriched data
+    if (window.SurgeonsAttribution.updateCart) {
+      window.SurgeonsAttribution.updateCart();
+    }
+  }
+
+  // ============================================================
+  // PART 3: DYNAMIC NEAREST STORE UI
+  // Shows proximity messaging to visitors
+  // ============================================================
+  function renderNearestStoreUI(geoData) {
+    if (!geoData.nearestStore || !geoData.distanceToStore) return;
+
+    var store = null;
+    for (var i = 0; i < STORES.length; i++) {
+      if (STORES[i].id === geoData.nearestStore) { store = STORES[i]; break; }
+    }
+    if (!store) return;
+
+    // Find or create the geo banner container
+    var banner = document.getElementById('surgeons-geo-banner');
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'surgeons-geo-banner';
+      banner.className = 'surgeons-geo-banner';
+      banner.setAttribute('role', 'status');
+      banner.setAttribute('aria-live', 'polite');
+
+      // Insert after header or at top of page-wrapper
+      var header = document.querySelector('.header') || document.querySelector('#shopify-section-header');
+      if (header && header.nextSibling) {
+        header.parentNode.insertBefore(banner, header.nextSibling);
+      } else {
+        var wrapper = document.getElementById('page-wrapper');
+        if (wrapper && wrapper.firstChild) {
+          wrapper.insertBefore(banner, wrapper.firstChild);
+        }
+      }
+    }
+
+    var distanceText = geoData.distanceToStore < 1
+      ? 'less than a mile'
+      : geoData.distanceToStore + ' miles';
+
+    var cityText = geoData.city ? geoData.city : 'your area';
+    var message = '';
+
+    if (geoData.distanceToStore <= 15) {
+      message = '📍 You\'re ' + distanceText + ' from CBD Surgeons in ' + store.city + '! ';
+      message += '<a href="' + store.directionsUrl + '" target="_blank" rel="noopener">Get Directions</a>';
+    } else if (geoData.distanceToStore <= 50) {
+      message = '📍 CBD Surgeons in ' + store.city + ' is ' + distanceText + ' away. ';
+      message += 'Free shipping on orders over $74.99! ';
+      message += '<a href="' + store.directionsUrl + '" target="_blank" rel="noopener">Visit Us</a>';
+    } else {
+      message = '📍 Shipping to ' + cityText + '! Free shipping on orders over $74.99.';
+    }
+
+    banner.innerHTML = '<div class="surgeons-geo-banner__content">' +
+      '<span class="surgeons-geo-banner__text">' + message + '</span>' +
+      '<button class="surgeons-geo-banner__close" aria-label="Close location banner" onclick="this.parentNode.parentNode.remove()">✕</button>' +
+      '</div>';
+    banner.style.display = 'block';
+  }
+
+  // ============================================================
+  // INITIALIZATION
+  // Runs after page is idle to avoid impacting performance
+  // ============================================================
+  function initGeo() {
+    detectGeo(function(geoData) {
+      enrichSurgeonify(geoData);
+      renderNearestStoreUI(geoData);
+
+      // Expose globally for other components (BUD chatbot, etc.)
+      window.SurgeonsGeo = {
+        getData: function() { return loadGeoData() || geoData; },
+        getStores: function() { return STORES; },
+        findNearest: function(lat, lng) { return findNearestStore(lat, lng); },
+        getDistance: function(lat, lng) {
+          var hq = STORES[0];
+          return haversineDistance(lat, lng, hq.lat, hq.lng);
+        }
+      };
+    });
+  }
+
+  // Use requestIdleCallback or fallback to setTimeout
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(initGeo, { timeout: 3000 });
+  } else {
+    setTimeout(initGeo, 1500);
+  }
+
+})();
+</script>
+
+{%- comment -%} Geo banner styles — minimal, non-intrusive {%- endcomment -%}
+<style>
+  .surgeons-geo-banner {
+    display: none;
+    background: var(--section-primary-bg, #1a1a2e);
+    color: var(--section-primary-text-color, #fff);
+    font-size: 1.3rem;
+    line-height: 1.8rem;
+    text-align: center;
+    padding: 8px 16px;
+    position: relative;
+    z-index: 999;
+  }
+  .surgeons-geo-banner__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .surgeons-geo-banner__text {
+    flex: 1;
+  }
+  .surgeons-geo-banner__text a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+  .surgeons-geo-banner__close {
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 1.4rem;
+    padding: 4px 8px;
+    opacity: 0.7;
+    line-height: 1;
+  }
+  .surgeons-geo-banner__close:hover {
+    opacity: 1;
+  }
+</style>

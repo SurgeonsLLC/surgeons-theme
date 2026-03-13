@@ -1,0 +1,345 @@
+{%- comment -%}
+  Geo Landing Page Section
+  surgeonsolution.io — CBD Surgeons & Surgeons, LLC
+
+  Renders city/region-specific CBD landing pages for local SEO.
+  Used with page templates like page.cbd-near-detroit.json,
+  page.cbd-near-sterling-heights.json, etc.
+
+  Each instance generates unique LocalBusiness + geo-targeted schema
+  so AI crawlers and Google associate CBD Surgeons with that city.
+{%- endcomment -%}
+
+{%- liquid
+  assign city = section.settings.city | default: 'Mount Clemens'
+  assign state = section.settings.state | default: 'Michigan'
+  assign region = section.settings.region | default: 'Metro Detroit'
+  assign distance = section.settings.distance_text | default: 'just minutes'
+-%}
+
+{%- style -%}
+  .geo-landing {
+    padding-top: {{ section.settings.section_top_padding }}px;
+    padding-bottom: {{ section.settings.section_bottom_padding }}px;
+  }
+  .geo-landing__hero {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  .geo-landing__hero h1 {
+    margin-bottom: 16px;
+  }
+  .geo-landing__hero p {
+    max-width: 700px;
+    margin: 0 auto 24px;
+    font-size: 1.6rem;
+    line-height: 2.4rem;
+  }
+  .geo-landing__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  @media (min-width: 768px) {
+    .geo-landing__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .geo-landing__card {
+    background: var(--section-widget-background-color, #f8f8f8);
+    border-radius: var(--section-radius, 8px);
+    padding: 24px;
+  }
+  .geo-landing__card h3 {
+    margin-bottom: 12px;
+  }
+  .geo-landing__cta {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .geo-landing__map {
+    margin-top: 40px;
+    border-radius: var(--section-radius, 8px);
+    overflow: hidden;
+  }
+  .geo-landing__map iframe {
+    width: 100%;
+    height: 350px;
+    border: 0;
+  }
+  .geo-landing__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+    margin-top: 32px;
+  }
+  .geo-landing__trust-item {
+    background: var(--section-widget-background-color, #f8f8f8);
+    border-radius: 99px;
+    padding: 8px 20px;
+    font-size: 1.3rem;
+    font-weight: 500;
+  }
+{%- endstyle -%}
+
+<div class="geo-landing container scheme--{{ section.settings.section_color_scheme }}">
+  {%- comment -%} Hero — city-specific heading {%- endcomment -%}
+  <div class="geo-landing__hero">
+    <h1 class="{{ section.settings.heading_size }}">{{ section.settings.heading | default: 'CBD Near ' | append: city }}</h1>
+    <p>{{ section.settings.description | default: 'Looking for premium CBD products near ' | append: city | append: ', ' | append: state | append: '? CBD Surgeons is ' | append: distance | append: ' away, offering lab-tested CBD gummies, oils, topicals, and more with fast delivery to ' | append: region | append: '.' }}</p>
+    <a href="/collections/all" class="button button--primary button--animate">
+      Shop CBD Products
+    </a>
+  </div>
+
+  {%- comment -%} Product category cards {%- endcomment -%}
+  <div class="geo-landing__grid">
+    {%- for block in section.blocks -%}
+      <div class="geo-landing__card" {{ block.shopify_attributes }}>
+        <h3 class="h6 --fw-bold">{{ block.settings.heading }}</h3>
+        <p>{{ block.settings.description }}</p>
+        {%- if block.settings.link_url != blank -%}
+          <a href="{{ block.settings.link_url }}" class="button button--secondary button--animate">
+            {{ block.settings.link_label | default: 'Shop Now' }}
+          </a>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+
+  {%- comment -%} Trust signals {%- endcomment -%}
+  <div class="geo-landing__trust">
+    <span class="geo-landing__trust-item">Third-Party Lab Tested</span>
+    <span class="geo-landing__trust-item">Free Shipping Over $74.99</span>
+    <span class="geo-landing__trust-item">30-Day Returns</span>
+    <span class="geo-landing__trust-item">Ships to {{ city }}</span>
+    <span class="geo-landing__trust-item">2018 Farm Bill Compliant</span>
+  </div>
+
+  {%- comment -%} Embedded map {%- endcomment -%}
+  {%- if section.settings.show_map -%}
+    <div class="geo-landing__map">
+      {{ section.settings.map_iframe }}
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} CTA {%- endcomment -%}
+  <div class="geo-landing__cta">
+    <p>Visit us at <strong>130 Dickinson St, Mount Clemens, MI 48043</strong> or shop online at <a href="/">surgeonsolution.io</a></p>
+    <p>Questions? Call <a href="tel:+15862465852">586-246-5852</a> or email <a href="mailto:customer.relations@surgeonsolution.io">customer.relations@surgeonsolution.io</a></p>
+  </div>
+</div>
+
+{%- comment -%} Geo-targeted LocalBusiness schema for this city {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "CBD Surgeons — CBD Near {{ city | escape }}",
+  "description": "Buy premium CBD products near {{ city | escape }}, {{ state | escape }}. CBD Surgeons offers lab-tested CBD gummies, CBD oil, hemp flower, and topicals with fast shipping to {{ region | escape }}.",
+  "url": "{{ shop.url }}{{ page.url }}",
+  "telephone": "+1-586-246-5852",
+  "email": "customer.relations@surgeonsolution.io",
+  "image": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "130 Dickinson St",
+    "addressLocality": "Mount Clemens",
+    "addressRegion": "MI",
+    "postalCode": "48043",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": "42.5972",
+    "longitude": "-82.8802"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "{{ city | escape }}"
+  },
+  "priceRange": "$",
+  "keywords": "CBD near {{ city | escape }}, CBD {{ city | escape }}, buy CBD {{ city | escape }}, CBD store {{ region | escape }}, CBD delivery {{ city | escape }}, CBD gummies {{ city | escape }}, CBD oil {{ state | escape }}"
+}
+</script>
+
+{% schema %}
+{
+  "name": "Geo Landing Page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Location Settings"
+    },
+    {
+      "type": "text",
+      "id": "city",
+      "label": "Target City",
+      "default": "Mount Clemens"
+    },
+    {
+      "type": "text",
+      "id": "state",
+      "label": "State",
+      "default": "Michigan"
+    },
+    {
+      "type": "text",
+      "id": "region",
+      "label": "Region Name",
+      "default": "Metro Detroit"
+    },
+    {
+      "type": "text",
+      "id": "distance_text",
+      "label": "Distance Description",
+      "default": "just minutes",
+      "info": "e.g. 'just minutes', '15 minutes', '30 miles'"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CBD Near Mount Clemens"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading Size",
+      "options": [
+        { "value": "h2", "label": "H2" },
+        { "value": "h3", "label": "H3" },
+        { "value": "h4", "label": "H4" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "info": "Leave blank for auto-generated text"
+    },
+    {
+      "type": "header",
+      "content": "Map"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_map",
+      "label": "Show Map",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "map_iframe",
+      "label": "Google Maps Embed",
+      "info": "Paste the iframe code from Google Maps",
+      "default": "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2937.163150680151!2d-82.87431362333994!3d42.594281871172036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x882521b189550c5d%3A0x931563c9eec02163!2sCBD%20Surgeons!5e0!3m2!1sen!2sus!4v1773341269675!5m2!1sen!2sus\" width=\"600\" height=\"450\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "color_scheme",
+      "id": "section_color_scheme",
+      "label": "Color Scheme",
+      "default": "scheme1"
+    },
+    {
+      "type": "range",
+      "id": "section_top_padding",
+      "label": "Top Padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_bottom_padding",
+      "label": "Bottom Padding",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Product Category",
+      "type": "category",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "CBD Gummies"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Shop our selection of premium CBD gummies for sleep, pain relief, and relaxation."
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link Label",
+          "default": "Shop Now"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Geo Landing Page",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "heading": "CBD Gummies",
+            "description": "Premium CBD gummies for sleep, pain relief, and relaxation. Lab tested and Farm Bill compliant."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "heading": "CBD Oil Tinctures",
+            "description": "Full-spectrum and broad-spectrum CBD oil drops for daily wellness. Fast-acting and effective."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "heading": "Hemp Flower",
+            "description": "Premium indoor-grown CBD flower and pre-rolls. Rich in terpenes and cannabinoids."
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "heading": "CBD Topicals",
+            "description": "Pain relief creams, balms, and massage creams for targeted relief. Apply directly where needed."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
