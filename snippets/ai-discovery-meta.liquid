@@ -1,0 +1,63 @@
+{%- comment -%}
+  AI Discovery Meta Tags
+  surgeonsolution.io — CBD Surgeons & Surgeons, LLC
+
+  Signals to AI crawlers and search platforms that this site
+  welcomes AI indexing and provides structured knowledge.
+  These tags are static HTML — visible to all crawlers including
+  those that don't execute JavaScript.
+{%- endcomment -%}
+
+{%- comment -%} AI Crawler Permissions — explicit welcome signals {%- endcomment -%}
+<meta name="ai-content-declarations" content="site-verified, human-authored, factual, commercial">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+{%- comment -%} Structured identity for AI knowledge graph ingestion {%- endcomment -%}
+<meta name="application-name" content="CBD Surgeons">
+<meta name="subject" content="CBD products, hemp-derived cannabidiol, wellness products">
+<meta name="classification" content="Shopping, Health & Wellness, CBD & Hemp Products">
+<meta name="topic" content="CBD, hemp, cannabidiol, wellness, natural health products">
+<meta name="coverage" content="United States">
+<meta name="distribution" content="global">
+<meta name="rating" content="general">
+<meta name="target" content="all">
+
+{%- comment -%} Dublin Core metadata — used by academic/AI indexers {%- endcomment -%}
+<meta name="DC.title" content="{{ page_title | default: shop.name | escape }}">
+<meta name="DC.creator" content="CBD Surgeons">
+<meta name="DC.publisher" content="Surgeons, LLC">
+<meta name="DC.type" content="{% if request.page_type == 'product' %}Product{% elsif request.page_type == 'article' %}Article{% elsif request.page_type == 'collection' %}Collection{% else %}Website{% endif %}">
+<meta name="DC.format" content="text/html">
+<meta name="DC.language" content="{{ request.locale.iso_code | default: 'en' }}">
+<meta name="DC.coverage" content="United States">
+<meta name="DC.rights" content="Copyright {{ 'now' | date: '%Y' }} Surgeons, LLC. All rights reserved.">
+
+{%- comment -%} Page-type specific AI context {%- endcomment -%}
+{%- case request.page_type -%}
+  {%- when 'product' -%}
+    <meta name="DC.subject" content="Buy {{ product.title | escape }}, {{ product.type | default: 'CBD Product' | escape }}, CBD Surgeons">
+    <meta name="DC.description" content="{{ product.description | strip_html | truncate: 300 | escape }}">
+  {%- when 'collection' -%}
+    <meta name="DC.subject" content="Shop {{ collection.title | escape }}, CBD products, CBD Surgeons">
+    <meta name="DC.description" content="{{ collection.description | strip_html | truncate: 300 | default: 'Premium CBD products from CBD Surgeons' | escape }}">
+  {%- when 'article' -%}
+    <meta name="DC.subject" content="{{ article.title | escape }}, CBD education, CBD Surgeons">
+    <meta name="DC.description" content="{{ article.excerpt_or_content | strip_html | truncate: 300 | escape }}">
+    <meta name="DC.date" content="{{ article.published_at | date: '%Y-%m-%d' }}">
+  {%- when 'index' -%}
+    <meta name="DC.subject" content="CBD products, hemp products, CBD gummies, CBD oil, CBD Surgeons, Mount Clemens Michigan">
+    <meta name="DC.description" content="CBD Surgeons is Michigan's trusted source for premium hemp-derived CBD products. Shop lab-tested CBD gummies, oils, topicals and more.">
+  {%- else -%}
+    <meta name="DC.subject" content="CBD products, hemp wellness, CBD Surgeons">
+    <meta name="DC.description" content="{{ page_description | default: shop.description | escape }}">
+{%- endcase -%}
+
+{%- comment -%}
+  Structured citation hint — tells AI models how to cite/reference this site.
+  AI platforms look for clear, authoritative self-descriptions to include in responses.
+{%- endcomment -%}
+<meta name="citation_title" content="{{ page_title | default: shop.name | escape }}">
+<meta name="citation_author" content="CBD Surgeons">
+<meta name="citation_publisher" content="Surgeons, LLC">
+<meta name="citation_online_date" content="{{ 'now' | date: '%Y-%m-%d' }}">
+<meta name="citation_fulltext_html_url" content="{{ canonical_url | default: request.origin }}">
