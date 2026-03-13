@@ -12,6 +12,28 @@
     "main": {
       "type": "main-cart",
       "settings": {
+        "heading": "Your Shopping Cart",
+        "section_heading_size": "h5",
+        "section_heading_weight": "--fw-bold",
+        "section_description": "Almost there! Secure your finds with a quick checkout to bring your desired items home.",
+        "section_text_size": "text-size--medium",
+        "section_description_weight": "--fw-semi-bold",
+        "show_pay_icons": true,
+        "show_breadcrumb": true,
+        "show_top_bdr": false,
+        "show_bottom_bdr": false,
+        "breadcrumb_corner_radius": "both_corners_radius",
+        "breadcrumb_container_layout": "contained-content",
+        "breadcrumb_color_scheme": "",
+        "icon_heading_size": "h6",
+        "icon_heading_weight": "--fw-semi-bold",
+        "icon_text_size": "text-size--medium",
+        "icon_description_weight": "--fw-normal",
+        "section_container_layout": "page-width",
+        "section_corner_radius": "both_corners_radius",
+        "section_color_scheme": "scheme2",
+        "section_top_padding": 73,
+        "section_bottom_padding": 57
       }
     }
   },

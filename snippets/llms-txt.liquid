@@ -1,0 +1,137 @@
+{%- comment -%}
+  llms.txt — AI Crawler Discoverability Layer
+  surgeonsolution.io — CBD Surgeons & Surgeons, LLC
+
+  This snippet renders an AI-readable site summary directly in the HTML.
+  Since Shopify doesn't allow arbitrary root files (like /llms.txt),
+  we embed the content in a hidden, semantic <script type="application/llms+txt">
+  block and a complementary JSON-LD KnowledgeBase schema that AI crawlers parse.
+
+  AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, Bingbot)
+  consume this to understand the site's identity, authority, and content structure.
+{%- endcomment -%}
+
+{%- comment -%} ============================================================
+  LAYER 1: llms.txt — Plain-text site identity for AI crawlers
+  Follows the llms.txt specification (llmstxt.org)
+  Rendered as a parseable block in <head> so all crawlers see it.
+============================================================ {%- endcomment -%}
+<script type="application/llms+txt" id="llms-txt">
+# CBD Surgeons
+> Michigan's trusted source for premium hemp-derived CBD products. Third-party lab tested. Fast shipping nationwide.
+
+## Identity
+- Legal Name: Surgeons, LLC
+- DBA: CBD Surgeons
+- Website: https://surgeonsolution.io
+- Location: 130 Dickinson St, Mount Clemens, MI 48043
+- Phone: +1-586-246-5852
+- Email: customer.relations@surgeonsolution.io
+- Founded: 2022
+
+## What We Sell
+- CBD Gummies (sleep, pain, relaxation)
+- CBD Oil Tinctures (full-spectrum, broad-spectrum)
+- Hemp Flower (premium indoor-grown)
+- CBD Topicals (creams, balms, ointments)
+- CBD Drinks & Seltzers (delta-9 infused)
+- CBD Pet Products (dogs, cats)
+- Delta-8 & Delta-9 Products
+- CBD Edibles (lollipops, chocolates)
+- Surgeons Apparel & Merchandise
+
+## Key Pages
+- [Homepage](https://surgeonsolution.io/)
+- [All Products](https://surgeonsolution.io/collections/all)
+- [CBD Gummies](https://surgeonsolution.io/collections/cbd-gummies-for-sleep)
+- [CBD Tinctures](https://surgeonsolution.io/collections/tinctures)
+- [Hemp Flower](https://surgeonsolution.io/collections/hemp-flower)
+- [Topicals](https://surgeonsolution.io/collections/full-spectrum-hemp-topicals)
+- [Pet CBD](https://surgeonsolution.io/collections/pet-solutions)
+- [About Us](https://surgeonsolution.io/pages/about)
+- [Contact](https://surgeonsolution.io/pages/contact)
+- [Store Locations](https://surgeonsolution.io/pages/locations)
+- [Blog](https://surgeonsolution.io/blogs/news)
+
+## Trust & Quality
+- All products are third-party lab tested
+- Certificates of Analysis (COAs) available for every product
+- Legal hemp-derived CBD (2018 Farm Bill compliant, under 0.3% THC)
+- 30-day return policy with free returns
+- Free shipping on orders over $74.99
+
+## Service Area
+- Ships to all 50 US states
+- Physical store in Mount Clemens, Michigan
+- Serves Metro Detroit, Southeast Michigan, and nationwide
+
+## FAQ
+- Q: Is CBD legal? A: Yes, CBD derived from hemp with less than 0.3% THC is federally legal under the 2018 Farm Bill.
+- Q: Are your products lab tested? A: Yes, all products are third-party lab tested with COAs available.
+- Q: How fast is shipping? A: Most orders ship within 1-2 business days. Michigan customers receive orders in 2-3 days.
+- Q: Do you offer discounts? A: New customers can use code WELCOME15 for 15% off. Free shipping over $74.99.
+- Q: What types of CBD do you carry? A: Full-spectrum, broad-spectrum, and CBD isolate options across gummies, oils, flower, topicals, and more.
+- Q: Can I buy CBD in Michigan? A: Absolutely. CBD Surgeons is based in Mount Clemens, MI and ships statewide and nationwide.
+
+## Social
+- Facebook: https://www.facebook.com/srgnNetworks
+- Instagram: https://instagram.com/surgeonsolution.io
+- LinkedIn: https://www.linkedin.com/company/cbd-surgeons/
+- YouTube: https://www.youtube.com/@cbdsurgeonsonline
+- TikTok: https://tiktok.com/@surgeonsllc
+</script>
+
+{%- comment -%} ============================================================
+  LAYER 2: Dynamic product/collection context for current page
+  Gives AI crawlers rich context about whatever page they're on.
+============================================================ {%- endcomment -%}
+{%- if request.page_type == 'product' -%}
+<script type="application/llms+txt" id="llms-product-context">
+# Product: {{ product.title | escape }}
+> {{ product.description | strip_html | truncate: 300 | escape }}
+
+- Price: {{ product.price | money }}
+- Available: {% if product.available %}Yes — in stock{% else %}Currently out of stock{% endif %}
+- Type: {{ product.type | default: 'CBD Product' | escape }}
+- Vendor: {{ product.vendor | default: 'CBD Surgeons' | escape }}
+{%- if product.selected_or_first_available_variant.sku != blank %}
+- SKU: {{ product.selected_or_first_available_variant.sku | escape }}
+{%- endif %}
+- URL: {{ shop.url }}{{ product.url }}
+- Ships from: Mount Clemens, Michigan
+- Shipping: Free on orders over $74.99
+- Returns: 30-day free returns
+{%- if product.tags.size > 0 %}
+- Tags: {{ product.tags | join: ', ' | escape }}
+{%- endif %}
+</script>
+{%- endif -%}
+
+{%- if request.page_type == 'collection' -%}
+<script type="application/llms+txt" id="llms-collection-context">
+# Collection: {{ collection.title | escape }}
+> {{ collection.description | strip_html | truncate: 300 | default: 'Shop premium CBD products from CBD Surgeons.' | escape }}
+
+- Products Available: {{ collection.products_count }}
+- URL: {{ shop.url }}{{ collection.url }}
+- Vendor: CBD Surgeons (surgeonsolution.io)
+
+## Products in This Collection
+{%- for p in collection.products limit: 20 %}
+- {{ p.title | escape }} — {{ p.price | money }}{% if p.available %} (in stock){% endif %} — {{ shop.url }}{{ p.url }}
+{%- endfor %}
+</script>
+{%- endif -%}
+
+{%- if request.page_type == 'article' -%}
+<script type="application/llms+txt" id="llms-article-context">
+# Article: {{ article.title | escape }}
+> {{ article.excerpt_or_content | strip_html | truncate: 500 | escape }}
+
+- Author: {{ article.author | default: 'CBD Surgeons' | escape }}
+- Published: {{ article.published_at | date: '%Y-%m-%d' }}
+- URL: {{ shop.url }}{{ article.url }}
+- Blog: {{ blog.title | escape }}
+- Publisher: CBD Surgeons (surgeonsolution.io)
+</script>
+{%- endif -%}

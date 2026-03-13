@@ -287,6 +287,8 @@
       render 'seo-keywords'
       render 'seo-faq-schema'
       render 'seo-breadcrumb-schema'
+      render 'ai-discovery-meta'
+      render 'llms-txt'
       render 'theme-variables'
     -%}
     {{ content_for_header }}
@@ -465,14 +467,19 @@
     if(screen.width===0||screen.height===0){score+=30;flags.push('no_screen')}
     if(window.outerWidth===0||window.outerHeight===0){score+=25;flags.push('zero_window')}
     var ua=navigator.userAgent.toLowerCase();
-    if(/bot|crawl|spider|scrape|headless|phantom|selenium|puppeteer|playwright|wget|curl|python|java\//.test(ua)){score+=35;flags.push('bot_ua')}
+    // Allowlist known AI search crawlers — these should NOT be flagged as bots
+    var aiCrawlers=/gptbot|chatgpt|oai-searchbot|claudebot|anthropic|perplexitybot|google-extended|googleother|bingbot|applebot|meta-externalagent|bytespider|cohere-ai|amazonbot|yandexbot|duckduckbot|facebookexternalhit/i;
+    var isAICrawler=aiCrawlers.test(navigator.userAgent);
+    if(!isAICrawler&&/bot|crawl|spider|scrape|headless|phantom|selenium|puppeteer|playwright|wget|curl|python|java\//.test(ua)){score+=35;flags.push('bot_ua')}
     localStorage.setItem(BD_KEY,score);
     localStorage.setItem(BD_FLAGS_KEY,JSON.stringify(flags));
+    if(isAICrawler){flags.push('ai_crawler');score=0}
     window.SurgeonsBotDetection={
       getScore:function(){return parseInt(localStorage.getItem(BD_KEY))||0},
       getFlags:function(){try{return JSON.parse(localStorage.getItem(BD_FLAGS_KEY))||[]}catch(e){return[]}},
-      isLikelyBot:function(){return this.getScore()>=30},
-      getData:function(){return{bot_score:this.getScore(),bot_flags:this.getFlags().join(','),is_bot:this.isLikelyBot()}}
+      isAICrawler:function(){return this.getFlags().indexOf('ai_crawler')!==-1},
+      isLikelyBot:function(){return!this.isAICrawler()&&this.getScore()>=30},
+      getData:function(){return{bot_score:this.getScore(),bot_flags:this.getFlags().join(','),is_bot:this.isLikelyBot(),is_ai_crawler:this.isAICrawler()}}
     };
     if(window.SurgeonsAttribution){
       var origGetData=window.SurgeonsAttribution.getData;
@@ -481,15 +488,23 @@
   });
 })();
 </script>
-{% comment %} CBD Surgeons Schema Markup for SEO - Enhanced for Knowledge Graph {% endcomment %}
+{% comment %} CBD Surgeons Schema Markup for SEO - Enhanced for AI Knowledge Graph & Discoverability {% endcomment %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://surgeonsolution.io/#organization",
   "name": "CBD Surgeons",
   "legalName": "Surgeons, LLC",
+  "alternateName": ["CBD Surgeons & Surgeons, LLC", "Surgeons LLC", "CBD Surgeons Online"],
   "url": "https://surgeonsolution.io",
-  "logo": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
+    "width": 600,
+    "height": 200
+  },
+  "image": "https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png",
   "email": "customer.relations@surgeonsolution.io",
   "telephone": "+1-586-246-5852",
   "address": {
@@ -510,30 +525,105 @@
     "https://surgeonsolutions.org"
   ],
   "foundingDate": "2022-03-20",
-  "description": "CBD Surgeons is Michigan's trusted source for premium hemp-derived CBD products. Shop lab-tested CBD gummies, oils, topicals & more with fast shipping.",
-  "slogan": "Premium CBD Oil & Hemp Products",
-  "knowsAbout": ["CBD", "Hemp", "Cannabidiol", "CBD Gummies", "CBD Oil", "Hemp Flower", "CBD Topicals"],
-  "areaServed": {
-    "@type": "Country",
-    "name": "United States"
+  "foundingLocation": {
+    "@type": "Place",
+    "name": "Mount Clemens, Michigan"
   },
+  "description": "CBD Surgeons is Michigan's trusted source for premium hemp-derived CBD products. Shop lab-tested CBD gummies, oils, topicals & more with fast shipping. Based in Mount Clemens, MI, serving all 50 US states.",
+  "slogan": "Premium CBD Oil & Hemp Products",
+  "knowsAbout": [
+    "CBD", "Hemp", "Cannabidiol", "CBD Gummies", "CBD Oil", "Hemp Flower", "CBD Topicals",
+    "Full-Spectrum CBD", "Broad-Spectrum CBD", "CBD Isolate", "Delta-8 THC", "Delta-9 THC",
+    "Hemp-Derived Products", "Cannabinoid Science", "CBD for Sleep", "CBD for Pain",
+    "CBD for Pets", "CBD Drinks", "CBD Edibles", "Third-Party Lab Testing",
+    "Certificate of Analysis", "2018 Farm Bill Compliance", "Michigan CBD",
+    "CBD Near Me", "Buy CBD Online", "CBD Store"
+  ],
+  "areaServed": [
+    {"@type": "Country", "name": "United States"},
+    {"@type": "State", "name": "Michigan"},
+    {"@type": "City", "name": "Mount Clemens"},
+    {"@type": "City", "name": "Detroit"},
+    {"@type": "City", "name": "Sterling Heights"},
+    {"@type": "City", "name": "Warren"},
+    {"@type": "City", "name": "Clinton Township"}
+  ],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
     "name": "CBD Products",
     "itemListElement": [
-      {"@type": "OfferCatalog", "name": "CBD Gummies"},
-      {"@type": "OfferCatalog", "name": "CBD Oil"},
-      {"@type": "OfferCatalog", "name": "Hemp Flower"},
-      {"@type": "OfferCatalog", "name": "CBD Topicals"}
+      {"@type": "OfferCatalog", "name": "CBD Gummies", "description": "Sleep gummies, pain relief gummies, relaxation edibles — all lab tested"},
+      {"@type": "OfferCatalog", "name": "CBD Oil Tinctures", "description": "Full-spectrum and broad-spectrum hemp oil drops for daily wellness"},
+      {"@type": "OfferCatalog", "name": "Hemp Flower", "description": "Premium indoor-grown CBD flower and pre-rolls"},
+      {"@type": "OfferCatalog", "name": "CBD Topicals", "description": "Pain relief creams, balms, and massage creams"},
+      {"@type": "OfferCatalog", "name": "CBD Pet Products", "description": "CBD for dogs and cats — pet wellness solutions"},
+      {"@type": "OfferCatalog", "name": "CBD Drinks & Seltzers", "description": "Delta-9 THC infused beverages and hemp drinks"},
+      {"@type": "OfferCatalog", "name": "CBD Edibles", "description": "Lifted lollies, chocolates, honey sticks"}
     ]
-  }
+  },
+  "hasCredential": [
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "compliance",
+      "name": "2018 Farm Bill Compliant — All products contain less than 0.3% THC"
+    },
+    {
+      "@type": "EducationalOccupationalCredential",
+      "credentialCategory": "quality",
+      "name": "Third-Party Lab Tested — COAs available for every product"
+    }
+  ],
+  "keywords": "CBD, CBD gummies, CBD oil, hemp flower, CBD topicals, CBD near me, buy CBD online, CBD Michigan, CBD Mount Clemens, CBD store, hemp products, CBD for sleep, CBD for pain, CBD for pets, CBD drinks, delta 8, delta 9, lab tested CBD, premium CBD, CBD delivery"
 }
 </script>
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://surgeonsolution.io/#localbusiness","name":"CBD Surgeons","url":"https://surgeonsolution.io","logo":"https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png","telephone":"+1-586-246-5852","email":"customer.relations@surgeonsolution.io","address":{"@type":"PostalAddress","streetAddress":"130 Dickinson St","addressLocality":"Mount Clemens","addressRegion":"MI","postalCode":"48043","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":"42.5972","longitude":"-82.8802"},"openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"},"priceRange":"$","areaServed":{"@type":"Country","name":"United States"}}
+{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://surgeonsolution.io/#localbusiness","name":"CBD Surgeons","alternateName":"CBD Surgeons & Surgeons, LLC","url":"https://surgeonsolution.io","logo":"https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png","image":"https://surgeonsolution.io/cdn/shop/files/SurgeonsLogo_wide.png","telephone":"+1-586-246-5852","email":"customer.relations@surgeonsolution.io","description":"Michigan's trusted CBD store. Shop lab-tested CBD gummies, CBD oil, hemp flower, topicals and more. Located in Mount Clemens, MI — serving Metro Detroit and shipping to all 50 states.","address":{"@type":"PostalAddress","streetAddress":"130 Dickinson St","addressLocality":"Mount Clemens","addressRegion":"MI","postalCode":"48043","addressCountry":"US"},"geo":{"@type":"GeoCoordinates","latitude":"42.5972","longitude":"-82.8802"},"hasMap":"https://maps.app.goo.gl/TGMCuAjJKpTvZeRCA","openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"00:00","closes":"23:59"},"priceRange":"$","currenciesAccepted":"USD","paymentAccepted":"Credit Card, Debit Card, Cash","areaServed":[{"@type":"Country","name":"United States"},{"@type":"State","name":"Michigan"},{"@type":"City","name":"Mount Clemens"},{"@type":"City","name":"Detroit"},{"@type":"City","name":"Sterling Heights"},{"@type":"City","name":"Warren"},{"@type":"City","name":"Clinton Township"},{"@type":"City","name":"Rochester Hills"},{"@type":"City","name":"Troy"},{"@type":"City","name":"Royal Oak"},{"@type":"City","name":"Shelby Township"},{"@type":"City","name":"St. Clair Shores"}],"keywords":"CBD near me, CBD store Mount Clemens, CBD Michigan, buy CBD online, CBD gummies, CBD oil, hemp flower, CBD topicals, CBD delivery Metro Detroit"}
 </script>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","name":"CBD Surgeons","url":"https://surgeonsolution.io","potentialAction":{"@type":"SearchAction","target":"https://surgeonsolution.io/search?q={search_term_string}","query-input":"required name=search_term_string"}}
+</script>
+{%- comment -%} WebPage schema with Speakable — tells AI which content is suitable for voice/AI answers {%- endcomment -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "{{ shop.url }}{{ request.path }}#webpage",
+  "url": "{{ shop.url }}{{ request.path }}",
+  "name": "{{ page_title | default: shop.name | escape }}",
+  "description": "{{ page_description | default: shop.description | escape }}",
+  "isPartOf": {"@id": "https://surgeonsolution.io/#website"},
+  "about": {"@id": "https://surgeonsolution.io/#organization"},
+  "publisher": {"@id": "https://surgeonsolution.io/#organization"},
+  "inLanguage": "{{ request.locale.iso_code | default: 'en-US' }}",
+  "speakable": {
+    "@type": "SpeakableSpecification",
+    "cssSelector": [
+      "h1",
+      "[itemprop='description']",
+      "[itemprop='name']",
+      ".product__description",
+      ".collection-description",
+      ".article__content",
+      "#llms-txt"
+    ]
+  },
+  "potentialAction": {
+    "@type": "ReadAction",
+    "target": "{{ shop.url }}{{ request.path }}"
+  }
+  {%- if request.page_type == 'product' -%}
+  ,"mainEntity": {
+    "@type": "Product",
+    "@id": "{{ shop.url }}{{ product.url }}#product"
+  }
+  {%- endif -%}
+  {%- if request.page_type == 'collection' -%}
+  ,"mainEntity": {
+    "@type": "CollectionPage",
+    "@id": "{{ shop.url }}{{ collection.url }}#collection"
+  }
+  {%- endif -%}
+}
 </script>
 {% if template contains 'product' %}
 {%- comment -%} Enhanced Product Schema with Transactional Signals {%- endcomment -%}
@@ -861,6 +951,7 @@
 
 </head>
   <body>
+    {%- render 'ai-authority-content' -%}
     {%- render 'icons-data', use_ref: true -%}
     <div id="page-wrapper">
       <a class="skip-to-content-link visually-hidden" href="#MainContent">
