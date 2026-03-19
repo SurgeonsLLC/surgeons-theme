@@ -1,0 +1,134 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "video": {
+      "video_alt_html": "<span class='visually-hidden'>Video laden: </span>{{ caption }}"
+    },
+    "collection": {
+      "title": "Sammlungsname",
+      "title_uppercase": "SAMMLUNGSTITEL",
+      "view_all": "ALLE PRODUKTE ANZEIGEN"
+    },
+    "email_signup": {
+      "image_alt": "Medienbild {{ index }}"
+    },
+    "countdown_timer": {
+      "days_label": "Tage",
+      "hours_label": "Stunden",
+      "min_label": "Minuten",
+      "sec_label": "Sek."
+    },
+    "featured_banner": {
+      "image_alt": "Vorgestelltes Bannerbild {{ index }}"
+    },
+    "featured_product": {
+      "stock_left": "Nur noch 5 auf Lager"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Zum Inhalt springen",
+    "back_to_top": "Zurück nach oben",
+    "loader": "Wird geladen…",
+    "loading": "Wird geladen ...",
+    "close": "Schließen",
+    "slider": {
+      "next": "Weiter",
+      "previous": "Vorherige",
+      "pagination_label": "Wählen Sie eine Folie zur Anzeige aus",
+      "first": "Gehe zur ersten Folie",
+      "last": "Zur letzten Folie",
+      "play": "Autoplay starten",
+      "pause": "Autoplay pausieren",
+      "carousel": "Karussell",
+      "slide": "Folie",
+      "select": "Wählen Sie eine Folie zur Anzeige aus"
+    }
+  },
+  "socials": {
+    "linkedin": "LinkedIn"
+  },
+  "pagination": {
+    "label": "Paginierung",
+    "page": "Seite {{ number }}",
+    "next": "Nächste Seite",
+    "previous": "Vorherige Seite",
+    "load_more": "Mehr laden",
+    "next_pg": "Weiter",
+    "back": "Zurück"
+  },
+  "main_blog": {
+    "empty_heading": "Uhm, keine Blog-Beiträge gefunden."
+  },
+  "blogs": {
+    "comments": {
+      "count": {
+        "one": "Kommentar:&nbsp;{{ count }}",
+        "other": "Kommentare:&nbsp;{{ count }}"
+      },
+      "comment_form_title": "Hinterlasse einen Kommentar",
+      "success": "Dein Kommentar wurde erfolgreich gepostet! Danke dir!",
+      "success_moderated": "Dein Kommentar wurde erfolgreich gepostet. Er wird in Kürze veröffentlicht, da unser Blog moderiert wird.",
+      "email": "E-Mail",
+      "message": "Kommentar",
+      "moderated": "Bitte beachten Sie, dass Kommentare vor der Veröffentlichung genehmigt werden müssen.",
+      "post": "Kommentar posten",
+      "previous": "VORHERIGER BLOG",
+      "next": "NÄCHSTER BLOG",
+      "share": "Diesen Artikel teilen",
+      "error": {
+        "message": "Kommentar",
+        "heading": "Bitte passen Sie Folgendes an:"
+      }
+    },
+    "link_label": "MEHR ERFAHREN",
+    "view_all_button_label": "Alle anzeigen",
+    "placeholder": {
+      "title": "Blogeintrag",
+      "author": "Name des Autors",
+      "excerpt": "Fassen Sie Ihren Kunden den Inhalt Ihres Blogbeitrags zusammen."
+    }
+  },
+  "main_404": {
+    "button_label": "ZUR STARTSEITE",
+    "video_alt_text": "404 Video"
+  },
+  "product": {
+    "view_details": "Details anzeigen",
+    "title": "Produkttitel",
+    "vendor": "Anbietername",
+    "by": "von",
+    "price": "Preis",
+    "add_to_bundle": "Zum Bundle hinzufügen",
+    "remove_from_bundle": "Aus dem Paket entfernen",
+    "unit_price_label": "Stückpreis",
+    "regular_price": "regulärer Preis",
+    "sale_price": "Verkaufspreis",
+    "unit_price_separator": "pro",
+    "sale": "Verkauf",
+    "size": "Größe",
+    "swatches": "Farbmuster",
+    "unit_price_value": "19,99 €/kg",
+    "increment": "Produktdmengeninkrement",
+    "unit_price": "Stückpreis",
+    "sku_label": "Artikelnummer",
+    "discount_price": "Rabattpreis",
+    "stock_label": "Aktie",
+    "vendor_label": "Anbieter",
+    "sold_or_unavailable": "Ausverkauft oder nicht verfügbar",
+    "xr_button": "In Ihrem Bereich anzeigen",
+    "xr_button_label": "In Ihrem Raum ansehen, lädt Objekt im Augmented-Reality-Fenster",
+    "model_toggler_label": "lade 3D-Modell {{ index }} von {{ product }}",
+    "video_toggler_label": "lade das {{ index }}. Video von {{ product }}",
+    "rating_label": "Bewertet mit {{ count }} Sternen",
+    "include_taxes": "Inklusive Mehrwertsteuer.",
+    "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird an der Kasse berechnet."
+  }
+}
