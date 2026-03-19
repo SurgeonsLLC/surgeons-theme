@@ -136,8 +136,8 @@
           "type": "other_deals",
           "settings": {
             "other_products": [
-              "delta-9-seltzer-4-pack-cannachill-5mg",
-              "cbd-flower-online",
+              "4-pack-cannachill-seltzers-5mg-delta-9-thc",
+              "surgeonscbdfloweronline",
               "slimsweightlosssolutions"
             ],
             "heading": "Often Bought Together",
@@ -221,10 +221,10 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "heading": "",
+            "heading": "Ordered Lifted Lollies and some Surgeons gummies today, got the order the next day!",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "",
+            "block_description": "Best Online Shop",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
@@ -252,7 +252,6 @@
     },
     "recommendations": {
       "type": "product-recommendation",
-      "disabled": true,
       "settings": {
         "section_caption": "Caption",
         "section_caption_size": "text-size--medium",
