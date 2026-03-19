@@ -232,6 +232,19 @@
             "block_color_scheme": ""
           }
         },
+        "review_TQUeRT": {
+          "type": "review",
+          "settings": {
+            "heading": "Trustpilot",
+            "block_heading_size": "h6",
+            "block_heading_weight": "--fw-bold",
+            "block_description": "The Full Spectrum CBD gummies are a great choice for anyone looking to ease their discomfort or start the day on a balanced foot. I shop with Sugeons every month and they always keep me surprised with extras!",
+            "block_description_size": "h4",
+            "block_description_weight": "--fw-normal",
+            "block_rating": "5",
+            "block_color_scheme": "scheme2"
+          }
+        },
         "review_3": {
           "type": "review",
           "settings": {
@@ -248,6 +261,7 @@
       },
       "block_order": [
         "review_1",
+        "review_TQUeRT",
         "review_3"
       ],
       "settings": {
