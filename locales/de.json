@@ -308,7 +308,12 @@
     "invalid_message": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
     "valid_message": "E-Mail-Adresse ist gültig",
     "label": "E-Mail *",
-    "email_placeholder": "E-Mail-Adresse"
+    "email_placeholder": "E-Mail-Adresse",
+    "email_label": "E-Mail",
+    "error_text": "Fehler",
+    "success_text": "Danke für Ihr Abonnement",
+    "btn_label": "Abonnieren",
+    "alt_label": "Newsletter-Bereich"
   },
   "localization": {
     "country_label": "Land/Region",
@@ -485,5 +490,151 @@
     "main_heading": "Konto erstellen",
     "pass_placeholder": "Passwort eingeben",
     "already_account": "Haben Sie bereits ein Konto?"
+  },
+  "logo_list": {
+    "image_alt": "Logo-Bild {{ index }}"
+  },
+  "email_signup": {
+    "image_alt": "Medienbild {{ index }}"
+  },
+  "payment_icons": {
+    "image_alt": "Zahlungssymbolbild"
+  },
+  "accordion": {
+    "opener_label": "Inhalt öffnen {{ index }}"
+  },
+  "media_with_content": {
+    "image_alt": "Medienbild {{ index }}"
+  },
+  "before_after": {
+    "error_text": "Um einen Vorher-/Nachher-Vergleich anzuzeigen, fügen Sie weitere Blöcke in den Abschnitt ein.",
+    "image_alt": "Vorher/nachher Bild {{ index }}",
+    "label": "Vorher/Nachher"
+  },
+  "collapsible_media": {
+    "image_alt": "Medienbild {{ index }}"
+  },
+  "search": {
+    "toggler_label": "Suchkomponente umschalten",
+    "label": "Suchen",
+    "reset": "Suchformular zurücksetzen",
+    "placeholder": "Suche nach „Produkte“",
+    "no_results": "Keine solchen Ergebnisse gefunden!",
+    "no_products": "Keine solchen Produkte gefunden!",
+    "no_articles": "Keine solchen Artikel gefunden!",
+    "no_pages": "Keine solchen Seiten gefunden!",
+    "no_collections": "Keine solchen Sammlungen gefunden!",
+    "suggestions": "Vorschläge",
+    "products": "Produkte",
+    "s_for": "Produkte, Kollektionen, Artikel oder Seiten suchen.",
+    "no_search_results": "Keine Ergebnisse für „{{ terms }}” gefunden. Überprüfen Sie die Rechtschreibung oder verwenden Sie ein anderes Wort oder eine andere Formulierung.",
+    "results_with_count_and_term": "{{ count }} Ergebnisse für „{{ terms }}“ gefunden",
+    "show_results": "Zeige {{ count }} Ergebnis(se)",
+    "no_res": "Keine Ergebnisse",
+    "product_count": {
+      "one": "{{ product_count }} von {{ count }} Produkt",
+      "other": "{{ product_count }} von {{ count }} Produkten"
+    },
+    "view_more": "SUCHE NACH „{{ terms }}“",
+    "heading": "Beliebte Kollektion"
+  },
+  "store": {
+    "toggler_label": "Pop-up für Filialstandorte öffnen",
+    "dropdown_label": "Filialfinder",
+    "label": "Filialen"
+  },
+  "cart": {
+    "title": "WARENKORB",
+    "drawer_label_heading": "Warenkorb-Schublade",
+    "edit_text": "Bearbeiten",
+    "delete_text": "Löschen",
+    "add_note": "Bestellnotiz hinzufügen",
+    "bubble": {
+      "zero": "0 Artikel im Warenkorb",
+      "one": "{{ count }} Artikel in Ihrem Warenkorb",
+      "other": "{{ count }} Artikel in Ihrem Warenkorb"
+    },
+    "continue_shopping": "Weiter einkaufen",
+    "empty": {
+      "heading": "Ihr Warenkorb ist leer",
+      "already_account": "Haben Sie ein Konto?",
+      "continue_shopping": "WEITER EINKAUFEN",
+      "login_link_text": "Melden Sie sich an, um schneller zur Kasse zu gehen."
+    },
+    "main": {
+      "heading": "Ihr Warenkorb",
+      "thead": {
+        "qty": "Menge"
+      }
+    },
+    "write_note": "Notiz schreiben",
+    "note_textarea_placeholder": "Einkaufswagen-Notiz schreiben",
+    "remove": "{{ product }} aus dem Warenkorb entfernen",
+    "edit": "Option für {{ product }} im Warenkorb bearbeiten oder ändern",
+    "edit_label": "Bearbeitungsoption",
+    "update_cart": "WARENKORB AKTUALISIEREN",
+    "shipping_bar": {
+      "free_html": "Genießen Sie <strong>kostenlosen Versand</strong>"
+    },
+    "banner": "Warenkorbbanner",
+    "checkout": "Kasse",
+    "subtotal": "Zwischensumme",
+    "taxes_and_shipping_policy_at_checkout_html": "Steuern und <a href=\"{{ link }}\">Versand</a> werden an der Kasse berechnet",
+    "taxes_included_but_shipping_at_checkout": "MwSt. inbegriffen und Versandkostenberechnung an der Kasse",
+    "taxes_included_and_shipping_policy_html": "Steuer inbegriffen. <a href=\"{{ link }}\">Versand</a> wird an der Kasse berechnet.",
+    "taxes_and_shipping_at_checkout": "Steuern und Versand werden an der Kasse berechnet",
+    "drawer": {
+      "empty": {
+        "login_link_html": "<a href=\"{{ link }}\">Anmelden</a>, um schneller zur Kasse zu gehen."
+      },
+      "heading": "Einkaufswagen",
+      "products": {
+        "btn_label": "Produkt ansehen"
+      },
+      "view_label": "Warenkorb ansehen"
+    }
+  },
+  "predictive": {
+    "products": "Produkte",
+    "collections": "Sammlungen",
+    "articles": "Artikel",
+    "pages": "Seiten",
+    "menu": "Menü"
+  },
+  "collection": {
+    "title": "Sammlungsname",
+    "empty_heading": "Uhm, keine Produkte gefunden.",
+    "empty_description": "Bleiben Sie dran für kommende Kollektionen. In der Zwischenzeit können Sie unsere beliebten Artikel durchstöbern.",
+    "empty_btn_label": "Zurück zu den Sammlungen",
+    "title_uppercase": "SAMMLUNGSTITEL",
+    "view_all": "ALLE PRODUKTE ANZEIGEN",
+    "grid_buttons": {
+      "3": "3 Spalten",
+      "4": "4 Spalten",
+      "6": "6 Spalten"
+    }
+  },
+  "filters": {
+    "clear_all": "Alles löschen",
+    "clear_all_label": "Alle ausgewählten Filter löschen",
+    "use_fewer_filters": "Weniger Filter verwenden oder",
+    "count": {
+      "one": "{{ count }} Produkt",
+      "other": "{{ count }} Produkte",
+      "facet_by": "{{ count }} von {{ count_all }} Produkten"
+    },
+    "sort": {
+      "label_heading": "Sammlungen sortieren (Dropdown)",
+      "option_selected": "Option ausgewählt"
+    },
+    "price_range": {
+      "max_price_html": "Der höchste Preis beträgt <strong class=\"facet_highlight-text --fw-normal\">{{ price }}</strong>",
+      "from": "Von",
+      "to": "An"
+    },
+    "collection_list": {
+      "info": "Nur arbeiten, wenn die Scroll-Ansicht ausgewählt ist.",
+      "products_count": "19 Produkte"
+    }
   }
 }
