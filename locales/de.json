@@ -129,13 +129,55 @@
     "video_toggler_label": "lade das {{ index }}. Video von {{ product }}",
     "rating_label": "Bewertet mit {{ count }} Sternen",
     "include_taxes": "Inklusive Mehrwertsteuer.",
-    "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird an der Kasse berechnet."
+    "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird an der Kasse berechnet.",
+    "buy_label": "Jetzt kaufen",
+    "quick_view": "Kurzübersicht",
+    "stock": {
+      "soldout": "Ausverkauft",
+      "in_stock": "Auf Lager",
+      "pre_order": "Nachbestellt",
+      "low_stock": "Geringer Lagerbestand",
+      "bar": {
+        "soldout": "Leider ist kein Artikel mehr auf Lager",
+        "in_stock": "Ausgezeichnet! Noch {{ count }} Artikel auf Lager",
+        "low_stock": "Beeilen Sie sich! Nur noch {{ count }} Artikel auf Lager",
+        "pre_order": "Der Artikel ist nachbestellt und wird versandt, sobald er wieder auf Lager ist."
+      }
+    },
+    "size_chart": {
+      "toggler_label": "Größenratgeber",
+      "heading": "Größentabelle",
+      "alt_label": "{{ product_title }}-Größentabelle"
+    },
+    "atc_buttons": {
+      "soldout": "Ausverkauft",
+      "add_to_cart": "In den Warenkorb",
+      "unavailable": "Nicht verfügbar"
+    },
+    "ask_question": {
+      "label": "Frage stellen",
+      "required_fields": "* Pflichtfelder",
+      "heading": "Frage stellen"
+    },
+    "pickup": {
+      "store": "Alle Filialen",
+      "label": "Abholung",
+      "available_at": "Abholung möglich: {{ location }}",
+      "unavailable_at": "Abholung zurzeit nicht verfügbar: {{ location }}",
+      "available_at_html": "Abholung möglich in <span class=\"--fw-extra-bold\">{{ location }}</span>",
+      "unavailable_at_html": "Abholung derzeit nicht verfügbar bei <span class=\"--fw-extra-bold\">{{ location }}</span>",
+      "modal_heading": "Verfügbarkeit zur Abholung für {{ product_title }}",
+      "view_store": "Geschäftsinformationen anzeigen",
+      "other_store": "Verfügbarkeit in anderen Filialen prüfen"
+    }
   },
   "main_login": {
     "create_account": "Noch kein Konto?",
     "reset_btn_label": "Passwort zurücksetzen",
     "cancel_btn_label": "Abbrechen",
-    "recover_success": "Wir haben dir eine E-Mail mit einem Link zum Zurücksetzen deines Passworts gesendet."
+    "recover_success": "Wir haben dir eine E-Mail mit einem Link zum Zurücksetzen deines Passworts gesendet.",
+    "main_heading": "Kunden-Login",
+    "forgot_btn_label": "Passwort vergessen?"
   },
   "account": {
     "email_label": "E-Mail-Adresse",
@@ -326,5 +368,122 @@
       "vendor_name": "Anbietername",
       "title": "Produkttitel"
     }
+  },
+  "store_locator": {
+    "store_locator": "Filialfinder-Bild",
+    "name": "Filialen",
+    "opening_time": {
+      "title": "Öffnungszeit"
+    },
+    "hours": {
+      "title": "Telefon"
+    },
+    "address": {
+      "title": "Anschrift"
+    },
+    "email_address": {
+      "title": "E-Mail-Adresse"
+    },
+    "video_toggler_label": "lade das {{ index }}. Video von {{ product }}",
+    "rating_label": "Bewertet mit {{ count }} Sternen",
+    "include_taxes": "Inklusive Mehrwertsteuer.",
+    "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird an der Kasse berechnet.",
+    "stock": {
+      "soldout": "Ausverkauft",
+      "in_stock": "Auf Lager",
+      "pre_order": "Nachbestellt",
+      "low_stock": "Geringer Lagerbestand",
+      "bar": {
+        "soldout": "Leider! Kein Artikel mehr auf Lager",
+        "in_stock": "Ausgezeichnet! Es sind noch {{ count }} Artikel auf Lager",
+        "low_stock": "Beeilen Sie sich! Nur noch {{ count }} Artikel auf Lager",
+        "pre_order": "Der Artikel ist nachbestellt und wird versandt, sobald er wieder auf Lager ist."
+      }
+    },
+    "size_chart": {
+      "toggler_label": "Größenratgeber",
+      "heading": "Größentabelle",
+      "alt_label": "{{ product_title }} Größentabelle"
+    },
+    "atc_buttons": {
+      "soldout": "Ausverkauft",
+      "add_to_cart": "In den Warenkorb",
+      "unavailable": "Nicht verfügbar"
+    },
+    "ask_question": {
+      "label": "Frage stellen",
+      "required_fields": "* Pflichtfelder",
+      "heading": "Frage stellen"
+    }
+  },
+  "recipient": {
+    "form": {
+      "checkbox": "Ich möchte dies als Geschenk verschicken",
+      "email_label": "E-Mail des Empfängers",
+      "email_label_optional": "E-Mail des Empfängers (optional)",
+      "email": "E-Mail",
+      "name_label": "Name des Empfängers (optional)",
+      "message_label": "Nachricht (optional)",
+      "message": "Nachricht",
+      "max_characters": "{{ max_chars }} Zeichen max",
+      "send_on": "JJJJ-MM-TT",
+      "send_on_label": "Weiterleiten (optional)"
+    }
+  },
+  "erorr": {
+    "common_heading": "Bitte passen Sie Folgendes an:",
+    "mail_form_error": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "error_text": "Fehler"
+  },
+  "contact_form": {
+    "form_label": {
+      "email": {
+        "label": "E-Mail*"
+      },
+      "your_request": {
+        "label": "Ihre Anfrage*"
+      }
+    },
+    "form_placeholder": {
+      "email": {
+        "label": "E-Mail-Adresse"
+      },
+      "your_request": {
+        "label": "Ihre Anfrage"
+      }
+    },
+    "submit_label": "Nachricht senden",
+    "success": {
+      "heading1": "Danke, dass Sie uns kontaktiert haben.",
+      "heading2": "Wir melden uns so schnell wie möglich bei Ihnen."
+    },
+    "image_alt": "Kontaktformular"
+  },
+  "image_gallery": {
+    "image_alt": "Galeriebild {{ index }}",
+    "image_label": {
+      "one": "{{ count }} Bild",
+      "other": "{{ count }} Bilder"
+    }
+  },
+  "selling_plan_text": "Variante kann nur mit einem Verkaufsplan erworben werden.",
+  "gift_card": {
+    "copy": "Code kopieren",
+    "copied": "Code erfolgreich kopiert",
+    "qr_image_alt": "QR-Code — scannen, um die Geschenkkarte einzulösen",
+    "buy_button": "Geschenkkarte kaufen",
+    "continue_shopping": "Weiter einkaufen",
+    "print": "Drucken",
+    "expire": "Läuft ab am {{ date }}",
+    "expired": "Abgelaufen",
+    "heading": "Ihre Geschenkkarte",
+    "issued": {
+      "title": "Hier ist Ihr Geschenkkartenguthaben von {{ value }} für {{ shop }}!"
+    }
+  },
+  "main_register": {
+    "main_heading": "Konto erstellen",
+    "pass_placeholder": "Passwort eingeben",
+    "already_account": "Haben Sie bereits ein Konto?"
   }
 }
