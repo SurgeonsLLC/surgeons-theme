@@ -136,8 +136,8 @@
           "type": "other_deals",
           "settings": {
             "other_products": [
-              "delta-9-seltzer-4-pack-cannachill-5mg",
-              "cbd-flower-online",
+              "4-pack-cannachill-seltzers-5mg-delta-9-thc",
+              "surgeonscbdfloweronline",
               "slimsweightlosssolutions"
             ],
             "heading": "You might like these products",
@@ -234,10 +234,10 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Google",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description": "My dog Butter's recovered from a terrible seizure + accident because of Surgeons products. I highly reccomend them to everybody because I believe in what they stand for. Great service, always available.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
@@ -247,10 +247,10 @@
         "review_3": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Google",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description": "Around the holiday's is the worst time for my pup. We were recommended to try this brand online. I have seen noticeable improvements in my babys mood. We appreciate the kind and respectful service from Surgeons.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
