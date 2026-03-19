@@ -253,10 +253,10 @@
     "recommendations": {
       "type": "product-recommendation",
       "settings": {
-        "section_caption": "Caption",
+        "section_caption": "Sourcing Is a Science",
         "section_caption_size": "text-size--medium",
         "section_caption_weight": "--fw-medium",
-        "section_heading": "Heading",
+        "section_heading": "Shop Popular Products",
         "section_heading_size": "h4",
         "section_heading_weight": "--fw-extra-bold",
         "section_description": "",
