@@ -130,5 +130,201 @@
     "rating_label": "Bewertet mit {{ count }} Sternen",
     "include_taxes": "Inklusive Mehrwertsteuer.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird an der Kasse berechnet."
+  },
+  "main_login": {
+    "create_account": "Noch kein Konto?",
+    "reset_btn_label": "Passwort zurücksetzen",
+    "cancel_btn_label": "Abbrechen",
+    "recover_success": "Wir haben dir eine E-Mail mit einem Link zum Zurücksetzen deines Passworts gesendet."
+  },
+  "account": {
+    "email_label": "E-Mail-Adresse",
+    "pass_label": "Passwort",
+    "reset_heading": "Passwort zurücksetzen",
+    "req_fields_text": "Pflichtfelder*",
+    "sign_up": "Registrieren!",
+    "btn_label": "Anmelden",
+    "password_confirm": "Passwort bestätigen",
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "header": {
+      "order_history": "Bestellverlauf",
+      "heading": "Bestellverlauf",
+      "addresses": "Adressen"
+    }
+  },
+  "customer": {
+    "my_account_label": "Mein Konto",
+    "logout_label": "Abmelden",
+    "login_label": "Anmelden/Registrieren",
+    "login_page": {
+      "alternate_provider_separator": "bzw."
+    },
+    "main": {
+      "order_label": "Bestellung",
+      "date_label": "Datum",
+      "pay_status_label": "Zahlungsstatus",
+      "fillment_status_label": "Erfüllungsstatus",
+      "total_label": "Gesamt",
+      "no_orders": "Sie haben noch keine Bestellungen aufgegeben.",
+      "billing_address": "Rechnungsadresse",
+      "shipping_address": "Lieferadresse"
+    },
+    "details": {
+      "title": "Bestellung {{ order_name }}",
+      "date": "Platziert am",
+      "product_label": "Produkt",
+      "sku_label": "Artikelnummer",
+      "price_label": "Preis",
+      "qty_label": "Menge",
+      "fulfilled_at_html": "Erfüllt am {{ date }}",
+      "track_shipment": "Sendungsverfolgung",
+      "subtotal_label": "Zwischensumme",
+      "discount_label": "Rabatt",
+      "shipping": "Versand",
+      "tax": "Steuer",
+      "total_duties": "Aufgaben",
+      "total_refunded": "Zurückerstattet",
+      "return": "Zurück zu den Bestellungen"
+    },
+    "addresses": {
+      "add": "Adresse hinzufügen",
+      "add_new": "Neue Adresse hinzufügen",
+      "company": "Unternehmen",
+      "address1": "Adresse 1",
+      "address2": "Adresszeile 2",
+      "city": "Stadt",
+      "country": "Land/Region",
+      "province": "Provinz",
+      "zip": "Postleitzahl",
+      "phone": "Telefon",
+      "set_default": "Diese Adresse als Standard festlegen",
+      "back_to_addresses": "Zurück zu Adressen",
+      "default": "Standardadresse",
+      "edit": "Adresse bearbeiten",
+      "delete": "Adresse {{ index }} löschen",
+      "delete_confirm": "Sind Sie sicher, dass Sie diese Adresse löschen möchten?",
+      "update": "Adresse aktualisieren"
+    }
+  },
+  "password": {
+    "footer": {
+      "admin_link_html": "Sind Sie der Ladenbesitzer? <a class=\"password-footer_link\" href=\"/admin\">Hier anmelden</a>"
+    },
+    "main": {
+      "main_heading": "Demnächst geöffnet",
+      "enter_btn_label": "Mit Passwort anmelden",
+      "pass_form_error": "Falsches Passwort!",
+      "pass_heading": "Geschäft aufrufen",
+      "pass_para": "Bitte geben Sie das Passwort ein",
+      "notify_btn_label": "Benachrichtigen Sie mich",
+      "pass_btn_label": "Eingabetaste",
+      "back_btn_label": "Zurück"
+    }
+  },
+  "success": {
+    "success_text": "Erfolg",
+    "thanks_message": "Danke, dass Sie uns kontaktiert haben.",
+    "get_back_message": "Wir melden uns so schnell wie möglich bei Ihnen."
+  },
+  "reset_password": {
+    "title": "Kontopasswort zurücksetzen",
+    "subtext": "Geben Sie ein neues Passwort ein."
+  },
+  "activate_account": {
+    "title": "Konto aktivieren",
+    "subtext": "Legen Sie Ihr Passwort fest, um Ihr Konto zu aktivieren.",
+    "submit": "Konto aktivieren",
+    "cancel": "Einladung ablehnen"
+  },
+  "quantity": {
+    "input_label": "Menge für {{ product }}",
+    "increase": "Menge für {{ product }} erhöhen",
+    "decrease": "Menge für {{ product }} reduzieren",
+    "subtotal": "Zwischensumme",
+    "quantity": "Menge"
+  },
+  "share_button": {
+    "label": "Teilen",
+    "title": "Teilen: {{ title }}",
+    "close": "Teilen schließen",
+    "copy_to_clipboard": "Link kopieren",
+    "success_message": "Link in Zwischenablage kopiert"
+  },
+  "promotion_banners": {
+    "alt_label": "Aktionsbanner {{ index }}"
+  },
+  "multirow": {
+    "image_alt": "Medienbild {{ index }}"
+  },
+  "footer": {
+    "button_label": "Abonnieren",
+    "placeholder": "E-Mail-Adresse",
+    "heading": "E-Mail-Benachrichtigungen abonnieren"
+  },
+  "newsletter": {
+    "invalid_message": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "valid_message": "E-Mail-Adresse ist gültig",
+    "label": "E-Mail *",
+    "email_placeholder": "E-Mail-Adresse"
+  },
+  "localization": {
+    "country_label": "Land/Region",
+    "language_label": "Sprache",
+    "update_language": "Sprache aktualisieren",
+    "update_country": "Land/Region aktualisieren"
+  },
+  "menu": {
+    "burger_label": "Menü",
+    "dropdown_link": "{{ Link }} Dropdown",
+    "banner_image": "Menü-Bannerbild {{ index }}",
+    "mega_menu": "Mega-Menü"
+  },
+  "page": {
+    "current_label": "Seite",
+    "current_label_uppercase": "SEITE",
+    "back_to_home": "Zurück nach Hause",
+    "home": "Startseite"
+  },
+  "navigation": {
+    "dropdown_link": "{{ link }} Dropdown",
+    "current_page_label": "Seite"
+  },
+  "index_image": {
+    "alt": "Bild {{ index }}"
+  },
+  "carousel": {
+    "button": "gehe zu Folie {{ index }}"
+  },
+  "collections_list": {
+    "product": "{{ count }} Produkte"
+  },
+  "age_verifier": {
+    "heading": "Altersverifizierung",
+    "button_1": "JA, ICH BIN ÜBER 18",
+    "button_2": "NEIN, ICH BIN UNTER 18",
+    "error_text": "Wir verkaufen Produkte mit Altersbeschränkung, daher können Sie in unserem Geschäft nicht einkaufen."
+  },
+  "promotion_products_popup": {
+    "heading": "Werbemittel-Pop-up"
+  },
+  "newsletter_popup": {
+    "placeholder": "schreiben Sie Ihre E-Mail-Adresse auf",
+    "button": "Abonnieren",
+    "heading": "Newsletter-Pop-up"
+  },
+  "price": {
+    "from": "Von"
+  },
+  "templates": {
+    "bundle": {
+      "subtotal_container_aria_label": "Zwischensumme der ausgewählten Produkte im Bundle",
+      "thumbs_list_aria_label": "Miniaturansichten der ausgewählten Produkte bündeln",
+      "total_price": "Gesamtpreis",
+      "add_cart": "Artikel in den Warenkorb legen",
+      "items": "Artikel",
+      "vendor_name": "Anbietername",
+      "title": "Produkttitel"
+    }
   }
 }
