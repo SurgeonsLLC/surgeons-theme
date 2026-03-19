@@ -48,7 +48,35 @@
       "modal_heading": "Disponibilité en magasin de {{ product_title }}",
       "view_store": "Afficher les informations du magasin",
       "other_store": "Vérifier la disponibilité dans les autres magasins"
-    }
+    },
+    "view_details": "Voir le détail",
+    "title": "Titre du produit",
+    "vendor": "Nom du fournisseur",
+    "by": "par",
+    "price": "Prix",
+    "add_to_bundle": "Ajouter au lot",
+    "remove_from_bundle": "Supprimer du lot",
+    "unit_price_label": "Prix unitaire",
+    "regular_price": "prix courant",
+    "sale_price": "prix de vente",
+    "unit_price_separator": "par",
+    "sale": "Vente",
+    "size": "Taille",
+    "swatches": "Échantillons",
+    "unit_price_value": "19,99 $/kg",
+    "increment": "Incrément de la quantité de produit",
+    "unit_price": "prix unitaire",
+    "sku_label": "UGS",
+    "discount_price": "Prix réduit",
+    "vendor_label": "Fournisseur",
+    "sold_or_unavailable": "Épuisé ou non disponible",
+    "xr_button": "Afficher dans votre espace",
+    "xr_button_label": "Afficher dans votre espace, charge l'article dans la fenêtre de réalité augmentée",
+    "model_toggler_label": "charger le modèle 3D {{ index }} de {{ product }}",
+    "video_toggler_label": "charger la vidéo {{ index }} de {{ product }}",
+    "rating_label": "Évalué {{ count }} étoiles",
+    "include_taxes": "Taxe comprise.",
+    "shipping_policy_html": "<a href=\"{{ link }}\">Livraison</a> calculée à la caisse."
   },
   "store_locator": {
     "store_locator": "image du localisateur de magasin",
@@ -372,5 +400,96 @@
       "vendor_name": "Nom du fournisseur",
       "title": "Titre du produit"
     }
+  },
+  "sections": {
+    "video": {
+      "video_alt_html": "<span class='visually-hidden'>Charger la vidéo : </span>{{ caption }}"
+    },
+    "collection": {
+      "title": "Titre de la collection",
+      "title_uppercase": "TITRE DE LA COLLECTION",
+      "view_all": "VOIR TOUS LES PRODUITS"
+    },
+    "email_signup": {
+      "image_alt": "Image média {{ index }}"
+    },
+    "countdown_timer": {
+      "days_label": "jours",
+      "hours_label": "heures",
+      "min_label": "min",
+      "sec_label": "secondes"
+    },
+    "featured_banner": {
+      "image_alt": "Bannière d'image vedette {{ index }}"
+    },
+    "featured_product": {
+      "tag_1": "Balise 1",
+      "tag_2": "Jours 2",
+      "stock_left": "Seulement 5 articles restants"
+    }
+  },
+  "accessibility": {
+    "skip_to_content": "Aller au contenu",
+    "back_to_top": "Retour en haut",
+    "loader": "Chargement en cours…",
+    "loading": "Chargement...",
+    "close": "Fermer",
+    "slider": {
+      "next": "Suivant",
+      "previous": "Précédent",
+      "pagination_label": "Sélectionnez une diapositive à afficher",
+      "first": "Aller à la première diapositive",
+      "last": "Aller à la dernière diapositive",
+      "play": "Démarrer la lecture automatique",
+      "pause": "Mettre la lecture automatique en pause",
+      "carousel": "carrousel",
+      "slide": "diapositive",
+      "select": "Sélectionnez une diapositive à afficher"
+    }
+  },
+  "pagination": {
+    "next": "Page suivante",
+    "previous": "Page précédente",
+    "load_more": "Charger plus",
+    "next_pg": "Suivant",
+    "back": "Retour"
+  },
+  "main_blog": {
+    "empty_heading": "Oups, aucun blog trouvé."
+  },
+  "blogs": {
+    "comments": {
+      "count": {
+        "one": "Commentaire&nbsp;:&nbsp;{{ count }}",
+        "other": "Commentaires&nbsp;:&nbsp;{{ count }}"
+      },
+      "comment_form_title": "Laissez un commentaire",
+      "success": "Votre commentaire a été publié avec succès ! Merci !",
+      "success_moderated": "Votre commentaire a bien été posté. Nous le publierons d'ici peu, notre blog étant modéré.",
+      "name": "Nom",
+      "email": "Courriel",
+      "message": "Commentaire",
+      "moderated": "Veuillez noter que les commentaires doivent être approuvés avant d'être publiés.",
+      "post": "Publier un commentaire",
+      "previous": "BLOG PRÉCÉDENT",
+      "next": "PROCHAIN ARTICLE",
+      "share": "Partager cet article",
+      "error": {
+        "message": "Commentaire",
+        "name": "Nom",
+        "heading": "Veuillez ajuster les points suivants :"
+      }
+    },
+    "link_label": "LIRE LA SUITE",
+    "view_all_button_label": "Tout afficher",
+    "placeholder": {
+      "title": "Article de blog",
+      "author": "Nom de l'auteur",
+      "excerpt": "Fournissez à vos clients un résumé de votre article de blog."
+    }
+  },
+  "main_404": {
+    "button_label": "RETOUR À LA PAGE D'ACCUEIL",
+    "video_alt_text": "vidéo 404"
   }
 }
