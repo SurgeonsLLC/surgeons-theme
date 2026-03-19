@@ -1,0 +1,173 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "product": {
+    "buy_label": "Acheter maintenant",
+    "quick_view": "Aperçu rapide",
+    "stock": {
+      "soldout": "Épuisé",
+      "in_stock": "En stock",
+      "pre_order": "En rupture de stock en attente de réapprovisionnement",
+      "low_stock": "Stock faible",
+      "bar": {
+        "soldout": "Hélas ! Plus aucun article en stock",
+        "in_stock": "Excellent ! {{ count }} articles restants en stock",
+        "low_stock": "Dépêchez-vous ! Plus que {{ count }} article(s) en stock",
+        "pre_order": "L'article est en rupture de stock et sera expédié dès qu'il sera de nouveau disponible."
+      }
+    },
+    "size_chart": {
+      "toggler_label": "Guide des tailles",
+      "heading": "Guide des tailles",
+      "alt_label": "Tableau des tailles pour {{ product_title }}"
+    },
+    "atc_buttons": {
+      "soldout": "Épuisé",
+      "add_to_cart": "Ajouter au panier",
+      "unavailable": "Non disponible"
+    },
+    "ask_question": {
+      "label": "Poser une question",
+      "required_fields": "* Champs obligatoires",
+      "heading": "Poser une question"
+    },
+    "pickup": {
+      "store": "Tous les magasins",
+      "label": "Ramassage",
+      "available_at": "Retrait disponible : {{ location }}",
+      "unavailable_at": "Retrait actuellement indisponible : {{ location }}",
+      "available_at_html": "Retrait disponible à <span class=\"--fw-extra-bold\">{{ location }}</span>",
+      "unavailable_at_html": "Retrait actuellement indisponible à <span class=\"--fw-extra-bold\">{{ location }}</span>",
+      "modal_heading": "Disponibilité en magasin de {{ product_title }}",
+      "view_store": "Afficher les informations du magasin",
+      "other_store": "Vérifier la disponibilité dans les autres magasins"
+    }
+  },
+  "store_locator": {
+    "store_locator": "image du localisateur de magasin",
+    "name": "Points de vente",
+    "opening_time": {
+      "title": "Heure d'ouverture"
+    },
+    "hours": {
+      "title": "Téléphone"
+    },
+    "address": {
+      "title": "Adresse"
+    },
+    "email_address": {
+      "title": "Adresse e-mail"
+    },
+    "video_toggler_label": "charger la vidéo {{ index }} de {{ product }}",
+    "rating_label": "Évalué {{ count }} étoiles",
+    "include_taxes": "Taxe comprise.",
+    "shipping_policy_html": "<a href=\"{{ link }}\">Livraison</a> calculée à la caisse.",
+    "stock": {
+      "soldout": "Épuisé",
+      "in_stock": "En stock",
+      "pre_order": "En attente de réapprovisionnement",
+      "low_stock": "Stock faible",
+      "bar": {
+        "soldout": "Hélas ! Plus aucun article en stock",
+        "in_stock": "Excellent ! {{ count }} articles restants en stock",
+        "low_stock": "Dépêchez-vous ! Plus que {{ count }} article(s) en stock",
+        "pre_order": "L'article est en rupture de stock et sera expédié dès qu'il sera de nouveau disponible."
+      }
+    },
+    "size_chart": {
+      "toggler_label": "Guide des tailles",
+      "heading": "Guide des tailles",
+      "alt_label": "Tableau des tailles pour {{ product_title }}"
+    },
+    "atc_buttons": {
+      "soldout": "Épuisé",
+      "add_to_cart": "Ajouter au panier",
+      "unavailable": "Non disponible"
+    },
+    "ask_question": {
+      "label": "Poser une question",
+      "required_fields": "* Champs obligatoires",
+      "heading": "Poser une question"
+    }
+  },
+  "recipient": {
+    "form": {
+      "checkbox": "Je souhaite l'envoyer comme cadeau.",
+      "email_label": "Courriel du destinataire",
+      "email_label_optional": "E-mail du destinataire (facultatif)",
+      "email": "Courriel",
+      "name_label": "Nom du destinataire (facultatif)",
+      "name": "Nom",
+      "message_label": "Message (facultatif)",
+      "max_characters": "{{ max_chars }} caractères max",
+      "send_on": "AAAA-MM-JJ",
+      "send_on_label": "Envoyer à (facultatif)"
+    }
+  },
+  "erorr": {
+    "common_heading": "Veuillez ajuster les points suivants :",
+    "mail_form_error": "Veuillez saisir une adresse électronique valide",
+    "error_text": "Erreur"
+  },
+  "contact_form": {
+    "form_label": {
+      "name": {
+        "label": "Nom*"
+      },
+      "your_request": {
+        "label": "Votre demande*"
+      }
+    },
+    "form_placeholder": {
+      "name": {
+        "label": "Nom"
+      },
+      "email": {
+        "label": "Adresse e-mail"
+      },
+      "your_request": {
+        "label": "Votre demande"
+      }
+    },
+    "submit_label": "Envoyer le message",
+    "success": {
+      "heading1": "Merci de nous avoir contactés.",
+      "heading2": "Nous vous recontacterons dès que possible."
+    },
+    "image_alt": "Formulaire de contact"
+  },
+  "image_gallery": {
+    "image_alt": "Image de la galerie {{ index }}"
+  },
+  "selling_plan_text": "La variante ne peut être achetée qu'avec un plan de vente.",
+  "gift_card": {
+    "copy": "Copier le code",
+    "copied": "Code copié avec succès",
+    "qr_image_alt": "Code QR — scannez pour utiliser votre carte-cadeau",
+    "buy_button": "Acheter une carte-cadeau",
+    "continue_shopping": "Continuer vos achats",
+    "print": "Imprimer",
+    "expire": "Expire le {{ date }}",
+    "expired": "Expiré",
+    "heading": "Votre Carte Cadeau",
+    "issued": {
+      "title": "Voici le solde de {{ value }} de votre carte cadeau pour {{ shop }} !"
+    }
+  },
+  "main_register": {
+    "main_heading": "Créer un compte",
+    "pass_placeholder": "Saisissez le mot de passe",
+    "already_account": "Vous avez déjà un compte ?"
+  },
+  "main_login": {
+    "main_heading": "Connexion client",
+    "forgot_btn_label": "Mot de passe oublié ?"
+  }
+}
