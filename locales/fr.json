@@ -320,5 +320,57 @@
       "info": "Ne fonctionne que lorsque la vue défilante est sélectionnée.",
       "products_count": "19 produits"
     }
+  },
+  "localization": {
+    "country_label": "Pays/région",
+    "language_label": "Langue",
+    "update_language": "Mettre à jour la langue",
+    "update_country": "Mettre à jour le pays/la région"
+  },
+  "menu": {
+    "dropdown_link": "{{ lien }} déroulant",
+    "banner_image": "image de bannière du menu {{ index }}",
+    "mega_menu": "Mégamenu"
+  },
+  "page": {
+    "back_to_home": "Retour à l'accueil",
+    "home": "Accueil"
+  },
+  "navigation": {
+    "dropdown_link": "{{ lien }} déroulant"
+  },
+  "carousel": {
+    "button": "allez à la diapositive {{ index }}"
+  },
+  "collections_list": {
+    "product": "{{ count }} produits"
+  },
+  "age_verifier": {
+    "heading": "Vérification de l'âge",
+    "button_1": "OUI, J'AI PLUS DE 18 ANS",
+    "button_2": "NON, JE N'AI PAS 18 ANS",
+    "error_text": "Nous vendons des produits soumis à des restrictions d'âge, vous ne serez donc pas autorisé(e) à acheter dans notre magasin."
+  },
+  "promotion_products_popup": {
+    "heading": "Fenêtre contextuelle des produits en promotion"
+  },
+  "newsletter_popup": {
+    "placeholder": "écrivez votre adresse e-mail",
+    "button": "S'abonner",
+    "heading": "Fenêtre contextuelle d'infolettre"
+  },
+  "price": {
+    "from": "De"
+  },
+  "templates": {
+    "bundle": {
+      "subtotal_container_aria_label": "Sous-total des produits sélectionnés du pack",
+      "thumbs_list_aria_label": "Miniatures des produits groupés sélectionnés",
+      "total_price": "Prix total",
+      "add_cart": "Ajouter des articles au panier",
+      "items": "article(s)",
+      "vendor_name": "Nom du fournisseur",
+      "title": "Titre du produit"
+    }
   }
 }
