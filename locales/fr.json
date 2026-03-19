@@ -196,7 +196,11 @@
   },
   "main_login": {
     "main_heading": "Connexion client",
-    "forgot_btn_label": "Mot de passe oublié ?"
+    "forgot_btn_label": "Mot de passe oublié ?",
+    "create_account": "Pas encore de compte ?",
+    "reset_btn_label": "Réinitialiser le mot de passe",
+    "cancel_btn_label": "Annuler",
+    "recover_success": "Nous vous avons envoyé un e-mail contenant un lien pour modifier votre mot de passe."
   },
   "newsletter": {
     "name_placeholder": "Nom",
@@ -205,7 +209,10 @@
     "error_text": "Erreur",
     "success_text": "Merci de vous être abonné(e)",
     "btn_label": "S'abonner",
-    "alt_label": "Rubrique de la newsletter"
+    "alt_label": "Rubrique de la newsletter",
+    "invalid_message": "Veuillez saisir une adresse e-mail valide",
+    "valid_message": "L'adresse e-mail est valide",
+    "email_placeholder": "Adresse e-mail"
   },
   "logo_list": {
     "image_alt": "Image du logo {{ index }}"
@@ -491,5 +498,131 @@
   "main_404": {
     "button_label": "RETOUR À LA PAGE D'ACCUEIL",
     "video_alt_text": "vidéo 404"
+  },
+  "account": {
+    "email_label": "Adresse e-mail",
+    "pass_label": "Mot de passe",
+    "reset_heading": "Réinitialiser le mot de passe",
+    "req_fields_text": "Champs obligatoires*",
+    "sign_up": "Inscrivez-vous !",
+    "btn_label": "Connexion",
+    "password_confirm": "Confirmer le mot de passe",
+    "first_name": "Prénom",
+    "last_name": "Nom de famille",
+    "header": {
+      "order_history": "Historique des commandes",
+      "heading": "Historique des commandes",
+      "addresses": "Adresses"
+    }
+  },
+  "customer": {
+    "my_account_label": "Mon compte",
+    "logout_label": "Se déconnecter",
+    "login_label": "Connexion/inscription",
+    "login_page": {
+      "alternate_provider_separator": "ou"
+    },
+    "main": {
+      "order_label": "Commande",
+      "pay_status_label": "Statut du paiement",
+      "fillment_status_label": "État d'exécution",
+      "no_orders": "Vous n'avez pas encore passé de commandes.",
+      "billing_address": "Adresse de facturation",
+      "shipping_address": "Adresse de livraison"
+    },
+    "details": {
+      "title": "Commande {{ order_name }}",
+      "date": "Placé sur",
+      "product_label": "Produit",
+      "sku_label": "UGS",
+      "price_label": "Prix",
+      "qty_label": "Qté",
+      "fulfilled_at_html": "Accompli le {{ date }}",
+      "track_shipment": "Suivi d'expédition",
+      "subtotal_label": "Sous-total",
+      "discount_label": "Remise",
+      "shipping": "Expédition",
+      "tax": "Impôt",
+      "total_duties": "Fonctions",
+      "total_refunded": "Remboursé",
+      "return": "Retour aux commandes"
+    },
+    "addresses": {
+      "add": "Ajouter une adresse",
+      "add_new": "Ajouter une nouvelle adresse",
+      "company": "Entreprise",
+      "address1": "Adresse 1",
+      "address2": "Adresse 2",
+      "city": "Ville",
+      "country": "Pays/région",
+      "zip": "Code postal",
+      "phone": "Téléphone",
+      "set_default": "Définir cette adresse par défaut",
+      "back_to_addresses": "Retour aux adresses",
+      "default": "Adresse par défaut",
+      "edit": "Modifier l'adresse",
+      "delete": "Supprimer l'adresse {{ index }}",
+      "delete_confirm": "Êtes-vous sûr de vouloir supprimer cette adresse ?",
+      "update": "Mettre à jour l'adresse"
+    }
+  },
+  "password": {
+    "footer": {
+      "admin_link_html": "Êtes-vous le propriétaire du magasin ? <a class=\"password-footer_link\" href=\"/admin\">Connectez-vous ici</a>"
+    },
+    "main": {
+      "main_heading": "Bientôt disponible",
+      "enter_btn_label": "Entrer avec un mot de passe",
+      "pass_form_error": "Mot de passe incorrect !",
+      "pass_heading": "Accéder au magasin",
+      "pass_para": "Veuillez entrer le mot de passe",
+      "notify_btn_label": "Prévenez-moi",
+      "pass_btn_label": "Entrez",
+      "back_btn_label": "Retour"
+    }
+  },
+  "success": {
+    "success_text": "Réussite",
+    "thanks_message": "Merci de nous avoir contactés.",
+    "get_back_message": "Nous vous recontacterons dans les plus brefs délais."
+  },
+  "reset_password": {
+    "title": "Réinitialiser le mot de passe du compte",
+    "subtext": "Entrez un nouveau mot de passe."
+  },
+  "activate_account": {
+    "title": "Activer le compte",
+    "subtext": "Créez votre mot de passe pour activer votre compte.",
+    "submit": "Activer le compte",
+    "cancel": "Refuser l'invitation"
+  },
+  "quantity": {
+    "input_label": "Quantité pour {{ product }}",
+    "increase": "Augmenter la quantité pour {{ product }}",
+    "decrease": "Diminuer la quantité pour {{ product }}",
+    "subtotal": "Sous-total",
+    "quantity": "Quantité"
+  },
+  "share_button": {
+    "label": "Partager",
+    "title": "Partager : {{ title }}",
+    "close": "Fermer le partage",
+    "copy_to_clipboard": "Copier le lien",
+    "share_url": "Lien",
+    "success_message": "Lien copié dans le presse-papiers"
+  },
+  "breadcrumb": {
+    "title": "Fils d'Ariane"
+  },
+  "promotion_banners": {
+    "alt_label": "Bannière promotionnelle {{ index }}"
+  },
+  "multirow": {
+    "image_alt": "Image média {{ index }}"
+  },
+  "footer": {
+    "button_label": "S'abonner",
+    "placeholder": "Adresse e-mail",
+    "heading": "Abonnez-vous pour recevoir des notifications par e-mail"
   }
 }
