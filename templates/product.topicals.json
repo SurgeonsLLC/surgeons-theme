@@ -137,7 +137,7 @@
           "settings": {
             "other_products": [
               "cbdclassicsonline",
-              "cbd-flower-online",
+              "surgeonscbdfloweronline",
               "surgeons-affiliate-bundles"
             ],
             "heading": "Check these products out",
@@ -234,10 +234,10 @@
         "review_2": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Trustpilot",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description": "I've dealt with back-pain my whole life and nothing quite helps like the Secret Sauce. I use it every day, it has even helped with my neuropathy to the point where I don't feel the pins and needles feeling when I wake up. Greate product by great people.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
@@ -247,10 +247,10 @@
         "review_3": {
           "type": "review",
           "settings": {
-            "heading": "Author Name",
+            "heading": "Google",
             "block_heading_size": "h6",
             "block_heading_weight": "--fw-bold",
-            "block_description": "An exceptional professional who delivered outstanding work with attention to detail and precision. Their deep expertise and problem-solving abilities were clear throughout the project. Communication was prompt and clear, ensuring a smooth and efficient process. The results exceeded expectations and demonstrated their commitment to excellence.",
+            "block_description": "If I could give them more than 5 stars, I would. CBD Surgeons are providing the highest quality product around, at an incredibly reasonable price for the product you get. The best part though, is that they aren't just another dispensary trying to sell you a product, they actually care, they want to hear your story, and they WANT to help. Great people with great product, give them a try and you'll never go anywhere else.",
             "block_description_size": "h4",
             "block_description_weight": "--fw-normal",
             "block_rating": "5",
