@@ -169,5 +169,156 @@
   "main_login": {
     "main_heading": "Connexion client",
     "forgot_btn_label": "Mot de passe oublié ?"
+  },
+  "newsletter": {
+    "name_placeholder": "Nom",
+    "email_label": "Courriel *",
+    "name_label": "Nom *",
+    "error_text": "Erreur",
+    "success_text": "Merci de vous être abonné(e)",
+    "btn_label": "S'abonner",
+    "alt_label": "Rubrique de la newsletter"
+  },
+  "logo_list": {
+    "image_alt": "Image du logo {{ index }}"
+  },
+  "email_signup": {
+    "image_alt": "Image média {{ index }}"
+  },
+  "payment_icons": {
+    "image_alt": "Image d'icône de paiement"
+  },
+  "accordion": {
+    "opener_label": "Ouvrir le contenu {{ index }}"
+  },
+  "media_with_content": {
+    "image_alt": "Image média {{ index }}"
+  },
+  "before_after": {
+    "error_text": "Pour afficher une comparaison avant/après, ajoutez d'autres blocs à la section.",
+    "image_alt": "Image avant/après {{ index }}",
+    "label": "Avant/Après"
+  },
+  "collapsible_media": {
+    "image_alt": "Image média {{ index }}"
+  },
+  "search": {
+    "toggler_label": "Basculer le composant de recherche",
+    "label": "Rechercher",
+    "reset": "Réinitialiser le formulaire de recherche",
+    "placeholder": "Rechercher « Produits »",
+    "no_results": "Aucun résultat trouvé !",
+    "no_products": "Aucun produit trouvé !",
+    "no_articles": "Aucun article trouvé !",
+    "no_pages": "Aucune page trouvée !",
+    "no_collections": "Aucune collection trouvée !",
+    "products": "Produits",
+    "s_for": "Rechercher des produits, des collections, des articles ou des pages.",
+    "no_search_results": "Aucun résultat n'a été trouvé pour « {{ terms }} ». Vérifiez l'orthographe ou utilisez un autre mot ou une autre expression.",
+    "results_with_count_and_term": "{{ count }} résultats trouvés pour « {{ terms }} »",
+    "show_results": "Affichage de {{ count }} résultat(s)",
+    "no_res": "Aucun résultat",
+    "product_count": {
+      "one": "{{ product_count }} produit sur {{ count }}",
+      "other": "{{ product_count }} sur {{ count }} produits"
+    },
+    "view_more": "RECHERCHER « {{ terms }} »",
+    "heading": "Collection populaire"
+  },
+  "store": {
+    "toggler_label": "Ouvrir la fenêtre contextuelle des magasins",
+    "dropdown_label": "Localisateur de magasin",
+    "label": "Adresses des magasins"
+  },
+  "cart": {
+    "title": "PANIER",
+    "drawer_label_heading": "Tiroir de panier",
+    "edit_text": "Modifier",
+    "delete_text": "Supprimer",
+    "add_note": "Ajouter une note de commande",
+    "bubble": {
+      "zero": "0 articles dans le panier",
+      "one": "{{ count }} article dans votre panier",
+      "other": "{{ count }} articles dans votre panier"
+    },
+    "continue_shopping": "Continuer vos achats",
+    "empty": {
+      "heading": "Votre panier est vide",
+      "already_account": "Vous avez un compte ?",
+      "continue_shopping": "POURSUIVRE MES ACHATS",
+      "login_link_text": "Connectez-vous pour finaliser plus rapidement."
+    },
+    "main": {
+      "heading": "Votre panier",
+      "thead": {
+        "qty": "Quantité"
+      }
+    },
+    "write_note": "Écrire une note",
+    "note_textarea_placeholder": "Rédiger une note de panier",
+    "remove": "Supprimer {{ product }} du panier",
+    "edit": "Modifier ou changer l'option de {{ product }} dans le panier",
+    "edit_label": "Option de modification",
+    "update_cart": "METTRE À JOUR LE PANIER",
+    "shipping_bar": {
+      "free_html": "Profitez de la <strong>livraison gratuite</strong>"
+    },
+    "banner": "Bannière du panier",
+    "checkout": "Commander",
+    "subtotal": "Sous-total",
+    "taxes_and_shipping_policy_at_checkout_html": "Taxes et <a href=\"{{ link }}\">livraison</a> calculés au moment de payer",
+    "taxes_included_but_shipping_at_checkout": "Taxes incluses et livraison calculée au moment du paiement",
+    "taxes_included_and_shipping_policy_html": "Taxes incluses. La <a href=\"{{ link }}\">livraison</a> est calculée au moment du paiement.",
+    "taxes_and_shipping_at_checkout": "Taxes et frais de port calculés lors du paiement",
+    "drawer": {
+      "empty": {
+        "login_link_html": "<a href=\"{{ link }}\">Connectez-vous</a> pour payer plus rapidement."
+      },
+      "heading": "Panier",
+      "products": {
+        "btn_label": "Voir le produit"
+      },
+      "view_label": "Voir le panier"
+    }
+  },
+  "predictive": {
+    "products": "Produits"
+  },
+  "collection": {
+    "title": "Titre de la collection",
+    "empty_heading": "Oups, aucun produit trouvé.",
+    "empty_description": "Restez à l'écoute pour les prochaines collections. En attendant, parcourez nos articles populaires.",
+    "empty_btn_label": "Retour aux collections",
+    "title_uppercase": "TITRE DE LA COLLECTION",
+    "view_all": "VOIR TOUS LES PRODUITS",
+    "grid_buttons": {
+      "3": "3 colonnes",
+      "4": "4 colonnes",
+      "6": "6 colonnes"
+    }
+  },
+  "filters": {
+    "drawer_label_heading": "Filtrer",
+    "clear_all": "Effacer tout",
+    "clear_all_label": "Effacer tous les filtres sélectionnés",
+    "use_fewer_filters": "Utilisez moins de filtres ou",
+    "count": {
+      "one": "{{ count }} Produit",
+      "other": "{{ count }} produits",
+      "facet_by": "{{ count }} sur {{ count_all }} produits"
+    },
+    "sort": {
+      "label_heading": "Trier les collections (menu déroulant)",
+      "option_selected": "option sélectionnée"
+    },
+    "price_range": {
+      "max_price_html": "Le prix le plus élevé est de <strong class=\"facet_highlight-text --fw-normal\">{{ price }}</strong>",
+      "from": "De",
+      "to": "À"
+    },
+    "collection_list": {
+      "info": "Ne fonctionne que lorsque la vue défilante est sélectionnée.",
+      "products_count": "19 produits"
+    }
   }
 }
