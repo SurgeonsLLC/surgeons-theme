@@ -280,12 +280,11 @@
     },
     "recommendations": {
       "type": "product-recommendation",
-      "disabled": true,
       "settings": {
-        "section_caption": "Caption",
+        "section_caption": "Personal Recommendations",
         "section_caption_size": "text-size--medium",
         "section_caption_weight": "--fw-medium",
-        "section_heading": "Heading",
+        "section_heading": "Full Spectrum Solutions",
         "section_heading_size": "h4",
         "section_heading_weight": "--fw-extra-bold",
         "section_description": "",
@@ -347,7 +346,7 @@
         "banner_V38pff": {
           "type": "banner",
           "settings": {
-            "image": "shopify://shop_images/Back_to_school_promotional_graphic_Surgeons_LLC.png",
+            "image": "shopify://shop_images/Cannabinoid_chatbot_with_futuristic_tech_vibe.png",
             "block_discount": "",
             "block_discount_size": "h3",
             "block_discount_weight": "--fw-bold",
