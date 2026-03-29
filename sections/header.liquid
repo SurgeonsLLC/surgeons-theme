@@ -767,7 +767,7 @@
   .modal-component--menu-drawer .modal-component_wrapper,
   .modal-component--menu-drawer .modal-component_heading,
   .search-bar_dropdown-wrapper{
-    color: var(--section-foreground-color);
+    color: var(--section-foreground-color, #000000);
   }
 
   .page-header{
@@ -872,8 +872,8 @@
   .page-header_icns-items .button--icn{
     --button-border-color: transparent;
     --button-hover-border-color: transparent;
-    --button-text: var(--section-active-hover-color);
-    --button-hover-text: var(--section-links-color);
+    --button-text: var(--section-active-hover-color, #000000);
+    --button-hover-text: var(--section-links-color, #000000);
     --button-outline-offset: -2px;
     --button-font-family: var(--font-headings-family);
     --button-font-weight: 600;
@@ -883,8 +883,8 @@
   .page-header_icns-items .button--icn.search-bar_reset-btn{
     --button-background: transparent;
     --button-hover-background: transparent;
-    --button-text: var(--section-active-hover-color);
-    --button-hover-text: var(--section-links-color);
+    --button-text: var(--section-active-hover-color, #000000);
+    --button-hover-text: var(--section-links-color, #000000);
   }
 
   .--make-transparent{
@@ -2251,8 +2251,9 @@
           <div class="{{ section_prefix_class }}_nav {{ section_prefix_class }}_align-wrap {{ section_prefix_class }}_grow">
             <div class="{{ section_prefix_class }}_box-logo">
               <div class="logo {{ section_prefix_class }}_logo">
-                {%- comment -%} SEO: Logo should NOT be H1 - main content heading should be H1 {%- endcomment -%}
-                <div class="logo_heading h6 mty">
+                {%- if request.page_type == 'index' -%}
+                  <div class="logo_heading h6 mty">
+                {%- endif -%}
                     <a href="{{ routes.root_url }}" class="logo_link --word-break">
                       {%- liquid
                         assign logo_alt = section.settings.logo.alt | default: shop.name | escape
@@ -2284,7 +2285,9 @@
                           {{- shop.name -}}
                       {%- endif -%}
                     </a>
-                </div>
+                {%- if request.page_type == 'index' -%}
+                  </div>
+                {%- endif -%}
               </div>
             </div>
             <div class="{{ section_prefix_class }}_links-col">
@@ -2343,8 +2346,9 @@
                             </button>
                           </modal-component-toggler>
                           <div class="logo {{ section_prefix_class }}_logo drawer-logo">
-                            {%- comment -%} SEO: Logo should NOT be H1 {%- endcomment -%}
-                            <div class="logo_heading h6 mty">
+                            {%- if request.page_type == 'index' -%}
+                              <div class="logo_heading h6 mty">
+                            {%- endif -%}
                                 <a href="{{ routes.root_url }}" class="logo_link --word-break">
                                   {%- liquid
                                     assign logo_alt = section.settings.logo.alt | default: shop.name | escape
@@ -2376,7 +2380,9 @@
                                       {{- shop.name -}}
                                   {%- endif -%}
                                 </a>
-                            </div>
+                            {%- if request.page_type == 'index' -%}
+                              </div>
+                            {%- endif -%}
                           </div>
                           <ul class="drawer-user-link list-unstyled">
                             {%- if section.settings.show_customer -%}
