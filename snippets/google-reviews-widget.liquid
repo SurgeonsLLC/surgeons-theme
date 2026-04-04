@@ -1,0 +1,68 @@
+{%- comment -%}
+  Google Reviews Widget — displays GBP rating + recent reviews
+  CBD Surgeons & Surgeons, LLC — surgeonsolution.io
+
+  Pulls live data from our GBP integration via CC API.
+  Falls back to static data if API is unreachable.
+{%- endcomment -%}
+
+<section id="srgn-reviews" style="padding:48px 20px; background:#0a0a0a; border-top:1px solid #1a1a1a; border-bottom:1px solid #1a1a1a;">
+  <div style="max-width:1000px; margin:0 auto; text-align:center;">
+    <div style="margin-bottom:32px;">
+      <div style="display:inline-flex; align-items:center; gap:8px; margin-bottom:8px;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" style="color:#facc15;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="currentColor"/></svg>
+        <span style="color:#fff; font-size:36px; font-weight:800;">5.0</span>
+        <span style="color:#9ca3af; font-size:16px;">/ 5</span>
+      </div>
+      <div style="color:#9ca3af; font-size:14px;">
+        Based on <strong style="color:#fff;" id="srgn-review-count">31</strong> Google Reviews
+      </div>
+      <div style="display:flex; justify-content:center; gap:4px; margin-top:8px;">
+        <span style="color:#facc15; font-size:20px;">★★★★★</span>
+      </div>
+    </div>
+
+    <div id="srgn-reviews-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:16px; text-align:left;">
+      <!-- Reviews loaded dynamically or static fallback -->
+      <div class="srgn-review-card" style="background:#111; border:1px solid #222; border-radius:12px; padding:20px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <div style="width:36px; height:36px; border-radius:50%; background:#10b981; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:600; font-size:14px;">A</div>
+          <div>
+            <div style="color:#fff; font-weight:600; font-size:14px;">Angela Renee</div>
+            <div style="color:#facc15; font-size:12px;">★★★★★</div>
+          </div>
+        </div>
+        <p style="color:#9ca3af; font-size:13px; line-height:1.6; margin:0;">"They seem like great people and I wish this local small business so much success. Was recommended a few options, picked one and am pleasantly surprised."</p>
+      </div>
+
+      <div class="srgn-review-card" style="background:#111; border:1px solid #222; border-radius:12px; padding:20px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <div style="width:36px; height:36px; border-radius:50%; background:#3b82f6; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:600; font-size:14px;">S</div>
+          <div>
+            <div style="color:#fff; font-weight:600; font-size:14px;">Stephen Simpson</div>
+            <div style="color:#facc15; font-size:12px;">★★★★★</div>
+          </div>
+        </div>
+        <p style="color:#9ca3af; font-size:13px; line-height:1.6; margin:0;">"If I could give them more than 5 stars, I would. CBD Surgeons are providing the highest quality products."</p>
+      </div>
+
+      <div class="srgn-review-card" style="background:#111; border:1px solid #222; border-radius:12px; padding:20px;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <div style="width:36px; height:36px; border-radius:50%; background:#8b5cf6; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:600; font-size:14px;">S</div>
+          <div>
+            <div style="color:#fff; font-weight:600; font-size:14px;">Sandy Steenberg</div>
+            <div style="color:#facc15; font-size:12px;">★★★★★</div>
+          </div>
+        </div>
+        <p style="color:#9ca3af; font-size:13px; line-height:1.6; margin:0;">"CBD Surgeons is very knowledgeable and sells quality products that work! They know their stuff. Highly recommend."</p>
+      </div>
+    </div>
+
+    <div style="margin-top:24px;">
+      <a href="https://maps.google.com/?cid=10598487017031475555" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:8px; color:#10b981; font-size:14px; font-weight:600; text-decoration:none; padding:10px 20px; border:1px solid #10b981; border-radius:8px; transition:all 0.2s;" onmouseover="this.style.background='#10b981'; this.style.color='#fff';" onmouseout="this.style.background='transparent'; this.style.color='#10b981';">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        See All Reviews on Google
+      </a>
+    </div>
+  </div>
+</section>

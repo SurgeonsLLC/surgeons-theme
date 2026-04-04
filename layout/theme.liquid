@@ -1052,6 +1052,7 @@
       <main id="MainContent" role="main" tabindex="-1">
         {{ content_for_layout }}
       </main>
+      {%- render 'google-reviews-widget' -%}
       {%- sections 'footer-group' -%}
     </div>
     {%- render 'window-strings-script' -%}
