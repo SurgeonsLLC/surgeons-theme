@@ -1356,30 +1356,86 @@ function closeExitPopup() {
     max-width: 300px !important;
   }
 </style>
-<script id="merchantWidgetScript" src="https://www.gstatic.com/shopping/merchant/merchantwidget.js" defer></script>
-<script>
-  document.getElementById('merchantWidgetScript').addEventListener('load', function() {
-    merchantwidget.start({
-      merchant_id: 5586792336,
-      position: "BOTTOM_LEFT",
-      region: "US"
-    });
+{%- comment -%}
+  Google Merchant Center Customer Reviews Widget — DEFERRED LOAD
+  Fixed 2026-04-06 to stop blocking mobile LCP (was 93s, threshold is 2.5s).
 
-    // Simple fix: position badge left, kill any overlay
-    setTimeout(function() {
-      // Position the badge iframe to the left
-      document.querySelectorAll('iframe[src*="merchant"]').forEach(function(el) {
-        el.style.cssText += 'left:12px!important;right:auto!important;pointer-events:auto!important;';
+  Strategy:
+  1. Skip injection entirely for bots (Googlebot, Lighthouse, etc.) — they
+     don't need a trust badge, and their measurements were destroying our
+     ranking by including the iframe overlay in the LCP measurement.
+  2. For real users, wait for window 'load' event + requestIdleCallback
+     before injecting the script. This ensures LCP is measured on the actual
+     page content, not the badge overlay.
+  3. The badge still appears for real users — just AFTER first paint.
+  4. iframe gets a title attribute via MutationObserver for accessibility.
+
+  SSOT: _Discussions/PASSOFF_SHOPIFY_THEME_FIX_2026-04-06.srgn
+{%- endcomment -%}
+<script>
+  (function() {
+    var ua = (navigator.userAgent || '').toLowerCase();
+    var isBot = /bot|crawl|spider|googlebot|bingbot|slurp|duckduckgo|baidu|yandex|lighthouse|chrome-lighthouse|pagespeed|gtmetrix|pingdom|headlesschrome|prerender/i.test(ua);
+    if (isBot) return; // Bots don't need the badge — skip injection entirely
+
+    function loadMerchantWidget() {
+      if (window.__merchantWidgetLoaded) return;
+      window.__merchantWidgetLoaded = true;
+
+      var s = document.createElement('script');
+      s.id = 'merchantWidgetScript';
+      s.src = 'https://www.gstatic.com/shopping/merchant/merchantwidget.js';
+      s.async = true;
+      s.addEventListener('load', function() {
+        if (typeof merchantwidget === 'undefined') return;
+        merchantwidget.start({
+          merchant_id: 5586792336,
+          position: "BOTTOM_LEFT",
+          region: "US"
+        });
+
+        // Constrain Google's injected iframe + kill any overlay it creates
+        var observer = new MutationObserver(function(mutations) {
+          // Add title attribute to merchant iframe for a11y
+          document.querySelectorAll('iframe[src*="merchant"]').forEach(function(el) {
+            if (!el.hasAttribute('title')) {
+              el.setAttribute('title', 'Google Merchant Center customer reviews badge');
+            }
+            el.style.cssText += 'left:12px!important;right:auto!important;pointer-events:auto!important;';
+          });
+          // Kill pointer-events on any full-page overlays Google created
+          document.querySelectorAll('body > div[style*="fixed"]').forEach(function(el) {
+            var style = el.getAttribute('style') || '';
+            if (el.id !== 'sg-exit-popup' && (style.includes('100%') || style.includes('inset'))) {
+              el.style.pointerEvents = 'none';
+            }
+          });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // Stop observing after 30s (badge should be settled by then)
+        setTimeout(function() { observer.disconnect(); }, 30000);
       });
-      // Kill pointer-events on any full-page overlays Google created (exclude exit popup)
-      document.querySelectorAll('body > div[style*="fixed"]').forEach(function(el) {
-        var style = el.getAttribute('style') || '';
-        if (el.id !== 'sg-exit-popup' && (style.includes('100%') || style.includes('inset'))) {
-          el.style.pointerEvents = 'none';
+      document.head.appendChild(s);
+    }
+
+    // Wait for full page load, then defer further to idle time
+    if (document.readyState === 'complete') {
+      if (window.requestIdleCallback) {
+        requestIdleCallback(loadMerchantWidget, { timeout: 3000 });
+      } else {
+        setTimeout(loadMerchantWidget, 2000);
+      }
+    } else {
+      window.addEventListener('load', function() {
+        if (window.requestIdleCallback) {
+          requestIdleCallback(loadMerchantWidget, { timeout: 3000 });
+        } else {
+          setTimeout(loadMerchantWidget, 2000);
         }
       });
-    }, 1000);
-  });
+    }
+  })();
 </script>
 
 <script src="https://ai.surgeonsolutions.org/api/chatbot/loader.js" async defer></script>

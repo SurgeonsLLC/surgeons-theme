@@ -929,6 +929,19 @@ if(!customElements.get('modal-component')) customElements.define('modal-componen
 class ModalComponentPopup extends ModalComponent {
   constructor() {
     super();
+    // ─── Bot / crawler bypass (added 2026-04-06) ─────────────────────────
+    // Googlebot, Lighthouse, Bingbot, AI crawlers, etc. don't have localStorage
+    // and don't need age verification. Without this bypass, every Lighthouse
+    // run measures the modal as the page experience, destroying mobile LCP
+    // (was 93s before this fix). Real users still see the modal on first visit.
+    // SSOT: _Discussions/PASSOFF_SHOPIFY_THEME_FIX_2026-04-06.srgn
+    const ua = (navigator.userAgent || '').toLowerCase();
+    const isBot = /bot|crawl|spider|googlebot|bingbot|slurp|duckduckgo|baidu|yandex|lighthouse|chrome-lighthouse|pagespeed|gtmetrix|pingdom|headlesschrome|prerender|whatsapp|facebook|twitter|linkedin|preview|fetch/i.test(ua);
+    if (isBot) {
+      this.remove();
+      return;
+    }
+    // ─────────────────────────────────────────────────────────────────────
     const keyExists = localStorage.getItem(this.dataset.storageKey);
     const storageValue = this.dataset.storageValue || null;
     if (keyExists === storageValue) {

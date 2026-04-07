@@ -1851,13 +1851,50 @@ modal-filter-component.--rendered .modal-component_body{
 .modal-component--centered .modal-component_body,
 .modal-component--bt-left .modal-component_body,
 .modal-component--bt-right .modal-component_body{
+  /* Fluid sizing — fits any device from 320px phones to 4K displays.
+     Updated 2026-04-06 for responsive age verifier modal.
+     SSOT: _Discussions/PASSOFF_SHOPIFY_THEME_FIX_2026-04-06.srgn */
+  width: clamp(280px, 92vw, 620px);
   max-width: 620px;
-  padding: 25px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: clamp(16px, 4vw, 32px);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   border-radius: var(--section-radius);
   background-color: var(--section-background-color);
   border: 1px solid var(--section-background-color);
   color: var(--section-foreground-color);
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Age verifier modal — extra-tight on small phones */
+.modal-component--age-verifier .modal-component_body{
+  width: clamp(280px, 94vw, 560px);
+  padding: clamp(20px, 5vw, 32px);
+}
+
+/* Hide age verifier image on very small screens to save vertical space */
+@media (max-width: 480px){
+  .modal-component--age-verifier .age-verifier_image{
+    max-height: 30vh;
+    overflow: hidden;
+  }
+  .modal-component--age-verifier .age-verifier_image img{
+    max-height: 30vh;
+    width: auto;
+    object-fit: contain;
+  }
+}
+
+/* Stack age verifier buttons on narrow screens */
+@media (max-width: 380px){
+  .age-verifier_btns-wrap{
+    flex-direction: column;
+    gap: 8px;
+  }
+  .age-verifier_btns-wrap > *{
+    width: 100%;
+  }
 }
 
 .modal-component--bt-left .modal-component_body{
