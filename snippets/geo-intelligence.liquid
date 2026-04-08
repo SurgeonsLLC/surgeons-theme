@@ -253,10 +253,10 @@
       message += '<a href="' + store.directionsUrl + '" target="_blank" rel="noopener">Get Directions</a>';
     } else if (geoData.distanceToStore <= 50) {
       message = '📍 CBD Surgeons in ' + store.city + ' is ' + distanceText + ' away. ';
-      message += 'Free shipping on orders over $74.99! ';
+      message += 'Free shipping on orders over $100! ';
       message += '<a href="' + store.directionsUrl + '" target="_blank" rel="noopener">Visit Us</a>';
     } else {
-      message = '📍 Shipping to ' + cityText + '! Free shipping on orders over $74.99.';
+      message = '📍 Shipping to ' + cityText + '! Free shipping on orders over $100.';
     }
 
     banner.innerHTML = '<div class="surgeons-geo-banner__content">' +

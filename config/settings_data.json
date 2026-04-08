@@ -12,7 +12,7 @@
     "page_width": 1472,
     "favicon_icon": "shopify://shop_images/A_2.svg",
     "cart_view": "page",
-    "free_shipping_amount": "$74.99",
+    "free_shipping_amount": "$100",
     "cart_draw_welcome_message": "Use coupon code <strong>WELCOME15</strong> for 15% off your first order (Apply on checkout).",
     "cart_related_collection": "topicals",
     "cart_related_max_to_show": 3,
