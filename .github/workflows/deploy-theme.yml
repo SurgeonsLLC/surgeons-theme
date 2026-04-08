@@ -45,12 +45,44 @@ jobs:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
         run: |
           ERRORS=0
+          UPLOADED=0
+          SKIPPED=0
+
+          # Extensions we treat as text and upload via the "value" field.
+          # Binary assets (images/fonts) would need base64 + "attachment" field;
+          # we skip them here to avoid silent corruption. They can be uploaded
+          # separately or via the Shopify theme editor.
+          is_text_file() {
+            case "$1" in
+              *.liquid|*.json|*.js|*.css|*.scss|*.html|*.svg|*.txt|*.md|*.map)
+                return 0 ;;
+              *)
+                return 1 ;;
+            esac
+          }
 
           upload_file() {
             local file_path="$1"
             local key="$file_path"
-            local content
-            content=$(cat "$file_path")
+
+            if ! is_text_file "$file_path"; then
+              echo "  - $key (skipped: binary)"
+              SKIPPED=$((SKIPPED + 1))
+              return 0
+            fi
+
+            # Build the JSON body in a temp file to avoid argv length limits.
+            # Pass paths via env vars so filenames with special chars are safe.
+            local body_file
+            body_file=$(mktemp)
+
+            FILE_PATH="$file_path" KEY="$key" BODY_FILE="$body_file" python3 <<'PYEOF'
+          import json, os
+          with open(os.environ['FILE_PATH'], 'r', encoding='utf-8') as f:
+              content = f.read()
+          with open(os.environ['BODY_FILE'], 'w', encoding='utf-8') as f:
+              json.dump({'asset': {'key': os.environ['KEY'], 'value': content}}, f)
+          PYEOF
 
             local response
             response=$(curl -s -w "\n%{http_code}" \
@@ -58,12 +90,9 @@ jobs:
               -H "X-Shopify-Access-Token: $SHOPIFY_ACCESS_TOKEN" \
               -H "Content-Type: application/json" \
               "https://${SHOPIFY_STORE}/admin/api/2024-10/themes/${THEME_ID}/assets.json" \
-              -d "$(python3 -c "
-          import json, sys
-          with open('$file_path', 'r') as f:
-              content = f.read()
-          print(json.dumps({'asset': {'key': '$key', 'value': content}}))
-          ")")
+              --data-binary "@$body_file")
+
+            rm -f "$body_file"
 
             local http_code
             http_code=$(echo "$response" | tail -1)
@@ -72,6 +101,7 @@ jobs:
 
             if [ "$http_code" -ge 200 ] && [ "$http_code" -lt 300 ]; then
               echo "  ✓ $key"
+              UPLOADED=$((UPLOADED + 1))
             else
               echo "  ✗ $key (HTTP $http_code)"
               echo "    $body" | head -2
@@ -96,6 +126,7 @@ jobs:
           done
 
           echo ""
+          echo "Summary: $UPLOADED uploaded, $SKIPPED skipped (binary), $ERRORS errors"
           if [ "$ERRORS" -gt 0 ]; then
             echo "::error::$ERRORS file(s) failed to upload"
             exit 1
