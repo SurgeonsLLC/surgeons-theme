@@ -933,7 +933,7 @@
         c.innerHTML = inj.code;
         var t = inj.placement === 'body' ? document.body : document.head;
         while (c.firstChild) {
-          if (c.firstChild.nodeType === 1) c.firstChild.setAttribute('data-surgeons-seo');
+          if (c.firstChild.nodeType === 1) c.firstChild.setAttribute('data-surgeons-seo', '');
           t.appendChild(c.firstChild);
         }
       });
@@ -1062,107 +1062,12 @@
   {% render 'entry-gate' %}
 
 <!-- ========================================
-     BUD Chat Widget v0.2 - CBD Surgeons (Performance Optimized)
-     Implemented: 2025-12-22 | Perf Update: 2026-01-12
-     Strategy: Facade pattern - loads on user interaction
-     Saves ~50-100KB on initial page load
+     BUD Chat Widget v0.2 - CBD Surgeons
+     Implemented: 2025-12-22
+     Replaces: BUD v0.1 inline popup widget
+     Docs: .bud/models/BUD_MODEL_VERSIONS.md
      ======================================== -->
-<div id="bud-chat-facade" style="position:fixed;bottom:20px;right:20px;width:60px;height:60px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:50%;cursor:pointer;z-index:9998;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,99,235,0.4);transition:transform .2s,box-shadow .2s;" aria-label="Open chat">
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-</div>
-<script>
-(function(){
-  var facade = document.getElementById('bud-chat-facade');
-  var loaded = false;
-
-  function loadChatbot() {
-    if (loaded) return;
-    loaded = true;
-    facade.style.display = 'none';
-
-    var script = document.createElement('script');
-    script.src = 'https://ai.surgeonsolutions.org/api/chatbot/loader.js';
-    script.onload = function() {
-      // Trigger chat open after load
-      if (window.BUDChat && window.BUDChat.open) {
-        setTimeout(function() { window.BUDChat.open(); }, 100);
-      }
-    };
-    document.body.appendChild(script);
-  }
-
-  // Load on click
-  facade.addEventListener('click', loadChatbot);
-
-  // Load on hover (desktop preload)
-  facade.addEventListener('mouseenter', function() {
-    if (!loaded && window.innerWidth > 768) {
-      loadChatbot();
-    }
-  }, { once: true });
-
-  // Load during idle time after 5 seconds (background preload)
-  if ('requestIdleCallback' in window) {
-    setTimeout(function() {
-      requestIdleCallback(function() {
-        if (!loaded) loadChatbot();
-      }, { timeout: 3000 });
-    }, 5000);
-  }
-})();
-</script>
-
-<!-- Surgeons Sales Booster: Exit-Intent Popup -->
-<div id="sg-exit-popup" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:999999;align-items:center;justify-content:center;">
-  <div style="background:#fff;border-radius:16px;max-width:480px;width:90%;padding:40px;text-align:center;position:relative;animation:bud-slideUp 0.4s ease-out;">
-    <button onclick="closeExitPopup()" style="position:absolute;top:15px;right:15px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;pointer-events:auto!important;">&times;</button>
-    <div style="font-size:48px;margin-bottom:16px;">🎁</div>
-    <h2 style="margin:0 0 12px;font-size:28px;color:#111;">Wait! Don't Leave Empty-Handed</h2>
-    <p style="color:#666;margin:0 0 24px;font-size:16px;">Get <strong>15% OFF</strong> your first order with code:</p>
-    <div style="background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;padding:16px 32px;border-radius:10px;font-size:24px;font-weight:700;letter-spacing:2px;margin-bottom:24px;display:inline-block;">WELCOME15</div>
-    <p style="color:#888;font-size:14px;margin:0 0 20px;">Plus <strong>FREE shipping</strong> on orders over $74.99!</p>
-    <a href="/collections/all" onclick="closeExitPopup()" style="display:inline-block;background:#111;color:#fff;padding:14px 40px;border-radius:50px;text-decoration:none;font-weight:600;transition:transform 0.2s;">Shop Now & Save</a>
-    <p style="margin:16px 0 0;font-size:12px;color:#999;">CBD Surgeons & Surgeons, LLC - Premium Hemp Products</p>
-  </div>
-</div>
-<script>
-(function(){
-  var exitShown = sessionStorage.getItem('sg_exit_shown');
-  if (exitShown) return;
-
-  function showExitPopup() {
-    if (sessionStorage.getItem('sg_exit_shown')) return;
-    document.getElementById('sg-exit-popup').style.display = 'flex';
-    sessionStorage.setItem('sg_exit_shown', 'true');
-  }
-
-  // Exit intent detection (desktop) - use passive listener
-  document.addEventListener('mouseout', function(e) {
-    if (e.clientY < 10 && e.relatedTarget === null) showExitPopup();
-  }, {passive: true});
-
-  // Scroll-based trigger - throttled to run max once per 500ms
-  var pageStartTime = Date.now();
-  var scrollTriggered = false;
-  var scrollTimeout = null;
-  window.addEventListener('scroll', function() {
-    if (scrollTriggered || scrollTimeout) return;
-    scrollTimeout = setTimeout(function() {
-      scrollTimeout = null;
-      if (scrollTriggered) return;
-      var scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-      if (scrollPercent > 50 && (Date.now() - pageStartTime) > 30000) {
-        scrollTriggered = true;
-        showExitPopup();
-      }
-    }, 500);
-  }, {passive: true});
-})();
-
-function closeExitPopup() {
-  document.getElementById('sg-exit-popup').style.display = 'none';
-}
-</script>
+<script src="https://ai.surgeonsolutions.org/api/chatbot/loader.js" async defer></script>
 
 <!-- Surgeons Sales Booster: Low Stock & Urgency Indicators - Deferred to idle -->
 <script>
@@ -1329,20 +1234,28 @@ function closeExitPopup() {
 <!-- Google Merchant Customer Reviews Badge — forced bottom-left -->
 <style>
   /* Kill Google's full-page overlay backdrop (exclude exit popup) */
-  div[style*="position: fixed"][style*="100%"][style*="100%"]:not(#sg-exit-popup),
-  div[style*="position: fixed"][style*="inset: 0"]:not(#sg-exit-popup),
-  div[style*="position: fixed"][style*="top: 0"][style*="left: 0"][style*="right: 0"]:not(#sg-exit-popup) {
+  div[style*="position: fixed"][style*="100%"][style*="100%"]:not(#srgn-exit-popup),
+  div[style*="position: fixed"][style*="inset: 0"]:not(#srgn-exit-popup),
+  div[style*="position: fixed"][style*="top: 0"][style*="left: 0"][style*="right: 0"]:not(#srgn-exit-popup) {
     pointer-events: none !important;
   }
-  /* Badge iframe stays clickable and positioned left */
+  /* Ensure exit popup and its children are always clickable */
+  #srgn-exit-popup,
+  #srgn-exit-popup * {
+    pointer-events: auto !important;
+  }
+  /* Badge iframe: stay clickable and never overflow the viewport.
+     Google's widget reserves the right to ignore BOTTOM_LEFT/BOTTOM_RIGHT
+     position config, so we no longer fight them on left/right — we only
+     constrain max-width so it always fits on screen. */
   iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
     pointer-events: auto !important;
-    left: 12px !important;
-    right: auto !important;
+    max-width: calc(100vw - 24px) !important;
+    width: auto !important;
   }
   @media (max-width: 768px) {
     iframe[src*="merchantwidget"], iframe[src*="google"][src*="merchant"] {
-      left: 8px !important;
+      max-width: calc(100vw - 16px) !important;
     }
   }
   /* Widen BUD chat popup message */
@@ -1390,7 +1303,7 @@ function closeExitPopup() {
         if (typeof merchantwidget === 'undefined') return;
         merchantwidget.start({
           merchant_id: 5586792336,
-          position: "BOTTOM_LEFT",
+          position: "BOTTOM_RIGHT",
           region: "US"
         });
 
@@ -1401,12 +1314,12 @@ function closeExitPopup() {
             if (!el.hasAttribute('title')) {
               el.setAttribute('title', 'Google Merchant Center customer reviews badge');
             }
-            el.style.cssText += 'left:12px!important;right:auto!important;pointer-events:auto!important;';
+            el.style.cssText += 'pointer-events:auto!important;max-width:calc(100vw - 24px)!important;';
           });
           // Kill pointer-events on any full-page overlays Google created
           document.querySelectorAll('body > div[style*="fixed"]').forEach(function(el) {
             var style = el.getAttribute('style') || '';
-            if (el.id !== 'sg-exit-popup' && (style.includes('100%') || style.includes('inset'))) {
+            if (el.id !== 'srgn-exit-popup' && (style.includes('100%') || style.includes('inset'))) {
               el.style.pointerEvents = 'none';
             }
           });
@@ -1437,8 +1350,6 @@ function closeExitPopup() {
     }
   })();
 </script>
-
-<script src="https://ai.surgeonsolutions.org/api/chatbot/loader.js" async defer></script>
 
 </body>
 </html>
