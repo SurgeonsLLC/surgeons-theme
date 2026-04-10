@@ -1,47 +1,45 @@
 {% comment %}
-  SurgeonsEdge CDN Image Helper
+  Surgeons CDN Image Helper — LOCKED ENABLED 2026-04-08
   CBD Surgeons & Surgeons, LLC / surgeonsolution.io
+  Operator: Ryan Bolda, 130 Dickinson St, Mount Clemens, MI 48043
 
-  Usage: {%- render 'surgeons-cdn-image', src: image_url, width: 400, quality: 80 -%}
-  Returns: CDN-optimized URL when live, original URL otherwise.
+  ═══════════════════════════════════════════════════════════════════════════
+  This helper returns a fully-qualified surgeons-ai CDN URL. It is the single
+  source of truth for the CDN base URL, so the base can be changed in one
+  place when surgeonsolution.io migrates off Shopify onto the surgeons-ai
+  infrastructure.
 
-  Set cdn_live to true and update cdn_base when the endpoint is ready.
+  Backend: https://ai.surgeonsolutions.org/cdn/{category}/{filename}
+  (Static file server — see C:\surgeons-ai\srgn-server\routes\cdn-routes.ts)
 
-  DEPLOYMENT COMMANDS (Ryan Bolda, 130 Dickinson St, Mount Clemens, MI 48043):
-  - Development: shopify theme dev --store=cbdsurgeons.myshopify.com
-  - Preview: shopify theme push --unpublished
-  - Production: shopify theme push --live
+  IMPORTANT: the backend is a STATIC file server. It does NOT perform
+  on-the-fly image transforms. Width/height/quality/format parameters below
+  are ACCEPTED but IGNORED today — reserved for future backend transform
+  support. Callers must pre-optimize and pre-size their files before
+  uploading via POST /api/v1/cdn/upload.
+
+  ═══════════════════════════════════════════════════════════════════════════
+  Usage patterns:
+
+  1. Reference an asset already on the surgeons-ai CDN:
+     {%- render 'surgeons-cdn-image', cdn_path: 'products/gummy-bears-800.webp' -%}
+     Returns: https://ai.surgeonsolutions.org/cdn/products/gummy-bears-800.webp
+
+  2. Fallback: if no cdn_path is given, return src unchanged:
+     {%- render 'surgeons-cdn-image', src: product.featured_image -%}
+     Returns: whatever src was (typically a Shopify CDN URL)
+
+  ═══════════════════════════════════════════════════════════════════════════
+  DO NOT revert to `{% raw %}{% assign cdn_live = false %}{% endraw %}` or
+  restore the old cdn.surgeonsolutions.org base. That subdomain never
+  existed and the old path-shape (`?w=X&h=Y&q=Z&f=auto`) was never
+  implemented on the backend.
 {% endcomment %}
 
-{% assign cdn_live = false %}
-{% assign cdn_base = 'https://cdn.surgeonsolutions.org/optimize/' %}
+{%- assign cdn_base = 'https://ai.surgeonsolutions.org/cdn/' -%}
 
-{% if cdn_live and src != blank %}
-  {%- liquid
-    assign cdn_params = ''
-    if width
-      assign cdn_params = cdn_params | append: 'w=' | append: width
-    endif
-    if height
-      if cdn_params != ''
-        assign cdn_params = cdn_params | append: '&'
-      endif
-      assign cdn_params = cdn_params | append: 'h=' | append: height
-    endif
-    if quality
-      if cdn_params != ''
-        assign cdn_params = cdn_params | append: '&'
-      endif
-      assign cdn_params = cdn_params | append: 'q=' | append: quality
-    endif
-    if cdn_params != ''
-      assign cdn_params = cdn_params | append: '&'
-    endif
-    assign cdn_params = cdn_params | append: 'f=auto'
-    assign encoded_src = src | url_encode
-    assign cdn_url = cdn_base | append: encoded_src | append: '?' | append: cdn_params
-  -%}
-  {{- cdn_url -}}
-{% else %}
+{%- if cdn_path != blank -%}
+  {{- cdn_base | append: cdn_path -}}
+{%- elsif src != blank -%}
   {{- src -}}
-{% endif %}
+{%- endif -%}
