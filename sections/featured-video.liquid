@@ -27,11 +27,11 @@
   endcapture
 
   capture loading_attr
-    unless section.index != 1
+    if section.index <= 2
       echo 'eager'
     else
       echo 'lazy'
-    endunless
+    endif
   endcapture
 -%}
 {%- style -%}

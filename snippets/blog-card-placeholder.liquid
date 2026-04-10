@@ -62,7 +62,7 @@
       <truncate-text truncate-length="20"
         class="text-size--large mty blog-card_excerpt  --word-break --fw-normal --normal-gap">     
         {{- 'blogs.placeholder.excerpt' | t -}}
-        <a href="#" class="toggle-text blog-card_read-more --fw-semi-bold">Read more</a>
+        <a href="#" class="toggle-text blog-card_read-more --fw-semi-bold">Read more<span class="visually-hidden"> about this article</span></a>
       </truncate-text>
     {%- endif -%}
     {% if show_tags %}

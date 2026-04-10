@@ -4,76 +4,82 @@
 
   Shows a popup when visitor moves cursor to leave the page.
   Only shows once per session. Doesn't show to returning customers.
+  DOM is deferred via <template> — zero DOM cost until triggered.
 {%- endcomment -%}
 
-<div id="srgn-exit-popup" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);">
-  <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#111; border:2px solid #10b981; border-radius:16px; padding:40px 32px; max-width:440px; width:90%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
-    <button onclick="document.getElementById('srgn-exit-popup').style.display='none'; sessionStorage.setItem('srgn_exit_shown','1');" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#666; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
+<template id="srgn-exit-popup-tpl">
+  <div id="srgn-exit-popup" style="position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.7); backdrop-filter:blur(4px);">
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#111; border:2px solid #10b981; border-radius:16px; padding:40px 32px; max-width:440px; width:90%; text-align:center; box-shadow:0 25px 50px rgba(0,0,0,0.5);">
+      <button id="srgn-exit-close" style="position:absolute; top:12px; right:16px; background:none; border:none; color:#666; font-size:24px; cursor:pointer; line-height:1;">&times;</button>
 
-    <div style="font-size:48px; margin-bottom:12px;">🌿</div>
-    <h2 style="color:#fff; font-size:24px; font-weight:700; margin:0 0 8px;">Wait — Don't Leave Empty-Handed</h2>
-    <p style="color:#9ca3af; font-size:15px; margin:0 0 20px; line-height:1.5;">First time here? Use code <strong style="color:#10b981;">FIRST10</strong> for 10% off your entire order.</p>
+      <div style="font-size:48px; margin-bottom:12px;">🌿</div>
+      <h2 style="color:#fff; font-size:24px; font-weight:700; margin:0 0 8px;">Wait — Don't Leave Empty-Handed</h2>
+      <p style="color:#9ca3af; font-size:15px; margin:0 0 20px; line-height:1.5;">First time here? Use code <strong style="color:#10b981;">FIRST10</strong> for 10% off your entire order.</p>
 
-    <div style="background:#0a0a0a; border:1px solid #333; border-radius:10px; padding:16px; margin-bottom:20px;">
-      <div style="color:#10b981; font-size:32px; font-weight:800; letter-spacing:2px;">FIRST10</div>
-      <div style="color:#666; font-size:12px; margin-top:4px;">10% off — no minimum purchase</div>
+      <div style="background:#0a0a0a; border:1px solid #333; border-radius:10px; padding:16px; margin-bottom:20px;">
+        <div style="color:#10b981; font-size:32px; font-weight:800; letter-spacing:2px;">FIRST10</div>
+        <div style="color:#666; font-size:12px; margin-top:4px;">10% off — no minimum purchase</div>
+      </div>
+
+      <a href="/collections/all" style="display:inline-block; background:#10b981; color:#fff; font-weight:600; font-size:16px; padding:14px 32px; border-radius:10px; text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
+        Shop Now & Save 10%
+      </a>
+
+      <p style="color:#555; font-size:11px; margin-top:16px;">Free shipping on orders over $100 · Lab-tested · Ships to all 50 states</p>
     </div>
-
-    <a href="/collections/all" style="display:inline-block; background:#10b981; color:#fff; font-weight:600; font-size:16px; padding:14px 32px; border-radius:10px; text-decoration:none; transition:background 0.2s;" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">
-      Shop Now & Save 10%
-    </a>
-
-    <p style="color:#555; font-size:11px; margin-top:16px;">Free shipping on orders over $100 · Lab-tested · Ships to all 50 states</p>
   </div>
-</div>
+</template>
 
 <script>
 (function() {
-  // Don't show if already shown this session or returning customer
   if (sessionStorage.getItem('srgn_exit_shown')) return;
   if (document.cookie.includes('_shopify_y=')) {
-    // Check if they've visited before (Shopify sets this on repeat visits)
     var visits = parseInt(sessionStorage.getItem('srgn_visits') || '0') + 1;
     sessionStorage.setItem('srgn_visits', String(visits));
-    if (visits > 3) return; // Don't annoy regulars
+    if (visits > 3) return;
   }
 
   var shown = false;
 
-  // Desktop: detect mouse leaving viewport (moving to close tab/back button)
-  document.addEventListener('mouseout', function(e) {
+  function showPopup() {
     if (shown) return;
-    if (e.clientY < 10 && e.relatedTarget === null) {
-      document.getElementById('srgn-exit-popup').style.display = 'block';
-      sessionStorage.setItem('srgn_exit_shown', '1');
-      shown = true;
+    var tpl = document.getElementById('srgn-exit-popup-tpl');
+    if (!tpl) return;
+    var clone = tpl.content.cloneNode(true);
+    document.body.appendChild(clone);
+    sessionStorage.setItem('srgn_exit_shown', '1');
+    shown = true;
+
+    var popup = document.getElementById('srgn-exit-popup');
+    if (popup) {
+      popup.addEventListener('click', function(e) {
+        if (e.target === this) { this.remove(); }
+      });
     }
+    var closeBtn = document.getElementById('srgn-exit-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        var p = document.getElementById('srgn-exit-popup');
+        if (p) p.remove();
+      });
+    }
+  }
+
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY < 10 && e.relatedTarget === null) showPopup();
   });
 
-  // Mobile: detect back button / scroll to top rapidly
   var lastScrollY = 0;
   var rapidScrollCount = 0;
   window.addEventListener('scroll', function() {
     if (shown) return;
     if (window.scrollY < lastScrollY && window.scrollY < 100) {
       rapidScrollCount++;
-      if (rapidScrollCount > 3) {
-        document.getElementById('srgn-exit-popup').style.display = 'block';
-        sessionStorage.setItem('srgn_exit_shown', '1');
-        shown = true;
-      }
+      if (rapidScrollCount > 3) showPopup();
     } else {
       rapidScrollCount = 0;
     }
     lastScrollY = window.scrollY;
-  });
-
-  // Close on clicking outside the popup
-  document.getElementById('srgn-exit-popup').addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.style.display = 'none';
-      sessionStorage.setItem('srgn_exit_shown', '1');
-    }
   });
 })();
 </script>

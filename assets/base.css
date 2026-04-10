@@ -253,6 +253,7 @@ body{
   --body-font-style: var(--font-general-style, normal);
   --body-font-size: 1.2rem;
   --body-line-height: 1.8rem;
+  scrollbar-gutter: stable;
   min-width: 320px;
   margin: 0;
   -ms-overflow-style: scrollbar;

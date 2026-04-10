@@ -78,15 +78,28 @@
 
           assign image_height = 286 | divided_by: poster.aspect_ratio | round
         -%}
-        {{- poster | image_url: width: width_attr | image_tag:
-          width: 286,
-          height: image_height,
-          class: 'object-fit object-fit--absolute',
-          loading: loading_attr,
-          widths: widths_attr,
-          sizes: sizes_attr,
-          alt: image_alt
-        -}}
+        {%- if loading_attr == 'eager' -%}
+          {{- poster | image_url: width: width_attr | image_tag:
+            width: 286,
+            height: image_height,
+            class: 'object-fit object-fit--absolute',
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: widths_attr,
+            sizes: sizes_attr,
+            alt: image_alt
+          -}}
+        {%- else -%}
+          {{- poster | image_url: width: width_attr | image_tag:
+            width: 286,
+            height: image_height,
+            class: 'object-fit object-fit--absolute',
+            loading: 'lazy',
+            widths: widths_attr,
+            sizes: sizes_attr,
+            alt: image_alt
+          -}}
+        {%- endif -%}
         {% comment %} {%- else -%}
           {%- render 'placeholder-svgs', type: 'hero', class: 'object-fit object-fit--absolute', index: 1  -%} {% endcomment %}
       {%- endif -%}

@@ -111,7 +111,7 @@
       <truncate-text truncate-length="20"
         class="text-size--large mty blog-card_excerpt {% if index == 1 %}--excerpt{% else %}--normal-gap{% endif %} --word-break --fw-normal">
         {{- article.excerpt_or_content | strip_html -}}
-        <a href="#" class="toggle-text blog-card_read-more --fw-semi-bold">Read more</a>
+        <a href="#" class="toggle-text blog-card_read-more --fw-semi-bold">Read more<span class="visually-hidden"> about {{ article.title }}</span></a>
       </truncate-text>
     {%- endif -%}
     {% if article.tags.size > 0 and show_tags %}
