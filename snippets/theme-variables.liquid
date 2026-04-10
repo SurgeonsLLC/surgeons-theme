@@ -7,12 +7,12 @@
     assign gen_font_700 = settings.body_font | font_modify: 'weight', '700'
     assign gen_font_800 = settings.body_font | font_modify: 'weight', '800'
   -%}
-  {{- gen_font_300 | font_face: font_display: 'swap' -}}
-  {{- gen_font_400 | font_face: font_display: 'swap' -}}
-  {{- gen_font_500 | font_face: font_display: 'swap' -}}
-  {{- gen_font_600 | font_face: font_display: 'swap' -}}
-  {{- gen_font_700 | font_face: font_display: 'swap' -}}
-  {{- gen_font_800 | font_face: font_display: 'swap' -}}
+  {{- gen_font_300 | font_face: font_display: 'optional' -}}
+  {{- gen_font_400 | font_face: font_display: 'optional' -}}
+  {{- gen_font_500 | font_face: font_display: 'optional' -}}
+  {{- gen_font_600 | font_face: font_display: 'optional' -}}
+  {{- gen_font_700 | font_face: font_display: 'optional' -}}
+  {{- gen_font_800 | font_face: font_display: 'optional' -}}
   {%- if settings.headings_font.family != settings.body_font.family -%}
     {%- liquid
       assign heading_font_300 = settings.headings_font | font_modify: 'weight', '300'
@@ -22,12 +22,12 @@
       assign heading_font_700 = settings.headings_font | font_modify: 'weight', '700'
       assign heading_font_800 = settings.headings_font | font_modify: 'weight', '800'
     -%}
-    {{- heading_font_300 | font_face: font_display: 'swap' -}}
-    {{- heading_font_400 | font_face: font_display: 'swap' -}}
-    {{- heading_font_500 | font_face: font_display: 'swap' -}}
-    {{- heading_font_600 | font_face: font_display: 'swap' -}}
-    {{- heading_font_700 | font_face: font_display: 'swap' -}}
-    {{- heading_font_800 | font_face: font_display: 'swap' -}}
+    {{- heading_font_300 | font_face: font_display: 'optional' -}}
+    {{- heading_font_400 | font_face: font_display: 'optional' -}}
+    {{- heading_font_500 | font_face: font_display: 'optional' -}}
+    {{- heading_font_600 | font_face: font_display: 'optional' -}}
+    {{- heading_font_700 | font_face: font_display: 'optional' -}}
+    {{- heading_font_800 | font_face: font_display: 'optional' -}}
   {%- endif -%}
   :root {
     --font-general-family: {{ settings.body_font.family }}, {{ settings.body_font.fallback_families }};
