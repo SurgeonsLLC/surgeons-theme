@@ -1,3 +1,15 @@
+<script>
+/* CLS fix: rewrite Shopify's font-display:swap to optional before first paint.
+   Runs synchronously in <head> to intercept @font-face before rendering. */
+(function(){
+  var s = document.querySelectorAll('style');
+  for (var i = 0; i < s.length; i++) {
+    if (s[i].textContent.indexOf('@font-face') !== -1) {
+      s[i].textContent = s[i].textContent.replace(/font-display:\s*swap/g, 'font-display: optional');
+    }
+  }
+})();
+</script>
 {% style %}
   {%- liquid
     assign gen_font_300 = settings.body_font | font_modify: 'weight', '300'
@@ -28,23 +40,6 @@
     {{- heading_font_600 | font_face -}}
     {{- heading_font_700 | font_face -}}
     {{- heading_font_800 | font_face -}}
-  {%- endif -%}
-
-  /* CLS fix: override Shopify's forced font-display:swap with optional.
-     Duplicate @font-face — last declaration wins in CSS. */
-  @font-face { font-family: {{ settings.body_font.family }}; font-weight: 300; font-style: {{ settings.body_font.style }}; font-display: optional; src: url("{{ gen_font_300 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.body_font.family }}; font-weight: 400; font-style: {{ settings.body_font.style }}; font-display: optional; src: url("{{ gen_font_400 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.body_font.family }}; font-weight: 500; font-style: {{ settings.body_font.style }}; font-display: optional; src: url("{{ gen_font_500 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.body_font.family }}; font-weight: 600; font-style: {{ settings.body_font.style }}; font-display: optional; src: url("{{ gen_font_600 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.body_font.family }}; font-weight: 700; font-style: {{ settings.body_font.style }}; font-display: optional; src: url("{{ gen_font_700 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.body_font.family }}; font-weight: 800; font-style: {{ settings.body_font.style }}; font-display: optional; src: url("{{ gen_font_800 | font_url }}") format("woff2"); }
-  {%- if settings.headings_font.family != settings.body_font.family -%}
-  @font-face { font-family: {{ settings.headings_font.family }}; font-weight: 300; font-style: {{ settings.headings_font.style }}; font-display: optional; src: url("{{ heading_font_300 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.headings_font.family }}; font-weight: 400; font-style: {{ settings.headings_font.style }}; font-display: optional; src: url("{{ heading_font_400 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.headings_font.family }}; font-weight: 500; font-style: {{ settings.headings_font.style }}; font-display: optional; src: url("{{ heading_font_500 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.headings_font.family }}; font-weight: 600; font-style: {{ settings.headings_font.style }}; font-display: optional; src: url("{{ heading_font_600 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.headings_font.family }}; font-weight: 700; font-style: {{ settings.headings_font.style }}; font-display: optional; src: url("{{ heading_font_700 | font_url }}") format("woff2"); }
-  @font-face { font-family: {{ settings.headings_font.family }}; font-weight: 800; font-style: {{ settings.headings_font.style }}; font-display: optional; src: url("{{ heading_font_800 | font_url }}") format("woff2"); }
   {%- endif -%}
 
   :root {
