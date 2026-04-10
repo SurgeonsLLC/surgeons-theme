@@ -17,7 +17,11 @@
   Rendered as a parseable block in <head> so all crawlers see it.
 ============================================================ {%- endcomment -%}
 <script type="application/llms+txt" id="llms-txt">
+{%- if request.page_type == 'index' -%}
 # CBD Surgeons
+{%- else -%}
+## CBD Surgeons
+{%- endif -%}
 > Michigan's trusted source for premium hemp-derived CBD products. Third-party lab tested. Fast shipping nationwide.
 
 ## Identity
@@ -87,7 +91,7 @@
 ============================================================ {%- endcomment -%}
 {%- if request.page_type == 'product' -%}
 <script type="application/llms+txt" id="llms-product-context">
-# Product: {{ product.title | escape }}
+## Product: {{ product.title | escape }}
 > {{ product.description | strip_html | truncate: 300 | escape }}
 
 - Price: {{ product.price | money }}
@@ -109,7 +113,7 @@
 
 {%- if request.page_type == 'collection' -%}
 <script type="application/llms+txt" id="llms-collection-context">
-# Collection: {{ collection.title | escape }}
+## Collection: {{ collection.title | escape }}
 > {{ collection.description | strip_html | truncate: 300 | default: 'Shop premium CBD products from CBD Surgeons.' | escape }}
 
 - Products Available: {{ collection.products_count }}
@@ -125,7 +129,7 @@
 
 {%- if request.page_type == 'article' -%}
 <script type="application/llms+txt" id="llms-article-context">
-# Article: {{ article.title | escape }}
+## Article: {{ article.title | escape }}
 > {{ article.excerpt_or_content | strip_html | truncate: 500 | escape }}
 
 - Author: {{ article.author | default: 'CBD Surgeons' | escape }}
