@@ -13,6 +13,22 @@
     z-index: 99999;
   }
 
+  /* CLS fix: keep modal in the render tree but invisible.
+     position:fixed = out of document flow = no layout shift.
+     visibility swap instead of display swap eliminates CLS. */
+  .modal-component--age-verifier.modal {
+    display: block !important;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  modal-component-popup.modal--active .modal-component--age-verifier.modal {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
   .age-verifier_image path {
     fill: currentColor;
   }
