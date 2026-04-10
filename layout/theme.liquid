@@ -297,6 +297,9 @@
       render 'theme-variables'
     -%}
     {{ content_for_header }}
+    <script>/* CLS: rewrite font-display:swap→optional before first paint */
+    (function(){var s=document.querySelectorAll('style');for(var i=0;i<s.length;i++){if(s[i].textContent.indexOf('@font-face')!==-1){s[i].textContent=s[i].textContent.replace(/font-display:\s*swap/g,'font-display:optional');}}})();
+    </script>
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
     </script>

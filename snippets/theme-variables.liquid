@@ -1,15 +1,3 @@
-<script>
-/* CLS fix: rewrite Shopify's font-display:swap to optional before first paint.
-   Runs synchronously in <head> to intercept @font-face before rendering. */
-(function(){
-  var s = document.querySelectorAll('style');
-  for (var i = 0; i < s.length; i++) {
-    if (s[i].textContent.indexOf('@font-face') !== -1) {
-      s[i].textContent = s[i].textContent.replace(/font-display:\s*swap/g, 'font-display: optional');
-    }
-  }
-})();
-</script>
 {% style %}
   {%- liquid
     assign gen_font_300 = settings.body_font | font_modify: 'weight', '300'
