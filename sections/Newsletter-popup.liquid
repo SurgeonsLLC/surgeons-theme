@@ -15,6 +15,20 @@
     --input-border-width: 0;
   }
 
+  /* CLS fix: keep modal rendered but invisible until triggered */
+  .modal-component--newsletter-popup.modal {
+    display: block !important;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  modal-component-popup.modal--active .modal-component--newsletter-popup.modal {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
   .newsletter-popup_image path,
   .newsletter-popup_image .img--placeholder path{
     fill: currentColor;

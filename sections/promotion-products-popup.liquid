@@ -10,6 +10,20 @@
     z-index: 99999;
   }
 
+  /* CLS fix: keep modal rendered but invisible until triggered */
+  .modal-component--promotion-products.modal {
+    display: block !important;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  modal-component-popup.modal--active .modal-component--promotion-products.modal {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
   .modal-component--promotion-products .--mobile-hidden{
     display: none;
   }
