@@ -62,12 +62,6 @@
     "image_gallery": {
       "type": "image-gallery",
       "blocks": {
-        "image_bjp8YK": {
-          "type": "image",
-          "settings": {
-            "item_index": ""
-          }
-        },
         "image_ee6YTx": {
           "type": "image",
           "settings": {
@@ -161,7 +155,6 @@
         }
       },
       "block_order": [
-        "image_bjp8YK",
         "image_ee6YTx",
         "image_6WwBpj",
         "image_MiTJYr",
@@ -176,6 +169,7 @@
         "image_2",
         "image_3"
       ],
+      "disabled": true,
       "settings": {
         "section_heading": "",
         "section_heading_size": "h3",
