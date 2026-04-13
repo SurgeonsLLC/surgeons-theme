@@ -201,6 +201,12 @@
         "usp"
       ],
       "settings": {
+        "show_breadcrumb": true,
+        "breadcrumb_top_bdr": false,
+        "breadcrumb_bottom_bdr": false,
+        "breadcrumb_color_scheme": "default",
+        "breadcrumb_corner_radius": "no_corners_radius",
+        "breadcrumb_container_layout": "page-width",
         "product_media_size": "adapt",
         "gallery_auto_play": false,
         "gallery_show_navigation": true,
@@ -329,6 +335,7 @@
         "image_anGbbG",
         "image_4"
       ],
+      "disabled": true,
       "settings": {
         "section_heading": "",
         "section_heading_size": "h3",
