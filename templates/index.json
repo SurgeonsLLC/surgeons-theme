@@ -208,7 +208,7 @@
       "type": "featured-collection",
       "settings": {
         "section_collection": [
-          "surgeons-cbd-gummy-express-online"
+          "cbd-gummies-for-sleep"
         ],
         "section_caption": "GUMMY BEAR EXPRESS ORDER",
         "section_caption_size": "text-size--medium",
@@ -531,7 +531,7 @@
         "collection_6": {
           "type": "collection_block",
           "settings": {
-            "collection": "surgeons-cbd-gummy-express-online",
+            "collection": "cbd-gummies-for-sleep",
             "collection_custom_badges": "{Edibles,#000000,#FFFFFF}"
           }
         }
