@@ -2455,7 +2455,7 @@
                       </div>
                       <div class="--top-localization">
                         {%- if section.settings.show_mob_socials_icn -%}
-                          {%- render 'social-icons' | prefix_class: 'page-header' | social_icons_enable: true | social_extra_class: '--q-align-justify' -%}
+                          {%- render 'social-icons', prefix_class: 'page-header', social_icons_enable: true, social_extra_class: '--q-align-justify' -%}
                         {%- endif -%}
                         <div class="localization-wrapper --align-middle">
                           {%- liquid
@@ -2954,4 +2954,15 @@
     }
   ]
 }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'social-icons' | prefix_class: 'page-header' | social_icons_enable:
+    true | social_extra_class: '--q-align-justify' -%}"
+  to: "{%- render 'social-icons', prefix_class: 'page-header', social_icons_enable:
+    true, social_extra_class: '--q-align-justify' -%}"
+  position: 92699..92825
+{%- endcomment -%}

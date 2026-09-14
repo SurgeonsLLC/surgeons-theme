@@ -21,7 +21,7 @@
           {{- 'share_button.label' | t -}} {%- if social_exists == 'true' -%}:{%- endif -%}
         </span>
         {%- if social_exists == 'true' -%}
-          {%- render 'article-social-icons' | prefix_class: 'share' | social_icons_enable: true | social_extra_class: '--q-align-justify' -%}
+          {%- render 'article-social-icons', prefix_class: 'share', social_icons_enable: true, social_extra_class: '--q-align-justify' -%}
         {%- endif -%}
       </button>
       <div class="dropdown-component_wrapper dropdown-component_share-wrapper widget--styles" id="share-button-dropdown-{{ section.id }}-{{ product.id }}">
@@ -79,7 +79,7 @@
           </span>
           {%- if social_exists == 'true' -%}
             <div class="{{ section_prefix_class }}_share-link">
-              {%- render 'share-social-icons' | prefix_class: 'share' | social_icons_enable: true | social_extra_class: '--q-align-justify' -%}
+              {%- render 'share-social-icons', prefix_class: 'share', social_icons_enable: true, social_extra_class: '--q-align-justify' -%}
             </div>
           {%- endif -%}
         </button>
@@ -196,4 +196,20 @@
           </button>
         </div>
     {%- endcase -%}
-{%- endunless -%}
+{%- endunless -%}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'article-social-icons' | prefix_class: 'share' | social_icons_enable:
+    true | social_extra_class: '--q-align-justify' -%}"
+  to: "{%- render 'article-social-icons', prefix_class: 'share', social_icons_enable:
+    true, social_extra_class: '--q-align-justify' -%}"
+  position: 1105..1233
+- from: "{%- render 'share-social-icons' | prefix_class: 'share' | social_icons_enable:
+    true | social_extra_class: '--q-align-justify' -%}"
+  to: "{%- render 'share-social-icons', prefix_class: 'share', social_icons_enable:
+    true, social_extra_class: '--q-align-justify' -%}"
+  position: 4098..4224
+{%- endcomment -%}

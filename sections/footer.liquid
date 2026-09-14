@@ -251,7 +251,7 @@
       {%- if section.settings.show_payment_icons -%}
         <div class="footer-bottom_payments">
           <div class="{{ section_prefix_class }}_pay-methods-wrap {% unless local_exists == 'true' %}pay-justify-left{% endunless %}">
-            {%- render 'payment-icons' | prefix_class: section_prefix_class -%}
+            {%- render 'payment-icons', prefix_class: section_prefix_class -%}
           </div>
         </div>
       {%- endif -%}
@@ -422,4 +422,13 @@
     }
   ]
 }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'payment-icons' | prefix_class: section_prefix_class -%}"
+  to: "{%- render 'payment-icons', prefix_class: section_prefix_class -%}"
+  position: 7196..7262
+{%- endcomment -%}
