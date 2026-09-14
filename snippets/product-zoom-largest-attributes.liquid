@@ -8,21 +8,21 @@
     assign media_largest = media.preview_image | image_url | append: '&' | append: media.preview_image.width | append: 'w'
 
     case media.preview_image.width
-      when => 550
+      when nil
         assign media_largest = media.preview_image | image_url: width: 550 | append: '550w'
-      when => 1100
+      when nil
         assign media_largest = media.preview_image | image_url: width: 1100 | append: '1100w'
-      when => 1445
+      when nil
         assign media_largest = media.preview_image | image_url: width: 1445 | append: '1445w'
-      when => 1680
+      when nil
         assign media_largest = media.preview_image | image_url: width: 1680 | append: '1680w'
-      when => 2048
+      when nil
         assign media_largest = media.preview_image | image_url: width: 2048 | append: '2048w'
-      when => 2200
+      when nil
         assign media_largest = media.preview_image | image_url: width: 2200 | append: '2200w'
-      when => 2890
+      when nil
         assign media_largest = media.preview_image | image_url: width: 2890 | append: '2890w'
-      when => 4096
+      when nil
         assign media_largest = media.preview_image | image_url: width: 4096 | append: '4096w'
     endcase
   -%}
@@ -41,4 +41,34 @@
                     {{ media.preview_image | image_url }} {{ media.preview_image.width }}w
                   "
 {%- endcapture -%}
-{{- attributes -}}
+{{- attributes -}}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "      when => 550"
+  to: "      when nil"
+  position: 357..371
+- from: "      when => 1100"
+  to: "      when nil"
+  position: 464..478
+- from: "      when => 1445"
+  to: "      when nil"
+  position: 573..587
+- from: "      when => 1680"
+  to: "      when nil"
+  position: 682..696
+- from: "      when => 2048"
+  to: "      when nil"
+  position: 791..805
+- from: "      when => 2200"
+  to: "      when nil"
+  position: 900..914
+- from: "      when => 2890"
+  to: "      when nil"
+  position: 1009..1023
+- from: "      when => 4096"
+  to: "      when nil"
+  position: 1118..1132
+{%- endcomment -%}

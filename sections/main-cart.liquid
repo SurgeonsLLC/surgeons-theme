@@ -340,7 +340,7 @@
                     </div>
                     {%- if section.settings.show_pay_icons -%}
                       <div class="{{ section_prefix_class }}_pay-methods-wrap">
-                        {%- render 'payment-icons' | prefix_class: section_prefix_class -%}
+                        {%- render 'payment-icons', prefix_class: section_prefix_class -%}
                       </div>
                     {%- endif -%}
                   </div>
@@ -844,4 +844,13 @@
     }
   ]
 }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'payment-icons' | prefix_class: section_prefix_class -%}"
+  to: "{%- render 'payment-icons', prefix_class: section_prefix_class -%}"
+  position: 16602..16668
+{%- endcomment -%}
