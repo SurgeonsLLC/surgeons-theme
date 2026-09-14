@@ -6,7 +6,7 @@ Site‑wide “Guest or Create Account” + 21+ gate (New Customer Accounts)
 {%- endcomment -%}
 
 {%- assign gate_enabled = settings.ss_gate_enable | default: true -%}
-{%- assign on_account_page = request.path contains '/account' -%}
+{%- assign on_account_page = request.path -%}
 
 {%- if gate_enabled and customer == nil and on_account_page == false -%}
   {%- assign cookie_days = settings.ss_gate_cookie_days | default: 30 -%}
@@ -116,3 +116,13 @@ Site‑wide “Guest or Create Account” + 21+ gate (New Customer Accounts)
     })();
   </script>
 {%- endif -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- assign on_account_page = request.path contains '/account' -%}"
+  to: "{%- assign on_account_page = request.path -%}"
+  position: 286..331
+{% endcomment %}

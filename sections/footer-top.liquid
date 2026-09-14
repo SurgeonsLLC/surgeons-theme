@@ -582,11 +582,11 @@
                   <div class="{{ section_prefix_class }}_col {{ section_footer_prefix_class }}_col--flex {{ section_prefix_class }}_col--methods" {{ block.shopify_attributes }}>
                     {%- if block.settings.social_view == "icons" -%}
                       <div class="{{ section_prefix_class }}_socials">
-                        {%- render 'social-icons' | prefix_class:  section_prefix_class | social_icons_enable: true | social_extra_class: '--align-left'-%}
+                        {%- render 'social-icons', prefix_class: section_prefix_class, social_icons_enable: true, social_extra_class: '--align-left' -%}
                       </div>
                     {%- else -%}
                       <div class="{{ section_prefix_class }}_socials">
-                        {%- render 'social-icons' | prefix_class:  section_prefix_class | social_icons_enable: false | social_extra_class: '--align-left'-%}
+                        {%- render 'social-icons', prefix_class: section_prefix_class, social_icons_enable: false, social_extra_class: '--align-left' -%}
                       </div>
                     {%- endif -%}
                   </div>
@@ -1028,4 +1028,20 @@
     }
   ]
 }
-{% endschema %}
+{% endschema %}{%- comment -%}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- render 'social-icons' | prefix_class:  section_prefix_class | social_icons_enable:
+    true | social_extra_class: '--align-left'-%}"
+  to: "{%- render 'social-icons', prefix_class: section_prefix_class, social_icons_enable:
+    true, social_extra_class: '--align-left' -%}"
+  position: 16814..16942
+- from: "{%- render 'social-icons' | prefix_class:  section_prefix_class | social_icons_enable:
+    false | social_extra_class: '--align-left'-%}"
+  to: "{%- render 'social-icons', prefix_class: section_prefix_class, social_icons_enable:
+    false, social_extra_class: '--align-left' -%}"
+  position: 17100..17229
+{%- endcomment -%}
